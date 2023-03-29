@@ -1,0 +1,120 @@
+\documentclass{book}
+\usepackage[brazilian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multirow}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{ {Figures/} }
+\usepackage{float}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+
+\usepackage{natbib,stfloats}
+
+\tcbuselibrary{skins,breakable}
+\usetikzlibrary{shadings,shadows}
+\usepackage{rotating}
+
+\usepackage{tikz}
+\usetikzlibrary{snakes}
+\usetikzlibrary{patterns}
+
+\usepackage{colortbl}
+\newcolumntype{a}{>{\columncolor{yellow}}l}
+\newcolumntype{b}{>{\columncolor{blue}}l}
+\newcolumntype{d}{>{\columncolor{green}}l}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhead{}
+\fancyhead[RO]{\textsl{\rightmark}} 
+\fancyhead[LE]{\textsl{\leftmark}} 
+
+\fancyfoot{} 
+\fancyfoot[L]{T.B. Fraga (2023). Combinatorial Optimization Problems.}
+\fancyfoot[R]{\thepage}
+
+\definecolor{cambridgeblue}{rgb}{0.64, 0.76, 0.68}
+\definecolor{camel}{rgb}{0.76, 0.6, 0.42}
+\definecolor{camouflagegreen}{rgb}{0.47, 0.53, 0.42}
+\definecolor{desertsand}{rgb}{0.93, 0.79, 0.69}
+
+\newenvironment{exerciseblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=camouflagegreen,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{exempleblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=Brown!70,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{algorithmblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=Brown!40,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top 
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+% para construção de diagramas
+
+\tikzstyle{place}=[circle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+\tikzstyle{Ret}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+\tikzstyle{RoundRet}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick, rounded corners]
+
+\begin{document}
+
+Livro em processo de elaboração. \\
+
+Título: Combinatorial Optimization Problems\\
+
+Autora: Tatiana Balbi Fraga. \\
+
+Profa. do Núcleo de Tecnologia da UFPE. \\
+
+Caso tenha interesse em participar da elaboração deste livro, enviar e-mail para: tatiana.balbi@ufpe.br.\\
+
+O mesmo endereço de e-mail poderá ser utilizado para críticas e sugestões. Desde já agradeço por qualquer contribuição. \\
+
+O conteúdo apresentado neste livro estará sendo modificado ao longo de sua elaboração, caso o mesmo seja consultado para elaboração de algum trabalho, favor citar como referência o título, a autora, a data da consulta e o endereço da versão consultada no github. \\
+
+\chapter{Problemas de Otimização Combinatória}
+
+Há três processos chaves na construção de um algoritmo para solução de problemas de otimização combinatória - .
+
+%\bibliographystyle{acm}
+%\bibliography{Bibliography/BibFile}
+
+\begin{thebibliography}{12}
+
+\bibitem[\protect\citeauthoryear{Ballou}{2001}]{Ballou2001}
+Ballou, R.H. (2001).{\it Gerenciamento da Cadeia de Suprimentos: Planejamento, Organização e Logística Empresarial}, 4. ed., Porto Alegre: Bookman.
+
+\bibitem[\protect\citeauthoryear{Boylan et al.}{2008}]{BoylanEtAl2008}
+Boylan, J.E., Syntetos, A.A., e Karakostas, G.C. (2008). 'Classification for forecasting and stock control:a case study'. {\it Journal of the Operational Research Society}, Vol. 59, pp. 473--481.
+
+\end{thebibliography}
+
+\end{document}
