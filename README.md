@@ -16,7 +16,7 @@ Therefore, this book will be built together with the solver (in C++), which can 
 
 This project will be being developed together with other projects, so it will not be possible to develop it very quickly...
 
-I hope this idea turns out to be very useful, relevant and interesting material.
+I hope this idea turns out to be a very useful, relevant and interesting material.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
 
@@ -28,4 +28,4 @@ The full license can be found in the LICENSE.md document available in this direc
 
 The license adopted may be modified as long as this does not cause any harm to the authors.
 
-Please, if you use the information presented here for other publications or references, please cite using Fraga, T. B. 2023. Combinatorial Optimization Problems Project, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023)%20Fraga.pdf, accessed on <today's date>.
+Please, if you use the information presented here for other publications or references, cite using Fraga, T. B. 2023. Combinatorial Optimization Problems, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023)%20Fraga.pdf, accessed on <today's date>.
