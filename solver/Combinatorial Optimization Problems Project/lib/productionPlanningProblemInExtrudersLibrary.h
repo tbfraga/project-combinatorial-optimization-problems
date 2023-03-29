@@ -11,13 +11,16 @@ namespace productionPlanningProblemInExtrudersLibrary
 {
     class productionPlanningProblemInExtruders
     {
-        int _NDays;
-        int _NExtruders;
-        vector<int> _productionRate;
+        unsigned int _NDays;
+        unsigned int _NExtruders;
+        vector<float> _productionRate;
+        vector<float> _length;
+        vector<int> _capacity;
 
         public:
 
-        productionPlanningProblemInExtruders(int, int, vector<int>);
+        productionPlanningProblemInExtruders(unsigned int, unsigned int, vector<float>, vector<float>, vector<int>);
+        ~productionPlanningProblemInExtruders();
 
         void printProblem();
     };

@@ -20,8 +20,7 @@
     this class will have:
 
     the problem itself as an object;
-    -at least one function for creating an instance of the problem;
-    -at least one function to test compatibility of problem data
+    -at least one function for creating an instance of the problem and test compatibility of problem data;
     -at least one function for printing problem data;
     -at least one function for creating an initial solution;
     -at least one function for changing this solution;
@@ -36,11 +35,37 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 
 int main()
 {
-    int NDays = 1;
-    int NExtruders = 2;
-    vector<int> productionRate = {40,60};
+    unsigned int NDays = 1;
 
-    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate);
+    unsigned int NExtruders = 2;
+    vector<float> productionRate = {40,60};
+    vector<float> length = {1.0,0.8};
+    vector<int> capacity = {420,420};
+    int setupTime = 10;
+    float setupCost = 20;
+    float operationCost = 0.5;
+
+    unsigned int NProducts = 4;
+    vector<float> width = {0.6,0.3,0.6,0.2};
+    vector<float> weightRatio = {10,10,10,10};
+    vector<float> unitContribution = {1.1,1.3,1.2,1.1};
+    vector<int> initialInventory = {1000,0,2000,0};
+    vector<int> maximumInventory = {10000,50000,20000,10000};
+    int totalMaximumInventory = 100000;
+    float inventoryUnitCost = 0.01;
+
+    vector<vector<int>> demand = {{99400,73800,149600,35800}};
+    float unmetDemandCost = 0.5;
+
+    vector<vector<bool>> colorAndMaterialRatio= {{1,1,1},{1,1},{1}};
+
+    unsigned int NOutlets = 2;
+    vector<int> maximumTotalOutletInventory = {30000,20000};
+
+    vector<vector<int>> maximumOutletInventoryPerProduct {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
+
+
+    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate,length,capacity);
 
     problem.printProblem();
 }
