@@ -64,7 +64,6 @@ int main()
 
     vector<vector<int>> maximumOutletInventoryPerProduct {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
 
-
     productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate,length,capacity);
 
     problem.printProblem();

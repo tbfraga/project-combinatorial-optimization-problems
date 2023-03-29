@@ -31,10 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="main.cpp">
-			<Option compile="0" />
-			<Option link="0" />
-		</Unit>
+		<Unit filename="lib/productionPlanningProblemInExtrudersLibrary.cpp" />
+		<Unit filename="lib/productionPlanningProblemInExtrudersLibrary.h" />
+		<Unit filename="main.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
