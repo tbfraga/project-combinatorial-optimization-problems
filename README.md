@@ -2,21 +2,21 @@
 
 Combinatorial Optimization Problems Project
 
-Há três pontos chaves na construção de um algoritmo para solução de problemas de otimização combinatória que são: representação da solução; criação de solução inicial / nova solução dentro do espaço viável; e mecanismo de conversão. \\
+There are three key points in the construction of an algorithm for solving combinatorial optimization problems, which are: representation of the solution; creation of initial solution / new solution within the feasible space; and conversion mechanism.
 
-Neste livro pretendo apresentar uma revisão da literatura focada nestes três tópicos, iniciando a abordagem sobre problemas de designação, depois passando pelos problemas de balanceamento, roteamento, e escalonamento até finalmente chegar aos complexos problemas mistos. \\
+In this book I intend to present a literature review focused on these three topics, starting with assignment problems, then going through balancing, routing, and scheduling problems until finally arriving at complex mixed problems.
 
-Com vista a este propósito, o livro será dividido em seis capítulos, sendo os dois primeiros capítulos voltados à apresentação de importantes classes de problemas de otimização combinatória (problemas de otimização combinatória e modelagem matemática), os três capítulos seguintes voltados aos três pontos chaves anteriormente discutidos (representação de soluções, construção de soluções viáveis e mecanismos de busca), e o último capítulo será utilizado para a apresentação de algoritmos conhecidos aplicados aos diferentes problemas e uma comparação entre tais algoritmos. \\
+With a view to this purpose, the book will be divided into six chapters, with the first two chapters devoted to the presentation of important classes of combinatorial optimization problems (combinatorial optimization problems and mathematical modeling), the following three chapters devoted to the three key points previously discussed (representation of solutions, construction of viable solutions and search mechanisms), and the last chapter will be used for the presentation of known algorithms applied to different problems and a comparison between such algorithms.
 
-Esse livro partiu da ideia da criação de um solver capaz de solucionar problemas de otimização combinatória de diferentes classes. \\
+This book started from the idea of creating a solver capable of solving combinatorial optimization problems of different classes.
 
-Esse solver terá como princípio a identificação da natureza do problema, possivelmente através de um algoritmo de rede neural, e posterior solução focando nos três pontos chaves anteriormente discutidos. \\
+This solver will have as its principle the identification of the nature of the problem, possibly through a neural network algorithm, and subsequent solution focusing on the three key points previously discussed.
 
-Assim sendo, este livro será construído em conjunto com o solver (em C++), o qual poderá ser encontrado na pasta solver deste mesmo diretório. \\
+Therefore, this book will be built together with the solver (in C++), which can be found in the solver folder of this same directory.
 
-Este projeto estará sendo desenvolvido em conjunto com outros projetos, de forma que não será possível desenvolvê-lo muito rapidamente... \\
+This project will be being developed together with other projects, so it will not be possible to develop it very quickly...
 
-Espero que essa ideia resulte em um material muito útil, relevante e interessante.
+I hope this idea turns out to be very useful, relevant and interesting material.
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-nd/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
 
@@ -27,3 +27,5 @@ Under this license, it is allowed to download and share the documents made avail
 The full license can be found in the LICENSE.md document available in this directory, or through the website: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.
 
 The license adopted may be modified as long as this does not cause any harm to the authors.
+
+Please, if you use the information presented here for other publications or references, please cite using Fraga, T. B. 2023. Combinatorial Optimization Problems Project, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023) Fraga.pdf, accessed on <today's date>.
