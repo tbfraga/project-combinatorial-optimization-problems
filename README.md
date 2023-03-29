@@ -28,4 +28,4 @@ The full license can be found in the LICENSE.md document available in this direc
 
 The license adopted may be modified as long as this does not cause any harm to the authors.
 
-Please, if you use the information presented here for other publications or references, please cite using Fraga, T. B. 2023. Combinatorial Optimization Problems Project, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023) Fraga.pdf, accessed on <today's date>.
+Please, if you use the information presented here for other publications or references, please cite using Fraga, T. B. 2023. Combinatorial Optimization Problems Project, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023)%20Fraga.pdf, accessed on <today's date>.
