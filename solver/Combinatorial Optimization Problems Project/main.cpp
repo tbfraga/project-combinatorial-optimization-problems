@@ -20,11 +20,12 @@
     this class will have:
 
     the problem itself as an object;
-    at least one function for creating an instance of the problem;
-    at least one function for printing problem data;
-    at least one function for creating an initial solution;
-    at least one function for changing this solution;
-    at least one function for printing the solution.
+    -at least one function for creating an instance of the problem;
+    -at least one function to test compatibility of problem data
+    -at least one function for printing problem data;
+    -at least one function for creating an initial solution;
+    -at least one function for changing this solution;
+    -at least one function for printing the solution.
 ******************/
 //
 // Important: Copies and distributions of the files made available in this directory must comply with the
@@ -35,6 +36,11 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 
 int main()
 {
-    productionPlanningProblemInExtruders problem(1,2);
+    int NDays = 1;
+    int NExtruders = 2;
+    vector<int> productionRate = {40,60};
+
+    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate);
+
     problem.printProblem();
 }

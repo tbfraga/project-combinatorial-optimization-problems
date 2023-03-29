@@ -2,7 +2,10 @@
 #define PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H_INCLUDED
 
 #include <iostream>
+#include <vector>
 using namespace std;
+
+
 
 namespace productionPlanningProblemInExtrudersLibrary
 {
@@ -10,13 +13,13 @@ namespace productionPlanningProblemInExtrudersLibrary
     {
         int _NDays;
         int _NExtruders;
+        vector<int> _productionRate;
 
         public:
 
-        productionPlanningProblemInExtruders(int, int);
+        productionPlanningProblemInExtruders(int, int, vector<int>);
 
         void printProblem();
-
     };
 }
 

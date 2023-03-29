@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1680113257 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/main.cpp
+1680117169 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/main.cpp
 	"lib/productionPlanningProblemInExtrudersLibrary.h"
 
-1680113237 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.h
+1680115853 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.h
 	<iostream>
+	<vector>
 
-1680112608 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.cpp
+1680117208 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.cpp
 	"productionPlanningProblemInExtrudersLibrary.h"
 
