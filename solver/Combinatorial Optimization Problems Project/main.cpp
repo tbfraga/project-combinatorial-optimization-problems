@@ -64,7 +64,8 @@ int main()
 
     vector<vector<int>> maximumOutletInventoryPerProduct {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
 
-    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate,length,capacity);
+    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate,length,capacity,setupTime,setupCost,operationCost,NProducts,width,weightRatio,unitContribution,initialInventory,
+    maximumInventory,totalMaximumInventory,inventoryUnitCost,demand,unmetDemandCost,colorAndMaterialRatio,NOutlets,maximumTotalOutletInventory,maximumOutletInventoryPerProduct);
 
     problem.printProblem();
 }
