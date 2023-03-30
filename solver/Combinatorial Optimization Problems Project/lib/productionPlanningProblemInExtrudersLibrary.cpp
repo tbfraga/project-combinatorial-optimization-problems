@@ -2,7 +2,7 @@
 
 namespace productionPlanningProblemInExtrudersLibrary
 {
-    productionPlanningProblemInExtruders::productionPlanningProblemInExtruders(unsigned int NDays, unsigned int NExtruders, vector<float> productionRate, vector<float> length, vector<int> capacity,
+    productionPlanningProblemInExtruder::productionPlanningProblemInExtruder(unsigned int NDays, unsigned int NExtruders, vector<float> productionRate, vector<float> length, vector<int> capacity,
     int setupTime, float setupCost, float operationCost, unsigned int NProducts, vector<float> width, vector<float> weightRatio,  vector<float> unitContribution, vector<int> initialInventory,
     vector<int> maximumInventory, int totalMaximumInventory, float inventoryUnitCost, vector<vector<int>> demand, float unmetDemandCost, vector<vector<bool>> colorAndMaterialRatio,
     unsigned int NOutlets, vector<int> maximumTotalOutletInventory,vector<vector<int>> maximumOutletInventoryPerProduct)
@@ -204,7 +204,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
     };
 
-    productionPlanningProblemInExtruders::~productionPlanningProblemInExtruders()
+    productionPlanningProblemInExtruder::~productionPlanningProblemInExtruder()
     {
         _productionRate.clear();
         _length.clear();
@@ -236,7 +236,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _maximumOutletInventoryPerProduct.clear();
     };
 
-    void productionPlanningProblemInExtruders::printProblem()
+    void productionPlanningProblemInExtruder::printProblem()
     {
         cout << "number of days: " << _NDays << endl;
         cout << "number of extruders: " << _NExtruders << endl;
@@ -363,4 +363,40 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
     };
+
+    void PPPIEInstance::PPPIE001()
+    {
+        /*****************************
+        Small problem developed to test the solver operation.
+        It is expected that the allocation will be done correctly according to the measurements of the products and the extruders.
+        *****************************/
+        _NDays = 1;
+
+        _NExtruders = 2;
+        _productionRate = {40,60};
+        _length = {1.0,0.8};
+        _capacity = {420,420};
+        _setupTime = 10;
+        _setupCost = 20;
+        _operationCost = 0.5;
+
+        _NProducts = 4;
+        _width = {0.6,0.3,0.6,0.2};
+        _weightRatio = {10,10,10,10};
+        _unitContribution = {1.1,1.3,1.2,1.1};
+        _initialInventory = {1000,0,2000,0};
+        _maximumInventory = {10000,50000,20000,10000};
+        _totalMaximumInventory = 100000;
+        _inventoryUnitCost = 0.01;
+
+        _demand = {{99400,73800,149600,35800}};
+        _unmetDemandCost = 0.5;
+
+        _colorAndMaterialRatio= {{1,1,1},{1,1},{1}};
+
+        _NOutlets = 2;
+        _maximumTotalOutletInventory = {30000,20000};
+
+        _maximumOutletInventoryPerProduct = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
+    }
 }

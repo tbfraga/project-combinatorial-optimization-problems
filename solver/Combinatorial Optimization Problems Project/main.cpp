@@ -35,7 +35,7 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 
 int main()
 {
-    unsigned int NDays = 1;
+    /*unsigned int NDays = 1;
 
     unsigned int NExtruders = 2;
     vector<float> productionRate = {40,60};
@@ -62,10 +62,13 @@ int main()
     unsigned int NOutlets = 2;
     vector<int> maximumTotalOutletInventory = {30000,20000};
 
-    vector<vector<int>> maximumOutletInventoryPerProduct {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
+    vector<vector<int>> maximumOutletInventoryPerProduct = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
 
-    productionPlanningProblemInExtruders problem(NDays,NExtruders,productionRate,length,capacity,setupTime,setupCost,operationCost,NProducts,width,weightRatio,unitContribution,initialInventory,
-    maximumInventory,totalMaximumInventory,inventoryUnitCost,demand,unmetDemandCost,colorAndMaterialRatio,NOutlets,maximumTotalOutletInventory,maximumOutletInventoryPerProduct);
+    productionPlanningProblemInExtruders problem{NDays,NExtruders,productionRate,length,capacity,setupTime,setupCost,operationCost,NProducts,width,weightRatio,unitContribution,initialInventory,
+    maximumInventory,totalMaximumInventory,inventoryUnitCost,demand,unmetDemandCost,colorAndMaterialRatio,NOutlets,maximumTotalOutletInventory,maximumOutletInventoryPerProduct};*/
 
+    PPPIEInstance problem;
+
+    problem.PPPIE001();
     problem.printProblem();
 }
