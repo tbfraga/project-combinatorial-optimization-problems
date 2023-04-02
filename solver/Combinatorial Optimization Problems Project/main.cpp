@@ -3,7 +3,7 @@
 // software created by Tatiana Balbi Fraga
 //
 // project started on 2023/03/29
-// last modified on 2023/03/29
+// last modified on 2023/04/02
 //
 // status: under construction
 //
@@ -20,10 +20,11 @@
     this class will have:
 
     the problem itself as an object;
-    -at least one function for creating an instance of the problem and test compatibility of problem data;
-    -at least one function for printing problem data;
-    -at least one function for creating an initial solution;
-    -at least one function for changing this solution;
+    *** at least one function for creating an instance of the problem and test compatibility of problem data;
+    *** at least one function for printing problem data;
+    *** at least one function for creating an initial solution;
+    -at least one function for evaluating a solution;
+    -at least one function for changing a solution;
     -at least one function for printing the solution.
 ******************/
 //
@@ -35,12 +36,21 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 
 int main()
 {
+    PPPIEInstance problem;
+
+    problem.PPPIE001();
+    problem.printProblem();
+    problem.generateSolution();
+    problem.printSolution();
+
+    // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
+
     /*unsigned int NDays = 1;
 
     unsigned int NExtruders = 2;
     vector<float> productionRate = {40,60};
     vector<float> length = {1.0,0.8};
-    vector<int> capacity = {420,420};
+    vector<vector<int>> capacity = {{420,420}};
     int setupTime = 10;
     float setupCost = 20;
     float operationCost = 0.5;
@@ -57,6 +67,7 @@ int main()
     vector<vector<int>> demand = {{99400,73800,149600,35800}};
     float unmetDemandCost = 0.5;
 
+    vector<unsigned int> color = {0,0,0,0};
     vector<vector<bool>> colorAndMaterialRatio= {{1,1,1},{1,1},{1}};
 
     unsigned int NOutlets = 2;
@@ -65,10 +76,5 @@ int main()
     vector<vector<int>> maximumOutletInventoryPerProduct = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
 
     productionPlanningProblemInExtruders problem{NDays,NExtruders,productionRate,length,capacity,setupTime,setupCost,operationCost,NProducts,width,weightRatio,unitContribution,initialInventory,
-    maximumInventory,totalMaximumInventory,inventoryUnitCost,demand,unmetDemandCost,colorAndMaterialRatio,NOutlets,maximumTotalOutletInventory,maximumOutletInventoryPerProduct};*/
-
-    PPPIEInstance problem;
-
-    problem.PPPIE001();
-    problem.printProblem();
+    maximumInventory,totalMaximumInventory,inventoryUnitCost,demand,unmetDemandCost,color,colorAndMaterialRatio,NOutlets,maximumTotalOutletInventory,maximumOutletInventoryPerProduct};*/
 }
