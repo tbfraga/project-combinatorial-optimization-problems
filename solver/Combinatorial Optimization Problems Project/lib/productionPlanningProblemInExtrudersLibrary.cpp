@@ -279,6 +279,15 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         _restricted.clear();
 
+        _batchIdleness.clear();
+
+        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
+        {
+            _extruderProcTime[i].clear();
+        }
+        _extruderProcTime.clear();
+        _extruderProcTime.reserve(_NExtruders);
+
         _extruderIdleness.clear();
     };
 
@@ -459,6 +468,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int color1 = _color[0];
         unsigned int color2 = color1;
 
+        float procTime = 0;
+
         for(unsigned int p=0; p<_NProducts; p++)
         {
             newVector.clear();
@@ -476,6 +487,8 @@ namespace productionPlanningProblemInExtrudersLibrary
             batch++;
 
             sum = sum + batchTime;
+            _extruderProcTime[extruder].push_back(sum);
+
             if (sum >= _capacity[day][extruder])
             {
                 if (extruder == _NExtruders-1)
@@ -498,10 +511,25 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void productionPlanningProblemInExtruder::evaluateSolution()
     {
+        vector<unsigned int> vec;
+
+        // checks if the batch width is ok
+
         for(unsigned int i=0; i<_allocation.size(); i++)
         {
-            _extruderIdleness.push_back(_length[_allocation[i][1]] - _batchWidth[_allocation[i][0]]);
+            _batchIdleness.push_back(_length[_allocation[i][1]] - _batchWidth[_allocation[i][0]]);
+
+            if(_batchIdleness.back() < 0)
+            {
+                vec.clear();
+                vec = {1,_allocation[i][0]};
+                _restricted.push_back(vec);
+            }
         }
+
+        // checks if the extruder time is ok
+
+        vec.clear();
     };
 
     void productionPlanningProblemInExtruder::printSolution()
@@ -545,14 +573,28 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
-        cout << "extruder idleness"<< endl;
-        cout << endl;
-        for(unsigned int i=0; i<_extruderIdleness.size(); i++)
+        cout << "batch idleness"<< endl;
+        for(unsigned int i=0; i<_batchIdleness.size(); i++)
         {
-            cout << _extruderIdleness[i] << endl;
+            cout << _batchIdleness[i] << endl;
         }
         cout << endl;
 
+        cout << "extruder idleness"<< endl;
+        cout << endl;
+
+        //_extruderIdleness
+
+        cout << endl << "extruder processing time: ";
+        cout << endl;
+        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
+        {
+            for(unsigned int j=0; j<_extruderProcTime[i].size(); j++)
+            {
+                cout << _extruderProcTime[i][j] << " ";
+            }
+            cout << endl;
+        }
     }
 
     void PPPIEInstance::PPPIE001()

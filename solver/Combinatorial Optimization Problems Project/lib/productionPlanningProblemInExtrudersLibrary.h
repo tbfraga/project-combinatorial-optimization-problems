@@ -53,6 +53,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         // secondary variables
 
         vector<float> _batchWidth = {0};
+        vector<float> _batchIdleness = {0};
+        vector<vector<float>> _extruderProcTime = {{0}};
         vector<float> _extruderIdleness = {0};
 
         vector<vector<unsigned int>> _restricted = {{0}};

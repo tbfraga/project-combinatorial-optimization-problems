@@ -23,8 +23,8 @@
     *** at least one function for creating an instance of the problem and test compatibility of problem data;
     *** at least one function for printing problem data;
     *** at least one function for creating an initial solution;
-    -at least one function for evaluating a solution;
-    -at least one function for changing a solution;
+    -at least one function for evaluating the solution;
+    -at least one function for changing the solution;
     -at least one function for printing the solution.
 ******************/
 //
