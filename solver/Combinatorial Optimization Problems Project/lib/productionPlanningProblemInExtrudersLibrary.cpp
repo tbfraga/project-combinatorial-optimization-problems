@@ -35,22 +35,22 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         _capacity = capacity;
 
-        if(_capacity.size() != _NDays)
+        if(_capacity.size() != _NExtruders)
         {
-            cout << " capacity matriz needs to have " << _NDays << " sets of " << _NExtruders << " elements."<< endl;
+            cout << " capacity matriz needs to have " << _NExtruders << " sets of " <<  _NDays << " elements."<< endl;
             cout << " resizing ... " <<  endl <<  endl;
 
-            _capacity.resize(_NDays);
+            _capacity.resize(_NExtruders);
         }
 
-        for(unsigned int d=0; d<_capacity.size(); d++)
+        for(unsigned int e=0; e<_capacity.size(); e++)
         {
-            if(_capacity[d].size() != _NExtruders)
+            if(_capacity[e].size() != _NDays)
             {
-                cout << " capacity of day " << d + 1 << " vector needs to have " << _NExtruders << " elements."<< endl;
+                cout << " capacity of extruder " << e + 1 << " vector needs to have " << _NDays << " elements."<< endl;
                 cout << " resizing ... " <<  endl <<  endl;
 
-                _capacity[d].resize(_NExtruders,0);
+                _capacity[e].resize(_NDays,0);
             }
         }
 
@@ -251,44 +251,6 @@ namespace productionPlanningProblemInExtrudersLibrary
             _maximumOutletInventoryPerProduct[i].clear();
         }
         _maximumOutletInventoryPerProduct.clear();
-
-        clearSolution();
-    };
-
-    void productionPlanningProblemInExtruder::clearSolution()
-    {
-        for(unsigned int i=0; i<_balancing.size(); i++)
-        {
-            _balancing[i].clear();
-        }
-        _balancing.clear();
-
-        for(unsigned int i=0; i<_allocation.size(); i++)
-        {
-            _allocation[i].clear();
-        }
-        _allocation.clear();
-
-        _processingTime.clear();
-
-        _batchWidth.clear();
-
-        for(unsigned int i=0; i<_restricted.size(); i++)
-        {
-            _restricted[i].clear();
-        }
-        _restricted.clear();
-
-        _batchIdleness.clear();
-
-        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
-        {
-            _extruderProcTime[i].clear();
-        }
-        _extruderProcTime.clear();
-        _extruderProcTime.reserve(_NExtruders);
-
-        _extruderIdleness.clear();
     };
 
     void productionPlanningProblemInExtruder::printProblem()
@@ -443,160 +405,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
     };
 
-    void productionPlanningProblemInExtruder::generateSolution()
-    {
-        clearSolution();
-
-        double totalCapacity = 0;
-
-        for(unsigned int d=0; d<_NDays; d++)
-        {
-            for(unsigned int e=0; e<_NExtruders; e++)
-            {
-                totalCapacity = totalCapacity + _capacity[d][e];
-            }
-        }
-
-        double batchTime = totalCapacity / _NProducts;
-
-        unsigned int batch = 0;
-        unsigned int day = 0;
-        unsigned int extruder = 0;
-        double sum = 0;
-        vector<unsigned int> newVector;
-
-        unsigned int color1 = _color[0];
-        unsigned int color2 = color1;
-
-        float procTime = 0;
-
-        for(unsigned int p=0; p<_NProducts; p++)
-        {
-            newVector.clear();
-            newVector = {p,batch};
-            _balancing.push_back(newVector);
-            _batchWidth.push_back(_width[p]);
-            color1 = color2;
-            color2 = _color[p];
-
-            newVector.clear();
-            newVector = {batch,extruder,0};
-            _allocation.push_back(newVector);
-            _processingTime.push_back(batchTime - _setupTime[color1][color2]);
-
-            batch++;
-
-            sum = sum + batchTime;
-            _extruderProcTime[extruder].push_back(sum);
-
-            if (sum >= _capacity[day][extruder])
-            {
-                if (extruder == _NExtruders-1)
-                {
-                    extruder = 0;
-                    day++;
-                }else
-                {
-                    extruder++;
-                }
-                sum = 0;
-            }
-        }
-
-        evaluateSolution();
-
-        cout << endl << totalCapacity << "  " << batchTime;
-        newVector.clear();
-    }
-
-    void productionPlanningProblemInExtruder::evaluateSolution()
-    {
-        vector<unsigned int> vec;
-
-        // checks if the batch width is ok
-
-        for(unsigned int i=0; i<_allocation.size(); i++)
-        {
-            _batchIdleness.push_back(_length[_allocation[i][1]] - _batchWidth[_allocation[i][0]]);
-
-            if(_batchIdleness.back() < 0)
-            {
-                vec.clear();
-                vec = {1,_allocation[i][0]};
-                _restricted.push_back(vec);
-            }
-        }
-
-        // checks if the extruder time is ok
-
-        vec.clear();
-    };
-
-    void productionPlanningProblemInExtruder::printSolution()
-    {
-        cout << endl << endl << "SOLUTION" << endl;
-        cout << endl << "balancing: ";
-        cout << endl;
-        for(unsigned int i=0; i<_balancing.size(); i++)
-        {
-            for(unsigned int j=0; j<_balancing[i].size(); j++)
-            {
-                cout << _balancing[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        cout << endl << "allocation: ";
-        cout << endl;
-        for(unsigned int i=0; i<_allocation.size(); i++)
-        {
-            for(unsigned int j=0; j<_allocation[i].size(); j++)
-            {
-                cout << _allocation[i][j] << " ";
-            }
-            cout << endl;
-        }
-
-        cout << endl << "processing time"<< endl;
-
-        for(unsigned int i=0; i<_processingTime.size() ;i++)
-        {
-            cout << _processingTime[i] << endl;
-        }
-        cout << endl;
-
-        cout << "batch width"<< endl;
-
-        for(unsigned int i=0; i<_batchWidth.size() ;i++)
-        {
-            cout << _batchWidth[i] << endl;
-        }
-        cout << endl;
-
-        cout << "batch idleness"<< endl;
-        for(unsigned int i=0; i<_batchIdleness.size(); i++)
-        {
-            cout << _batchIdleness[i] << endl;
-        }
-        cout << endl;
-
-        cout << "extruder idleness"<< endl;
-        cout << endl;
-
-        //_extruderIdleness
-
-        cout << endl << "extruder processing time: ";
-        cout << endl;
-        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
-        {
-            for(unsigned int j=0; j<_extruderProcTime[i].size(); j++)
-            {
-                cout << _extruderProcTime[i][j] << " ";
-            }
-            cout << endl;
-        }
-    }
-
     void PPPIEInstance::PPPIE001()
     {
         /*****************************
@@ -611,7 +419,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _NExtruders = 2;
         _productionRate = {40,60};
         _length = {1.0,0.8};
-        _capacity = {{420,420}};
+        _capacity = {{420},{420}};
         _setupCost = 20;
         _operationCost = 0.5;
 
@@ -636,5 +444,226 @@ namespace productionPlanningProblemInExtrudersLibrary
         _maximumTotalOutletInventory = {30000,20000};
 
         _maximumOutletInventoryPerProduct = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
+    }
+
+    void PPPIESolution::clearSolution(PPPIEInstance problem)
+    {
+        for(unsigned int i=0; i<_balancing.size(); i++)
+        {
+            _balancing[i].clear();
+        }
+        _balancing.clear();
+
+        for(unsigned int i=0; i<_allocation.size(); i++)
+        {
+            _allocation[i].clear();
+        }
+        _allocation.clear();
+
+        _processingTime.clear();
+
+        _batchWidth.clear();
+
+        for(unsigned int i=0; i<_restricted.size(); i++)
+        {
+            _restricted[i].clear();
+        }
+        _restricted.clear();
+
+        _batchIdleness.clear();
+
+        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
+        {
+            _extruderProcTime[i].clear();
+        }
+        _extruderProcTime.clear();
+
+        _extruderProcTime.resize(problem._NExtruders);
+        for(unsigned int i=0; i<_extruderProcTime.size(); i++)
+        {
+            _extruderProcTime[i].resize(problem._NDays,0);
+        }
+
+        for(unsigned int i=0; i<_extruderIdleness.size(); i++)
+        {
+            _extruderIdleness[i].clear();
+        }
+        _extruderIdleness.clear();
+
+        _extruderIdleness.resize(problem._NExtruders);
+        for(unsigned int i=0; i<_extruderIdleness.size(); i++)
+        {
+            _extruderIdleness[i].resize(problem._NDays,0);
+        }
+    };
+
+    void PPPIESolution::generateSolution(PPPIEInstance problem)
+    {
+        clearSolution(problem);
+
+        double totalCapacity = 0;
+
+        for(unsigned int e=0; e<problem._NExtruders; e++)
+        {
+            for(unsigned int d=0; d<problem._NDays; d++)
+            {
+                totalCapacity = totalCapacity + problem._capacity[e][d];
+            }
+        }
+
+        double batchTime = totalCapacity / problem._NProducts;
+
+        unsigned int batch = 0;
+        unsigned int day = 0;
+        unsigned int extruder = 0;
+        double sum = 0;
+        vector<unsigned int> newVector;
+
+        unsigned int color1 = problem._color[0];
+        unsigned int color2 = color1;
+
+        for(unsigned int p=0; p<problem._NProducts; p++)
+        {
+            newVector.clear();
+            newVector = {p,batch};
+            _balancing.push_back(newVector);
+            _batchWidth.push_back(problem._width[p]);
+            color1 = color2;
+            color2 = problem._color[p];
+
+            newVector.clear();
+            newVector = {batch,extruder,0};
+            _allocation.push_back(newVector);
+            _processingTime.push_back(batchTime - problem._setupTime[color1][color2]);
+
+            batch++;
+
+            sum = sum + batchTime;
+
+            if (sum >= problem._capacity[extruder][day])
+            {
+                _extruderProcTime[extruder][day] = sum;
+                if (extruder == problem._NExtruders-1)
+                {
+                    extruder = 0;
+                    day++;
+                }else
+                {
+                    extruder++;
+                }
+                sum = 0;
+            }
+        }
+
+        evaluateSolution(problem);
+
+        cout << endl << totalCapacity << "  " << batchTime;
+        newVector.clear();
+    }
+
+    void PPPIESolution::evaluateSolution(PPPIEInstance problem)
+    {
+        vector<unsigned int> vec;
+
+        // checks if the batch width is ok
+
+        for(unsigned int i=0; i<_allocation.size(); i++)
+        {
+            _batchIdleness.push_back(problem._length[_allocation[i][1]] - _batchWidth[_allocation[i][0]]);
+
+            if(_batchIdleness.back() < 0)
+            {
+                vec.clear();
+                vec = {1,_allocation[i][0]};
+                _restricted.push_back(vec);
+            }
+        }
+
+        // checks if the extruder time is ok
+
+        for(unsigned int e=0; e<problem._capacity.size(); e++)
+        {
+            for(unsigned int d=0; d<problem._capacity[e].size(); d++)
+            {
+                _extruderIdleness[e][d] = problem._capacity[e][d] - _extruderProcTime[e][d];
+            }
+        }
+
+        vec.clear();
+    };
+
+    void PPPIESolution::printSolution()
+    {
+
+        cout << endl << endl << "SOLUTION" << endl;
+
+        cout << endl << "balancing [product, batch]: ";
+        cout << endl << endl;
+        for(unsigned int i=0; i<_balancing.size(); i++)
+        {
+            for(unsigned int j=0; j<_balancing[i].size(); j++)
+            {
+                cout << _balancing[i][j] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl << "allocation [batch, extruder, day]: ";
+        cout << endl << endl;
+        for(unsigned int i=0; i<_allocation.size(); i++)
+        {
+            for(unsigned int j=0; j<_allocation[i].size(); j++)
+            {
+                cout << _allocation[i][j] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl << "processing time [batch]: "<< endl << endl;
+
+        for(unsigned int b=0; b<_processingTime.size() ; b++)
+        {
+            cout << _processingTime[b] << endl;
+        }
+        cout << endl;
+
+        cout << "batch width [batch]: "<< endl << endl;
+
+        for(unsigned int b=0; b<_batchWidth.size() ; b++)
+        {
+            cout << _batchWidth[b] << endl;
+        }
+        cout << endl;
+
+        cout << "batch idleness [batch]: "<< endl << endl;
+        for(unsigned int b=0; b<_batchIdleness.size(); b++)
+        {
+            cout << _batchIdleness[b] << endl;
+        }
+        cout << endl;
+
+        cout << "extruder processing time [extruder, day]: " << endl;
+        cout << endl;
+        for(unsigned int e=0; e<_extruderProcTime.size(); e++)
+        {
+            for(unsigned int d=0; d<_extruderProcTime[e].size(); d++)
+            {
+                cout << _extruderProcTime[e][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "extruder idleness [extruder, day]: "<< endl;
+        cout << endl;
+        for(unsigned int e=0; e<_extruderIdleness.size(); e++)
+        {
+            for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+            {
+                cout << _extruderIdleness[e][d] << " ";
+            }
+            cout << endl;
+        }
+
     }
 }

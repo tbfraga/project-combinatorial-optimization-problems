@@ -37,11 +37,12 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 int main()
 {
     PPPIEInstance problem;
+    PPPIESolution solution;
 
     problem.PPPIE001();
     problem.printProblem();
-    problem.generateSolution();
-    problem.printSolution();
+    solution.generateSolution(problem);
+    solution.printSolution();
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 

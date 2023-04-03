@@ -7,8 +7,12 @@ using namespace std;
 
 namespace productionPlanningProblemInExtrudersLibrary
 {
+    class productionPlanningProblemInExtruder;
+    class PPPIESolution;
+
     class productionPlanningProblemInExtruder
     {
+        friend class PPPIESolution;
         protected:
 
         // problem definition parameters
@@ -44,6 +48,30 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         vector<vector<int>> _maximumOutletInventoryPerProduct = {{0}};
 
+        public:
+        productionPlanningProblemInExtruder() = default;
+        productionPlanningProblemInExtruder(unsigned int, unsigned int, vector<float>, vector<float>, vector<vector<unsigned int>>, float, float, unsigned int, vector<float>, vector<float>,
+        vector<float>, vector<int>, vector<int>, int, float, vector<vector<unsigned int>>, float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int, vector<int>,
+        vector<vector<int>>);
+
+        ~productionPlanningProblemInExtruder();
+
+        void clearAll();
+        void printProblem();
+    };
+
+    class PPPIEInstance: public productionPlanningProblemInExtruder
+    {
+        public:
+
+        void PPPIE001();
+    };
+
+    class PPPIESolution
+    {
+        friend class PPPIEInstance;
+        protected:
+
         // solution variables
 
         vector<vector<unsigned int>> _balancing = {{0}};
@@ -55,7 +83,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<float> _batchWidth = {0};
         vector<float> _batchIdleness = {0};
         vector<vector<float>> _extruderProcTime = {{0}};
-        vector<float> _extruderIdleness = {0};
+        vector<vector<float>> _extruderIdleness = {{0}};
 
         vector<vector<unsigned int>> _restricted = {{0}};
         // variable that informs the type of constraint not met and the index that informs the location of the error
@@ -64,26 +92,11 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> _production = {0};
 
         public:
-        productionPlanningProblemInExtruder() = default;
-        productionPlanningProblemInExtruder(unsigned int, unsigned int, vector<float>, vector<float>, vector<vector<unsigned int>>, float, float, unsigned int, vector<float>, vector<float>,
-        vector<float>, vector<int>, vector<int>, int, float, vector<vector<unsigned int>>, float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int, vector<int>,
-        vector<vector<int>>);
 
-        ~productionPlanningProblemInExtruder();
-
-        void clearAll();
-        void clearSolution();
-        void printProblem();
-        void generateSolution();
-        void evaluateSolution();
+        void clearSolution(PPPIEInstance);
+        void generateSolution(PPPIEInstance);
+        void evaluateSolution(PPPIEInstance);
         void printSolution();
-    };
-
-    class PPPIEInstance: public productionPlanningProblemInExtruder
-    {
-        public:
-
-        void PPPIE001();
     };
 
 }
