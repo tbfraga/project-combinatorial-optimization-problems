@@ -8,7 +8,7 @@ namespace productionPlanningProblemInExtrudersLibrary
     float unmetDemandCost, vector<unsigned int> color, vector<vector<bool>> colorAndMaterialRatio, vector <vector <unsigned int>> setupTime, unsigned int NOutlets,
     vector<int> maximumTotalOutletInventory,vector<vector<int>> maximumOutletInventoryPerProduct)
     {
-        clearAll();
+        clearProblem();
 
         _NDays = NDays;
         _NExtruders = NExtruders;
@@ -204,10 +204,10 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     productionPlanningProblemInExtruder::~productionPlanningProblemInExtruder()
     {
-        clearAll();
+        clearProblem();
     };
 
-    void productionPlanningProblemInExtruder::clearAll()
+    void productionPlanningProblemInExtruder::clearProblem()
     {
         _productionRate.clear();
         _length.clear();
@@ -257,107 +257,109 @@ namespace productionPlanningProblemInExtrudersLibrary
     {
         cout << endl << "PRODUCTION PLANNING PROBLEM IN EXTRUDERS" << endl << endl;
 
-        cout << "number of days: " << _NDays << endl;
-        cout << "number of extruders: " << _NExtruders << endl;
-        cout << "production rate (m/min): ";
+        cout << "number of days: " << _NDays << endl << endl;
+        cout << "number of extruders: " << _NExtruders << endl << endl;
+        cout << "production rate (m/min) [extruder]: " << endl << endl;
 
         for(vector<float>::iterator it = _productionRate.begin(); it != _productionRate.end(); ++it)
         {
-            cout << *it << " ";
+            cout << *it << endl;
         }
         cout << endl;
 
-        cout << "length (m): ";
+        cout << "length (m) [extruder]: " << endl << endl;
 
         for(vector<float>::iterator it = _length.begin(); it != _length.end(); ++it)
         {
-            cout << *it << " ";
+            cout << *it << endl;
         }
         cout << endl;
 
-        cout << "capacity (min): ";
-
-        cout << endl;
-        for(unsigned int i=0; i<_capacity .size(); i++)
+        cout << "capacity (min) [extruder, day]: ";
+        cout << endl << endl;
+        for(unsigned int e=0; e<_capacity.size(); e++)
         {
-            for(unsigned int j=0; j<_capacity[i].size(); j++)
+            for(unsigned int d=0; d<_capacity[e].size(); d++)
             {
-                cout << _capacity[i][j] << " ";
+                cout << _capacity[e][d] << " ";
             }
             cout << endl;
         }
 
-        cout << "setup cost ($/min): " << _setupCost << endl;
-        cout << "operation cost ($/min): " << _operationCost << endl;
+        cout << endl;
+        cout << "setup cost ($/min): " << _setupCost << endl << endl;
+        cout << "operation cost ($/min): " << _operationCost << endl << endl;
 
-        cout << "number of products: " << _NProducts << endl;
+        cout << "number of products: " << _NProducts << endl << endl;
 
-        cout << "product width (m): ";
+        cout << "product width (m) [product]: " << endl << endl;
 
         for(vector<float>::iterator it = _width.begin(); it != _width.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "weight ratio (g/m^2): ";
+        cout << "weight ratio (g/m^2) [product]: " << endl << endl;
 
         for(vector<float>::iterator it = _weightRatio.begin(); it != _weightRatio.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "unit contribution ($): ";
+        cout << "unit contribution ($) [product]: " << endl << endl;
 
         for(vector<float>::iterator it = _unitContribution.begin(); it != _unitContribution.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "initial inventory (g): ";
+        cout << "initial inventory (g) [product]: " << endl << endl;
 
         for(vector<int>::iterator it = _initialInventory.begin(); it != _initialInventory.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "maximum inventory (g): ";
+        cout << "maximum inventory (g) [product]: " << endl << endl;
 
         for(vector<int>::iterator it = _maximumInventory.begin(); it != _maximumInventory.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "total maximum inventory (g): " << _totalMaximumInventory << endl;
-        cout << "inventory unit cost ($): " << _inventoryUnitCost << endl;
+        cout << "total maximum inventory (g): " << _totalMaximumInventory << endl << endl;
 
-        cout << "demand (g): ";
-        cout << endl;
-        for(unsigned int i=0; i<_demand.size(); i++)
+        cout << "inventory unit cost ($): " << _inventoryUnitCost << endl << endl;
+
+        cout << "demand (g) [product, day]: " << endl << endl;
+
+        for(unsigned int p=0; p<_demand.size(); p++)
         {
-            for(unsigned int j=0; j<_demand[i].size(); j++)
+            for(unsigned int d=0; d<_demand[p].size(); d++)
             {
-                cout << _demand[i][j] << " ";
+                cout << _demand[p][d] << " ";
             }
             cout << endl;
         }
+        cout << endl;
 
-        cout << "unmet demand cost ($): " << _unmetDemandCost << endl;
+        cout << "unmet demand cost ($): " << _unmetDemandCost << endl << endl;
 
-        cout << "color: ";
+        cout << "color [product]: " << endl << endl;
 
         for(vector<unsigned int>::iterator it = _color.begin(); it != _color.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "colour and material rate: ";
-        cout << endl;
+        cout << "colour and material rate [product, product]: ";
+        cout << endl << endl;
 
         for(unsigned int i=0; i<_colorAndMaterialRatio.size(); i++)
         {
@@ -372,8 +374,9 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
             cout << endl;
         }
+        cout << endl;
 
-        cout << "setup time (min): " << endl;
+        cout << "setup time (min) [color, color]: " << endl << endl;
 
         for(unsigned int i=0; i<_setupTime.size(); i++)
         {
@@ -383,18 +386,19 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
             cout << endl;
         }
+         cout << endl;
 
-        cout << "number of outlets: " << _NOutlets << endl;
+        cout << "number of outlets: " << _NOutlets << endl << endl;
 
-        cout << "maximum total outlet inventory (g): ";
+        cout << "maximum total outlet inventory (g) [outlet]: " << endl << endl;
         for(vector<int>::iterator it = _maximumTotalOutletInventory.begin(); it != _maximumTotalOutletInventory.end(); ++it)
         {
             cout << *it << " ";
         }
-        cout << endl;
+        cout << endl << endl;
 
-        cout << "maximum outlet inventory per product (g): ";
-        cout << endl;
+        cout << "maximum outlet inventory per product (g) [product, outlet]: ";
+        cout << endl << endl;
         for(unsigned int i=0; i<_maximumOutletInventoryPerProduct.size(); i++)
         {
             for(unsigned int j=0; j<_maximumOutletInventoryPerProduct[i].size(); j++)
@@ -412,14 +416,14 @@ namespace productionPlanningProblemInExtrudersLibrary
         It is expected that the allocation will be done correctly according to the measurements of the products and the extruders.
         *****************************/
 
-        clearAll();
+        clearProblem();
 
-        _NDays = 1;
+        _NDays = 2;
 
         _NExtruders = 2;
         _productionRate = {40,60};
         _length = {1.0,0.8};
-        _capacity = {{420},{420}};
+        _capacity = {{420,420},{420,420}};
         _setupCost = 20;
         _operationCost = 0.5;
 
@@ -432,7 +436,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _totalMaximumInventory = 100000;
         _inventoryUnitCost = 0.01;
 
-        _demand = {{99400,73800,149600,35800}};
+        _demand = {{99400,73800},{149600,35800},{2000,4000},{3000,0}};
         _unmetDemandCost = 0.5;
 
         _color = {0,0,0,0};
@@ -448,6 +452,10 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void PPPIESolution::clearSolution(PPPIEInstance problem)
     {
+        _fitness = 0;
+        _productionTotalProfit = 0;
+        _unmetDemandTotalCost = 0;
+
         for(unsigned int i=0; i<_balancing.size(); i++)
         {
             _balancing[i].clear();
@@ -495,6 +503,56 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             _extruderIdleness[i].resize(problem._NDays,0);
         }
+
+        for(unsigned int p=0; p<_production.size(); p++)
+        {
+            _production[p].clear();
+        }
+        _production.clear();
+
+        _production.resize(problem._NProducts);
+        for(unsigned int p=0; p<_production.size(); p++)
+        {
+            _production[p].resize(problem._NDays,0);
+        }
+
+        for(unsigned int p=0; p<_delivered.size(); p++)
+        {
+            _delivered[p].clear();
+        }
+        _delivered.clear();
+
+        _delivered.resize(problem._NProducts);
+        for(unsigned int p=0; p<_delivered.size(); p++)
+        {
+            _delivered[p].resize(problem._NDays,0);
+        }
+
+        for(unsigned int p=0; p<_unmetDemand.size(); p++)
+        {
+            _unmetDemand[p].clear();
+        }
+        _unmetDemand.clear();
+
+        _unmetDemand.resize(problem._NProducts);
+        for(unsigned int p=0; p<_unmetDemand.size(); p++)
+        {
+            _unmetDemand[p].resize(problem._NDays,0);
+        }
+
+
+        for(unsigned int p=0; p<_inventory.size(); p++)
+        {
+            _inventory[p].clear();
+        }
+        _inventory.clear();
+
+        _inventory.resize(problem._NProducts);
+        for(unsigned int p=0; p<_inventory.size(); p++)
+        {
+            _inventory[p].resize(problem._NDays,0);
+        }
+
     };
 
     void PPPIESolution::generateSolution(PPPIEInstance problem)
@@ -532,9 +590,10 @@ namespace productionPlanningProblemInExtrudersLibrary
             color2 = problem._color[p];
 
             newVector.clear();
-            newVector = {batch,extruder,0};
+            newVector = {batch,extruder,day};
             _allocation.push_back(newVector);
             _processingTime.push_back(batchTime - problem._setupTime[color1][color2]);
+
 
             batch++;
 
@@ -563,6 +622,9 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void PPPIESolution::evaluateSolution(PPPIEInstance problem)
     {
+        unsigned int product;
+        unsigned int extruder;
+        unsigned int day;
         vector<unsigned int> vec;
 
         // checks if the batch width is ok
@@ -586,8 +648,66 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int d=0; d<problem._capacity[e].size(); d++)
             {
                 _extruderIdleness[e][d] = problem._capacity[e][d] - _extruderProcTime[e][d];
+
+                if(_extruderIdleness[e][d] < 0)
+                {
+                    vec.clear();
+                    vec = {2,e,d};
+                    _restricted.push_back(vec);
+                }
             }
         }
+
+        for(unsigned int b=0; b<_balancing.size(); b++)
+        {
+            product = _balancing[b][1];
+            extruder = _allocation[b][1];
+            day = _allocation[b][2];
+            _production[product][day] += _processingTime[b]*problem._weightRatio[product]*problem._width[product]*problem._productionRate[extruder];
+            _productionTotalProfit += _production[product][day]*problem._unitContribution[product];
+        }
+
+        for(unsigned int p=0; p<problem._NProducts; p++)
+        {
+            _unmetDemand[p][0] = problem._demand[p][0];
+            _inventory[p][0] = problem._initialInventory[p] + _production[p][0];
+
+            if (_inventory[p][0] >= _unmetDemand[p][0])
+            {
+                _delivered[p][0] = _unmetDemand[p][0];
+            }else
+            {
+                _delivered[p][0] = _inventory[p][0];
+            }
+
+            _inventory[p][0] -= _delivered[p][0];
+            _unmetDemand[p][0] -= _delivered[p][0];
+
+            _inventoryTotalCost += _inventory[p][0]*problem._inventoryUnitCost;
+            _unmetDemandTotalCost += _unmetDemand[p][0]*problem._unmetDemandCost;
+
+            for(unsigned int d=1; d<problem._NDays; d++)
+            {
+                _unmetDemand[p][d] = _unmetDemand[p][d-1] + problem._demand[p][d];
+
+                _inventory[p][d] = _inventory[p][d-1] + _production[p][d] - _delivered[p][d];
+
+                if (_inventory[p][d] >= _unmetDemand[p][d])
+                {
+                    _delivered[p][d] = _unmetDemand[p][d];
+                }else
+                {
+                    _delivered[p][d] = _inventory[p][d];
+                }
+
+                _inventory[p][d] -= _delivered[p][d];
+                _unmetDemand[p][d] -= _delivered[p][d];
+
+                _inventoryTotalCost += _inventory[p][d]*problem._inventoryUnitCost;
+                _unmetDemandTotalCost += _unmetDemand[p][d]*problem._unmetDemandCost;
+            }
+        }
+        _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost ;
 
         vec.clear();
     };
@@ -597,7 +717,12 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         cout << endl << endl << "SOLUTION" << endl;
 
-        cout << endl << "balancing [product, batch]: ";
+        cout << endl << "fitness: " << _fitness << endl;
+        cout << endl << "production total profit: " << _productionTotalProfit << endl;
+        cout << endl << "unmet demand total cost: " << _unmetDemandTotalCost  << endl;
+        cout << endl << "inventory total cost: " << _inventoryTotalCost<< endl;
+
+        cout << endl << "balancing [batch, product]: ";
         cout << endl << endl;
         for(unsigned int i=0; i<_balancing.size(); i++)
         {
@@ -610,11 +735,11 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         cout << endl << "allocation [batch, extruder, day]: ";
         cout << endl << endl;
-        for(unsigned int i=0; i<_allocation.size(); i++)
+        for(unsigned int b=0; b<_allocation.size(); b++)
         {
-            for(unsigned int j=0; j<_allocation[i].size(); j++)
+            for(unsigned int i=0; i<_allocation[b].size(); i++)
             {
-                cout << _allocation[i][j] << " ";
+                cout << _allocation[b][i] << " ";
             }
             cout << endl;
         }
@@ -627,7 +752,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
-        cout << "batch width [batch]: "<< endl << endl;
+        cout << "batch width (m) [batch]: "<< endl << endl;
 
         for(unsigned int b=0; b<_batchWidth.size() ; b++)
         {
@@ -635,14 +760,14 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
-        cout << "batch idleness [batch]: "<< endl << endl;
+        cout << "batch idleness (m) [batch]: "<< endl << endl;
         for(unsigned int b=0; b<_batchIdleness.size(); b++)
         {
             cout << _batchIdleness[b] << endl;
         }
         cout << endl;
 
-        cout << "extruder processing time [extruder, day]: " << endl;
+        cout << "extruder processing time (min) [extruder, day]: " << endl;
         cout << endl;
         for(unsigned int e=0; e<_extruderProcTime.size(); e++)
         {
@@ -654,13 +779,58 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
 
         cout << endl;
-        cout << "extruder idleness [extruder, day]: "<< endl;
+        cout << "extruder idleness (min) [extruder, day]: "<< endl;
         cout << endl;
         for(unsigned int e=0; e<_extruderIdleness.size(); e++)
         {
             for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
             {
                 cout << _extruderIdleness[e][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "production (g) [product, day]: "<< endl << endl;
+        for(unsigned int p=0; p<_production.size(); p++)
+        {
+            for(unsigned int d=0; d<_production[p].size(); d++)
+            {
+                cout << _production[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "delivered (g) [product, day]: "<< endl << endl;
+        for(unsigned int p=0; p<_delivered.size(); p++)
+        {
+            for(unsigned int d=0; d<_delivered[p].size(); d++)
+            {
+                cout << _delivered[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "unmet demand (g) [product, day]: "<< endl << endl;
+        for(unsigned int p=0; p<_unmetDemand.size(); p++)
+        {
+            for(unsigned int d=0; d<_unmetDemand[p].size(); d++)
+            {
+                cout << _unmetDemand[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "inventory (g) [product, day]: "<< endl;
+        cout << endl;
+        for(unsigned int p=0; p<_inventory.size(); p++)
+        {
+            for(unsigned int d=0; d<_inventory[p].size(); d++)
+            {
+                cout << _inventory[p][d] << " ";
             }
             cout << endl;
         }

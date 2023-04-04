@@ -56,7 +56,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         ~productionPlanningProblemInExtruder();
 
-        void clearAll();
+        void clearProblem();
         void printProblem();
     };
 
@@ -89,7 +89,15 @@ namespace productionPlanningProblemInExtrudersLibrary
         // variable that informs the type of constraint not met and the index that informs the location of the error
         // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
 
-        vector<unsigned int> _production = {0};
+        vector<vector<unsigned int>> _production = {{0}};
+        vector<vector<unsigned int>> _delivered = {{0}};
+        vector<vector<unsigned int>> _unmetDemand = {{0}};
+        vector<vector<unsigned int>> _inventory = {{0}};
+
+        double _fitness = 0;
+        double _productionTotalProfit = 0;
+        double _unmetDemandTotalCost = 0;
+        double _inventoryTotalCost = 0;
 
         public:
 
