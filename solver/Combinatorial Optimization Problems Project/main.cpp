@@ -23,9 +23,9 @@
     *** at least one function for creating an instance of the problem and test compatibility of problem data;
     *** at least one function for printing problem data;
     *** at least one function for creating an initial solution;
-    -at least one function for evaluating the solution;
+    *** at least one function for evaluating the solution;
     -at least one function for changing the solution;
-    -at least one function for printing the solution.
+    *** at least one function for printing the solution.
 ******************/
 //
 // Important: Copies and distributions of the files made available in this directory must comply with the

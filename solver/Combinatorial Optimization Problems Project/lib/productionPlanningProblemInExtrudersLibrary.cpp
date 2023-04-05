@@ -6,7 +6,7 @@ namespace productionPlanningProblemInExtrudersLibrary
     vector<vector<unsigned int>> capacity, float setupCost, float operationCost, unsigned int NProducts, vector<float> width, vector<float> weightRatio,
     vector<float> unitContribution, vector<int> initialInventory, vector<int> maximumInventory, int totalMaximumInventory, float inventoryUnitCost, vector<vector<unsigned int>> demand,
     float unmetDemandCost, vector<unsigned int> color, vector<vector<bool>> colorAndMaterialRatio, vector <vector <unsigned int>> setupTime, unsigned int NOutlets,
-    vector<int> maximumTotalOutletInventory,vector<vector<int>> maximumOutletInventoryPerProduct)
+    vector<unsigned int> maximumTotalOutletInventory, vector<vector<unsigned int>> maximumOutletInventoryPerProduct)
     {
         clearProblem();
 
@@ -391,7 +391,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         cout << "number of outlets: " << _NOutlets << endl << endl;
 
         cout << "maximum total outlet inventory (g) [outlet]: " << endl << endl;
-        for(vector<int>::iterator it = _maximumTotalOutletInventory.begin(); it != _maximumTotalOutletInventory.end(); ++it)
+        for(vector<unsigned int>::iterator it = _maximumTotalOutletInventory.begin(); it != _maximumTotalOutletInventory.end(); ++it)
         {
             cout << *it << " ";
         }
@@ -540,6 +540,25 @@ namespace productionPlanningProblemInExtrudersLibrary
             _unmetDemand[p].resize(problem._NDays,0);
         }
 
+        for(unsigned int i=0; i<_deliveredToOutlet.size(); i++)
+        {
+            _deliveredToOutlet[i].clear();
+        }
+        _deliveredToOutlet.clear();
+
+        _totalFreeOutletInventory.clear();
+
+        for(unsigned int p=0; p<_freeOutletInventoryPerProduct.size(); p++)
+        {
+            _freeOutletInventoryPerProduct[p].clear();
+        }
+        _freeOutletInventoryPerProduct.clear();
+
+        _freeOutletInventoryPerProduct.resize(problem._NProducts);
+        for(unsigned int p=0; p<_freeOutletInventoryPerProduct.size(); p++)
+        {
+            _freeOutletInventoryPerProduct[p].resize(problem._NOutlets,0);
+        }
 
         for(unsigned int p=0; p<_inventory.size(); p++)
         {
@@ -667,6 +686,9 @@ namespace productionPlanningProblemInExtrudersLibrary
             _productionTotalProfit += _production[product][day]*problem._unitContribution[product];
         }
 
+        _totalFreeOutletInventory = problem._maximumTotalOutletInventory;
+        _freeOutletInventoryPerProduct = problem._maximumOutletInventoryPerProduct;
+
         for(unsigned int p=0; p<problem._NProducts; p++)
         {
             _unmetDemand[p][0] = problem._demand[p][0];
@@ -706,7 +728,46 @@ namespace productionPlanningProblemInExtrudersLibrary
                 _inventoryTotalCost += _inventory[p][d]*problem._inventoryUnitCost;
                 _unmetDemandTotalCost += _unmetDemand[p][d]*problem._unmetDemandCost;
             }
+
+            for(unsigned int d=0; d<problem._NDays; d++)
+            {
+                if(_inventory[p][d] > 0)
+                {
+                    for(unsigned int o=0; o<problem._NOutlets; o++)
+                    {
+                        if ((_totalFreeOutletInventory[o] > 0) & (_freeOutletInventoryPerProduct[p][o] > 0))
+                        {
+                            if(_freeOutletInventoryPerProduct[p][o]  < _totalFreeOutletInventory[o])
+                            {
+                                if(_freeOutletInventoryPerProduct[p][o] < _inventory[p][d])
+                                {
+                                    vec = {p,o,d,_freeOutletInventoryPerProduct[p][o]};
+                                }else
+                                {
+                                    vec = {p,o,d,_inventory[p][d]};
+                                }
+                            }else
+                            {
+                                if(_totalFreeOutletInventory[o] < _inventory[p][d])
+                                {
+                                    vec = {p,o,d,_totalFreeOutletInventory[o]};
+                                }else
+                                {
+                                    vec = {p,o,d,_inventory[p][d]};
+                                }
+                            }
+                            _deliveredToOutlet.push_back(vec);
+                            _inventory[p][d] -= vec[3];
+                            _freeOutletInventoryPerProduct[p][o] -= vec[3];
+                            _totalFreeOutletInventory[o] -= vec[3];
+                        }
+                    }
+                }
+            }
         }
+
+
+
         _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost ;
 
         vec.clear();
@@ -819,6 +880,38 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int d=0; d<_unmetDemand[p].size(); d++)
             {
                 cout << _unmetDemand[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "delivered to outlet (g) [product, outlet, day, g]: "<< endl << endl;
+        for(unsigned int i=0; i<_deliveredToOutlet.size(); i++)
+        {
+            for(unsigned int j=0; j<_deliveredToOutlet[i].size(); j++)
+            {
+                cout << _deliveredToOutlet[i][j] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "free outlet inventory (g) [outlet]: "<< endl;
+        cout << endl;
+        for(unsigned int o=0; o<_totalFreeOutletInventory.size(); o++)
+        {
+            cout << _totalFreeOutletInventory[o] << " ";
+        }
+        cout << endl;
+
+        cout << endl;
+        cout << "free outlet inventory per product (g) [product, outlet]: "<< endl;
+        cout << endl;
+        for(unsigned int p=0; p<_freeOutletInventoryPerProduct.size(); p++)
+        {
+            for(unsigned int o=0; o<_freeOutletInventoryPerProduct[p].size(); o++)
+            {
+                cout << _freeOutletInventoryPerProduct[p][o] << " ";
             }
             cout << endl;
         }

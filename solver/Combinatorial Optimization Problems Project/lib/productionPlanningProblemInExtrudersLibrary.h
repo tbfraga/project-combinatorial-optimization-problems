@@ -44,15 +44,15 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector <vector <unsigned int>> _setupTime = {{0}};
 
         unsigned int _NOutlets = 0;
-        vector<int> _maximumTotalOutletInventory = {0};
+        vector<unsigned int> _maximumTotalOutletInventory = {0};
 
-        vector<vector<int>> _maximumOutletInventoryPerProduct = {{0}};
+        vector<vector<unsigned int>> _maximumOutletInventoryPerProduct = {{0}};
 
         public:
         productionPlanningProblemInExtruder() = default;
         productionPlanningProblemInExtruder(unsigned int, unsigned int, vector<float>, vector<float>, vector<vector<unsigned int>>, float, float, unsigned int, vector<float>, vector<float>,
-        vector<float>, vector<int>, vector<int>, int, float, vector<vector<unsigned int>>, float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int, vector<int>,
-        vector<vector<int>>);
+        vector<float>, vector<int>, vector<int>, int, float, vector<vector<unsigned int>>, float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int,
+        vector<unsigned int>, vector<vector<unsigned int>>);
 
         ~productionPlanningProblemInExtruder();
 
@@ -92,6 +92,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<vector<unsigned int>> _production = {{0}};
         vector<vector<unsigned int>> _delivered = {{0}};
         vector<vector<unsigned int>> _unmetDemand = {{0}};
+        vector<vector<unsigned int>> _deliveredToOutlet = {{0}};
+        vector<unsigned int> _totalFreeOutletInventory = {0};
+        vector<vector<unsigned int>> _freeOutletInventoryPerProduct = {{0}};
         vector<vector<unsigned int>> _inventory = {{0}};
 
         double _fitness = 0;
