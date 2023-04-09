@@ -766,12 +766,112 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
         }
 
-
-
         _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost ;
 
         vec.clear();
     };
+
+    void PPPIESolution::swapTime(PPPIEInstance problem)
+    {
+        cout << endl << "swaping time:  " << endl << endl;
+
+        unsigned int batch = rand()%_allocation.size();
+        cout << endl << "batch:  " << batch << endl;
+
+        unsigned int extruder = _allocation[batch][1];
+        cout << endl << "extruder:  " << extruder << endl;
+
+        unsigned int day = _allocation[batch][2];
+        cout << endl << "day:  " << day << endl;
+
+        int step;
+
+        if(_extruderIdleness[extruder][day] < 1)
+        {
+            step = -1;
+        } else
+        {
+            step = rand()%2;
+            if(step == 0)
+            {
+                step = -1;
+            }
+        }
+        cout << endl << "step:  " << step << endl;
+
+        _processingTime[batch] += step;
+
+        cout << endl << "new processing time (min):  " << _processingTime[batch] << endl;
+
+        _extruderIdleness[extruder][day] -= step;
+
+        cout << endl << "new extruder idleness (min):  " << _extruderIdleness[extruder][day] << endl;
+
+        unsigned int product;
+        int productionVariation;
+        int productionProfitVariation;
+
+        for(unsigned int b=0; b<_balancing.size(); b++)
+        {
+            if(_balancing[b][0] == batch)
+            {
+                product = _balancing[b][1];
+                cout << endl << "product: " << product << endl;
+
+                productionVariation = step*problem._weightRatio[product]*problem._width[product]*problem._productionRate[extruder];
+                _production[product][day] += productionVariation;
+
+                cout << endl << "new production: " << _production[product][day] << endl;
+
+                productionProfitVariation = productionVariation*problem._unitContribution[product];
+                _productionTotalProfit += productionProfitVariation;
+
+                cout << endl << "new production total profit: " << _productionTotalProfit << endl;
+
+                _fitness += productionProfitVariation;
+
+                cout << endl << "new fitness: " << _fitness << endl;
+
+            }
+        }
+
+        for( int i=0; i<10; i++)
+        {
+            step = rand()%2;
+            if(step == 0)
+            {
+                step = -1;
+            }
+        cout << endl << "step:  " << step << endl;
+        }
+
+    }
+
+    void PPPIESolution::timeSimultedAnnealing(PPPIEInstance problem, PPPIESolution solution)
+    {
+        srand((unsigned) time(NULL));
+        solution.swapTime(problem);
+    }
+
+    void PPPIESolution::swapSolution(PPPIEInstance problem)
+    {
+        srand((unsigned) time(NULL));
+
+        int extruder_1 = rand()%problem._NExtruders;
+        cout << endl << "first extruder:  " << extruder_1 << endl;
+
+        int extruder_2 = rand()%problem._NExtruders;
+        cout << endl << "second extruder:  " << extruder_2 << endl;
+
+        for( int i=0; i<10; i++)
+        {
+            extruder_1 = rand()%problem._NExtruders;
+            cout << endl << "first extruder:  " << extruder_1 << endl;
+
+            extruder_2 = rand()%problem._NExtruders;
+            cout << endl << "second extruder:  " << extruder_2 << endl;
+        }
+    }
 
     void PPPIESolution::printSolution()
     {
@@ -924,6 +1024,18 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int d=0; d<_inventory[p].size(); d++)
             {
                 cout << _inventory[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "restricted: "<< endl;
+        cout << endl;
+        for(unsigned int i=0; i<_restricted.size(); i++)
+        {
+            for(unsigned int j=0; j<_restricted[i].size(); j++)
+            {
+                cout << _restricted[i][j] << " ";
             }
             cout << endl;
         }

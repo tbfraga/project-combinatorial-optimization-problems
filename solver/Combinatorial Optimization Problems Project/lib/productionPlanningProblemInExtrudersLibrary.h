@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+//#include <random>
+#include <ctime>
 using namespace std;
 
 namespace productionPlanningProblemInExtrudersLibrary
@@ -107,6 +109,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         void clearSolution(PPPIEInstance);
         void generateSolution(PPPIEInstance);
         void evaluateSolution(PPPIEInstance);
+        void swapTime(PPPIEInstance);
+        void swapSolution(PPPIEInstance);
+        void timeSimultedAnnealing(PPPIEInstance, PPPIESolution);
         void printSolution();
     };
 
