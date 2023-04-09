@@ -4,8 +4,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 {
     productionPlanningProblemInExtruder::productionPlanningProblemInExtruder(unsigned int NDays, unsigned int NExtruders, vector<float> productionRate, vector<float> length,
     vector<vector<unsigned int>> capacity, float setupCost, float operationCost, unsigned int NProducts, vector<float> width, vector<float> weightRatio,
-    vector<float> unitContribution, vector<int> initialInventory, vector<int> maximumInventory, int totalMaximumInventory, float inventoryUnitCost, vector<vector<unsigned int>> demand,
-    float unmetDemandCost, vector<unsigned int> color, vector<vector<bool>> colorAndMaterialRatio, vector <vector <unsigned int>> setupTime, unsigned int NOutlets,
+    vector<float> unitContribution, vector<unsigned int> initialInventory, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory, float inventoryUnitCost,
+    vector<vector<unsigned int>> demand, float unmetDemandCost, vector<unsigned int> color, vector<vector<bool>> colorAndMaterialRatio, vector <vector <unsigned int>> setupTime, unsigned int NOutlets,
     vector<unsigned int> maximumTotalOutletInventory, vector<vector<unsigned int>> maximumOutletInventoryPerProduct)
     {
         clearProblem();
@@ -318,7 +318,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         cout << "initial inventory (g) [product]: " << endl << endl;
 
-        for(vector<int>::iterator it = _initialInventory.begin(); it != _initialInventory.end(); ++it)
+        for(vector<unsigned int>::iterator it = _initialInventory.begin(); it != _initialInventory.end(); ++it)
         {
             cout << *it << " ";
         }
@@ -326,7 +326,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         cout << "maximum inventory (g) [product]: " << endl << endl;
 
-        for(vector<int>::iterator it = _maximumInventory.begin(); it != _maximumInventory.end(); ++it)
+        for(vector<unsigned int>::iterator it = _maximumInventory.begin(); it != _maximumInventory.end(); ++it)
         {
             cout << *it << " ";
         }
@@ -577,15 +577,21 @@ namespace productionPlanningProblemInExtrudersLibrary
         for(unsigned int p=0; p<_inventory.size(); p++)
         {
             _inventory[p].clear();
+            _freeInventoryPerProduct[p].clear();
         }
         _inventory.clear();
+        _freeInventoryPerProduct.clear();
 
         _inventory.resize(problem._NProducts);
+        _freeInventoryPerProduct.resize(problem._NProducts);
         for(unsigned int p=0; p<_inventory.size(); p++)
         {
             _inventory[p].resize(problem._NDays,0);
+            _freeInventoryPerProduct[p].resize(problem._NDays,0);
         }
 
+        _freeInventory.clear();
+        _freeInventory.resize(problem._NDays,0);
     };
 
     void PPPIESolution::generateSolution(PPPIEInstance problem)
@@ -703,6 +709,11 @@ namespace productionPlanningProblemInExtrudersLibrary
         _totalFreeOutletInventory = problem._maximumTotalOutletInventory;
         _freeOutletInventoryPerProduct = problem._maximumOutletInventoryPerProduct;
 
+        for(unsigned int d=0; d<problem._NDays; d++)
+        {
+            _freeInventory[d] = problem._totalMaximumInventory;
+        }
+
         for(unsigned int p=0; p<problem._NProducts; p++)
         {
             _unmetDemand[p][0] = problem._demand[p][0];
@@ -777,6 +788,9 @@ namespace productionPlanningProblemInExtrudersLibrary
                         }
                     }
                 }
+
+                _freeInventoryPerProduct[p][d] = problem._maximumInventory[p] - _inventory[p][d];
+                _freeInventory[d] -= _inventory[p][d];
             }
         }
 
@@ -823,6 +837,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         unsigned int product;
         unsigned int productionVariation;
+        unsigned int inventoryVariation;
         unsigned int avalible = 0;
         unsigned int diff = 0;
         double productionProfitVariation;
@@ -854,6 +869,33 @@ namespace productionPlanningProblemInExtrudersLibrary
                 productionProfitVariation = productionVariation*problem._unitContribution[product];
 
                 productData.push_back(productionProfitVariation);
+
+                for (unsigned int d = problem._NDays; d>day; d--)
+                {
+                    diff = productionVariation;
+
+                    if(diff > 0)
+                    {
+                        if(step < 0)
+                        {
+                            if(diff <= _inventory[product][d-1])
+                            {
+                                inventoryVariation = diff;
+                                diff = 0;
+                            }else
+                            {
+                                inventoryVariation = _inventory[product][d-1];
+                                diff -= _inventory[product][d-1];
+                            }
+                        }else
+                        {
+
+                        }
+                    }
+
+                    productData.push_back(inventoryVariation);
+                }
+
 
                 if(step < 0)
                 {
@@ -908,6 +950,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                 {
                     if(step < 0)
                     {
+                        diff = 0;
                         if(productionVariation <= _inventory[product][d-1])
                         {
                             diff = 0;
@@ -1157,6 +1200,27 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
             cout << endl;
         }
+
+        cout << endl;
+        cout << "free inventory (g) [product, day]: "<< endl;
+        cout << endl;
+        for(unsigned int p=0; p<_freeInventoryPerProduct.size(); p++)
+        {
+            for(unsigned int d=0; d<_freeInventoryPerProduct[p].size(); d++)
+            {
+                cout << _freeInventoryPerProduct[p][d] << " ";
+            }
+            cout << endl;
+        }
+
+        cout << endl;
+        cout << "total free inventory (g) [day]: "<< endl;
+        cout << endl;
+        for(unsigned int d=0; d< _freeInventory.size(); d++)
+        {
+            cout <<  _freeInventory[d] << " ";
+        }
+        cout << endl;
 
         cout << endl;
         cout << "restricted: "<< endl;

@@ -32,9 +32,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<float> _width = {0};
         vector<float> _weightRatio = {0};
         vector<float> _unitContribution = {0};
-        vector<int> _initialInventory = {0};
-        vector<int> _maximumInventory = {0};
-        int _totalMaximumInventory = 0;
+        vector<unsigned int> _initialInventory = {0};
+        vector<unsigned int> _maximumInventory = {0};
+        unsigned int _totalMaximumInventory = 0;
         float _inventoryUnitCost = 0;
 
         vector<vector<unsigned int>> _demand = {{0}};
@@ -52,9 +52,9 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         public:
         productionPlanningProblemInExtruder() = default;
-        productionPlanningProblemInExtruder(unsigned int, unsigned int, vector<float>, vector<float>, vector<vector<unsigned int>>, float, float, unsigned int, vector<float>, vector<float>,
-        vector<float>, vector<int>, vector<int>, int, float, vector<vector<unsigned int>>, float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int,
-        vector<unsigned int>, vector<vector<unsigned int>>);
+        productionPlanningProblemInExtruder(unsigned int, unsigned int, vector<float>, vector<float>, vector<vector<unsigned int>>, float, float, unsigned int,
+        vector<float>, vector<float>, vector<float>, vector<unsigned int>, vector<unsigned int>, unsigned int, float, vector<vector<unsigned int>>,
+        float, vector<unsigned int>, vector<vector<bool>>,  vector <vector <unsigned int>>, unsigned int, vector<unsigned int>, vector<vector<unsigned int>>);
 
         ~productionPlanningProblemInExtruder();
 
@@ -98,6 +98,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> _totalFreeOutletInventory = {0};
         vector<vector<unsigned int>> _freeOutletInventoryPerProduct = {{0}};
         vector<vector<unsigned int>> _inventory = {{0}};
+        vector<unsigned int> _freeInventory = {0};
+        vector<vector<unsigned int>> _freeInventoryPerProduct = {{0}};
 
         double _fitness = 0;
         double _productionTotalProfit = 0;
