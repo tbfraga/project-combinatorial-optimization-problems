@@ -244,6 +244,18 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         _setupTime .clear();
 
+        for(unsigned int p=0; p<_productionPerTime.size(); p++)
+        {
+            _productionPerTime[p].clear();
+        }
+        _productionPerTime.clear();
+
+        for(unsigned int p=0; p<_productionLimit.size(); p++)
+        {
+            _productionLimit[p].clear();
+        }
+        _productionLimit.clear();
+
         _maximumTotalOutletInventory.clear();
 
         for(unsigned int i=0; i<_maximumOutletInventoryPerProduct.size(); i++)
@@ -386,7 +398,31 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
             cout << endl;
         }
-         cout << endl;
+        cout << endl;
+
+        cout << "production rate (g/min) [product, extruder]: " << endl << endl;
+
+        for(unsigned int p=0; p<_productionPerTime.size(); p++)
+        {
+            for(unsigned int e=0; e<_productionPerTime[p].size(); e++)
+            {
+               cout << _productionPerTime[p][e]  << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+
+        cout << "production limit (g) [product, day]: " << endl << endl;
+
+        for(unsigned int p=0; p<_productionLimit.size(); p++)
+        {
+            for(unsigned int d=0; d<_productionLimit[p].size(); d++)
+            {
+               cout << _productionLimit[p][d]  << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
 
         cout << "number of outlets: " << _NOutlets << endl << endl;
 
@@ -415,6 +451,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         Small problem developed to test the solver operation.
         It is expected that the allocation will be done correctly according to the measurements of the products and the extruders.
         *****************************/
+
+        unsigned int product;
+        unsigned int day;
 
         clearProblem();
 
@@ -448,6 +487,47 @@ namespace productionPlanningProblemInExtrudersLibrary
         _maximumTotalOutletInventory = {30000,20000};
 
         _maximumOutletInventoryPerProduct = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
+
+        _productionPerTime.resize(_NProducts);
+        for(unsigned int p=0; p<_productionPerTime.size(); p++)
+        {
+            _productionPerTime[p].resize(_NExtruders,0);
+        }
+
+        for(unsigned int p=0; p<_productionPerTime.size(); p++)
+        {
+            for(unsigned int e=0; e<_productionPerTime.size(); e++)
+            {
+                _productionPerTime[p][e] = _width[p]*_weightRatio[p]*_productionRate[e];
+            }
+        }
+
+        _productionLimit.resize(_NProducts);
+        for(unsigned int p=0; p<_productionLimit.size(); p++)
+        {
+            _productionLimit[p].resize(_NDays,0);
+        }
+
+        product = _NProducts;
+        while(product != 0)
+        {
+            product -= 1;
+            cout << endl << "product: " << product << endl << endl;
+            day = _NDays-1;
+
+            _productionLimit[product][day] = _maximumInventory[product] + _demand[product][day] - _initialInventory[product];
+
+            for(unsigned int o=0; o<_NOutlets; o++)
+            {
+                _productionLimit[product][day] += _maximumOutletInventoryPerProduct[product][o];
+            }
+
+            while(day  != 0)
+            {
+                day -= 1;
+                _productionLimit[product][day] = _productionLimit[product][day+1] + _demand[product][day];
+            }
+        }
     }
 
     void PPPIESolution::clearSolution(PPPIEInstance problem)
@@ -629,14 +709,14 @@ namespace productionPlanningProblemInExtrudersLibrary
             color2 = problem._color[p];
 
             newVector.clear();
+
             newVector = {batch,extruder,day};
             _allocation.push_back(newVector);
-            _processingTime.push_back(batchTime - problem._setupTime[color1][color2]);
-
+            _processingTime.push_back(1);
 
             batch++;
 
-            sum = sum + batchTime;
+            sum = sum + _processingTime.back();
 
             if (sum >= problem._capacity[extruder][day])
             {
@@ -665,6 +745,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int extruder;
         unsigned int day;
         vector<unsigned int> vec;
+
+        int time;
 
         // checks if the batch width is ok
 
@@ -702,7 +784,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             product = _balancing[b][1];
             extruder = _allocation[b][1];
             day = _allocation[b][2];
-            _production[product][day] += _processingTime[b]*problem._weightRatio[product]*problem._width[product]*problem._productionRate[extruder];
+            _production[product][day] += _processingTime[b]*problem._productionPerTime[product][extruder];
             _productionTotalProfit += _production[product][day]*problem._unitContribution[product];
         }
 
@@ -789,6 +871,13 @@ namespace productionPlanningProblemInExtrudersLibrary
                     }
                 }
 
+                if(problem._maximumInventory[p] < _inventory[p][d])
+                {
+                    cout << endl << "time:  " << time << endl;
+                    time = int(problem._maximumInventory[p] - _inventory[p][d])/problem._productionPerTime[p][extruder];
+                    cout << endl << "time:  " << time << endl;
+                }
+
                 _freeInventoryPerProduct[p][d] = problem._maximumInventory[p] - _inventory[p][d];
                 _freeInventory[d] -= _inventory[p][d];
             }
@@ -862,7 +951,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
                 productData.push_back(product);
 
-                productionVariation = problem._weightRatio[product]*problem._width[product]*problem._productionRate[extruder];
+                productionVariation = problem._productionPerTime[product][extruder];
 
                 productData.push_back(productionVariation);
 

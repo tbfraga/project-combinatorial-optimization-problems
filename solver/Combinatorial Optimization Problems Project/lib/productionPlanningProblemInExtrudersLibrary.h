@@ -45,6 +45,9 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         vector <vector <unsigned int>> _setupTime = {{0}};
 
+        vector<vector<unsigned int>> _productionPerTime = {{0}};
+        vector<vector<unsigned int>> _productionLimit = {{0}};
+
         unsigned int _NOutlets = 0;
         vector<unsigned int> _maximumTotalOutletInventory = {0};
 
