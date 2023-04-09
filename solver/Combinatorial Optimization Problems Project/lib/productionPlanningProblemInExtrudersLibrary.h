@@ -94,7 +94,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<vector<unsigned int>> _production = {{0}};
         vector<vector<unsigned int>> _delivered = {{0}};
         vector<vector<unsigned int>> _unmetDemand = {{0}};
-        vector<vector<unsigned int>> _deliveredToOutlet = {{0}};
+        vector<vector<vector<unsigned int>>> _deliveredToOutlet = {{{0}}};
         vector<unsigned int> _totalFreeOutletInventory = {0};
         vector<vector<unsigned int>> _freeOutletInventoryPerProduct = {{0}};
         vector<vector<unsigned int>> _inventory = {{0}};
@@ -111,7 +111,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         void evaluateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
         void swapSolution(PPPIEInstance);
-        void timeSimultedAnnealing(PPPIEInstance, PPPIESolution);
+        void timeSimultedAnnealing(PPPIEInstance);
         void printSolution();
     };
 

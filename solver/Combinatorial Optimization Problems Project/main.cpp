@@ -43,8 +43,9 @@ int main()
     problem.printProblem();
     solution.generateSolution(problem);
     solution.printSolution();
-    solution.swapTime(problem);
-    SASolution.timeSimultedAnnealing(problem, solution);
+
+    SASolution = solution;
+    SASolution.timeSimultedAnnealing(problem);
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 
