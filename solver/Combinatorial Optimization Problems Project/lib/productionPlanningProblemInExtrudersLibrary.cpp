@@ -222,7 +222,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         _width.clear();
         _weightRatio.clear();
         _unitContribution.clear();
-        _productionLimit.clear();
         _initialInventory.clear();
         _maximumInventory.clear();
 
@@ -263,9 +262,6 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void productionPlanningProblemInExtruder::restartProblem()
     {
-
-        _productionLimit.resize(_NProducts,0);
-
         _productionPerTime.resize(_NProducts);
         for(unsigned int p=0; p<_productionPerTime.size(); p++)
         {
@@ -277,28 +273,6 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int e=0; e<_productionPerTime.size(); e++)
             {
                 _productionPerTime[p][e] = _width[p]*_weightRatio[p]*_productionRate[e];
-            }
-        }
-
-        unsigned int product = _NProducts;
-        unsigned int day;
-
-        while(product != 0)
-        {
-            product -= 1;
-            day = _NDays-1;
-
-            _productionLimit[product] = _maximumInventory[product] + _demand[product][day] - _initialInventory[product];
-
-            for(unsigned int o=0; o<_NOutlets; o++)
-            {
-                _productionLimit[product] += _maximumOutletInventory[product][o];
-            }
-
-            while(day  != 0)
-            {
-                day -= 1;
-                _productionLimit[product] += _demand[product][day];
             }
         }
     };
@@ -450,14 +424,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
-        cout << "production limit (g) [product]: " << endl <<  endl;
-
-        for(unsigned int p=0; p<_productionLimit.size(); p++)
-        {
-            cout << _productionLimit[p]  << endl;
-        }
-        cout << endl;
-
         cout << "number of outlets: " << _NOutlets << endl << endl;
 
         cout << "total maximum outlet inventory (g) [outlet]: " << endl << endl;
@@ -605,6 +571,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         _freeInventoryPerProduct.clear();
 
         _freeInventory.clear();
+
+        _productionLimit.clear();
     };
 
 
@@ -703,9 +671,12 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             _unmetDemand[p].resize(problem._NDays,0);
 
-            for(unsigned int d=0; d<_unmetDemand[p].size(); d++)
+            _unmetDemand[p][0] = problem._demand[p][0]-_delivered[p][0];
+            _unmetDemandTotalCost += _unmetDemand[p][0]*problem._unmetDemandCost;
+
+            for(unsigned int d=1; d<_unmetDemand[p].size(); d++)
             {
-                _unmetDemand[p][d] = problem._demand[p][d]-_delivered[p][d];
+                _unmetDemand[p][d] = _unmetDemand[p][d-1] + problem._demand[p][d] - _delivered[p][d];
                 _unmetDemandTotalCost += _unmetDemand[p][d]*problem._unmetDemandCost;
             }
         }
@@ -792,15 +763,50 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         _fitness -= _inventoryTotalCost;
 
+        _productionLimit.resize(problem._NProducts,0);
+
+        unsigned int product = problem._NProducts;
+
+        while(product != 0)
+        {
+            product -= 1;
+            day = problem._NDays-1;
+
+            _productionLimit[product] = problem._maximumInventory[product] + problem._demand[product][day] - problem._initialInventory[product];
+
+            for(unsigned int o=0; o<problem._NOutlets; o++)
+            {
+                _productionLimit[product] += problem._maximumOutletInventory[product][o];
+            }
+
+            while(day  != 0)
+            {
+                day -= 1;
+                _productionLimit[product] += problem._demand[product][day];
+            }
+        }
+
         printSolution();
     }
 
     void PPPIESolution::generateSolution(PPPIEInstance problem)
     {
-        clearSolution();
         restartSolution(problem);
 
-        double totalCapacity = 0;
+        unsigned int setup = problem._setupTime[0][0];
+
+        for(unsigned int i=0; i<problem._setupTime.size(); i++)
+        {
+            for(unsigned int j=0; j<problem._setupTime[i].size(); j++)
+            {
+                if(problem._setupTime[i][j] > setup)
+                {
+                    setup = problem._setupTime[i][j];
+                }
+            }
+        }
+
+        unsigned int totalCapacity = 0;
 
         for(unsigned int e=0; e<problem._NExtruders; e++)
         {
@@ -810,61 +816,90 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
         }
 
-        double batchTime = totalCapacity / problem._NProducts;
+        unsigned int batchTime = rint(totalCapacity / problem._NProducts) - setup;
 
+        cout << endl << "batch time: " << batchTime << endl;
+
+        bool stop;
         unsigned int batch = 0;
         unsigned int day = 0;
         unsigned int extruder = 0;
         unsigned int production = 0;
         unsigned int time = 0;
-        unsigned int sum = 0;
         vector<unsigned int> newVector;
+        unsigned int diff, reduction;
 
         unsigned int color1 = problem._color[0];
         unsigned int color2 = color1;
 
         for(unsigned int p=0; p<problem._NProducts; p++)
         {
-            production = batchTime*problem._productionPerTime[p][extruder];
-            if(production > problem._productionLimit[p])
-            {
-                production = problem._productionLimit[p];
-                time = production / problem._productionPerTime[p][extruder];
-            }
+            cout << endl << "product: " << p << endl;
 
             extruder = problem._NExtruders;
+            day = problem._NDays;
+            time = 0;
+            stop = 0;
 
             for(unsigned int e=0; e<problem._NExtruders; e++)
             {
-                for(unsigned int d=0; d<problem._NDays; d++)
+                if(problem._width[p] <= problem._length[e])
                 {
-                    if(time <= _extruderIdleness[e][day] && problem._width[p] <= problem._length[e])
+                    cout << endl << "width ok";
+                    extruder = e;
+
+                    production = batchTime*problem._productionPerTime[p][e];
+
+                    if(production <= _productionLimit[p])
                     {
-                        extruder = e;
-                        day = d;
+                        time = batchTime;
+                    }else
+                    {
+                        cout << endl << "here";
+                        production = _productionLimit[p];
+                        time = rint(production / problem._productionPerTime[p][e]);
+                    }
+                    cout << endl << "production: " << production << endl;
+                    cout << endl << "time: " << time << endl;
+
+                    for(unsigned int d=0; d<problem._NDays; d++)
+                    {
+                        if(time <= _extruderIdleness[e][d])
+                        {
+                            cout << endl << "found solution";
+                            day = d;
+                            stop = 1;
+                            break;
+                        }else
+                        {
+                            cout << endl << "time not ok";
+                        }
+                    }
+
+                    if(stop == 1)
+                    {
+                        break;
                     }
                 }
             }
 
-            if(extruder == problem._NExtruders)
-            {
-                for(unsigned int e=0; e<problem._NExtruders; e++)
-                {
-                    if(problem._width[p] <= problem._length[e])
-                    {
-                        extruder = e;
-                        day = 0;
-                        time = 0;
-                    }
-                }
-            }
+            cout << endl << "extruder: " << extruder;
+            cout << endl << "day: " << day;
+            cout << endl << "time: " << time << endl;
 
             if (extruder < problem._NExtruders)
             {
+                if(day == problem._NDays)
+                {
+                    day =0;
+                    production = 0;
+                }
+
                 newVector.clear();
                 newVector = {p,batch};
                 _balancing.push_back(newVector);
                 _batchWidth.push_back(problem._width[p]);
+                _batchIdleness.push_back(problem._length[extruder] - problem._width[p]);
                 color1 = color2;
                 color2 = problem._color[p];
                 newVector.clear();
@@ -873,8 +908,97 @@ namespace productionPlanningProblemInExtrudersLibrary
                 _allocation.push_back(newVector);
 
                 _processingTime.push_back(time);
-                _extruderProcTime[extruder][day] += time;
-                _extruderIdleness[extruder][day] -= time;
+                _extruderProcTime[extruder][day] += time + problem._setupTime[color1][color2];
+                _extruderIdleness[extruder][day] -= time + problem._setupTime[color1][color2];
+
+                _production[p][day] += production;
+                _productionTotalProfit += problem._unitContribution[p]*_production[p][day];
+                _fitness += problem._unitContribution[p]*_production[p][day];
+
+                diff = _production[p][day];
+                for(unsigned int d=day; d<problem._NDays; d++)
+                {
+                    if(diff <= _unmetDemand[p][d])
+                    {
+                        reduction = diff;
+                    }else
+                    {
+                        reduction = _unmetDemand[p][d];
+                    }
+
+                    _delivered[p][d] += reduction;
+                    _unmetDemand[p][d] -= reduction;
+
+                    diff -= reduction;
+
+                    for(unsigned int k=d+1; k<problem._NDays; k++)
+                    {
+                        if(_unmetDemand[p][k] >= _delivered[p][d])
+                        {
+                            _unmetDemand[p][k] -= _delivered[p][d];
+                        }else
+                        {
+                            reduction = _delivered[p][d] - _unmetDemand[p][k];
+
+                            _delivered[p][k] -= reduction;
+                            _unmetDemand[p][k] = 0;
+
+                            for(unsigned int o=0; o<problem._NOutlets; o++)
+                            {
+                                if(reduction <= _freeOutletInventory[p][o] && reduction <= _totalFreeOutletInventory[o])
+                                {
+                                    _deliveredToOutlet[p][o][k] += reduction;
+                                    _freeOutletInventory[p][o] -= reduction;
+                                    _totalFreeOutletInventory[o] -= reduction;
+                                    reduction = 0;
+                                    break;
+                                }else
+                                {
+                                    if(_freeOutletInventory[p][o] <= _totalFreeOutletInventory[o])
+                                    {
+                                        _deliveredToOutlet[p][o][k] += _freeOutletInventory[p][o];
+                                        _freeOutletInventory[p][o] = 0;
+                                        _totalFreeOutletInventory[o] -= _freeOutletInventory[p][o];
+                                        reduction -= _freeOutletInventory[p][o];
+                                    }else
+                                    {
+                                        _deliveredToOutlet[p][o][k] += _totalFreeOutletInventory[o];
+                                        _freeOutletInventory[p][o] -= _totalFreeOutletInventory[o];
+                                        _totalFreeOutletInventory[o] = 0;
+                                        reduction -= _totalFreeOutletInventory[o];
+                                    }
+                                }
+                            }
+
+                            if(reduction > 0)
+                            {
+                                for(unsigned int l=k; l<problem._NDays; l++)
+                                {
+                                    if(reduction > _freeInventory[l])
+                                    {
+                                        cout << endl << "maximum inventory on day " << d << "broken !!! " << endl;
+                                    }
+
+                                    if(reduction > _freeInventoryPerProduct[p][l])
+                                    {
+                                        cout << endl << "maximum inventory of product " << p << " on day " << d << "broken !!! " << endl;
+                                    }
+
+                                    _inventory[p][l] += reduction;
+                                    _freeInventory[l] -= reduction;
+                                    _freeInventoryPerProduct[p][l] -= reduction;
+                                }
+                            }
+                        }
+                    }
+
+                    if(diff == 0)
+                    {
+                        break;
+                    }
+                }
+
+                // if diff stell biger than zero allocate in outlet inventory and inventory
 
                 batch++;
             }else
@@ -887,7 +1011,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         cout << endl << totalCapacity << "  " << batchTime;
         newVector.clear();
-    }
+    };
 
     void PPPIESolution::evaluateSolution(PPPIEInstance problem)
     {
@@ -897,7 +1021,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int day;
         vector<unsigned int> vec;
 
-        int time;
+        int time;/*
 
         // checks if the batch width is ok
 
@@ -911,15 +1035,6 @@ namespace productionPlanningProblemInExtrudersLibrary
                 vec = {1,_allocation[i][0]};
                 _restricted.push_back(vec);
             }
-        }
-
-        for(unsigned int b=0; b<_balancing.size(); b++)
-        {
-            product = _balancing[b][1];
-            extruder = _allocation[b][1];
-            day = _allocation[b][2];
-            _production[product][day] += _processingTime[b]*problem._productionPerTime[product][extruder];
-            _productionTotalProfit += _production[product][day]*problem._unitContribution[product];
         }
 
         for(unsigned int p=0; p<problem._NProducts; p++)
@@ -1009,7 +1124,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
         }
 
-        _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost ;
+        _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost ;*/
 
         vec.clear();
     }
@@ -1433,6 +1548,14 @@ namespace productionPlanningProblemInExtrudersLibrary
         for(unsigned int d=0; d< _freeInventory.size(); d++)
         {
             cout <<  _freeInventory[d] << "\t";
+        }
+        cout << endl;
+
+        cout << "production limit (g) [product]: " << endl <<  endl;
+
+        for(unsigned int p=0; p<_productionLimit.size(); p++)
+        {
+            cout << _productionLimit[p]  << endl;
         }
         cout << endl;
 

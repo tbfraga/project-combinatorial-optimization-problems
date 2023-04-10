@@ -1,6 +1,8 @@
 #ifndef PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H_INCLUDED
 #define PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H_INCLUDED
 
+#include<math.h>
+
 #include <iostream>
 #include <vector>
 //#include <random>
@@ -32,7 +34,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<float> _width = {0};
         vector<float> _weightRatio = {0};
         vector<float> _unitContribution = {0};
-        vector<unsigned int> _productionLimit = {0};
         vector<unsigned int> _initialInventory = {0};
         vector<unsigned int> _maximumInventory = {0};
         unsigned int _totalMaximumInventory = 0;
@@ -95,6 +96,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         // variable that informs the type of constraint not met and the index that informs the location of the error
         // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
 
+        vector<unsigned int> _productionLimit = {0};
         vector<vector<unsigned int>> _production = {{0}};
         vector<vector<unsigned int>> _delivered = {{0}};
         vector<vector<unsigned int>> _unmetDemand = {{0}};
