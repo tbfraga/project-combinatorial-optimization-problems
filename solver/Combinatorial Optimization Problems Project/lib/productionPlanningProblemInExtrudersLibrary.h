@@ -32,6 +32,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<float> _width = {0};
         vector<float> _weightRatio = {0};
         vector<float> _unitContribution = {0};
+        vector<unsigned int> _productionLimit = {0};
         vector<unsigned int> _initialInventory = {0};
         vector<unsigned int> _maximumInventory = {0};
         unsigned int _totalMaximumInventory = 0;
@@ -43,15 +44,14 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> _color = {0};
         vector<vector<bool>> _colorAndMaterialRatio = {{0}};
 
-        vector <vector <unsigned int>> _setupTime = {{0}};
+        vector<vector<unsigned int>> _setupTime = {{0}};
 
         vector<vector<unsigned int>> _productionPerTime = {{0}};
-        vector<vector<unsigned int>> _productionLimit = {{0}};
 
         unsigned int _NOutlets = 0;
-        vector<unsigned int> _maximumTotalOutletInventory = {0};
+        vector<unsigned int> _totalMaximumOutletInventory = {0};
 
-        vector<vector<unsigned int>> _maximumOutletInventoryPerProduct = {{0}};
+        vector<vector<unsigned int>> _maximumOutletInventory = {{0}};
 
         public:
         productionPlanningProblemInExtruder() = default;
@@ -62,6 +62,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         ~productionPlanningProblemInExtruder();
 
         void clearProblem();
+        void restartProblem();
         void printProblem();
     };
 
@@ -81,14 +82,14 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         vector<vector<unsigned int>> _balancing = {{0}};
         vector<vector<unsigned int>> _allocation = {{0}};
-        vector<double> _processingTime = {0};
+        vector<unsigned int> _processingTime = {0};
 
         // secondary variables
 
         vector<float> _batchWidth = {0};
         vector<float> _batchIdleness = {0};
-        vector<vector<float>> _extruderProcTime = {{0}};
-        vector<vector<float>> _extruderIdleness = {{0}};
+        vector<vector<unsigned int>> _extruderProcTime = {{0}};
+        vector<vector<unsigned int>> _extruderIdleness = {{0}};
 
         vector<vector<unsigned int>> _restricted = {{0}};
         // variable that informs the type of constraint not met and the index that informs the location of the error
@@ -99,7 +100,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<vector<unsigned int>> _unmetDemand = {{0}};
         vector<vector<vector<unsigned int>>> _deliveredToOutlet = {{{0}}};
         vector<unsigned int> _totalFreeOutletInventory = {0};
-        vector<vector<unsigned int>> _freeOutletInventoryPerProduct = {{0}};
+        vector<vector<unsigned int>> _freeOutletInventory = {{0}};
         vector<vector<unsigned int>> _inventory = {{0}};
         vector<unsigned int> _freeInventory = {0};
         vector<vector<unsigned int>> _freeInventoryPerProduct = {{0}};
@@ -111,7 +112,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         public:
 
-        void clearSolution(PPPIEInstance);
+        void clearSolution();
+        void restartSolution(PPPIEInstance problem);
         void generateSolution(PPPIEInstance);
         void evaluateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
