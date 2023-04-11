@@ -1,3 +1,11 @@
+// Combinatorial Optimization Solver
+//
+// software created by Tatiana Balbi Fraga
+//
+// lib file
+//
+// PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H
+
 #ifndef PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H_INCLUDED
 #define PRODUCTIONPLANNINGPROBLEMINEXTRUDERS_H_INCLUDED
 
@@ -96,7 +104,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         // variable that informs the type of constraint not met and the index that informs the location of the error
         // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
 
-        vector<unsigned int> _productionLimit = {0};
+        vector<vector<unsigned int>> _productionLimit = {{0}};
         vector<vector<unsigned int>> _production = {{0}};
         vector<vector<unsigned int>> _delivered = {{0}};
         vector<vector<unsigned int>> _unmetDemand = {{0}};
@@ -104,8 +112,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> _totalFreeOutletInventory = {0};
         vector<vector<unsigned int>> _freeOutletInventory = {{0}};
         vector<vector<unsigned int>> _inventory = {{0}};
-        vector<unsigned int> _freeInventory = {0};
-        vector<vector<unsigned int>> _freeInventoryPerProduct = {{0}};
+        vector<unsigned int> _totalFreeInventory = {0};
+        vector<vector<unsigned int>> _freeInventory = {{0}};
 
         double _fitness = 0;
         double _productionTotalProfit = 0;
