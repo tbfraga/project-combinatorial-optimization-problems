@@ -124,8 +124,9 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         void clearSolution();
         void restartSolution(PPPIEInstance problem);
+        void distribution(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
+        void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         void generateSolution(PPPIEInstance);
-        void evaluateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
         void swapSolution(PPPIEInstance);
         void timeSimultedAnnealing(PPPIEInstance);
