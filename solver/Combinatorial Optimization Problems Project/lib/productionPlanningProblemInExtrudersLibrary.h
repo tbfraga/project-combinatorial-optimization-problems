@@ -72,7 +72,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         void clearProblem();
         void restartProblem();
-        void printProblem();
+        void print();
     };
 
     class PPPIEInstance: public productionPlanningProblemInExtruder
@@ -124,13 +124,15 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         void clearSolution();
         void restartSolution(PPPIEInstance problem);
+        void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
         void distribution(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
         void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         void generateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
         void swapSolution(PPPIEInstance);
-        void timeSimultedAnnealing(PPPIEInstance);
-        void printSolution();
+        PPPIESolution autoCopy();
+        void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
+        void print();
     };
 
 }

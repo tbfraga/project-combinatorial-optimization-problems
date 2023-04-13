@@ -43,12 +43,11 @@ int main()
     PPPIESolution solution, SASolution;
 
     problem.PPPIE001();
-    problem.printProblem();
+    problem.print();
     solution.generateSolution(problem);
-    solution.printSolution();
 
-    //SASolution = solution;
-    //SASolution.timeSimultedAnnealing(problem);
+    SASolution = solution;
+    SASolution.timeSimultedAnnealing(problem, 10);
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 
