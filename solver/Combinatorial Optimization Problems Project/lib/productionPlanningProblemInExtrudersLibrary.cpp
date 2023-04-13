@@ -1245,6 +1245,14 @@ namespace productionPlanningProblemInExtrudersLibrary
                             productionLimit =  _productionLimit[p][d] + _totalFreeInventory[d] - _freeInventory[p][d];
                         }
 
+                        for(unsigned int o=0; o<problem._NOutlets; o++)
+                        {
+                            if(_totalFreeOutletInventory[o] < _freeOutletInventory[p][o])
+                            {
+                                productionLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[p][o];
+                            }
+                        }
+
                         if(production <= productionLimit)
                         {
                             time = batchTime;
@@ -1253,7 +1261,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                             cout << endl << "inventory problem !!!";
                             cout << endl << "production reduced...";
                             production = productionLimit;
-                            time = rint(production / problem._productionPerTime[p][e]);
+                            time = rint(floor(production / problem._productionPerTime[p][e]));
                         }
                         cout << endl << "production: " << production << endl;
                         cout << endl << "time: " << time << endl;
