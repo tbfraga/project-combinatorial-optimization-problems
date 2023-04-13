@@ -131,6 +131,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         void swapTime(PPPIEInstance);
         void swapSolution(PPPIEInstance);
         PPPIESolution autoCopy();
+        void setValues(PPPIESolution solution);
         void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
         void print();
     };

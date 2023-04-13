@@ -1308,6 +1308,62 @@ namespace productionPlanningProblemInExtrudersLibrary
         newVector.clear();
     };
 
+    PPPIESolution PPPIESolution::autoCopy()
+    {
+        PPPIESolution solution;
+
+        solution._balancing = _balancing;
+        solution._allocation = _allocation;
+        solution._processingTime = _processingTime;
+        solution._batchWidth = _batchWidth;
+        solution._batchIdleness = _batchIdleness;
+        solution._extruderProcTime = _extruderProcTime;
+        solution._extruderIdleness = _extruderIdleness;
+        solution._restricted = _restricted;
+        solution._productionLimit = _productionLimit;
+        solution._production = _production;
+        solution._delivered = _delivered;
+        solution._unmetDemand = _unmetDemand;
+        solution._deliveredToOutlet = _deliveredToOutlet;
+        solution._totalFreeOutletInventory = _totalFreeOutletInventory;
+        solution._freeOutletInventory = _freeOutletInventory;
+        solution._inventory = _inventory;
+        solution._totalFreeInventory = _totalFreeInventory;
+        solution._freeInventory = _freeInventory;
+        solution._fitness = _fitness;
+        solution._productionTotalProfit = _productionTotalProfit;
+        solution._unmetDemandTotalCost = _unmetDemandTotalCost;
+        solution._inventoryTotalCost = _inventoryTotalCost;
+
+        return solution;
+    };
+
+    void PPPIESolution::setValues(PPPIESolution solution)
+    {
+        _balancing = solution._balancing;
+        _allocation = solution._allocation;
+        _processingTime = solution._processingTime;
+        _batchWidth = solution._batchWidth;
+        _batchIdleness = solution._batchIdleness;
+        _extruderProcTime = solution._extruderProcTime ;
+        _extruderIdleness = solution._extruderIdleness;
+        _restricted = solution._restricted ;
+        _productionLimit = solution._productionLimit;
+        _production = solution._production;
+        _delivered = solution._delivered;
+        _unmetDemand = solution._unmetDemand;
+        _deliveredToOutlet = solution._deliveredToOutlet;
+        _totalFreeOutletInventory = solution._totalFreeOutletInventory;
+        _freeOutletInventory = solution._freeOutletInventory;
+        _inventory = solution._inventory;
+        _totalFreeInventory = solution._totalFreeInventory;
+        _freeInventory = solution._freeInventory;
+        _fitness = solution._fitness;
+        _productionTotalProfit = solution._productionTotalProfit;
+        _unmetDemandTotalCost = solution._unmetDemandTotalCost;
+        _inventoryTotalCost = solution._inventoryTotalCost;
+    };
+
     void PPPIESolution::swapTime(PPPIEInstance problem)
     {
         cout << endl << "swaping time:  " << endl << endl;
@@ -1320,6 +1376,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         unsigned int day = _allocation[batch][2];
         cout << endl << "day:  " << day << endl;
+
+        unsigned int productionLimit;
 
         int step;
         bool restricted = 0;
@@ -1362,9 +1420,39 @@ namespace productionPlanningProblemInExtrudersLibrary
 
                     productionVariation = problem._productionPerTime[product][extruder];
 
+                    cout << endl << "production variation: " << productionVariation << endl;
+
+
+                    if(_totalFreeInventory[day] >= _freeInventory[product][day])
+                    {
+                        productionLimit = _productionLimit[product][day];
+                    }else
+                    {
+                        cout << endl << "total inventory problem !!!";
+                        cout << endl << "production limit reduced...";
+                        productionLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
+                    }
+
+                    for(unsigned int o=0; o<problem._NOutlets; o++)
+                    {
+                        if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
+                        {
+                            productionLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[product][o];
+                            cout << endl << "outlet inventory problem !!!";
+                            cout << endl << "production limit reduced...";
+                        }
+                    }
+
                     if(step == 1)
                     {
-                        distribution(problem, productionVariation, product, day);
+                        if(productionVariation > productionLimit)
+                        {
+                            restricted = 0;
+                            cout << endl << "restricted" << endl;
+                        }else
+                        {
+                            distribution(problem, productionVariation, product, day);
+                        }
                     }else
                     {
                         reduction(problem, productionVariation, product, day);
@@ -1377,30 +1465,56 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
     };
 
-    PPPIESolution PPPIESolution::autoCopy()
-    {
-        PPPIESolution solution;
-
-        solution._balancing = _balancing;
-
-        return solution;
-    };
-
     void PPPIESolution::timeSimultedAnnealing(PPPIEInstance problem, unsigned int NMaxIte)
     {
+        cout << endl << " Simulated Annealing... " << endl;
         srand((unsigned) time(NULL));
 
         unsigned int itCount = 0;
+        float probality = 0, aux = 0;
 
         PPPIESolution solution = autoCopy();
+        PPPIESolution bestSolution = autoCopy();
+
+        cout << endl << " solution: " << endl;
+        solution.print();
 
         while (itCount < NMaxIte)
         {
-
+            cout << endl << "iteration: " << itCount << endl;
             itCount ++;
+            solution.swapTime(problem);
+            cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
+
+            if(solution._fitness > _fitness)
+            {
+                if(solution._fitness > bestSolution._fitness)
+                {
+                    cout << endl << "found a better solution..." << endl;
+                    bestSolution.setValues(solution);
+                }
+
+                cout << endl << "solution improved..." << endl;
+                setValues(solution);
+                print();
+            }else
+            {
+                probality = solution._fitness / bestSolution._fitness;
+                cout << endl << "probality: " << probality << endl;
+                aux = rand()%100000;
+                aux = aux / 100000;
+                cout << endl << "random: " << aux << endl;
+
+                if(aux <= probality)
+                {
+                    cout << endl << "solution acepted..." << endl;
+                    setValues(solution);
+                    print();
+                }
+            }
         }
 
-        swapTime(problem);
+        setValues(bestSolution);
         print();
     }
 
@@ -1620,7 +1734,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
 
-    getchar();
+    //getchar();
 
     };
 

@@ -47,7 +47,7 @@ int main()
     solution.generateSolution(problem);
 
     SASolution = solution;
-    SASolution.timeSimultedAnnealing(problem, 10);
+    SASolution.timeSimultedAnnealing(problem, 100);
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 
