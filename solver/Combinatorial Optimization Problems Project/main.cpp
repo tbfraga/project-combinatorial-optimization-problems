@@ -3,7 +3,7 @@
 // software created by Tatiana Balbi Fraga
 //
 // project started on 2023/03/29
-// last modified on 2023/04/12
+// last modified on 2023/04/13
 //
 // status: under construction
 //
@@ -20,12 +20,15 @@
     this class will have:
 
     the problem itself as an object;
-    *** at least one function for creating an instance of the problem and test compatibility of problem data;
+    *** functions for creating an instance of the problem and test compatibility of problem data,
+        * in classe PPPIEInstance:
+        - PPPIE001();
     *** at least one function for printing problem data;
     *** at least one function for creating an initial solution;
     *** at least one function for evaluating the solution;
-    -at least one function for changing the solution;
-    *** at least one function for printing the solution.
+    - at least one function for changing the solution;
+    *** at least one function for printing the solution (processing time of extruders);
+    - one function for applying Simulated Annealing for ajusting extruders processing time.
 ******************/
 //
 // Important: Copies and distributions of the files made available in this directory must comply with the
