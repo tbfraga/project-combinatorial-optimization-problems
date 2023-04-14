@@ -50,6 +50,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<vector<unsigned int>> _demand = {{0}};
         float _unmetDemandCost = 0;
 
+        unsigned int _NColors;
         vector<unsigned int> _color = {0};
         vector<vector<bool>> _colorAndMaterialRatio = {{0}};
 
@@ -61,6 +62,10 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> _totalMaximumOutletInventory = {0};
 
         vector<vector<unsigned int>> _maximumOutletInventory = {{0}};
+
+        //auxiliary
+
+        vector<vector<unsigned int>> _productColorGroup = {{0}};
 
         public:
         productionPlanningProblemInExtruder() = default;
@@ -120,16 +125,21 @@ namespace productionPlanningProblemInExtrudersLibrary
         double _unmetDemandTotalCost = 0;
         double _inventoryTotalCost = 0;
 
+        //auxiliary
+
+        vector<vector<unsigned int>> _batchColorGroup = {{0}};
+
         public:
 
         void clearSolution();
         void restartSolution(PPPIEInstance problem);
+        unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
         void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
         void distribution(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
         void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         void generateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
-        void swapSolution(PPPIEInstance);
+        void swapProduct(PPPIEInstance);
         PPPIESolution autoCopy();
         void setValues(PPPIESolution solution);
         void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);

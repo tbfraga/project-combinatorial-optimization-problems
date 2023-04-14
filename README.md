@@ -26,6 +26,6 @@ Under this license, it is allowed to download and share the documents made avail
 
 The full license can be found in the LICENSE.md document available in this directory, or through the website: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.
 
-The license adopted may be modified as long as this does not cause any harm to the authors.
+The license adopted may be modified (only by me) as long as this does not cause any harm to the authors.
 
 Please, if you use the information presented here for other publications or references, cite using Fraga, T. B. 2023. Combinatorial Optimization Problems, available at https://github.com/tbfraga/project-combinatorial-optimization-problems/blob/main/book_pt/(2023)%20Fraga.pdf, accessed on <today's date>.

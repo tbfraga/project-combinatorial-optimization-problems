@@ -266,6 +266,12 @@ namespace productionPlanningProblemInExtrudersLibrary
             _maximumOutletInventory[p].clear();
         }
         _maximumOutletInventory.clear();
+
+        for(unsigned int i=0; i<_productColorGroup.size(); i++)
+        {
+            _productColorGroup[i].clear();
+        }
+        _productColorGroup.clear();
     };
 
     void productionPlanningProblemInExtruder::restartProblem()
@@ -282,6 +288,15 @@ namespace productionPlanningProblemInExtrudersLibrary
             {
                 _productionPerTime[p][e] = _width[p]*_weightRatio[p]*_productionRate[e];
             }
+        }
+
+
+        _productColorGroup.resize(_NColors);
+
+        for(unsigned int p=0; p<_color.size(); p++)
+        {
+
+            _productColorGroup[_color[p]].push_back(p);
         }
     };
 
@@ -390,6 +405,18 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
+        cout << "product color group [product vector]: " << endl << endl;
+
+        for(unsigned int p=0; p<_productColorGroup.size(); p++)
+        {
+            for(unsigned int s=0; s<_productColorGroup[p].size(); s++)
+            {
+                cout << _productColorGroup[p][s] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
+
         cout << "colour and material rate [product, product]: ";
         cout << endl << endl;
 
@@ -480,6 +507,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _demand = {{99400,73800},{149600,35800},{2000,4000},{3000,0}};
         _unmetDemandCost = 0.5;
 
+        _NColors = 1;
         _color = {0,0,0,0};
         _colorAndMaterialRatio = {{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1}};
 
@@ -531,6 +559,12 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         _extruderIdleness.clear();
 
+        for(unsigned int c=0; c<_batchColorGroup.size(); c++)
+        {
+            _batchColorGroup[c].clear();
+        }
+        _batchColorGroup.clear();
+
         for(unsigned int p=0; p<_production.size(); p++)
         {
             _production[p].clear();
@@ -580,6 +614,30 @@ namespace productionPlanningProblemInExtrudersLibrary
         _totalFreeInventory.clear();
     };
 
+    unsigned int PPPIESolution::productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day)
+    {
+        unsigned int productionLimit;
+
+        if(_totalFreeInventory[day] >= _freeInventory[product][day])
+        {
+            productionLimit = _productionLimit[product][day];
+        }else
+        {
+            cout << endl << "total inventory problem !!!";
+            cout << endl << "production limit reduced...";
+            productionLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
+        }
+
+        for(unsigned int o=0; o<problem._NOutlets; o++)
+        {
+            if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
+            {
+                productionLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[product][o];
+            }
+        }
+
+        return productionLimit;
+    };
 
     void PPPIESolution::restartSolution(PPPIEInstance problem)
     {
@@ -604,6 +662,8 @@ namespace productionPlanningProblemInExtrudersLibrary
                 _extruderIdleness[e][d] = problem._capacity[e][d];
             }
         }
+
+        _batchColorGroup.resize(problem._NColors);
 
         _production.resize(problem._NProducts);
         for(unsigned int p=0; p<_production.size(); p++)
@@ -1144,7 +1204,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             product = productList[i];
             newVector.clear();
-            newVector = {batch,productList[i]};
+            _batchColorGroup[problem._color[product]].push_back(batch);
+            newVector = {batch,product};
             _balancing.push_back(newVector);
             width += problem._width[product];
 
@@ -1155,7 +1216,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _batchIdleness.push_back(problem._length[extruder] - width);
 
         newVector.clear();
-        newVector = {batch,extruder,day};
+        newVector = {batch,extruder,day,batch,batch};
         _allocation.push_back(newVector);
 
         _processingTime.push_back(time);
@@ -1174,6 +1235,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 
             distribution(problem, production, product, day);
         }
+
+        newVector.clear();
     };
 
     void PPPIESolution::generateSolution(PPPIEInstance problem)
@@ -1212,7 +1275,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         bool stop;
         unsigned int day = 0;
         unsigned int extruder = 0;
-        unsigned int production = 0, productionLimit = 0;
+        unsigned int production = 0, prodLimit = 0;
         unsigned int time = 0;
         vector<unsigned int> newVector, productList;
 
@@ -1235,32 +1298,17 @@ namespace productionPlanningProblemInExtrudersLibrary
                     for(unsigned int d=0; d<problem._NDays; d++)
                     {
                         production = batchTime*problem._productionPerTime[p][e];
-                        if(_totalFreeInventory[d] >= _freeInventory[p][d])
-                        {
-                            productionLimit = _productionLimit[p][d];
-                        }else
-                        {
-                            cout << endl << "total inventory problem !!!";
-                            cout << endl << "production limit reduced...";
-                            productionLimit =  _productionLimit[p][d] + _totalFreeInventory[d] - _freeInventory[p][d];
-                        }
 
-                        for(unsigned int o=0; o<problem._NOutlets; o++)
-                        {
-                            if(_totalFreeOutletInventory[o] < _freeOutletInventory[p][o])
-                            {
-                                productionLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[p][o];
-                            }
-                        }
+                        prodLimit = productionLimit(problem,p,d);
 
-                        if(production <= productionLimit)
+                        if(production <= prodLimit)
                         {
                             time = batchTime;
                         }else
                         {
                             cout << endl << "inventory problem !!!";
                             cout << endl << "production reduced...";
-                            production = productionLimit;
+                            production = prodLimit;
                             time = rint(floor(production / problem._productionPerTime[p][e]));
                         }
                         cout << endl << "production: " << production << endl;
@@ -1518,18 +1566,110 @@ namespace productionPlanningProblemInExtrudersLibrary
         print();
     }
 
-    void PPPIESolution::swapSolution(PPPIEInstance problem)
+    void PPPIESolution::swapProduct(PPPIEInstance problem)
     {
-        srand((unsigned) time(NULL));
+        cout << endl << "adding a new product on batch:  " << endl << endl;
 
-        int extruder_1 = rand()%problem._NExtruders;
-        cout << endl << "first extruder:  " << extruder_1 << endl;
+        unsigned int aux, batch, extruder = 0, day = 0, time = 0, production, prodLimit;
+        vector <unsigned int> newVector;
 
-        int extruder_2 = rand()%problem._NExtruders;
-        cout << endl << "second extruder:  " << extruder_2 << endl;
+        unsigned int productIncluded = rand()%problem._NProducts;
+        cout << endl << "including product:  " << productIncluded << endl;
+
+        unsigned int color = problem._color[productIncluded];
+
+        cout << endl << "color:  " << color << endl;
+
+        if(problem._productColorGroup[color].size() == 1)
+        {
+            cout << endl << "there is only one product of this color..." << endl;
+        }else
+        {
+            /*do while(problem._color[product] != _balancing[aux])
+            {
+                aux = rand()%_balancing.size();
+            }*/
+        }
+
+        if(_batchColorGroup[color].size() > 0)
+        {
+            aux = rand()%(_batchColorGroup[color].size()+1);
+            if(aux == _batchColorGroup[color].size())
+            {
+                cout << endl << "creating a new batch..." << endl;
+
+                extruder = rand()%problem._NExtruders;
+                while(problem._length[extruder] < problem._width[productIncluded])
+                {
+                    extruder = rand()%problem._NExtruders;
+                }
+                day = rand()%problem._NDays;
+
+                production = _extruderIdleness[extruder][day]*problem._productionPerTime[productIncluded][extruder];
+
+                prodLimit = productionLimit(problem,productIncluded,day);
+
+                if(production < prodLimit)
+                {
+                    production = prodLimit;
+                    time = rint(floor(production / problem._productionPerTime[productIncluded][extruder]));
+                }else
+                {
+                    time = _extruderIdleness[extruder][day];
+                }
+
+                include(problem,{productIncluded},extruder,day,time);
+            }else
+            {
+                batch = _batchColorGroup[color][aux];
+                extruder = _allocation[batch][1];
+                day = _allocation[batch][2];
+            }
+        }else
+        {
+            cout << endl << "there is no batch of this color..." << endl;
+            cout << endl << "creating a new batch..." << endl;
+
+            extruder = rand()%problem._NExtruders;
+            while(problem._length[extruder] < problem._width[productIncluded])
+            {
+                extruder = rand()%problem._NExtruders;
+            }
+            day = rand()%problem._NDays;
+
+            production = _extruderIdleness[extruder][day]*problem._productionPerTime[productIncluded][extruder];
+
+            prodLimit = productionLimit(problem,productIncluded,day);
+
+            if(production < prodLimit)
+            {
+                production = prodLimit;
+                time = rint(floor(production / problem._productionPerTime[productIncluded][extruder]));
+            }else
+            {
+                time = _extruderIdleness[extruder][day];
+            }
+
+            include(problem,{productIncluded},extruder,day,time);
+        }
+
+        cout << endl << "batch:  " << batch << endl;
+        cout << endl << "extruder:  " << extruder << endl;
+        cout << endl << "day:  " << day << endl;
 
 
-    }
+        if(_batchIdleness[batch] >= problem._width[productIncluded])
+        {
+            // include new balance element
+        }else
+        {
+            // find another product on batch that can be replaced for the former
+            // radom substitution
+            // retirar produtos randomicamente até caber
+        }
+
+        newVector.clear();
+    };
 
     void PPPIESolution::print()
     {
@@ -1551,7 +1691,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
 
-        cout << endl << "allocation [batch, extruder, day]: ";
+        cout << endl << "allocation [batch, extruder, day, iterator ref, iterator ref]: ";
         cout << endl << endl;
         for(unsigned int b=0; b<_allocation.size(); b++)
         {
@@ -1607,6 +1747,18 @@ namespace productionPlanningProblemInExtrudersLibrary
             }
             cout << endl;
         }
+
+        cout << endl << "batch color group [batch vector]: " << endl << endl;
+
+        for(unsigned int c=0; c<_batchColorGroup.size(); c++)
+        {
+            for(unsigned int s=0; s<_batchColorGroup[c].size(); s++)
+            {
+                cout << _batchColorGroup[c][s] << "\t";
+            }
+            cout << endl;
+        }
+        cout << endl;
 
         cout << endl;
         cout << "production (g) [product, day]: "<< endl << endl;
@@ -1734,7 +1886,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
 
-    //getchar();
+    getchar();
 
     };
 
