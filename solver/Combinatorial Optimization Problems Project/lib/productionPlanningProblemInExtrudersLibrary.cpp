@@ -838,6 +838,92 @@ namespace productionPlanningProblemInExtrudersLibrary
         print();
     };
 
+    vector<unsigned int> PPPIESolution::productList(unsigned int batch)
+    {
+        unsigned int product;
+        vector<unsigned int> productList;
+        productList.clear();
+
+        if(_allocation[batch].size()<=3)
+        {
+            cout << endl << "this batch is empty !" << endl;
+        }else
+        {
+            for(unsigned int s=_allocation[batch][3]; s<=_allocation[batch][4]; s++)
+            {
+                product = _balancing[s][1];
+                productList.push_back(product);
+            }
+        }
+
+        return productList;
+    };
+
+    void PPPIESolution::upRelocationIndex(unsigned int batch)
+    {
+        if(_allocation[batch].size() <= 4)
+        {
+           _allocation[batch].push_back(_allocation[batch][3] + 1);
+        }else
+        {
+            _allocation[batch][4] += 1;
+        }
+
+        cout << endl << "reorganizing location index..." << endl;
+        for(unsigned int b=batch+1; b<_allocation.size(); b++)
+        {
+            _allocation[b][3] += 1;
+
+            cout << endl << "new start: " << _allocation[b][3] << endl;
+
+            if(_allocation[b].size() >= 5)
+            {
+                _allocation[b][4] += 1;
+                cout << "new end: " << _allocation[b][4] << endl;
+            }
+        }
+    };
+
+    void PPPIESolution::insert(PPPIEInstance problem, unsigned int product, unsigned int batch)
+    {
+        cout << endl << "inserting a new product on batch... " << endl;
+
+        unsigned int location;
+
+        if(_allocation[batch].size() <= 4)
+        {
+            location = _allocation[batch][3];
+        }else
+        {
+            location = _allocation[batch][4]+1;
+
+            for(unsigned int l=_allocation[batch][4]; l<=_allocation[batch][3]; l--)
+            {
+                if(_balancing[l][1] > product)
+                {
+                    location = l;
+                }else
+                {
+                    break;
+                }
+            }
+        }
+
+        cout << endl << "location: " << location << endl;
+
+        _balancing.insert(_balancing.begin()+location,{batch,product});
+
+        _batchWidth[batch] += problem._width[product];
+
+        cout << endl << "batch width augmented to: " << _batchWidth[batch] << endl;
+
+        _batchIdleness[batch] -= problem._width[product];
+
+        cout << endl << "batch idleness reduced to: " << _batchIdleness[batch] << endl;
+
+        upRelocationIndex(batch);
+    };
+
     void PPPIESolution::reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day)
     {
         unsigned int reduction = production, r1, r2, aux;
@@ -1174,6 +1260,232 @@ namespace productionPlanningProblemInExtrudersLibrary
 
          print();
 
+    };
+
+    void PPPIESolution::randomExclusion(PPPIEInstance problem, unsigned int batch)
+    {
+        cout << endl << "random exclusion... " << endl;
+
+        unsigned int product, extruder, day, location, production;
+
+        cout << endl << "here !!!" << endl;
+
+        if(_allocation[batch].size() <= 4)
+        {
+            cout << endl << "no product on this batch... " << endl;
+        }else
+        {
+            // choosing a product in the batch
+
+            unsigned int start = _allocation[batch][3];
+            unsigned int finish = _allocation[batch][4];
+
+            cout << endl << "start: " << start << "end: " << finish << endl;
+
+            if(start == finish)
+            {
+                cout << endl << "only one product on this batch... " << endl;
+                location = start;
+
+            }else
+            {
+                cout << endl << "number of products on this batch: " << finish - start << endl;
+                location = start + rand()%(finish - start);
+            }
+
+            // adjusting production
+
+            cout << endl << "location: " << location << endl;
+
+            product = _balancing[location][1];
+
+            cout << endl << "product being excluded: " << product << endl;
+
+            extruder = _allocation[batch][1];
+
+            cout << endl << "batch extruder: " << extruder << endl;
+
+            day = _allocation[batch][2];
+
+            cout << endl << "batch day: " << day << endl;
+
+            production = _processingTime[batch]*problem._productionPerTime[product][extruder];
+
+            cout << endl << "production being reduced: " << production << endl;
+
+            reduction(problem, production, product, day);
+
+            // adjusting _allocation indexes (start and finish)
+
+            if(start == finish)
+            {
+                _allocation[batch].erase(_allocation[batch].begin()+4);
+                cout << endl << "finish index cleared... " << endl;
+            }else
+            {
+                _allocation[batch][4] -= 1;
+                cout << endl << "new end: " << _allocation[batch][4] << endl;
+            }
+
+            cout << endl << "reorganizing location index..." << endl;
+            for(unsigned int b=batch+1; b<_allocation.size(); b++)
+            {
+                _allocation[b][3] -= 1;
+
+                cout << endl << "new start: " << _allocation[b][3] << endl;
+
+                if(_allocation[b].size() >= 5)
+                {
+                    _allocation[b][4] -= 1;
+                    cout << "new end: " << _allocation[b][4] << endl;
+                }
+            }
+
+            // adjusting _balancing
+
+            _balancing.erase(_balancing.begin()+location);
+
+            _batchWidth[batch] -= problem._width[product];
+
+            cout << endl << "batch width reduced to: " << _batchWidth[batch] << endl;
+
+            _batchIdleness[batch] += problem._width[product];
+
+            cout << endl << "batch idleness augmented to: " << _batchIdleness[batch] << endl;
+        }
+
+        print();
+    };
+
+    unsigned int PPPIESolution::processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time)
+    {
+        cout << endl << "adjusting processing time... " << endl;
+
+        unsigned int product, production, prodLimit;
+        unsigned int extruder = _allocation[batch][1];
+        unsigned int day = _allocation[batch][2];
+
+        cout << endl << "extruder: " << extruder << "  day: " << day << endl;
+
+        for(unsigned int s=_allocation[batch][3]; s<=_allocation[batch][4]; s++)
+        {
+            product = _balancing[s][1];
+
+            cout << endl << "product: " << product << endl;
+
+            if(time == _processingTime[batch])
+            {
+                cout << endl << "no change in bach time !" << endl;
+            }else if(time < _processingTime[batch])
+            {
+                production = (_processingTime[batch]-time)*problem._productionPerTime[product][extruder];
+
+                cout << endl << "production reduction: " << production << endl;
+                reduction(problem, production, product, day);
+            }else
+            {
+                production = (time-_processingTime[batch])*problem._productionPerTime[product][extruder];
+
+                prodLimit = productionLimit(problem,product,day);
+                if(production > prodLimit)
+                {
+                    time = rint(floor(prodLimit / problem._productionPerTime[product][extruder]));
+                    production = time*problem._productionPerTime[product][extruder];
+                }
+
+                cout << endl << "production encrease: " << production << endl;
+                distribution(problem, production, product, day);
+            }
+        }
+
+        _extruderProcTime[extruder][day] -= _processingTime[batch] - time;
+        _extruderIdleness[extruder][day] += _processingTime[batch] - time;
+
+        _processingTime[batch] = time;
+
+        return time;
+    };
+
+    void PPPIESolution::split(PPPIEInstance problem, unsigned int batch, unsigned int time)
+    {
+        unsigned int extruder, day, product, color1, color2;
+        unsigned int timeNewBatch = _processingTime[batch];
+        vector<unsigned int> pList;
+
+        cout << endl << "spliting batch... " << endl;
+        time = processingTime(problem, batch, time);
+
+        // generating another batch
+
+        pList.clear();
+        pList = productList(batch);
+
+        if(_balancing.size() >= 1)
+        {
+            product = _balancing.back()[1];
+            color1 = problem._color[product];
+            product = pList[0];
+            color2 = problem._color[product];
+        }else
+        {
+            product = pList[0];
+            color2 = problem._color[product];
+            color1 = color2;
+        }
+
+        timeNewBatch -= time + problem._setupTime[color1][color2];
+
+        extruder = _allocation[batch][1];
+        day = _allocation[batch][2];
+
+        include(problem, pList, extruder, day, timeNewBatch);
+    };
+
+    void PPPIESolution::include(PPPIEInstance problem, unsigned int product, unsigned int batch)
+    {
+        cout << endl << "including product on batch..." << endl;
+
+        unsigned int extruder = _allocation[batch][1];
+        unsigned int day = _allocation[batch][2];
+
+        cout << endl << "extruder: " << extruder << "  day: " << day  << endl;
+
+        if(problem._length[extruder] < problem._width[product])
+        {
+            cout << endl << "problem cannot be allocated on this extruder..." << endl;
+        }
+
+        while(_batchIdleness[batch] < problem._width[product])
+        {
+            randomExclusion(problem, batch);
+        }
+
+        unsigned int production = _processingTime[batch]*problem._productionPerTime[product][extruder];
+        unsigned int prodLimit = productionLimit(problem,product,day);
+
+        cout << endl << "production: " << production << "  limit: " << prodLimit << endl;
+
+        unsigned int time, diff;
+
+        if(production > prodLimit)
+        {
+            production = prodLimit;
+            time = rint(floor(production / problem._productionPerTime[product][extruder]));
+            diff = _processingTime[batch] - time;
+
+            split(problem, batch, time);
+        }else
+        {
+            time = _processingTime[batch];
+            diff = 0;
+            distribution(problem,production,product,day);
+        }
+
+        cout << endl << "production: " << production << "  time: " << time << "  diff: " << diff << endl;
+
+        // adjusting _balancing
+
+        insert(problem, product, batch);
     };
 
     void PPPIESolution::include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time)
@@ -1573,22 +1885,16 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int aux, batch, extruder = 0, day = 0, time = 0, production, prodLimit;
         vector <unsigned int> newVector;
 
-        unsigned int productIncluded = rand()%problem._NProducts;
-        cout << endl << "including product:  " << productIncluded << endl;
+        unsigned int product = rand()%problem._NProducts;
+        cout << endl << "including product:  " << product << endl;
 
-        unsigned int color = problem._color[productIncluded];
+        unsigned int color = problem._color[product];
 
         cout << endl << "color:  " << color << endl;
 
         if(problem._productColorGroup[color].size() == 1)
         {
             cout << endl << "there is only one product of this color..." << endl;
-        }else
-        {
-            /*do while(problem._color[product] != _balancing[aux])
-            {
-                aux = rand()%_balancing.size();
-            }*/
         }
 
         if(_batchColorGroup[color].size() > 0)
@@ -1599,31 +1905,46 @@ namespace productionPlanningProblemInExtrudersLibrary
                 cout << endl << "creating a new batch..." << endl;
 
                 extruder = rand()%problem._NExtruders;
-                while(problem._length[extruder] < problem._width[productIncluded])
+                while(problem._length[extruder] < problem._width[product])
                 {
                     extruder = rand()%problem._NExtruders;
                 }
                 day = rand()%problem._NDays;
 
-                production = _extruderIdleness[extruder][day]*problem._productionPerTime[productIncluded][extruder];
+                cout << endl << "extruder: " << extruder << "  day: " << day << endl;
 
-                prodLimit = productionLimit(problem,productIncluded,day);
-
-                if(production < prodLimit)
+                if(_extruderIdleness[extruder][day] <= problem._setupTime[color][color])
                 {
-                    production = prodLimit;
-                    time = rint(floor(production / problem._productionPerTime[productIncluded][extruder]));
+                    time = 0;
+                    production = 0;
+
+                    cout << endl << "small ideleness time - cannot include another batch on this estruder !!!" << endl;
                 }else
                 {
-                    time = _extruderIdleness[extruder][day];
-                }
+                    production = (_extruderIdleness[extruder][day]-problem._setupTime[color][color])*problem._productionPerTime[product][extruder];
+                    prodLimit = productionLimit(problem,product,day);
 
-                include(problem,{productIncluded},extruder,day,time);
+                    cout << endl << "production: " << production << "  limit: " << prodLimit << endl;
+
+                    if(production > prodLimit)
+                    {
+                        production = prodLimit;
+                        time = rint(floor(production / problem._productionPerTime[product][extruder]));
+                    }else
+                    {
+                        time = _extruderIdleness[extruder][day];
+                    }
+
+                    cout << endl << "time: " << time << endl;
+
+                    include(problem,{product},extruder,day,time);
+                }
             }else
             {
                 batch = _batchColorGroup[color][aux];
-                extruder = _allocation[batch][1];
-                day = _allocation[batch][2];
+
+                cout << endl << "batch:  " << batch << endl;
+                include(problem, product, batch);
             }
         }else
         {
@@ -1631,44 +1952,40 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl << "creating a new batch..." << endl;
 
             extruder = rand()%problem._NExtruders;
-            while(problem._length[extruder] < problem._width[productIncluded])
+            while(problem._length[extruder] < problem._width[product])
             {
                 extruder = rand()%problem._NExtruders;
             }
             day = rand()%problem._NDays;
 
-            production = _extruderIdleness[extruder][day]*problem._productionPerTime[productIncluded][extruder];
-
-            prodLimit = productionLimit(problem,productIncluded,day);
-
-            if(production < prodLimit)
+            if(_extruderIdleness[extruder][day] <= problem._setupTime[color][color])
             {
-                production = prodLimit;
-                time = rint(floor(production / problem._productionPerTime[productIncluded][extruder]));
+                time = 0;
+                production = 0;
+
+                cout << endl << "small ideleness time - cannot include another batch on this estruder !!!" << endl;
             }else
             {
-                time = _extruderIdleness[extruder][day];
+                production = (_extruderIdleness[extruder][day]-problem._setupTime[color][color])*problem._productionPerTime[product][extruder];
+
+                prodLimit = productionLimit(problem,product,day);
+
+                if(production < prodLimit)
+                {
+                    production = prodLimit;
+                    time = rint(floor(production / problem._productionPerTime[product][extruder]));
+                }else
+                {
+                    time = _extruderIdleness[extruder][day];
+                }
+
+                include(problem,{product},extruder,day,time);
             }
-
-            include(problem,{productIncluded},extruder,day,time);
-        }
-
-        cout << endl << "batch:  " << batch << endl;
-        cout << endl << "extruder:  " << extruder << endl;
-        cout << endl << "day:  " << day << endl;
-
-
-        if(_batchIdleness[batch] >= problem._width[productIncluded])
-        {
-            // include new balance element
-        }else
-        {
-            // find another product on batch that can be replaced for the former
-            // radom substitution
-            // retirar produtos randomicamente até caber
         }
 
         newVector.clear();
+
+        print();
     };
 
     void PPPIESolution::print()
@@ -1886,7 +2203,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
 
-    getchar();
+    //getchar();
 
     };
 

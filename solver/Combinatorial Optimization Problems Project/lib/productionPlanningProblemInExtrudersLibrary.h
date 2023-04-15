@@ -134,9 +134,16 @@ namespace productionPlanningProblemInExtrudersLibrary
         void clearSolution();
         void restartSolution(PPPIEInstance problem);
         unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
+        unsigned int processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
+        vector<unsigned int> productList(unsigned int batch);
+        void upRelocationIndex(unsigned int batch);
+        void insert(PPPIEInstance problem, unsigned int product, unsigned int batch);
         void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
         void distribution(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
+        void randomExclusion(PPPIEInstance problem, unsigned int batch);
+        void split(PPPIEInstance problem, unsigned int batch, unsigned int time);
         void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
+        void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
         void generateSolution(PPPIEInstance);
         void swapTime(PPPIEInstance);
         void swapProduct(PPPIEInstance);
