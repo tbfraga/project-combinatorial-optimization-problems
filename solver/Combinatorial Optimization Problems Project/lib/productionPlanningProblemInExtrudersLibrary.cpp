@@ -2225,11 +2225,11 @@ namespace productionPlanningProblemInExtrudersLibrary
                     {
                         break;
                     }
-                    cout << endl << "location: " << location << "." << endl;
+                    cout << endl << "location: " << location << endl;
                 }
             }
 
-            cout << endl << "location: " << location << "." << endl;
+            cout << endl << "location: " << location << endl;
 
             _balancing.insert(_balancing.begin()+location,{batch,product});
 
