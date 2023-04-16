@@ -1544,7 +1544,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void PPPIESolution::swapTime(PPPIEInstance problem)
     {
-        cout << endl << "swaping time:  " << endl << endl;
+        cout << endl << "function: swaping time...  " << endl << endl;
 
         unsigned int batch = rand()%_allocation.size();
         cout << endl << "batch:  " << batch << endl;
@@ -1647,137 +1647,133 @@ namespace productionPlanningProblemInExtrudersLibrary
     {
         cout << endl << "function: reducing production and adjusting linked variables..." << endl;
 
-        unsigned int reduction = production, r1, r2, aux;
+        unsigned int reduction = production, r, aux;
 
-        if(_inventory[product][day] > 0)
+        if(_inventory[product][day] >= reduction)
         {
-            if(_inventory[product][day] >= reduction)
-            {
-                r1 = reduction;
-            }else
-            {
-                r1 = _inventory[product][day];
-            }
+            r = reduction;
+        }else
+        {
+            r = _inventory[product][day];
+        }
 
+        for(unsigned int d=day+1; d<problem._NDays; d++)
+        {
+            if(_inventory[product][d] < r)
+            {
+                r = _inventory[product][d];
+            }
+        }
+
+        if(r > 0)
+        {
             for(unsigned int d=day; d<problem._NDays; d++)
             {
-                r2 = r1;
-                if(_inventory[product][d] >= r2)
-                {
-                    aux = r2;
-                    r2 = 0;
-
-                }else
-                {
-                    aux = _inventory[product][d];
-                    r2 -= _inventory[product][d];
-                }
-
-                _inventory[product][d] -= aux;
-                _freeInventory[product][d] += aux;
-                _totalFreeInventory[d] += aux;
-                _inventoryTotalCost -= aux*problem._inventoryUnitCost;
-
-                if(r2 > 0)
-                {
-                    for(unsigned int l=d; l<problem._NDays; l++)
-                    {
-                        for(unsigned int o=0; o<problem._NOutlets; o++)
-                        {
-                            if(_deliveredToOutlet[product][o][l] >= r2)
-                            {
-                                aux = r2;
-                                r2 = 0;
-                            }else
-                            {
-                                aux = _deliveredToOutlet[product][o][l];
-                                r2 -= _deliveredToOutlet[product][o][l];
-                            }
-
-                            _deliveredToOutlet[product][o][l] -= aux;
-                            _freeOutletInventory[product][o] += aux;
-                            _totalFreeOutletInventory[o] += aux;
-
-                            if(r2 == 0) break;
-                        }
-
-                        if(r2 == 0) break;
-                    }
-                }
-
-                if(r2 > 0)
-                {
-                    if(_delivered[product][d] >= r2)
-                    {
-                        aux = r2;
-                        r2 = 0;
-                    }else
-                    {
-                        aux = _delivered[product][d];
-                        r2 -= _delivered[product][d];
-                        cout << endl << "error: cannot reduce: " << r2 << endl;
-                    }
-
-                    _delivered[product][d] -= aux;
-
-                    for(unsigned int l=d; l<problem._NDays; l++)
-                    {
-                        _unmetDemand[product][l] -= aux;
-                        _unmetDemandTotalCost += aux*problem._unmetDemandCost;
-                    }
-                }
+                _inventory[product][d] -= r;
+                _freeInventory[product][d] += r;
+                _totalFreeInventory[d] += r;
+                _inventoryTotalCost -= r*problem._inventoryUnitCost;
             }
 
-            reduction -= r1;
+            reduction -= r;
         }
 
         if(reduction > 0)
         {
-            for(unsigned int d=day; d<problem._NDays; d++)
+            for(unsigned int o=0; o<problem._NOutlets; o++)
             {
-                for(unsigned int o=0; o<problem._NOutlets; o++)
+                if(_deliveredToOutlet[product][o][day] > 0)
                 {
-                    if(_deliveredToOutlet[product][o][d] > 0)
+                    if(_deliveredToOutlet[product][o][day] >= reduction)
                     {
-                        if(_deliveredToOutlet[product][o][d] >= reduction)
-                        {
-                            aux = reduction;
-                        }else
-                        {
-                            aux = _deliveredToOutlet[product][o][d];
-                        }
-
-                        _deliveredToOutlet[product][o][d] -= aux;
-                        reduction -= aux;
+                        r = reduction;
+                    }else
+                    {
+                        r = _deliveredToOutlet[product][o][day];
                     }
 
-                    if(reduction == 0) break;
+                    _deliveredToOutlet[product][o][day] -= r;
+                    _freeOutletInventory[product][o] += r;
+                    _totalFreeOutletInventory[o] += r;
+
+                    reduction -= r;
                 }
 
                 if(reduction == 0) break;
             }
         }
 
-        if(reduction > 0)
+        aux = problem._initialInventory[product];
+        cout << endl << "initial inventory: " << aux << endl;
+
+        for(unsigned int d=day; d<problem._NDays; d++)
         {
-            if(_delivered[product][day] >= reduction)
+            cout << endl << "reduction: " << reduction << endl;
+            cout << endl << "inventory: " << aux << endl;
+            if(reduction > 0)
             {
-                aux = reduction;
-                reduction = 0;
-            }else
-            {
-                aux = _delivered[product][day];
-                reduction -= _delivered[product][day];
-                cout << endl << "error: cannot reduce: " << reduction << endl;
+                if(_delivered[product][d] >= reduction)
+                {
+                    r = reduction;
+                }else
+                {
+                    r = _delivered[product][d];
+                }
+
+                cout << endl << "reduction: " << r << endl;
+
+                if(d!=(problem._NDays-1))
+                {
+                    if(aux <= problem._demand[product][d])
+                    {
+                        if(aux <= r)
+                        {
+                            r -= aux;
+                            aux = 0;
+                        }else
+                        {
+                            r = 0;
+                            aux -= r;
+                        }
+
+                    }else
+                    {
+                        if(problem._demand[product][d] <= r)
+                        {
+                            r -= problem._demand[product][d];
+                            aux -= problem._demand[product][d];
+                        }else
+                        {
+                            r = 0;
+                            aux -= r;
+                        }
+                    }
+                }
+
+                cout << endl << "reduction: " << r << endl;
+
+                _delivered[product][d] -= r;
+
+                for(unsigned int d=day; d<problem._NDays;d++)
+                {
+                    _unmetDemand[product][d] += r;
+                    _unmetDemandTotalCost += r*problem._unmetDemandCost;
+                }
+
+                for(unsigned int l=day; l<d; l++)
+                {
+                    cout << endl << "inventory: " << _inventory[product][l] << endl;
+                    _inventory[product][l] -= r;
+                    _freeInventory[product][l] += r;
+                    _totalFreeInventory[l] += r;
+                    _inventoryTotalCost -= r*problem._inventoryUnitCost;
+                }
+
+                reduction -= r;
+                cout << endl << "reduction: " << reduction << endl;
             }
 
-            _delivered[product][day] -= aux;
-
-            for(unsigned int d=day; d<problem._NDays;d++)
-            {
-                _unmetDemand[product][d] += aux;
-                _unmetDemandTotalCost += aux*problem._unmetDemandCost;
-            }
+            if(reduction == 0) break;
         }
 
         _production[product][day] -= production;
@@ -1810,8 +1806,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int aux, batch, extruder = 0, day = 0, time = 0, production, prodLimit;
         vector <unsigned int> newVector;
 
-        unsigned int product = rand()%problem._NProducts;
-        cout << endl << "including product:  " << product << endl;
+        //unsigned int product = rand()%problem._NProducts;
+        unsigned int product = 3;
+        cout << endl << "product:  " << product << endl;
 
         unsigned int color = problem._color[product];
 
@@ -1824,7 +1821,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         if(_batchColorGroup[color].size() > 0)
         {
-            aux = rand()%(_batchColorGroup[color].size()+1);
+            //aux = rand()%(_batchColorGroup[color].size()+1);
+            aux = 2;
             if(aux == _batchColorGroup[color].size())
             {
                 extruder = rand()%problem._NExtruders;
@@ -2123,8 +2121,6 @@ namespace productionPlanningProblemInExtrudersLibrary
             unsigned int extruder = _allocation[batch][0];
             unsigned int day = _allocation[batch][1];
 
-            cout << endl << "time: " << time << "  extruder: " << extruder << "  day: " << day << "." << endl;
-
             if(_allocation[batch].size()<=3)
             {
                 cout << endl << "info: bach is empty." << endl;
@@ -2136,13 +2132,13 @@ namespace productionPlanningProblemInExtrudersLibrary
                 {
                     product = _balancing[s][1];
 
-                    cout << endl << "product: " << product << "." << endl;
+                    cout << endl << "product: " << product << endl;
 
                     if(time < _processingTime[batch])
                     {
                         production = (_processingTime[batch]-time)*problem._productionPerTime[product][extruder];
 
-                        cout << endl << "production reduction: " << production << "." << endl;
+                        cout << endl << "production reduction: " << production << endl;
                         reduction(problem, production, product, day);
                     }else
                     {
@@ -2155,11 +2151,13 @@ namespace productionPlanningProblemInExtrudersLibrary
                             production = time*problem._productionPerTime[product][extruder];
                         }
 
-                        cout << endl << "production encrease: " << production << "." << endl;
+                        cout << endl << "production encrease: " << production << endl;
                         include(problem, production, product, day);
                     }
                 }
             }
+
+            cout << endl << "time: " << time << "  extruder: " << extruder << "  day: " << day << endl;
 
             _extruderProcTime[extruder][day] -= _processingTime[batch] - time;
             _extruderIdleness[extruder][day] += _processingTime[batch] - time;
