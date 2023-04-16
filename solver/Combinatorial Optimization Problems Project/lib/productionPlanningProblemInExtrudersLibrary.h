@@ -133,24 +133,27 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         void clearSolution();
         void restartSolution(PPPIEInstance problem);
-        unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
-        unsigned int processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
-        vector<unsigned int> productList(unsigned int batch);
-        void upRelocationIndex(unsigned int batch);
-        void insert(PPPIEInstance problem, unsigned int product, unsigned int batch);
-        void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
-        void distribution(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
-        void randomExclusion(PPPIEInstance problem, unsigned int batch);
-        void split(PPPIEInstance problem, unsigned int batch, unsigned int time);
-        void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
-        void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
-        void generateSolution(PPPIEInstance);
-        void swapTime(PPPIEInstance);
-        void swapProduct(PPPIEInstance);
-        PPPIESolution autoCopy();
-        void setValues(PPPIESolution solution);
-        void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
         void print();
+        void generateSolution(PPPIEInstance);
+        unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
+        void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
+        // create new batch and adjust linked variables
+        void include(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
+        // encrease production and adjust linked variables
+        void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
+        PPPIESolution autoCopy();
+        void set(PPPIESolution solution);
+        void swapTime(PPPIEInstance);
+        void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
+        void swapProduct(PPPIEInstance);
+        void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
+        // include product on batch and adjust linked variables
+        void randomErase(PPPIEInstance problem, unsigned int batch);
+        void erase(PPPIEInstance problem, unsigned int location);
+        void split(PPPIEInstance problem, unsigned int batch, unsigned int time);
+        void processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
+        vector<unsigned int> productList(unsigned int batch);
+        void insert(PPPIEInstance problem, unsigned int product, unsigned int batch);
     };
 
 }

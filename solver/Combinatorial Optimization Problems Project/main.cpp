@@ -49,7 +49,7 @@ int main()
     SASolution = solution;
     SASolution.timeSimultedAnnealing(problem, 10);
 
-    SASolution.swapProduct(problem);
+    //SASolution.swapProduct(problem);
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 
