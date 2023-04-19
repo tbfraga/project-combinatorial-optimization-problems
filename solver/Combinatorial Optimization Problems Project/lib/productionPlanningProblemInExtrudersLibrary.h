@@ -136,7 +136,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         public:
 
-        PPPIESolution(PPPIEInstance problem);
+        void initiate(PPPIEInstance problem);
         void clear();
         void print();
         void generate();
@@ -147,12 +147,12 @@ namespace productionPlanningProblemInExtrudersLibrary
         // create new batch and adjust linked variables
         void increase(unsigned int production, unsigned int product, unsigned int day);
         // increase production and adjust linked variables
-        void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
+        void timeSimultedAnnealing(unsigned int NMaxIte);
         PPPIESolution autoCopy();
         void set(PPPIESolution solution);
-        void swapTime(PPPIEInstance);
+        void swapTime();
         void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
-        void swapProduct(PPPIEInstance);
+        void swapProduct();
         void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
         // include product on batch and adjust linked variables
         void randomErase(PPPIEInstance problem, unsigned int batch);
@@ -161,6 +161,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         void processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
         void insert(unsigned int product, unsigned int batch);
+        void particleCollision(unsigned int NMaxIte);
     };
 
 }

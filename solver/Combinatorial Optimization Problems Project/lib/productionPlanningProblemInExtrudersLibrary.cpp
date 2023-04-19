@@ -521,7 +521,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         restartProblem();
     }
 
-    PPPIESolution::PPPIESolution(PPPIEInstance problem)
+    void PPPIESolution::initiate(PPPIEInstance problem)
     {
         clear();
 
@@ -1425,9 +1425,10 @@ namespace productionPlanningProblemInExtrudersLibrary
          print();
     };
 
-    void PPPIESolution::timeSimultedAnnealing(PPPIEInstance problem, unsigned int NMaxIte)
+    void PPPIESolution::timeSimultedAnnealing(unsigned int NMaxIte)
     {
         cout << endl << " Simulated Annealing... " << endl;
+
         srand((unsigned) time(NULL));
 
         unsigned int itCount = 0;
@@ -1443,7 +1444,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             cout << endl << "iteration: " << itCount << endl;
             itCount ++;
-            solution.swapTime(problem);
+            solution.swapTime();
             cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
 
             if(solution._fitness > _fitness)
@@ -1457,6 +1458,8 @@ namespace productionPlanningProblemInExtrudersLibrary
                 cout << endl << "solution improved..." << endl;
                 set(solution);
                 print();
+                cout << endl << "info: solution improved by SA." << endl;
+                getchar();
             }else
             {
                 probality = solution._fitness / bestSolution._fitness;
@@ -1470,19 +1473,20 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "solution acepted..." << endl;
                     set(solution);
                     print();
+                    cout << endl << "info: solution accepted by SA." << endl;
+                    getchar();
                 }
             }
         }
 
         set(bestSolution);
-        print();
-        getchar();
     };
 
     PPPIESolution PPPIESolution::autoCopy()
     {
-        PPPIESolution solution(_problem);
+        PPPIESolution solution;
 
+        solution._problem = _problem;
         solution._balancing = _balancing;
         solution._allocation = _allocation;
         solution._processingTime = _processingTime;
@@ -1511,6 +1515,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     void PPPIESolution::set(PPPIESolution solution)
     {
+        _problem = solution._problem;
         _balancing = solution._balancing;
         _allocation = solution._allocation;
         _processingTime = solution._processingTime;
@@ -1535,7 +1540,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _inventoryTotalCost = solution._inventoryTotalCost;
     };
 
-    void PPPIESolution::swapTime(PPPIEInstance problem)
+    void PPPIESolution::swapTime()
     {
         cout << endl << "function: swaping time...  " << endl << endl;
 
@@ -1589,7 +1594,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                     product = _balancing[b][1];
                     cout << endl << "product: " << product << endl;
 
-                    productionVariation = problem._productionPerTime[product][extruder];
+                    productionVariation = _problem._productionPerTime[product][extruder];
 
                     cout << endl << "production variation: " << productionVariation << endl;
 
@@ -1604,7 +1609,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                         productionLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
                     }
 
-                    for(unsigned int o=0; o<problem._NOutlets; o++)
+                    for(unsigned int o=0; o<_problem._NOutlets; o++)
                     {
                         if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
                         {
@@ -1792,42 +1797,42 @@ namespace productionPlanningProblemInExtrudersLibrary
          print();
     };
 
-    void PPPIESolution::swapProduct(PPPIEInstance problem)
+    void PPPIESolution::swapProduct()
     {
         cout << endl << "function: adding a new product on batch... " << endl << endl;
 
         unsigned int aux, batch, extruder = 0, day = 0, time = 0, production, prodLimit;
         vector <unsigned int> newVector;
 
-        //unsigned int product = rand()%problem._NProducts;
-        unsigned int product = 3;
+        unsigned int product = rand()%_problem._NProducts;
+        //unsigned int product = 3;
         cout << endl << "product:  " << product << endl;
 
-        unsigned int color = problem._color[product];
+        unsigned int color = _problem._color[product];
 
         cout << endl << "color:  " << color << endl;
 
-        if(problem._productColorGroup[color].size() == 1)
+        if(_problem._productColorGroup[color].size() == 1)
         {
             cout << endl << "there is only one product of this color..." << endl;
         }
 
         if(_batchColorGroup[color].size() > 0)
         {
-            //aux = rand()%(_batchColorGroup[color].size()+1);
-            aux = 2;
+            aux = rand()%(_batchColorGroup[color].size()+1);
+            //aux = 2;
             if(aux == _batchColorGroup[color].size())
             {
-                extruder = rand()%problem._NExtruders;
-                while(problem._length[extruder] < problem._width[product])
+                extruder = rand()%_problem._NExtruders;
+                while(_problem._length[extruder] < _problem._width[product])
                 {
-                    extruder = rand()%problem._NExtruders;
+                    extruder = rand()%_problem._NExtruders;
                 }
-                day = rand()%problem._NDays;
+                day = rand()%_problem._NDays;
 
                 cout << endl << "extruder: " << extruder << "  day: " << day << endl;
 
-                if(_extruderIdleness[extruder][day] <= problem._setupTime[color][color])
+                if(_extruderIdleness[extruder][day] <= _problem._setupTime[color][color])
                 {
                     time = 0;
                     production = 0;
@@ -1835,7 +1840,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "error: cannot include another batch on this estruder and day ! " << endl;
                 }else
                 {
-                    production = (_extruderIdleness[extruder][day]-problem._setupTime[color][color])*problem._productionPerTime[product][extruder];
+                    production = (_extruderIdleness[extruder][day]-_problem._setupTime[color][color])*_problem._productionPerTime[product][extruder];
                     prodLimit = productionLimit(product,day);
 
                     cout << endl << "production: " << production << "  limit: " << prodLimit << endl;
@@ -1843,7 +1848,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                     if(production > prodLimit)
                     {
                         production = prodLimit;
-                        time = rint(floor(production / problem._productionPerTime[product][extruder]));
+                        time = rint(floor(production / _problem._productionPerTime[product][extruder]));
                     }else
                     {
                         time = _extruderIdleness[extruder][day];
@@ -1858,21 +1863,21 @@ namespace productionPlanningProblemInExtrudersLibrary
                 batch = _batchColorGroup[color][aux];
 
                 cout << endl << "batch:  " << batch << endl;
-                include(problem, product, batch);
+                include(_problem, product, batch);
             }
         }else
         {
             cout << endl << "there is no batch of this color..." << endl;
             cout << endl << "creating a new batch..." << endl;
 
-            extruder = rand()%problem._NExtruders;
-            while(problem._length[extruder] < problem._width[product])
+            extruder = rand()%_problem._NExtruders;
+            while(_problem._length[extruder] < _problem._width[product])
             {
-                extruder = rand()%problem._NExtruders;
+                extruder = rand()%_problem._NExtruders;
             }
-            day = rand()%problem._NDays;
+            day = rand()%_problem._NDays;
 
-            if(_extruderIdleness[extruder][day] <= problem._setupTime[color][color])
+            if(_extruderIdleness[extruder][day] <= _problem._setupTime[color][color])
             {
                 time = 0;
                 production = 0;
@@ -1880,14 +1885,14 @@ namespace productionPlanningProblemInExtrudersLibrary
                 cout << endl << "small ideleness time - cannot include another batch on this estruder !!!" << endl;
             }else
             {
-                production = (_extruderIdleness[extruder][day]-problem._setupTime[color][color])*problem._productionPerTime[product][extruder];
+                production = (_extruderIdleness[extruder][day]-_problem._setupTime[color][color])*_problem._productionPerTime[product][extruder];
 
                 prodLimit = productionLimit(product,day);
 
                 if(production < prodLimit)
                 {
                     production = prodLimit;
-                    time = rint(floor(production / problem._productionPerTime[product][extruder]));
+                    time = rint(floor(production / _problem._productionPerTime[product][extruder]));
                 }else
                 {
                     time = _extruderIdleness[extruder][day];
@@ -2278,5 +2283,81 @@ namespace productionPlanningProblemInExtrudersLibrary
                 }
             }
         }
+    };
+
+    void PPPIESolution::particleCollision(unsigned int NMaxIte)
+    {
+        cout << endl << "function: particle collision" << endl;
+
+        PPPIESolution solution = autoCopy();
+        PPPIESolution bestSolution = autoCopy();
+
+        float probality = 0, aux = 0;
+
+        _problem.print();
+        print();
+        cout << endl << "problem and initial solution in PCA." << endl;
+        getchar();
+
+        for(unsigned int ite=0; ite<NMaxIte; ite++)
+        {
+            cout << endl << "iteration: " << ite << endl;
+
+            solution.swapProduct();
+            solution.print();
+
+            cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
+            getchar();
+
+            if(solution._fitness > _fitness)
+            {
+                if(solution._fitness > bestSolution._fitness)
+                {
+                    cout << endl << "info: found a better solution." << endl;
+                    bestSolution.set(solution);
+                    ite = 0;
+                }
+
+                cout << endl << "info: solution improved." << endl;
+
+                set(solution);
+
+                print();
+                cout << endl << "info: solution improved by PCA." << endl;
+                getchar();
+
+                timeSimultedAnnealing(10);
+
+                print();
+                cout << endl << "info: solution after SA." << endl;
+                getchar();
+            }else
+            {
+                probality = solution._fitness / bestSolution._fitness;
+                cout << endl << "probality: " << probality << endl;
+                aux = rand()%100000;
+                aux = aux / 100000;
+                cout << endl << "random: " << aux << endl;
+
+                cout << endl << "info: solution not improved" << endl;
+                if(aux <= probality)
+                {
+                    cout << " but acepted..." << endl;
+                    set(solution);
+
+                    print();
+                    cout << endl << "info: solution accepted by PCA." << endl;
+                    getchar();
+
+                    timeSimultedAnnealing(10);
+
+                    print();
+                    cout << endl << "info: solution after SA." << endl;
+                    getchar();
+                }
+            }
+        }
+
+        set(bestSolution);
     };
 }

@@ -44,15 +44,20 @@ int main()
     problem.PPPIE001();
     problem.print();
 
-    PPPIESolution solution(problem);
+    PPPIESolution solution;
+    solution.initiate(problem);
     solution.generate();
     solution.print();
     getchar();
 
     PPPIESolution SASolution = solution;
-    SASolution.timeSimultedAnnealing(problem, 10);
+    SASolution.timeSimultedAnnealing(10);
+    SASolution.print();
+    getchar();
 
-    SASolution.swapProduct(problem);
+    SASolution.particleCollision(5);
+    SASolution.print();
+    getchar();
 
     // if you want to inform the data, use the commands that are commented below **** with erros, need to correct.
 
