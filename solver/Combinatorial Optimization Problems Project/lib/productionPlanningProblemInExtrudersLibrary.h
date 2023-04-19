@@ -20,6 +20,7 @@ using namespace std;
 namespace productionPlanningProblemInExtrudersLibrary
 {
     class productionPlanningProblemInExtruder;
+    class PPPIEInstance;
     class PPPIESolution;
 
     class productionPlanningProblemInExtruder
@@ -135,12 +136,14 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         public:
 
+        PPPIESolution(PPPIEInstance problem);
         void clear();
-        void restartSolution(PPPIEInstance problem);
         void print();
-        void generateSolution(PPPIEInstance);
-        unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
-        void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
+        void generate();
+        // generate a new solution
+        unsigned int productionLimit(unsigned int product, unsigned int day);
+        // calculate maximum production allowed
+        void insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         // create new batch and adjust linked variables
         void increase(unsigned int production, unsigned int product, unsigned int day);
         // increase production and adjust linked variables
@@ -154,7 +157,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         // include product on batch and adjust linked variables
         void randomErase(PPPIEInstance problem, unsigned int batch);
         void erase(unsigned int location);
-        void split(PPPIEInstance problem, unsigned int batch, unsigned int time);
+        void split(unsigned int batch, unsigned int time);
         void processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
         void insert(unsigned int product, unsigned int batch);

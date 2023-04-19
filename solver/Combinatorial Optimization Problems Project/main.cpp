@@ -40,13 +40,16 @@ using namespace productionPlanningProblemInExtrudersLibrary;
 int main()
 {
     PPPIEInstance problem;
-    PPPIESolution solution, SASolution;
 
     problem.PPPIE001();
     problem.print();
-    solution.generateSolution(problem);
 
-    SASolution = solution;
+    PPPIESolution solution(problem);
+    solution.generate();
+    solution.print();
+    getchar();
+
+    PPPIESolution SASolution = solution;
     SASolution.timeSimultedAnnealing(problem, 10);
 
     SASolution.swapProduct(problem);
