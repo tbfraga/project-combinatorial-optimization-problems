@@ -92,6 +92,10 @@ namespace productionPlanningProblemInExtrudersLibrary
         friend class PPPIEInstance;
         protected:
 
+        // problem linked to the solution
+
+        PPPIEInstance _problem;
+
         // solution variables
 
         vector<vector<unsigned int>> _balancing = {{0}};
@@ -131,15 +135,15 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         public:
 
-        void clearSolution();
+        void clear();
         void restartSolution(PPPIEInstance problem);
         void print();
         void generateSolution(PPPIEInstance);
         unsigned int productionLimit(PPPIEInstance problem, unsigned int product, unsigned int day);
         void include(PPPIEInstance problem, vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         // create new batch and adjust linked variables
-        void include(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
-        // encrease production and adjust linked variables
+        void increase(unsigned int production, unsigned int product, unsigned int day);
+        // increase production and adjust linked variables
         void timeSimultedAnnealing(PPPIEInstance, unsigned int NMaxIte);
         PPPIESolution autoCopy();
         void set(PPPIESolution solution);
@@ -149,11 +153,11 @@ namespace productionPlanningProblemInExtrudersLibrary
         void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
         // include product on batch and adjust linked variables
         void randomErase(PPPIEInstance problem, unsigned int batch);
-        void erase(PPPIEInstance problem, unsigned int location);
+        void erase(unsigned int location);
         void split(PPPIEInstance problem, unsigned int batch, unsigned int time);
         void processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
-        void insert(PPPIEInstance problem, unsigned int product, unsigned int batch);
+        void insert(unsigned int product, unsigned int batch);
     };
 
 }
