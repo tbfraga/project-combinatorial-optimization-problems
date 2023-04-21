@@ -114,7 +114,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         // variable that informs the type of constraint not met and the index that informs the location of the error
         // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
 
-        vector<vector<unsigned int>> _productionLimit = {{0}};
         vector<vector<unsigned int>> _production = {{0}};
         vector<vector<unsigned int>> _delivered = {{0}};
         vector<vector<unsigned int>> _unmetDemand = {{0}};
@@ -153,7 +152,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         bool swapTime();
         void reduce(unsigned int production, unsigned int product, unsigned int day);
         void swapProduct();
-        void include(unsigned int product, unsigned int batch);
+        bool include(unsigned int product, unsigned int batch);
         // include product on batch and adjust linked variables
         void randomErase(unsigned int batch);
         void erase(unsigned int location);
