@@ -143,7 +143,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         // generate a new solution
         unsigned int productionLimit(unsigned int product, unsigned int day);
         // calculate maximum production allowed
-        void insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
+        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         // create new batch and adjust linked variables
         void increase(unsigned int production, unsigned int product, unsigned int day);
         // increase production and adjust linked variables
@@ -151,16 +151,16 @@ namespace productionPlanningProblemInExtrudersLibrary
         PPPIESolution autoCopy();
         void set(PPPIESolution solution);
         void swapTime();
-        void reduction(PPPIEInstance problem, unsigned int production, unsigned int product, unsigned int day);
+        void reduce(unsigned int production, unsigned int product, unsigned int day);
         void swapProduct();
-        void include(PPPIEInstance problem, unsigned int product, unsigned int batch);
+        void include(unsigned int product, unsigned int batch);
         // include product on batch and adjust linked variables
-        void randomErase(PPPIEInstance problem, unsigned int batch);
+        void randomErase(unsigned int batch);
         void erase(unsigned int location);
-        void split(unsigned int batch, unsigned int time);
-        void processingTime(PPPIEInstance problem, unsigned int batch, unsigned int time);
+        bool split(unsigned int batch, unsigned int time);
+        void processingTime(unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
-        void insert(unsigned int product, unsigned int batch);
+        bool insert(unsigned int product, unsigned int batch);
         void particleCollision(unsigned int NMaxIte);
     };
 

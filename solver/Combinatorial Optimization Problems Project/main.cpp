@@ -51,11 +51,11 @@ int main()
     getchar();
 
     PPPIESolution SASolution = solution;
-    SASolution.timeSimultedAnnealing(10);
-    SASolution.print();
-    getchar();
+    //SASolution.timeSimultedAnnealing(10);
+    //SASolution.print();
+    //getchar();
 
-    SASolution.particleCollision(5);
+    SASolution.particleCollision(10);
     SASolution.print();
     getchar();
 
