@@ -1147,22 +1147,37 @@ namespace productionPlanningProblemInExtrudersLibrary
 
     unsigned int PPPIESolution::productionLimit(unsigned int product, unsigned int day)
     {
+        cout << endl << "function: production limit calculation." << endl;
+
         unsigned int prodLimit;
 
         if(_totalFreeInventory[day] >= _freeInventory[product][day])
+        {
+            prodLimit = _freeInventory[product][day];
+        }else
+        {
+            prodLimit = _totalFreeInventory[day];
+        }
+
+        prodLimit += _unmetDemand[product][day];
+
+        /*if(_totalFreeInventory[day] >= _freeInventory[product][day])
         {
             prodLimit = _productionLimit[product][day];
         }else
         {
             cout << endl << "info: total inventory problem - production limit reduced..." << endl;
             prodLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
-        }
+        }*/
 
         for(unsigned int o=0; o<_problem._NOutlets; o++)
         {
             if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
             {
-                prodLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[product][o];
+                prodLimit += _totalFreeOutletInventory[o];
+            }else
+            {
+                prodLimit += _freeOutletInventory[product][o];
             }
         }
 
@@ -1469,7 +1484,6 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         srand((unsigned) time(NULL));
 
-        unsigned int itCount = 0;
         float probality = 0, aux = 0;
 
         PPPIESolution solution;
@@ -1478,10 +1492,9 @@ namespace productionPlanningProblemInExtrudersLibrary
         cout << endl << " solution: " << endl;
         //solution.print();
 
-        while (itCount < NMaxIte)
+        for(unsigned int ite=0; ite<NMaxIte; ite++)
         {
-            cout << endl << "iteration: " << itCount << endl;
-            itCount ++;
+            cout << endl << "iteration: " << ite << endl;
 
             solution = autoCopy();
             solution.swapTime();
@@ -1494,12 +1507,13 @@ namespace productionPlanningProblemInExtrudersLibrary
                 {
                     cout << endl << "found a better solution..." << endl;
                     bestSolution.set(solution);
+                    ite = 0;
                 }
 
                 cout << endl << "solution improved..." << endl;
                 set(solution);
                 //print();
-                cout << endl << "info: solution improved by SA." << endl;
+                //cout << endl << "info: solution improved by SA." << endl;
                 //getchar();
             }else
             {
@@ -1514,13 +1528,16 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "solution acepted..." << endl;
                     set(solution);
                     //print();
-                    cout << endl << "info: solution accepted by SA." << endl;
+                    //cout << endl << "info: solution accepted by SA." << endl;
                     //getchar();
                 }
             }
         }
 
         set(bestSolution);
+
+        solution.clear();
+        bestSolution.clear();
     };
 
     PPPIESolution PPPIESolution::autoCopy()
@@ -1583,7 +1600,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         _batchColorGroup = solution._batchColorGroup;
     };
 
-    void PPPIESolution::swapTime()
+    bool PPPIESolution::swapTime()
     {
         cout << endl << "function: swaping time...  " << endl << endl;
 
@@ -1596,17 +1613,19 @@ namespace productionPlanningProblemInExtrudersLibrary
         unsigned int day = _allocation[batch][1];
         cout << endl << "day:  " << day << endl;
 
-        unsigned int productionLimit;
+        unsigned int prodLimit;
 
         int step;
-        bool restricted = 0;
 
         if(_extruderIdleness[extruder][day] < 1)
         {
             step = -1;
             if(_processingTime[batch] < 1)
             {
-                restricted = 1;
+                cout << endl << "error: time cannot be reduced !" << endl;
+                cout << endl << "production not changed." << endl;
+                getchar();
+                return 1;
             }
         } else if(_processingTime[batch] < 1)
         {
@@ -1621,67 +1640,42 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl << "step:  " << step << endl;
 
-        if(restricted == 0)
+        unsigned int product;
+        unsigned int productionVariation;
+
+        for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
         {
-            _processingTime[batch] += step;
-            _extruderProcTime[extruder][day] += step;
-            _extruderIdleness[extruder][day] -= step;
+            product = _balancing[b][1];
+            cout << endl << "product: " << product << endl;
 
-            unsigned int product;
-            unsigned int productionVariation;
+            productionVariation = _problem._productionPerTime[product][extruder];
+            cout << endl << "production variation: " << productionVariation << endl;
 
-            for(unsigned int b=0; b<_balancing.size(); b++)
+            prodLimit = productionLimit(product, day);
+
+            if(step == 1)
             {
-                if(_balancing[b][0] == batch)
+                if(productionVariation > prodLimit)
                 {
-                    product = _balancing[b][1];
-                    cout << endl << "product: " << product << endl;
-
-                    productionVariation = _problem._productionPerTime[product][extruder];
-
-                    cout << endl << "production variation: " << productionVariation << endl;
-
-
-                    if(_totalFreeInventory[day] >= _freeInventory[product][day])
-                    {
-                        productionLimit = _productionLimit[product][day];
-                    }else
-                    {
-                        cout << endl << "total inventory problem !!!";
-                        cout << endl << "production limit reduced...";
-                        productionLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
-                    }
-
-                    for(unsigned int o=0; o<_problem._NOutlets; o++)
-                    {
-                        if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
-                        {
-                            productionLimit += _totalFreeOutletInventory[o] - _freeOutletInventory[product][o];
-                            cout << endl << "outlet inventory problem !!!";
-                            cout << endl << "production limit reduced...";
-                        }
-                    }
-
-                    if(step == 1)
-                    {
-                        if(productionVariation > productionLimit)
-                        {
-                            restricted = 0;
-                            cout << endl << "restricted" << endl;
-                        }else
-                        {
-                            increase(productionVariation, product, day);
-                        }
-                    }else
-                    {
-                        reduce(productionVariation, product, day);
-                    }
+                    cout << endl << "error: can not increase production !" << endl;
+                    cout << endl << "production not changed." << endl;
+                    getchar();
+                    return 1;
+                }else
+                {
+                    increase(productionVariation, product, day);
                 }
+            }else
+            {
+                reduce(productionVariation, product, day);
             }
-        }else
-        {
-            cout << endl << "restricted" << endl;
         }
+
+         _processingTime[batch] += step;
+        _extruderProcTime[extruder][day] += step;
+        _extruderIdleness[extruder][day] -= step;
+
+        return 0;
     };
 
     void PPPIESolution::reduce(unsigned int production, unsigned int product, unsigned int day)
@@ -2440,5 +2434,11 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
 
         set(bestSolution);
+        cout << endl << "info: final PCA solution." << endl;
+        print();
+        getchar();
+
+        solution.clear();
+        bestSolution.clear();
     };
 }

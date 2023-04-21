@@ -150,7 +150,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         void timeSimultedAnnealing(unsigned int NMaxIte);
         PPPIESolution autoCopy();
         void set(PPPIESolution solution);
-        void swapTime();
+        bool swapTime();
         void reduce(unsigned int production, unsigned int product, unsigned int day);
         void swapProduct();
         void include(unsigned int product, unsigned int batch);

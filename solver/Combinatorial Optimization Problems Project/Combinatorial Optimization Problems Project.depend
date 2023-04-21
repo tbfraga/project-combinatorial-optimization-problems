@@ -2,12 +2,12 @@
 1682018706 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/main.cpp
 	"lib/productionPlanningProblemInExtrudersLibrary.h"
 
-1682084437 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.h
+1682091815 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.h
 	<math.h>
 	<iostream>
 	<vector>
 	<ctime>
 
-1682084437 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.cpp
+1682092073 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Problems Project/lib/productionPlanningProblemInExtrudersLibrary.cpp
 	"productionPlanningProblemInExtrudersLibrary.h"
 
