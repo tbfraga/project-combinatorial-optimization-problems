@@ -1005,18 +1005,6 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
         cout << endl;
 
-        cout << "production limit (g) [product]: " << endl <<  endl;
-
-        for(unsigned int p=0; p<_productionLimit.size(); p++)
-        {
-            for(unsigned int d=0; d<_productionLimit[p].size(); d++)
-            {
-                cout << _productionLimit[p][d]  << "\t";
-            }
-            cout << endl;
-        }
-        cout << endl;
-
         cout << endl;
         cout << "restricted: "<< endl;
         cout << endl;
@@ -1151,24 +1139,31 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         unsigned int prodLimit;
 
-        if(_totalFreeInventory[day] >= _freeInventory[product][day])
+        unsigned int totalFreeInventory = _totalFreeInventory[day];
+        unsigned int freeInventory = _freeInventory[product][day];
+
+        for(unsigned int d=day+1; d<_problem._NDays; d++)
         {
-            prodLimit = _freeInventory[product][day];
+            if(totalFreeInventory > _totalFreeInventory[d])
+            {
+                totalFreeInventory = _totalFreeInventory[d];
+            }
+
+            if(freeInventory > _freeInventory[product][d])
+            {
+                freeInventory = _freeInventory[product][d];
+            }
+        }
+
+        if(totalFreeInventory >= freeInventory)
+        {
+            prodLimit = freeInventory;
         }else
         {
-            prodLimit = _totalFreeInventory[day];
+            prodLimit = totalFreeInventory;
         }
 
         prodLimit += _unmetDemand[product][day];
-
-        /*if(_totalFreeInventory[day] >= _freeInventory[product][day])
-        {
-            prodLimit = _productionLimit[product][day];
-        }else
-        {
-            cout << endl << "info: total inventory problem - production limit reduced..." << endl;
-            prodLimit =  _productionLimit[product][day] + _totalFreeInventory[day] - _freeInventory[product][day];
-        }*/
 
         for(unsigned int o=0; o<_problem._NOutlets; o++)
         {
@@ -1297,44 +1292,45 @@ namespace productionPlanningProblemInExtrudersLibrary
     {
         cout << endl << "function: encrease production." << endl;
 
-        unsigned int diff, reduction, aux;
+        unsigned int encrease, r, aux;
 
-        diff = production;
+        encrease = production;
         for(unsigned int d=day; d<_problem._NDays; d++)
         {
             cout << endl << "_unmetDemand[" << product << "][" << d << "]: " << _unmetDemand[product][d] << endl;
 
-            reduction = 0;
+            r = 0;
+
             if(_unmetDemand[product][d] > 0)
             {
-                if(diff <= _unmetDemand[product][d])
+                if(encrease <= _unmetDemand[product][d])
                 {
-                    reduction = diff;
+                    r = encrease;
                 }else
                 {
-                    reduction = _unmetDemand[product][d];
+                    r = _unmetDemand[product][d];
                 }
 
-                _delivered[product][d] += reduction;
-                _unmetDemand[product][d] -= reduction;
+                _delivered[product][d] += r;
+                _unmetDemand[product][d] -= r;
 
-                _unmetDemandTotalCost -=reduction*_problem._unmetDemandCost;
+                _unmetDemandTotalCost -=r*_problem._unmetDemandCost;
 
-                cout << endl << "production going to demand: " << reduction << endl;
+                cout << endl << "production going to demand: " << r << endl;
 
                 for(unsigned int k=d+1; k<_problem._NDays; k++)
                 {
-                    if(_unmetDemand[product][k] >= reduction)
+                    if(_unmetDemand[product][k] >= r)
                     {
-                        _unmetDemand[product][k] -= reduction;
-                        _unmetDemandTotalCost -=reduction*_problem._unmetDemandCost;
+                        _unmetDemand[product][k] -= r;
+                        _unmetDemandTotalCost -=r*_problem._unmetDemandCost;
                         aux = 0;
                     }else
                     {
                         cout << endl << "redistributing exceded delivered: " << aux << endl;
                         _unmetDemand[product][k] = 0;
                         _unmetDemandTotalCost -=_unmetDemand[product][k]*_problem._unmetDemandCost;
-                        aux = reduction - _unmetDemand[product][k];
+                        aux = r - _unmetDemand[product][k];
                         _delivered[product][k] -= aux;
 
                         for(unsigned int l=k+1; l<_problem._NDays; l++)
@@ -1396,31 +1392,31 @@ namespace productionPlanningProblemInExtrudersLibrary
                     }
                 }
 
-                diff -= reduction;
+                encrease -= r;
 
-                if(diff > 0)
+                if(encrease > 0)
                 {
                     cout << endl << "adjusting inventory: " << _inventory[product][d] << endl;
-                    _inventory[product][d] += diff;
-                    _totalFreeInventory[d] -= diff;
-                    _freeInventory[product][d] -= diff;
-                    _inventoryTotalCost += diff*_problem._inventoryUnitCost;
+                    _inventory[product][d] += encrease;
+                    _totalFreeInventory[d] -= encrease;
+                    _freeInventory[product][d] -= encrease;
+                    _inventoryTotalCost += encrease*_problem._inventoryUnitCost;
                     cout << endl << "inventory: " << _inventory[product][d] << endl;
                 }
 
-                if(diff == 0)
+                if(encrease == 0)
                 {
                     break;
                 }
             }
 
-            if(diff > 0)
+            if(encrease > 0)
             {
                 for(unsigned int o=0; o<_problem._NOutlets; o++)
                 {
-                    if(diff <= _totalFreeOutletInventory[o] && diff <= _freeOutletInventory[product][o])
+                    if(encrease <= _totalFreeOutletInventory[o] && encrease <= _freeOutletInventory[product][o])
                     {
-                        aux = diff;
+                        aux = encrease;
                     }else
                     {
                         if(_totalFreeOutletInventory[o] <= _freeOutletInventory[product][o])
@@ -1448,9 +1444,9 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "inventory: " << _inventory[product][d] << endl;
                 }
 
-                diff -= aux;
+                encrease -= aux;
 
-                if(diff == 0)
+                if(encrease == 0)
                 {
                     break;
                 }

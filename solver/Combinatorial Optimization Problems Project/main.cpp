@@ -46,6 +46,8 @@ int main()
 
     PPPIESolution solution;
     solution.initiate(problem);
+    solution.print();
+    getchar();
     solution.generate();
     solution.print();
     getchar();
