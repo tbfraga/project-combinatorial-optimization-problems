@@ -1642,7 +1642,7 @@ namespace productionPlanningProblemInExtrudersLibrary
     {
         cout << endl << "function: reducing production and adjusting linked variables..." << endl;
 
-        unsigned int r, aux;
+        unsigned int r, aux, newValue, diff;
         unsigned int reduction = production;
 
         cout << endl << "reducing from inventory: ";
@@ -1720,43 +1720,47 @@ namespace productionPlanningProblemInExtrudersLibrary
             {
                 if(_delivered[product][d] >= reduction)
                 {
-                    r = reduction;
+                    newValue = _delivered[product][d] - reduction;
+
+                    if(newValue < aux)
+                    {
+                        diff = aux - newValue;
+
+                        if(diff <= reduction)
+                        {
+                            r = reduction - diff;
+                        }else
+                        {
+                            r = 0;
+                        }
+                        aux -= newValue;
+                    }else
+                    {
+                        aux = 0;
+                        r = reduction;
+                    }
                 }else
                 {
-                    r = _delivered[product][d];
-                }
+                    // newValue = 0
 
-                cout << endl << "updated reduction: " << r << endl;
-
-                if(d!=(_problem._NDays-1))
-                {
-                    if(aux <= _problem._demand[product][d])
+                    if(aux > 0)
                     {
-                        if(aux <= r)
+                        if(aux <= _delivered[product][d])
                         {
-                            r -= aux;
+                            r =  _delivered[product][d] - aux;
                             aux = 0;
                         }else
                         {
                             r = 0;
-                            aux -= r;
+                            aux -=  _delivered[product][d];
                         }
-
                     }else
                     {
-                        if(_problem._demand[product][d] <= r)
-                        {
-                            r -= _problem._demand[product][d];
-                            aux -= _problem._demand[product][d];
-                        }else
-                        {
-                            r = 0;
-                            aux -= r;
-                        }
+                        r =  _delivered[product][d];
                     }
                 }
 
-                cout << endl << "real reduction: " << r << "  not reducing (inventory): " << aux << endl;
+                cout << endl << "updated reduction: " << r << "  not reducing (inventory): " << aux << endl;
 
                 if(r>0)
                 {
@@ -2062,7 +2066,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         for(unsigned int s=0; s<pList.size(); s++)
         {
-            cout << pList[s] << "\t";
+            cout << pList[s] << "  ";
         }
 
         cout << endl;
@@ -2306,7 +2310,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         return 0;
     };
 
-    void PPPIESolution::particleCollision(unsigned int NMaxIte)
+    void PPPIESolution::particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA)
     {
         cout << endl << "function: particle collision" << endl;
 
@@ -2372,7 +2376,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "info: solution accepted by PCA." << endl;
                     getchar();
 
-                    timeSimultedAnnealing(1);
+                    timeSimultedAnnealing(NMaxIteSA);
 
                     print();
                     cout << endl << "info: solution after SA." << endl;

@@ -160,7 +160,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         void processingTime(unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
         bool insert(unsigned int product, unsigned int batch);
-        void particleCollision(unsigned int NMaxIte);
+        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
     };
 
 }

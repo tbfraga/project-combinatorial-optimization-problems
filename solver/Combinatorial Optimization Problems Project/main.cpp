@@ -57,7 +57,7 @@ int main()
     //SASolution.print();
     //getchar();
 
-    SASolution.particleCollision(10);
+    SASolution.particleCollision(10,3);
     SASolution.print();
     getchar();
 

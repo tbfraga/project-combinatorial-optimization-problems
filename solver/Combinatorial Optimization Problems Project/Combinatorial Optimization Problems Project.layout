@@ -2,19 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1926" topLine="31" />
-		</Cursor>
-	</File>
 	<File name="lib/productionPlanningProblemInExtrudersLibrary.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="5000" topLine="125" />
+			<Cursor1 position="5835" topLine="125" />
 		</Cursor>
 	</File>
 	<File name="lib/productionPlanningProblemInExtrudersLibrary.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="69791" topLine="397" />
+			<Cursor1 position="58404" topLine="0" />
 		</Cursor>
 		<Folding>
 			<Collapse line="12" />
@@ -35,11 +30,21 @@
 			<Collapse line="1505" />
 			<Collapse line="1536" />
 			<Collapse line="1563" />
-			<Collapse line="1951" />
-			<Collapse line="1983" />
-			<Collapse line="2180" />
-			<Collapse line="2207" />
-			<Collapse line="2309" />
+			<Collapse line="1641" />
+			<Collapse line="1802" />
+			<Collapse line="1912" />
+			<Collapse line="1955" />
+			<Collapse line="1987" />
+			<Collapse line="2055" />
+			<Collapse line="2125" />
+			<Collapse line="2184" />
+			<Collapse line="2211" />
+			<Collapse line="2313" />
 		</Folding>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="2340" topLine="31" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
