@@ -137,7 +137,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         void initiate(PPPIEInstance problem);
         void clear();
-        void print();
+        bool print();
         void generate();
         // generate a new solution
         unsigned int productionLimit(unsigned int product, unsigned int day);
@@ -161,6 +161,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> productList(unsigned int batch);
         bool insert(unsigned int product, unsigned int batch);
         void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
+        bool clean(unsigned int cleanType);
+        unsigned int find(vector<unsigned int> UIVector, unsigned int value);
     };
 
 }

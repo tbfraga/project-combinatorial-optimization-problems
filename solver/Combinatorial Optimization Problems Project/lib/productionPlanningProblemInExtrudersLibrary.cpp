@@ -793,9 +793,11 @@ namespace productionPlanningProblemInExtrudersLibrary
         _totalFreeInventory.clear();
     };
 
-    void PPPIESolution::print()
+    bool PPPIESolution::print()
     {
         cout << endl << endl << "SOLUTION" << endl;
+
+        bool error = 0;
 
         cout << endl << "fitness: " << _fitness << endl;
         cout << endl << "production total profit: " << _productionTotalProfit << endl;
@@ -979,6 +981,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int d=0; d<_freeInventory[p].size(); d++)
             {
                 cout << _freeInventory[p][d] << "\t";
+                if(_freeInventory[p][d] > _problem._maximumInventory[p]) error = 1;
             }
             cout << endl;
         }
@@ -996,8 +999,8 @@ namespace productionPlanningProblemInExtrudersLibrary
             cout << endl;
         }
 
-    //getchar();
-
+        if(error == 1) getchar();
+        return error;
     };
 
     void PPPIESolution::generate()
@@ -1142,7 +1145,11 @@ namespace productionPlanningProblemInExtrudersLibrary
             prodLimit = totalFreeInventory;
         }
 
+        cout << endl << "Limit inventory: " << prodLimit << endl;
+
         prodLimit += _unmetDemand[product][day];
+
+        cout << endl << "Limit inventory + unmet demand: " << prodLimit << endl;
 
         for(unsigned int o=0; o<_problem._NOutlets; o++)
         {
@@ -1154,6 +1161,8 @@ namespace productionPlanningProblemInExtrudersLibrary
                 prodLimit += _freeOutletInventory[product][o];
             }
         }
+
+        cout << endl << "Limit inventory + unmet demand + outlet: " << prodLimit << endl;
 
         return prodLimit;
     };
@@ -1716,11 +1725,26 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             cout << endl << "day: " << d << "  for reduction: " << reduction << "  not reducing (inventory): " << aux << endl;
 
+            for(unsigned int l=0; l<day; l++)
+            {
+                if(_delivered[product][l] > aux)
+                {
+                    aux = 0;
+                }else
+                {
+                    aux -= _delivered[product][l];
+                }
+            }
+
+            cout << endl << "not reducing (inventory): " << aux << endl;
+
             if(reduction > 0)
             {
                 if(_delivered[product][d] >= reduction)
                 {
                     newValue = _delivered[product][d] - reduction;
+
+                    cout << endl << "new inventory: " << newValue << endl;
 
                     if(newValue < aux)
                     {
@@ -1976,8 +2000,8 @@ namespace productionPlanningProblemInExtrudersLibrary
                 location = start;
             }else
             {
-                cout << endl << "number of products on this batch: " << finish - start << endl;
-                location = start + rand()%(finish - start);
+                cout << endl << "number of products on this batch: " << finish - start + 1 << endl;
+                location = start + rand()%(finish - start + 1);
             }
 
             erase(location);
@@ -2187,12 +2211,17 @@ namespace productionPlanningProblemInExtrudersLibrary
         vector<unsigned int> productList;
         productList.clear();
 
-        if(_allocation[batch].size()<=3)
+        unsigned int start = _allocation[batch][2];
+        unsigned int finish = _allocation[batch][3];
+
+        cout << endl << "start: " << start << "  finish: " << finish << endl;
+
+        if( start >= _balancing.size() || _balancing[start][0] != batch)
         {
             cout << endl << "this batch is empty !" << endl;
         }else
         {
-            for(unsigned int s=_allocation[batch][2]; s<=_allocation[batch][3]; s++)
+            for(unsigned int s=start; s<=finish; s++)
             {
                 product = _balancing[s][1];
                 productList.push_back(product);
@@ -2353,6 +2382,11 @@ namespace productionPlanningProblemInExtrudersLibrary
                 cout << endl << "info: solution improved by PCA." << endl;
                 getchar();
 
+                clean(2);
+                print();
+                cout << endl << "info: solution cleared." << endl;
+                getchar();
+
                 timeSimultedAnnealing(1);
 
                 print();
@@ -2376,11 +2410,28 @@ namespace productionPlanningProblemInExtrudersLibrary
                     cout << endl << "info: solution accepted by PCA." << endl;
                     getchar();
 
+                    clean(2);
+                    print();
+                    cout << endl << "info: solution cleared." << endl;
+                    getchar();
+
                     timeSimultedAnnealing(NMaxIteSA);
 
                     print();
                     cout << endl << "info: solution after SA." << endl;
                     getchar();
+
+                    aux = rand()%10;
+                    aux = aux / 10;
+                    cout << endl << "random clear: " << aux << endl;
+
+                    if(aux < 0.2)
+                    {
+                        clean(1);
+                        print();
+                        cout << endl << "info: empty processed time batches cleared." << endl;
+                        getchar();
+                    }
                 }
             }
         }
@@ -2392,5 +2443,190 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         solution.clear();
         bestSolution.clear();
+    };
+
+    bool PPPIESolution::clean(unsigned int cleanType)
+    {
+        cout << endl << "function: cleaning." << endl;
+
+        unsigned int color,prevColor,setup,location,extruder,day;
+
+        if(cleanType == 1)
+        {
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                if(_processingTime[b] == 0)
+                {
+                    // clearing processing time and linked variables
+
+                    extruder = _allocation[b][0];
+                    day = _allocation[b][1];
+                    color = _allocation[b][4];
+
+                    if(_allocation[b][2] > 0)
+                    {
+                        location = _allocation[b][2]-1;
+                        prevColor = _problem._color[_balancing[location][1]];
+                    }else
+                    {
+                        prevColor = color;
+                    }
+
+                    setup = _problem._setupTime[prevColor][color];
+
+                    _extruderProcTime[extruder][day] -= setup;
+                    _extruderIdleness[extruder][day] += setup;
+
+                    _processingTime.erase(_processingTime.begin()+b);
+
+                    // claring batch and linked variables
+
+                    for(unsigned int i=_allocation[b][3]+1; i<_balancing.size(); i++)
+                    {
+                        _balancing[i][0] -= 1;
+                    }
+
+                    cout << endl << "balancing: " << endl;
+                    for(unsigned int i=0; i<_balancing.size(); i++)
+                    {
+                        cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                    }
+                    cout << endl;
+
+                    for(unsigned int p=_allocation[b][3]; p>=_allocation[b][2]; p--)
+                    {
+                        cout << endl << p << endl;
+
+                        if(p == 0)
+                        {
+                            cout << endl << "p = 0" << endl;
+                            _balancing.erase(_balancing.begin());
+                        }else
+                        {
+                            _balancing.erase(_balancing.begin()+p);
+                        }
+                    }
+
+                    cout << endl;
+                    for(unsigned int i=0; i<_balancing.size(); i++)
+                    {
+                        cout << endl << i << endl;
+                        cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                    }
+                    cout << endl;
+
+                    for(unsigned int i=b+1; i<_allocation.size(); i++)
+                    {
+                        cout << endl << i << "first: " << _allocation[i][2] << "  last: " << _allocation[i][3] << endl;
+                        _allocation[i][2] -= _allocation[b][3] - _allocation[b][2] + 1;
+                        _allocation[i][3] -= _allocation[b][3] - _allocation[b][2] + 1;
+                        cout << endl << i << "new first: " << _allocation[i][2] << "  new last: " << _allocation[i][3] << endl;
+                    }
+
+                    location = find(_batchColorGroup[color],b);
+
+                    if(location >= _batchColorGroup[color].size())
+                    {
+                        cout << endl << "error: location of " << b << " not found." << endl;
+                        cout << endl << "info: there is an error in code, please verify." << endl;
+                        getchar();
+                        return 1;
+                    }else
+                    {
+                        _batchColorGroup[color].erase(_batchColorGroup[color].begin()+location);
+                    }
+
+                    for(unsigned int i=0; i<_batchColorGroup[color].size(); i++)
+                    {
+                        if(_batchColorGroup[color][i] > b)
+                        {
+                            _batchColorGroup[color][i] -= 1;
+                        }
+                    }
+
+                    _allocation.erase(_allocation.begin()+b);
+                    _batchWidth.erase(_batchWidth.begin()+b);
+                    _batchIdleness.erase(_batchIdleness.begin()+b);
+                    b--;
+                }
+            }
+        }else if(cleanType == 2)
+        {
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                if(_batchWidth[b] == 0)
+                {
+                    color = _allocation[b][4];
+                    location = find(_batchColorGroup[color],b);
+
+                    if(location >= _batchColorGroup[color].size())
+                    {
+                        cout << endl << "error: location of " << b << " not found." << endl;
+                        cout << endl << "info: there is an error in code, please verify." << endl;
+                        getchar();
+                        return 1;
+                    }else
+                    {
+                        _batchColorGroup[color].erase(_batchColorGroup[color].begin()+location);
+                    }
+
+                    for(unsigned int i=0; i<_batchColorGroup[color].size(); i++)
+                    {
+                        if(_batchColorGroup[color][i] > b)
+                        {
+                            _batchColorGroup[color][i] -= 1;
+                        }
+                    }
+
+                    extruder = _allocation[b][0];
+                    day = _allocation[b][1];
+                    color = _allocation[b][4];
+
+                    if(_allocation[b][2] > 0)
+                    {
+                        location = _allocation[b][2]-1;
+                        prevColor = _problem._color[_balancing[location][1]];
+                    }else
+                    {
+                        prevColor = color;
+                    }
+
+                    setup = _problem._setupTime[prevColor][color];
+
+                    _extruderProcTime[extruder][day] -= _processingTime[b] + setup;
+                    _extruderIdleness[extruder][day] += _processingTime[b] + setup;
+
+                    _processingTime.erase(_processingTime.begin()+b);
+
+                    _allocation.erase(_allocation.begin()+b);
+                    _batchWidth.erase(_batchWidth.begin()+b);
+                    _batchIdleness.erase(_batchIdleness.begin()+b);
+                }
+            }
+        }else
+        {
+            cout << endl << "error: type not know !" << endl;
+
+            cout << endl << "types: " << endl;
+
+            cout << endl << "2: clear empty batches." << endl;
+        }
+
+        return 0;
+    };
+
+    unsigned int PPPIESolution::find(vector<unsigned int> UIVector, unsigned int value)
+    {
+        unsigned int position = UIVector.size();
+
+        for(unsigned int i=0; i<UIVector.size(); i++)
+        {
+            if(UIVector[i] == value)
+            {
+                position = i;
+            }
+        }
+
+        return position;
     };
 }
