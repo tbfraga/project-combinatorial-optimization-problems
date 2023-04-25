@@ -1723,30 +1723,6 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         }
 
-        unsigned int day;
-
-        vector<unsigned int> unmet;
-        unmet.clear();
-        unmet.resize(_problem._NDays,0);
-
-        if(_problem._NDays > 0)
-        {
-            unmet[_problem._NDays-1] = _problem._demand[product][_problem._NDays-1];
-        }
-
-        for(unsigned int d=_problem._NDays-1; d>0; d--)
-        {
-            day = d-1;
-            unmet[day] = unmet[day+1] + _problem._demand[product][day];
-        }
-
-        cout << endl;
-        for(unsigned int d=0; d<_problem._NDays; d++)
-        {
-            cout << "unmet " << d << ": "<< unmet[d] << "\t";
-        }
-        cout << endl;
-
         print(0);
         print(4);
         print(5);
@@ -1754,8 +1730,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         // distributing again
 
-
-        unsigned int delivered;
+        unsigned int delivered, day;
         vector<unsigned int> distribution;
 
         distribution.clear();
@@ -1770,11 +1745,11 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         // distributing to demand
 
-        for(unsigned int d=_problem._NDays; d>0; d--)
+        for(unsigned int d=0; d<_problem._NDays; d++)
         {
-            day = d-1;
+            day = d;
 
-            cout << endl << "distribution: " << distribution[day] << endl;
+            cout << endl << "distribution " << d << ": " << distribution[day] << endl;
 
             for(unsigned int l=day; l<_problem._NDays; l++)
             {
@@ -1787,47 +1762,35 @@ namespace productionPlanningProblemInExtrudersLibrary
                     delivered = _unmetDemand[product][l];
                 }
 
-                if(delivered > unmet[l])
-                {
-                    delivered = unmet[l];
-                }
-
                 cout << endl << "delivered: " << delivered << endl;
-                _delivered[product][l] += delivered;
 
-                for(unsigned int k=l; k<_problem._NDays; k++)
+                if(delivered > 0)
                 {
-                    _unmetDemand[product][k] -= delivered;
-                    _unmetDemandTotalCost -= delivered*_problem._unmetDemandCost;
-                }
+                    _delivered[product][l] += delivered;
 
-                for(unsigned int k=0; k<=l; k++)
-                {
-                    unmet[k] -= delivered;
-                }
+                    for(unsigned int k=l; k<_problem._NDays; k++)
+                    {
+                        _unmetDemand[product][k] -= delivered;
+                        _unmetDemandTotalCost -= delivered*_problem._unmetDemandCost;
+                    }
 
-                 cout << endl;
-                for(unsigned int k=0; k<_problem._NDays; k++)
-                {
-                    cout << "unmet " << k << ": "<< unmet[k] << "\t";
-                }
-                cout << endl;
+                    for(unsigned int k=d; k<l; k++)
+                    {
+                        _inventory[product][k] += delivered;
+                        _totalFreeInventory[k] -= delivered;
+                        _freeInventory[product][k] -= delivered;
+                        _inventoryTotalCost += delivered*_problem._inventoryUnitCost;
+                    }
 
-                for(unsigned int k=d; k<l; k++)
-                {
-                    _inventory[product][k] += delivered;
-                    _totalFreeInventory[k] -= delivered;
-                    _freeInventory[product][k] -= delivered;
-                    _inventoryTotalCost += delivered*_problem._inventoryUnitCost;
+                    distribution[day] -= delivered;
                 }
-
-                distribution[day] -= delivered;
 
                 if(distribution[day] == 0) break;
             }
         }
 
         print(4);
+        print(6);
 
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
@@ -1841,7 +1804,7 @@ namespace productionPlanningProblemInExtrudersLibrary
                         delivered = _totalFreeOutletInventory[o];
                     }else
                     {
-                        delivered = _freeInventory[product][o];
+                        delivered = _freeOutletInventory[product][o];
                     }
 
                     if(distribution[d] < delivered)
@@ -1849,9 +1812,15 @@ namespace productionPlanningProblemInExtrudersLibrary
                         delivered = distribution[d];
                     }
 
+                    cout << endl << "delivered to outlet " << o << ": " << delivered;
+
                     _deliveredToOutlet[product][o][d] += delivered;
+                    _freeOutletInventory[product][o] -= delivered;
+                    _totalFreeOutletInventory[o] -= delivered;
 
                     distribution[d] -= delivered;
+
+                    if(distribution[d] == 0) break;
                 }
 
                 // distributing to inventory
