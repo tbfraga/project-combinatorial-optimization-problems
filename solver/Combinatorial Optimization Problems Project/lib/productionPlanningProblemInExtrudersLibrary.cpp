@@ -1723,6 +1723,30 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         }
 
+        unsigned int day;
+
+        vector<unsigned int> unmet;
+        unmet.clear();
+        unmet.resize(_problem._NDays,0);
+
+        if(_problem._NDays > 0)
+        {
+            unmet[_problem._NDays-1] = _problem._demand[product][_problem._NDays-1];
+        }
+
+        for(unsigned int d=_problem._NDays-1; d>0; d--)
+        {
+            day = d-1;
+            unmet[day] = unmet[day+1] + _problem._demand[product][day];
+        }
+
+        cout << endl;
+        for(unsigned int d=0; d<_problem._NDays; d++)
+        {
+            cout << "unmet " << d << ": "<< unmet[d] << "\t";
+        }
+        cout << endl;
+
         print(0);
         print(4);
         print(5);
@@ -1730,8 +1754,8 @@ namespace productionPlanningProblemInExtrudersLibrary
 
         // distributing again
 
-        unsigned int delivered, day;
 
+        unsigned int delivered;
         vector<unsigned int> distribution;
 
         distribution.clear();
@@ -1750,6 +1774,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         {
             day = d-1;
 
+            cout << endl << "distribution: " << distribution[day] << endl;
+
             for(unsigned int l=day; l<_problem._NDays; l++)
             {
                 if(distribution[day] <= _unmetDemand[product][l])
@@ -1761,6 +1787,12 @@ namespace productionPlanningProblemInExtrudersLibrary
                     delivered = _unmetDemand[product][l];
                 }
 
+                if(delivered > unmet[l])
+                {
+                    delivered = unmet[l];
+                }
+
+                cout << endl << "delivered: " << delivered << endl;
                 _delivered[product][l] += delivered;
 
                 for(unsigned int k=l; k<_problem._NDays; k++)
@@ -1768,6 +1800,18 @@ namespace productionPlanningProblemInExtrudersLibrary
                     _unmetDemand[product][k] -= delivered;
                     _unmetDemandTotalCost -= delivered*_problem._unmetDemandCost;
                 }
+
+                for(unsigned int k=0; k<=l; k++)
+                {
+                    unmet[k] -= delivered;
+                }
+
+                 cout << endl;
+                for(unsigned int k=0; k<_problem._NDays; k++)
+                {
+                    cout << "unmet " << k << ": "<< unmet[k] << "\t";
+                }
+                cout << endl;
 
                 for(unsigned int k=d; k<l; k++)
                 {
