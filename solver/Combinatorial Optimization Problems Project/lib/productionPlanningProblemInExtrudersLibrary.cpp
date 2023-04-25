@@ -1790,6 +1790,7 @@ namespace productionPlanningProblemInExtrudersLibrary
         }
 
         print(4);
+        print(5);
         print(6);
 
         for(unsigned int d=0; d<_problem._NDays; d++)
@@ -1799,7 +1800,9 @@ namespace productionPlanningProblemInExtrudersLibrary
                 // distributing to outlets
                 for(unsigned int o=0; o<_problem._NOutlets; o++)
                 {
-                    if(_totalFreeOutletInventory[o] < _freeInventory[product][o])
+                    cout << endl << "free " << _freeOutletInventory[product][o] << " total free " << _totalFreeOutletInventory[o] << endl;
+
+                    if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
                     {
                         delivered = _totalFreeOutletInventory[o];
                     }else
@@ -1812,13 +1815,14 @@ namespace productionPlanningProblemInExtrudersLibrary
                         delivered = distribution[d];
                     }
 
-                    cout << endl << "delivered to outlet " << o << ": " << delivered;
+                    cout << endl << "delivered to outlet " << o << ": " << delivered << endl;
 
                     _deliveredToOutlet[product][o][d] += delivered;
                     _freeOutletInventory[product][o] -= delivered;
                     _totalFreeOutletInventory[o] -= delivered;
 
                     distribution[d] -= delivered;
+
 
                     if(distribution[d] == 0) break;
                 }
