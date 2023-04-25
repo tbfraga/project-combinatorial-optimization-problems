@@ -1458,6 +1458,8 @@ namespace productionPlanningProblemInExtrudersLibrary
         print(5);
         print(6);
 
+        getchar();
+
          //print();
     };
 
@@ -1706,7 +1708,7 @@ namespace productionPlanningProblemInExtrudersLibrary
 
             _delivered[product][d] = 0;
 
-            _totalFreeInventory[product] += _inventory[product][d];
+            _totalFreeInventory[d] += _inventory[product][d];
             _freeInventory[product][d] += _inventory[product][d];
             _inventoryTotalCost -= _inventory[product][d]*_problem._inventoryUnitCost;
 
@@ -1715,7 +1717,7 @@ namespace productionPlanningProblemInExtrudersLibrary
             for(unsigned int o=0; o<_problem._NOutlets; o++)
             {
                 _totalFreeOutletInventory[o] += _deliveredToOutlet[product][o][d];
-                _freeInventory[product][o] += _deliveredToOutlet[product][o][d];
+                _freeOutletInventory[product][o] += _deliveredToOutlet[product][o][d];
                 _deliveredToOutlet[product][o][d] = 0;
             }
 
@@ -1811,10 +1813,13 @@ namespace productionPlanningProblemInExtrudersLibrary
                 // distributing to inventory
                 if(distribution[d] > 0)
                 {
-                    _inventory[product][d] += distribution[d];
-                    _totalFreeInventory[product] -= distribution[d];
-                    _freeInventory[product][d] -= distribution[d];
-                    _inventoryTotalCost += distribution[d]*_problem._inventoryUnitCost;
+                    for(unsigned int l=d; l<_problem._NDays; l++)
+                    {
+                        _inventory[product][l] += distribution[d];
+                        _totalFreeInventory[l] -= distribution[d];
+                        _freeInventory[product][l] -= distribution[d];
+                        _inventoryTotalCost += distribution[d]*_problem._inventoryUnitCost;
+                    }
                 }
             }
         }
