@@ -18,7 +18,17 @@ The full license can be found in the LICENSE.md document available in this direc
 
 #include "lib/extruder planning problem.h"
 
+using namespace extruderPlanningProblemLibrary;
+
 int main()
 {
-    cout << "step 03: start creating a library !!!" << endl;
+    EPPInstance problem;
+
+    problem.EPP001();
+    problem.print();
+
+    cout << endl << endl << "step 05: creating a class to the EPP (Extruder Planning Problem)";
+    cout << endl << "creating print() function !!!" << endl;
+    cout << endl << "next step: creating the functions clear() and restart()" << endl;
+
 }
