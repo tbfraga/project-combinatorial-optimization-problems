@@ -31,7 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="lib/extruder planning problem.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/extruder planning problem.cpp" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
