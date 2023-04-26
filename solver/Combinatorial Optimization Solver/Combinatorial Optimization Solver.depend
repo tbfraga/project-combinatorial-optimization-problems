@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1682523982 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+	"lib/extruder planning problem.h"
+
+1682524111 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
+	<iostream>
+
+1682524041 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
+	"../lib/extruder planning problem.h"
+
