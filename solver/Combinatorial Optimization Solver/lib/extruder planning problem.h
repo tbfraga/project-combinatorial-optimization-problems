@@ -5,7 +5,9 @@ Under this license, it is allowed to download and share the code as long as they
 them for commercial purposes.
 
 The full license can be found in the LICENSE.md document available in this directory, or through the website: https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode.
-****************************************************************************************************************************************************************************/
+
+This project with its files can be consulted at https://github.com/tbfraga/project-combinatorial-optimization-problems/tree/main/solver/Combinatorial%20Optimization%20Solver.
+******************************************************************************************************************************************************************************/
 
 // Combinatorial Optimization Solver
 // Extruder Planning Problem Library
@@ -24,9 +26,12 @@ namespace extruderPlanningProblemLibrary
 {
     class extruderPlanningProblem;
     class PPPIEInstance;
+    class EPPSolution;
 
     class extruderPlanningProblem
     {
+        friend class EPPSolution;
+
         protected:
 
         // these paramenters define an instance of an EPP (Exturder Planning Problem)
@@ -91,6 +96,68 @@ namespace extruderPlanningProblemLibrary
         public:
 
         void EPP001();
+    };
+
+    // class for solving an EPP
+
+    class EPPSolution
+    {
+        friend class PPPIEInstance;
+
+        protected:
+
+        // solution variables
+
+        // problem linked to the solution
+
+        EPPInstance _problem; // EPP
+
+        // solution variables
+
+        vector<vector<unsigned int>> _balancing = {{0}}; // for assigning product to batch
+        vector<vector<unsigned int>> _allocation = {{0}}; // for assingning batch to extruder and day
+        vector<unsigned int> _processingTime = {0}; // batch processing time
+
+        // secondary variables - calculated
+
+        vector<float> _batchWidth = {0}; // batch width
+        vector<float> _batchIdleness = {0}; // batch idleness
+        vector<unsigned int> _batchColor = {0}; // batch color
+        vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
+        vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
+
+        // vector<vector<unsigned int>> _restricted = {{0}}; // I won't use it for now
+        // variable that informs the type of constraint not met and the index that informs the location of the error
+        // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
+
+        vector<vector<unsigned int>> _production = {{0}}; // production
+        vector<vector<unsigned int>> _delivered = {{0}}; // delivered
+        vector<vector<unsigned int>> _unmetDemand = {{0}}; // unmet demand
+        vector<vector<vector<unsigned int>>> _deliveredToOutlet = {{{0}}}; // delivered to outlet
+        vector<unsigned int> _totalFreeOutletInventory = {0}; // free outlet inventory
+        vector<vector<unsigned int>> _freeOutletInventory = {{0}}; // free outlet inventory by product
+        vector<vector<unsigned int>> _inventory = {{0}}; // inventory at factory
+        vector<unsigned int> _totalFreeInventory = {0}; // free inventory at factory
+        vector<vector<unsigned int>> _freeInventory = {{0}}; // free inventory at factory by product
+
+        double _fitness = 0; // fitness: profit = production profit - unmet demand cost - inventory cost
+        double _productionTotalProfit = 0; // production profit
+        double _unmetDemandTotalCost = 0; // unmet demand cost
+        double _inventoryTotalCost = 0; // inventory cost
+
+        //auxiliary
+
+        vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
+
+        // functions
+
+        public:
+
+        void clear();
+        bool print();
+        bool print(unsigned int type);
+
+        void restart(EPPInstance problem);
     };
 }
 
