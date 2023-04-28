@@ -104,7 +104,7 @@ namespace extruderPlanningProblemLibrary
 
     class EPPSolution
     {
-        friend class PPPIEInstance;
+        //friend class EPPInstance;
 
         protected:
 
@@ -124,7 +124,7 @@ namespace extruderPlanningProblemLibrary
 
         vector<float> _batchWidth = {0}; // batch width
         vector<float> _batchIdleness = {0}; // batch idleness
-        vector<unsigned int> _batchColor = {0}; // batch color
+        //vector<unsigned int> _batchColor = {0}; // batch color
         vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
         vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
 
@@ -165,8 +165,26 @@ namespace extruderPlanningProblemLibrary
         unsigned int productionLimit(unsigned int product, unsigned int day);
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         void increase(unsigned int production, unsigned int product, unsigned int day);
-
         void deliver(unsigned int product);
+
+        void simultedAnnealing(unsigned int NMaxIte);
+        EPPSolution autoCopy();
+        void set(EPPSolution solution);
+        bool swapTime();
+        void reduce(unsigned int production, unsigned int product, unsigned int day);
+
+        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
+        void swapProduct();
+        bool insert(unsigned int product);
+        bool include(unsigned int product, unsigned int batch);
+        bool split(unsigned int batch, unsigned int time);
+        vector<unsigned int> productList(unsigned int batch);
+        void processingTime(unsigned int batch, unsigned int time);
+        void randomErase(unsigned int batch);
+        void erase(unsigned int location);
+        bool insert(unsigned int product, unsigned int batch);
+        bool clean(unsigned int cleanType);
+        unsigned int find(vector<unsigned int> UIVector, unsigned int value);
     };
 }
 

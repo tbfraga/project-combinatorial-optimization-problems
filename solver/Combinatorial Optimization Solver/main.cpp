@@ -40,11 +40,17 @@ int main()
     getchar();
 
     solution.generate();
-    cout << endl << "initial solution" << endl;
     solution.print();
+    cout << endl << "initial solution" << endl;
+    getchar();
 
-    cout << endl << endl << "step 08: creating a class to the EPP (Extruder Planning Problem) Solutions !!!" << endl;
-    cout << endl << "creating an initial (not empty) EPP solution." << endl;
+    solution.particleCollision(10,10);
+    solution.print();
+    cout << endl << "solution after Particle Collision" << endl;
+    getchar();
+
+
+    cout << endl << endl << "step 11: debuggin :(((" << endl;
 
 
 }
