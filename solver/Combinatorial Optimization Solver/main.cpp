@@ -29,16 +29,22 @@ int main()
     problem.EPP001();
 
     problem.print();
+    cout << endl << "problem" << endl;
     getchar();
 
     EPPSolution solution;
 
     solution.restart(problem);
+    solution.print();
+    cout << endl << "empty solution" << endl;
+    getchar();
 
+    solution.generate();
+    cout << endl << "initial solution" << endl;
     solution.print();
 
-    cout << endl << endl << "step 07: creating a class to the EPP Solutions !!!" << endl;
-    cout << endl << "start creating EPP solution functions." << endl;
+    cout << endl << endl << "step 08: creating a class to the EPP (Extruder Planning Problem) Solutions !!!" << endl;
+    cout << endl << "creating an initial (not empty) EPP solution." << endl;
 
 
 }

@@ -18,6 +18,8 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 #ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 #define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 
+#include<math.h>
+
 #include<iostream>
 #include<vector>
 using namespace std;
@@ -158,6 +160,13 @@ namespace extruderPlanningProblemLibrary
         bool print(unsigned int type);
 
         void restart(EPPInstance problem);
+        void generate();
+
+        unsigned int productionLimit(unsigned int product, unsigned int day);
+        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
+        void increase(unsigned int production, unsigned int product, unsigned int day);
+
+        void deliver(unsigned int product);
     };
 }
 
