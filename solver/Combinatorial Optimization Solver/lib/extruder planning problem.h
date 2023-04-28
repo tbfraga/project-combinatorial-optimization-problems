@@ -64,7 +64,7 @@ namespace extruderPlanningProblemLibrary
 
         vector<vector<unsigned int>> _setupTime = {{0}}; // setup time related with some pair of colors (min)
 
-        vector<vector<unsigned int>> _productionPerTime = {{0}}; // production of each product per minute on each extruder
+        vector<vector<unsigned int>> _productionPerTime = {{0}}; // production of each product per minute on each extruder (g/min)
 
         // *** paramenters linked to outlets
 
@@ -83,6 +83,8 @@ namespace extruderPlanningProblemLibrary
         void clear();
         void restart();
     };
+
+    // class for creating instances of EPP (Extruder Planning Problem)
 
     class EPPInstance: public extruderPlanningProblem
     {

@@ -112,7 +112,6 @@ namespace extruderPlanningProblemLibrary
 
         cout << endl << "[color]  color group" << endl << endl;
 
-        // need to becalculated yet
         for(unsigned int c=0; c<_NColors; c++)
         {
             cout << c;
@@ -141,25 +140,24 @@ namespace extruderPlanningProblemLibrary
             cout << endl;
         }
 
-        cout << endl << "[product, extruder]  production rate (g/m)" << endl << endl;
+        cout << endl << "[product, extruder]  production rate (g/min)" << endl << endl;
 
 
-        for(unsigned int p=0; p<_NProducts; p++)
+        for(unsigned int e=0; e<_NExtruders; e++)
         {
-            cout << "\t" << p;
+            cout << "\t" << e;
         }
         cout << endl;
 
-        // not dimensioned yet
-        /*for(unsigned int e=0; e<_NExtruders; e++)
+        for(unsigned int p=0; p<_NProducts; p++)
         {
-            cout << e;
-            for(unsigned int p=0; p<_NProducts; p++)
+            cout << p;
+            for(unsigned int e=0; e<_NExtruders; e++)
             {
                 cout << "\t" << _productionPerTime[p][e];
             }
             cout << endl;
-        } need to becalculated yet*/
+        }
 
         cout << endl << "Outlets: " << _NOutlets << endl;
 
@@ -191,6 +189,100 @@ namespace extruderPlanningProblemLibrary
         return error;
     };
 
+    // clearing vectors
+    void extruderPlanningProblem::clear()
+    {
+        _productionRate.clear();
+        _length.clear();
+
+        for(unsigned int s=0; s<_capacity.size(); s++)
+        {
+            _capacity[s].clear();
+        }
+        _capacity.clear();
+
+        _width.clear();
+        _weightRatio.clear();
+        _unitContribution.clear();
+        _initialInventory.clear();
+        _maximumInventory.clear();
+
+        for(unsigned int s=0; s<_demand.size(); s++)
+        {
+            _demand[s].clear();
+        }
+        _demand.clear();
+
+        _color.clear();
+
+        for(unsigned int s=0; s<_colorAndMaterialRatio.size(); s++)
+        {
+            _colorAndMaterialRatio[s].clear();
+        }
+        _colorAndMaterialRatio.clear();
+
+        for(unsigned int s=0; s<_setupTime.size(); s++)
+        {
+            _setupTime[s].clear();
+        }
+        _setupTime.clear();
+
+        for(unsigned int s=0; s<_productionPerTime.size(); s++)
+        {
+            _productionPerTime[s].clear();
+        }
+        _productionPerTime.clear();
+
+        _totalMaximumOutletInventory.clear();
+
+        for(unsigned int s=0; s<_maximumOutletInventory.size(); s++)
+        {
+            _maximumOutletInventory[s].clear();
+        }
+        _maximumOutletInventory.clear();
+
+        for(unsigned int s=0; s<_productColorGroup.size(); s++)
+        {
+            _productColorGroup[s].clear();
+        }
+        _productColorGroup.clear();
+    };
+
+    // calculation of parameters values
+
+    void extruderPlanningProblem::restart()
+    {
+        // resizing
+
+        _productionPerTime.resize(_NProducts);
+
+        for(unsigned int p=0; p<_productionPerTime.size(); p++)
+        {
+            _productionPerTime[p].resize(_NExtruders,0);
+        }
+
+        // calculating values
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            for(unsigned int e=0; e<_NExtruders; e++)
+            {
+                _productionPerTime[p][e] = _width[p]*_weightRatio[p]*_productionRate[e]; // (m)*(g/m²)*(m/min) = (g/min)
+            }
+        }
+
+        unsigned int color;
+
+        // grouping products by color
+
+        _productColorGroup.resize(_NColors);
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            color = _color[p];
+            _productColorGroup[color].push_back(p);
+        }
+    }
 
     // class for creating instances of EPP (Extruder Planning Problem)
 
@@ -201,7 +293,7 @@ namespace extruderPlanningProblemLibrary
         It is expected that the allocation will be done correctly according to the measurements of the products and the extruders.
         *****************************/
 
-        // clearProblem();
+         clear();
 
         _NDays = 2;
 
@@ -235,6 +327,6 @@ namespace extruderPlanningProblemLibrary
 
         _maximumOutletInventory = {{1000,1000},{5000,10000},{10000,5000},{5000,500}};
 
-        //restartProblem();
+        restart();
     }
 }

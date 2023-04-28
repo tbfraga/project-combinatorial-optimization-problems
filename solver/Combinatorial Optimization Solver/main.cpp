@@ -25,10 +25,12 @@ int main()
     EPPInstance problem;
 
     problem.EPP001();
+
     problem.print();
 
-    cout << endl << endl << "step 05: creating a class to the EPP (Extruder Planning Problem)";
-    cout << endl << "creating print() function !!!" << endl;
-    cout << endl << "next step: creating the functions clear() and restart()" << endl;
+    cout << endl << endl << "step 06: creating a class to the EPP (Extruder Planning Problem)";
+    cout << endl << "creating the functions clear() and restart()" << endl;
+
+    cout << endl << "Next step: create a class for problem's solution" << endl;
 
 }
