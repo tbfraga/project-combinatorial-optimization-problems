@@ -124,6 +124,7 @@ namespace extruderPlanningProblemLibrary
 
         vector<float> _batchWidth = {0}; // batch width
         vector<float> _batchIdleness = {0}; // batch idleness
+        vector<unsigned int> _batchColor = {0}; // batch color
         //vector<unsigned int> _batchColor = {0}; // batch color
         vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
         vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
@@ -164,8 +165,11 @@ namespace extruderPlanningProblemLibrary
 
         unsigned int productionLimit(unsigned int product, unsigned int day);
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
-        void increase(unsigned int production, unsigned int product, unsigned int day);
-        void deliver(unsigned int product);
+        bool increase(unsigned int production, unsigned int product, unsigned int day);
+        bool deliver(unsigned int product);
+        unsigned int forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution);
+        unsigned int forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution, unsigned int &unmet);
+
 
         void simultedAnnealing(unsigned int NMaxIte);
         EPPSolution autoCopy();
