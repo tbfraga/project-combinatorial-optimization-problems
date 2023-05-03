@@ -167,8 +167,8 @@ namespace extruderPlanningProblemLibrary
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
         bool increase(unsigned int production, unsigned int product, unsigned int day);
         bool deliver(unsigned int product);
-        unsigned int forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution);
-        unsigned int forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution, unsigned int &unmet);
+        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
+        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet);
 
 
         void simultedAnnealing(unsigned int NMaxIte);

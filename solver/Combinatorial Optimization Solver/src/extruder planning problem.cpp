@@ -1398,9 +1398,14 @@ namespace extruderPlanningProblemLibrary
 
         // distributing to demand
 
-        unsigned int day, unmet = 0;
+        unsigned int day;
+
+        unsigned unmet = 0; // variable used to store the aggregated value of the unmet demand, counting from the last date to the date under analysis.
 
         // backward distribution
+
+        /* it is needed to do the backward distribution first so that the distribution values are updated correctly
+           and the products are shipped to the outlets on the correct dates.*/
 
         if(i_print ==1) cout << endl << "backward distribution" << endl;
 
@@ -1412,18 +1417,19 @@ namespace extruderPlanningProblemLibrary
 
             unmet +=  _problem._demand[product][day];
 
-            if(i_print == 1) cout << endl << "distribution: " << distribution[day] << "  unmet: " << unmet << endl;
+            if(i_print == 1) cout << endl << "distribution (demand): " << distribution[day] << "  unmet: " << unmet << endl;
 
-            /*if(distribution[day] > 0 && unmet > 0) */distribution[day] = forwardDelivery(product, day, distribution[day], unmet);
+            if(distribution[day] > 0 && unmet > 0) forwardDelivery(product, day, distribution[day], unmet);
 
-            cout << endl << "unmet: " << unmet << endl;
+            if(i_print == 1) cout << endl << "after forward delivery function distribution: " << distribution[day] << "  unmet: " << unmet << endl;
         }
-
-        if(i_print == 1) cout << endl << " new forward distribution: " << distribution[day] << "  unmet: " << unmet << endl;
 
         // forward distribution
 
-        distribution[day] = forwardDelivery(product, 0, distribution[day]);
+        if(i_print == 1) cout << endl << " after backward distribution: " << distribution[day] << "  unmet: " << unmet << endl;
+
+        forwardDelivery(product, 0, distribution[day]);
+        // it is necessary ???
 
         if(i_print == 1) print(0);
         if(i_print == 1) print(4);
@@ -1525,7 +1531,7 @@ namespace extruderPlanningProblemLibrary
         return 0;
     };
 
-    unsigned int EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution)
+    void EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution)
     {
         bool i_print = 1;
 
@@ -1574,11 +1580,9 @@ namespace extruderPlanningProblemLibrary
                 if(distribution == 0) break;
             }
         }
-
-        return distribution;
     };
 
-    unsigned int EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int distribution, unsigned int &unmet)
+    void EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet)
     {
         bool i_print = 1;
 
@@ -1633,8 +1637,6 @@ namespace extruderPlanningProblemLibrary
                 if(distribution == 0) break;
             }
         }
-
-        return distribution;
     };
 
     // apply a simulated annealing method for improving batches processing times
@@ -1690,6 +1692,7 @@ namespace extruderPlanningProblemLibrary
                     //getchar();
                 }
             }
+            cout << endl << "SA iteration: " << ite << endl;
         }
 
         set(bestSolution);
@@ -1886,8 +1889,6 @@ namespace extruderPlanningProblemLibrary
 
         for(unsigned int ite=0; ite<NMaxIte; ite++)
         {
-            cout << endl << "iteration: " << ite << endl;
-
             solution = autoCopy();
 
             solution.swapProduct();
@@ -1965,11 +1966,14 @@ namespace extruderPlanningProblemLibrary
                     }
                 }
             }
+
+            cout << endl << "PC iteration: " << ite << endl;
+            getchar();
         }
 
         set(bestSolution);
-        cout << endl << "info: final PCA solution." << endl;
         print();
+        cout << endl << "info: final PCA solution." << endl;
         getchar();
 
         solution.clear();
