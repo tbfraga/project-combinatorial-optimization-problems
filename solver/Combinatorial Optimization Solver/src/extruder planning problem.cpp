@@ -1428,8 +1428,8 @@ namespace extruderPlanningProblemLibrary
 
         if(i_print == 1) cout << endl << " after backward distribution: " << distribution[day] << "  unmet: " << unmet << endl;
 
-        forwardDelivery(product, 0, distribution[day]);
-        // it is necessary ???
+        //forwardDelivery(product, 0, distribution[day]);
+        // it is necessary ?
 
         if(i_print == 1) print(0);
         if(i_print == 1) print(4);
@@ -1586,7 +1586,7 @@ namespace extruderPlanningProblemLibrary
     {
         bool i_print = 1;
 
-        unsigned int day, delivered;
+        unsigned int day, delivered, diff;
 
         for(unsigned int d=start; d<_problem._NDays; d++)
         {
@@ -1605,9 +1605,15 @@ namespace extruderPlanningProblemLibrary
                     delivered = _unmetDemand[product][l];
                 }
 
-                if(delivered > unmet)
+                // on backward delivering diff will always be +
+
+                diff = _problem._demand[product][day] - _delivered[product][day];
+
+                cout << endl << "diff: " << diff << endl;
+
+                if(delivered > diff)
                 {
-                    delivered = unmet;
+                    delivered = diff;
                 }
 
                 if(i_print == 1) cout << endl << "delivered: " << delivered << endl;
@@ -1634,7 +1640,7 @@ namespace extruderPlanningProblemLibrary
                     unmet -= delivered;
                 }
 
-                if(distribution == 0) break;
+                if(distribution == 0 || unmet == 0) break;
             }
         }
     };
