@@ -1114,7 +1114,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: production limit calculation." << endl;
 
-        bool i_print =0;
+        bool i_print = 1;
 
         unsigned int prodLimit;
 
@@ -1182,7 +1182,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: creating a new batch.";
 
-        bool i_print = 0;
+        bool i_print = 1;
 
         unsigned int batch = _allocation.size(); // selecting the new position
         if(i_print == 1) cout << endl << "new position: " << batch << endl;
@@ -1963,17 +1963,17 @@ namespace extruderPlanningProblemLibrary
                     cout << endl << "info: solution after SA." << endl;
                     getchar();
 
-                    aux = rand()%10;
-                    aux = aux / 10;
-                    cout << endl << "random clear: " << aux << endl;
+                    //aux = rand()%10;
+                    //aux = aux / 10;
+                    //cout << endl << "random clear: " << aux << endl;
 
-                    if(aux < 0.2)
-                    {
+                    //if(aux < 0.2)
+                    //{
                         clean(1);
                         print();
                         cout << endl << "info: empty processed time batches cleared." << endl;
                         getchar();
-                    }
+                    //}
                 }
             }
 
@@ -2000,7 +2000,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: adding a new product on batch. " << endl << endl;
 
-        bool i_print = 0;
+        bool i_print = 1;
 
         unsigned int aux, batch;
 
@@ -2042,10 +2042,24 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: randomly creating a new batch." << endl;
 
-        bool i_print = 0;
+        bool i_print = 1;
+
+        // choosing extruder and day randomly - more chance whe idleness is bigger
+
+        unsigned int extruder, day, sum = 0, random;
+
+        for(unsigned int e=0; e<_extruderIdleness.size(); e++)
+        {
+            for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+            {
+                sum += _extruderIdleness[e][d];
+            }
+        }
 
         // randomly choose an extruder and a day
-        unsigned int extruder = rand()%(_problem._NExtruders);
+
+
+        /*unsigned int extruder = rand()%(_problem._NExtruders);
 
         // there is a problem here if no extruder can process the product because of its width (an infinite loop will be generated)
         while(_problem._length[extruder] < _problem._width[product])
@@ -2053,7 +2067,26 @@ namespace extruderPlanningProblemLibrary
             extruder = rand()%(_problem._NExtruders);
         }
 
-        unsigned int day = rand()%(_problem._NDays);
+        unsigned int day = rand()%(_problem._NDays);*/
+
+        random = rand()%(sum+1);
+
+        sum = 0;
+
+        for(unsigned int e=0; e<_extruderIdleness.size(); e++)
+        {
+            for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+            {
+                sum += _extruderIdleness[e][d];
+                if(random <= sum)
+                {
+                    extruder = e;
+                    day = d;
+                    break;
+                }
+            }
+        }
+
         cout << endl << "extruder: " << extruder << "  day: " << day << endl;
         getchar();
 
@@ -2063,6 +2096,7 @@ namespace extruderPlanningProblemLibrary
 
         unsigned int time, production, prodLimit;
 
+         if(i_print == 1) cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  setup: " << _problem._setupTime[color][color] << endl;
 
         if(_extruderIdleness[extruder][day] <= _problem._setupTime[color][color]) // if extruder idleness is not enough do not create a new batch
         {
@@ -2461,6 +2495,8 @@ namespace extruderPlanningProblemLibrary
 
         if(i_print == 1) print(2);
 
+        if(i_print == 1) cout << endl << "here 01" << endl;
+
         if(batch >= _allocation.size())
         {
             cout << endl << "error: batch do not exist !" << endl;
@@ -2468,6 +2504,8 @@ namespace extruderPlanningProblemLibrary
             getchar();
             return 1;
         }
+
+        if(i_print == 1) cout << endl << "here 02" << endl;
 
         if(i_print == 1) cout << endl << "batch: " << batch << "  idleness: " << _batchIdleness[batch] << "  product: " << product << "  width: " << _problem._width[product] << "." << endl;
 
@@ -2492,13 +2530,13 @@ namespace extruderPlanningProblemLibrary
             if(i_print == 1) cout << endl << "info: adjusting location index." << endl;
 
             location = _allocation[batch][3]+1;
-            for(unsigned int l=_allocation[batch][3]; l>=_allocation[batch][2]; l--)
+            for(unsigned int l=_allocation[batch][3]+1; l>_allocation[batch][2]; l--)
             {
-                if(i_print == 1) cout << endl << "product on location: " << _balancing[l][1] << endl;
+                if(i_print == 1) cout << endl << "product on location: " << _balancing[l-1][1] << endl;
 
-                if(_balancing[l][1] > product)
+                if(_balancing[l-1][1] > product)
                 {
-                    location = l;
+                    location = l-1;
                     if(i_print == 1) cout << endl << "location: " << location << endl;
                 }else
                 {
@@ -2512,6 +2550,8 @@ namespace extruderPlanningProblemLibrary
 
             if(i_print == 1) cout << endl << "new last batch index: " << _allocation[batch][3] << endl;
         }
+
+        if(i_print == 1) cout << endl << "here 03" << endl;
 
         if(i_print == 1) cout << endl << "location: " << location << endl;
 
@@ -2555,6 +2595,8 @@ namespace extruderPlanningProblemLibrary
                 increase(production, product, day);
             }
         }
+
+        if(i_print == 1) cout << endl << "here 0" << endl;
 
         return 0;
     };

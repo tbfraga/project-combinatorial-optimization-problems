@@ -52,7 +52,7 @@ int main()
     cout << endl << "initial solution" << endl;
     getchar();
 
-    solution.particleCollision(20,20);
+    solution.particleCollision(30,100);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     getchar();
