@@ -24,6 +24,14 @@ using namespace extruderPlanningProblemLibrary;
 
 int main()
 {
+
+    /*srand((unsigned) time(NULL));
+
+    for(unsigned int t=0; t<100; t++)
+    {
+        cout << endl << rand()%10;
+    }*/
+
     EPPInstance problem;
 
     problem.EPP001();
@@ -44,7 +52,7 @@ int main()
     cout << endl << "initial solution" << endl;
     getchar();
 
-    solution.particleCollision(10,10);
+    solution.particleCollision(20,20);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     getchar();

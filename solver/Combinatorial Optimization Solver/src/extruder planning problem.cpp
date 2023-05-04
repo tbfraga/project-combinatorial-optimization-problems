@@ -1182,7 +1182,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: creating a new batch.";
 
-        bool i_print = 1;
+        bool i_print = 0;
 
         unsigned int batch = _allocation.size(); // selecting the new position
         if(i_print == 1) cout << endl << "new position: " << batch << endl;
@@ -1306,7 +1306,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: increase production." << endl;
 
-        bool i_print = 1;
+        bool i_print = 0;
 
         _production[product][day] += production;
         _productionTotalProfit += production*_problem._unitContribution[product];
@@ -1335,7 +1335,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: delivering production between demand, outlets and inventory." << endl;
 
-        bool i_print = 1;
+        bool i_print = 0;
 
         // clearing distribution of <product>
 
@@ -1413,7 +1413,7 @@ namespace extruderPlanningProblemLibrary
         {
             day = d-1;
 
-            cout << endl << "day: " << day << endl;
+            if(i_print == 1) cout << endl << "day: " << day << endl;
 
             unmet +=  _problem._demand[product][day];
 
@@ -1426,20 +1426,24 @@ namespace extruderPlanningProblemLibrary
 
         // forward distribution
 
-        if(i_print == 1) cout << endl << " after backward distribution: " << distribution[day] << "  unmet: " << unmet << endl;
+        if(i_print == 1) cout << endl << " forward distribution" << endl; // it is necessary cause backward distribution does not see previus demand
 
-        //forwardDelivery(product, 0, distribution[day]);
-        // it is necessary ?
+        for(unsigned int d=0; d<_problem._NDays; d++)
+        {
+            if(i_print == 1) cout << endl << "day: " << d << endl;
+
+            if(i_print == 1) cout << endl << "distribution (demand): " << distribution[d] << endl;
+
+            forwardDelivery(product, d, distribution[d]);
+        }
 
         if(i_print == 1) print(0);
         if(i_print == 1) print(4);
         if(i_print == 1) print(5);
         if(i_print == 1) print(6);
-        getchar();
+        if(i_print == 1) getchar();
 
         // distributing to outlets
-
-        // problem here ???
 
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
@@ -1533,7 +1537,7 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution)
     {
-        bool i_print = 1;
+        bool i_print = 0;
 
         unsigned int day, delivered;
 
@@ -1584,7 +1588,7 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet)
     {
-        bool i_print = 1;
+        bool i_print = 0;
 
         unsigned int day, delivered, diff;
 
@@ -1934,8 +1938,8 @@ namespace extruderPlanningProblemLibrary
             {
                 probality = solution._fitness / bestSolution._fitness;
                 cout << endl << "probality: " << probality << endl;
-                aux = rand()%100000;
-                aux = aux / 100000;
+                aux = rand()%10;
+                aux = aux/10;
                 cout << endl << "random: " << aux << endl;
 
                 cout << endl << "info: solution not improved" << endl;
@@ -1996,7 +2000,7 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: adding a new product on batch. " << endl << endl;
 
-        bool i_print = 1;
+        bool i_print = 0;
 
         unsigned int aux, batch;
 
@@ -2038,18 +2042,20 @@ namespace extruderPlanningProblemLibrary
     {
         cout << endl << "function: randomly creating a new batch." << endl;
 
-        bool i_print = 1;
+        bool i_print = 0;
 
         // randomly choose an extruder and a day
-        unsigned int extruder = rand()%_problem._NExtruders;
+        unsigned int extruder = rand()%(_problem._NExtruders);
 
         // there is a problem here if no extruder can process the product because of its width (an infinite loop will be generated)
         while(_problem._length[extruder] < _problem._width[product])
         {
-            extruder = rand()%_problem._NExtruders;
+            extruder = rand()%(_problem._NExtruders);
         }
 
-        unsigned int day = rand()%_problem._NDays;
+        unsigned int day = rand()%(_problem._NDays);
+        cout << endl << "extruder: " << extruder << "  day: " << day << endl;
+        getchar();
 
         // calculating setup time and
 
@@ -2347,11 +2353,14 @@ namespace extruderPlanningProblemLibrary
         }
     };
 
-    void EPPSolution::erase(unsigned int location)
+    bool EPPSolution::erase(unsigned int location)
     {
         cout << endl << "function: erasing product on batch. " << endl;
 
         bool i_print = 0;
+
+        print(1);
+        cout << endl << "initial solution" << endl;
 
         unsigned int batch = _balancing[location][0];
 
@@ -2360,8 +2369,11 @@ namespace extruderPlanningProblemLibrary
         if(location >= _balancing.size())
         {
             if(i_print == 1) cout << endl << "error: _ballancing[" << batch << "] do not have element " << location << " !" << endl;
+            return 1;
         }else
         {
+            // adjusting allocation indexes
+
             if(_allocation[batch][2] < _allocation[batch][3])
             {
                 _allocation[batch][3] -= 1;
@@ -2380,32 +2392,45 @@ namespace extruderPlanningProblemLibrary
                 if(i_print == 1) cout << "  new last batch index: " << _allocation[b][3] << endl;
             }
 
+            // excluding batches on _balancing
+
             unsigned int product = _balancing[location][1];
-
-            if(i_print == 1) cout << endl << "product being excluded: " << product << endl;
-
             unsigned int extruder = _allocation[batch][0];
             unsigned int day = _allocation[batch][1];
 
-            if(i_print == 1) cout << endl << "batch extruder: " << extruder << "   batch day: " << day << endl;
+            if(i_print == 1) cout << endl << "batch being excluded - product: " << product << " extruder: " << extruder << " day: " << day << endl;
 
             // adjusting _balancing
 
-            _balancing.erase(_balancing.begin()+location);
+             print(1);
+             cout << endl << "location: " << location << endl;
 
-            _batchWidth[batch] -= _problem._width[product];
+            _balancing[location].clear();
+            _balancing.erase(_balancing.begin()+location); // vector lib function
+
+             print(1);
+
+            _batchWidth[batch] -= _problem._width[product]; // adjusting batch width
 
             if(i_print == 1) cout << endl << "batch width reduced to: " << _batchWidth[batch] << endl;
 
-            _batchIdleness[batch] += _problem._width[product];
+            _batchIdleness[batch] += _problem._width[product]; // adjusting batch idleness
 
             if(i_print == 1) cout << endl << "batch idleness augmented to: " << _batchIdleness[batch] << endl;
+
+            cout << endl << "here" << endl;
+            print(0);
+            print(1);
+            print(2);
+            print(3);
+            print(4);
+            print(5);
 
             if(_processingTime[batch] > 0)
             {
                 // adjusting production
 
-                unsigned int production = _processingTime[batch]*_problem._productionPerTime[product][extruder];
+                unsigned int production = _processingTime[batch]*_problem._productionPerTime[product][extruder]; // problem here
 
                 if(i_print == 1) cout << endl << "production being reduced: " << production << "." << endl;
 
@@ -2414,14 +2439,27 @@ namespace extruderPlanningProblemLibrary
                     reduce(production, product, day);
                 }
             }
+
+            print(0);
+            print(1);
+            print(2);
+            print(3);
+            print(4);
+            print(5);
+
+            cout << endl << "here" << endl;
         }
+
+        return 0;
     };
 
     bool EPPSolution::insert(unsigned int product, unsigned int batch)
     {
         cout << endl << "function: inserting a new product on batch... " << endl;
 
-        print(2);
+        bool i_print = 0;
+
+        if(i_print == 1) print(2);
 
         if(batch >= _allocation.size())
         {
@@ -2431,7 +2469,7 @@ namespace extruderPlanningProblemLibrary
             return 1;
         }
 
-        cout << endl << "batch: " << batch << "  idleness: " << _batchIdleness[batch] << "  product: " << product << "  width: " << _problem._width[product] << "." << endl;
+        if(i_print == 1) cout << endl << "batch: " << batch << "  idleness: " << _batchIdleness[batch] << "  product: " << product << "  width: " << _problem._width[product] << "." << endl;
 
         if(_batchIdleness[batch] < _problem._width[product])
         {
@@ -2443,63 +2481,63 @@ namespace extruderPlanningProblemLibrary
 
         unsigned int location = _allocation[batch][3];
 
-        cout << endl << "location: " << location << endl;
+        if(i_print == 1) cout << endl << "location: " << location << endl;
 
         if(_balancing[location][0] > batch)
         {
-            cout << endl << "location: " << location << endl;
-            cout << "new last batch index: " << _allocation[batch][3] << endl;
+            if(i_print == 1) cout << endl << "location: " << location << endl;
+            if(i_print == 1) cout << "new last batch index: " << _allocation[batch][3] << endl;
         }else
         {
-            cout << endl << "info: adjusting location index." << endl;
+            if(i_print == 1) cout << endl << "info: adjusting location index." << endl;
 
             location = _allocation[batch][3]+1;
             for(unsigned int l=_allocation[batch][3]; l>=_allocation[batch][2]; l--)
             {
-                cout << endl << "product on location: " << _balancing[l][1] << endl;
+                if(i_print == 1) cout << endl << "product on location: " << _balancing[l][1] << endl;
 
                 if(_balancing[l][1] > product)
                 {
                     location = l;
-                    cout << endl << "location: " << location << endl;
+                    if(i_print == 1) cout << endl << "location: " << location << endl;
                 }else
                 {
                     break;
                 }
             }
 
-            cout << endl << "choosed location: " << location << endl;
+            if(i_print == 1) cout << endl << "choosed location: " << location << endl;
 
             _allocation[batch][3] += 1;
 
-            cout << endl << "new last batch index: " << _allocation[batch][3] << endl;
+            if(i_print == 1) cout << endl << "new last batch index: " << _allocation[batch][3] << endl;
         }
 
-        cout << endl << "location: " << location << endl;
+        if(i_print == 1) cout << endl << "location: " << location << endl;
 
-        cout << endl << "info: reorganizing balancing location indexes. " << endl;
+        if(i_print == 1) cout << endl << "info: reorganizing balancing location indexes. " << endl;
 
         for(unsigned int b=batch+1; b<_allocation.size(); b++)
         {
-            cout << endl << "batch: " << b << "\t";
+            if(i_print == 1) cout << endl << "batch: " << b << "\t";
             _allocation[b][2] += 1;
-            cout << "new first batch index: " << _allocation[b][2];
+            if(i_print == 1) cout << "new first batch index: " << _allocation[b][2];
 
             _allocation[b][3] += 1;
-            cout << "  new last batch index: " << _allocation[b][3] << endl;
+            if(i_print == 1) cout << "  new last batch index: " << _allocation[b][3] << endl;
         }
 
-        cout << endl << "info: inserting new product on batch." << endl;
+        if(i_print == 1) cout << endl << "info: inserting new product on batch." << endl;
 
         _balancing.insert(_balancing.begin()+location,{batch,product});
 
         _batchWidth[batch] += _problem._width[product];
 
-        cout << endl << "batch width augmented to: " << _batchWidth[batch] << "." << endl;
+        if(i_print == 1) cout << endl << "batch width augmented to: " << _batchWidth[batch] << "." << endl;
 
         _batchIdleness[batch] -= _problem._width[product];
 
-        cout << endl << "batch idleness reduced to: " << _batchIdleness[batch] << "." << endl;
+        if(i_print == 1) cout << endl << "batch idleness reduced to: " << _batchIdleness[batch] << "." << endl;
 
         if(_processingTime[batch] > 0)
         {
@@ -2510,7 +2548,7 @@ namespace extruderPlanningProblemLibrary
 
             unsigned int production = _processingTime[batch]*_problem._productionPerTime[product][extruder];
 
-            cout << endl << "production being encreased: " << production << "." << endl;
+            if(i_print == 1) cout << endl << "production being encreased: " << production << "." << endl;
 
             if(production > 0)
             {
@@ -2529,15 +2567,18 @@ namespace extruderPlanningProblemLibrary
 
         bool i_print = 1;
 
-        unsigned int color,prevColor,setup,location,extruder,day,aux;
+        unsigned int color,prevColor,setup,location,extruder,day,first,last,position;
 
         if(cleanType == 1) // batches with empty processing time
         {
             for(unsigned int b=0; b<_allocation.size(); b++)
             {
+                cout << endl << "batch: " << b << endl;
                 if(_processingTime[b] == 0)
                 {
-                    // clearing processing time and linked variables
+                    // clearing batch and linked variables
+
+                    cout << endl << "batch being cleaned: " << b << endl;
 
                     extruder = _allocation[b][0];
                     day = _allocation[b][1];
@@ -2557,12 +2598,9 @@ namespace extruderPlanningProblemLibrary
                     _extruderProcTime[extruder][day] -= setup;
                     _extruderIdleness[extruder][day] += setup;
 
-                    // claring batch and linked variables
+                    // *** clearing batch and linked variables
 
-                    for(unsigned int i=_allocation[b][3]+1; i<_balancing.size(); i++)
-                    {
-                        _balancing[i][0] -= 1;
-                    }
+                    // printing _balancing before cleaning
 
                     if(i_print == 1) cout << endl << "balancing: " << endl;
                     if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
@@ -2571,19 +2609,24 @@ namespace extruderPlanningProblemLibrary
                     }
                     if(i_print == 1) cout << endl;
 
-                    for(unsigned int p=_allocation[b][3]; p>=_allocation[b][2]; p--)
-                    {
-                        if(i_print == 1) cout << endl << p << endl;
+                    // erasing batch <b>
 
-                        if(p == 0)
-                        {
-                            if(i_print == 1) cout << endl << "p = 0" << endl;
-                            _balancing.erase(_balancing.begin());
-                        }else
-                        {
-                            _balancing.erase(_balancing.begin()+p);
-                        }
+                    first = _allocation[b][2];
+                    last = _allocation[b][3];
+
+                    cout << endl << "last: " << last << "  first: " << first << endl;
+
+                    for(unsigned int p=last+1; p>first; p--)
+                    {
+                        position = p-1;
+                        cout << endl << "info: excluding position " << position << endl;
+
+                        erase(position);
+
+                        cout << endl << "info: after excluding." << endl;
                     }
+
+                    // printing _balancing after erasing
 
                     if(i_print == 1) cout << endl;
                     if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
@@ -2593,15 +2636,24 @@ namespace extruderPlanningProblemLibrary
                     }
                     if(i_print == 1) cout << endl;
 
-                    aux = _allocation[b][3] - _allocation[b][2] + 1;
+                    // adjusting batches indexes in _balancing
 
-                    for(unsigned int i=b+1; i<_allocation.size(); i++)
+                    if(_allocation.size() > b+1) // if batch <b> is not the last one
                     {
-                        if(i_print == 1) cout << endl << i << "first: " << _allocation[i][2] << "  last: " << _allocation[i][3] << endl;
-                        _allocation[i][2] -= aux;
-                        _allocation[i][3] -= aux;
-                        if(i_print == 1) cout << endl << i << "new first: " << _allocation[i][2] << "  new last: " << _allocation[i][3] << endl;
+                        for(unsigned int i=_allocation[b+1][2]; i<_balancing.size(); i++)
+                        {
+                            _balancing[i][0] -= 1;
+                        }
                     }
+
+                    // printing _balancing after adjusting _balancing indexes
+
+                    if(i_print == 1) cout << endl << "balancing: " << endl;
+                    if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
+                    {
+                        cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                    }
+                    if(i_print == 1) cout << endl;
 
                     location = find(_batchColorGroup[color],b);
 
@@ -2628,8 +2680,11 @@ namespace extruderPlanningProblemLibrary
                     _batchWidth.erase(_batchWidth.begin()+b);
                     _batchIdleness.erase(_batchIdleness.begin()+b);
                     _processingTime.erase(_processingTime.begin()+b);
+                    //_batchColor.erase(_batchColor.begin()+b);
 
                     b--;
+
+                    cout << endl << "batch back: " << b << endl;
                 }
             }
         }else if(cleanType == 2) // empty batches

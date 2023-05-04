@@ -150,6 +150,7 @@ namespace extruderPlanningProblemLibrary
 
         //auxiliary
 
+        bool _i_print = 0;
         vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
 
         // functions
@@ -185,7 +186,7 @@ namespace extruderPlanningProblemLibrary
         vector<unsigned int> productList(unsigned int batch);
         void processingTime(unsigned int batch, unsigned int time);
         void randomErase(unsigned int batch);
-        void erase(unsigned int location);
+        bool erase(unsigned int location);
         bool insert(unsigned int product, unsigned int batch);
         bool clean(unsigned int cleanType);
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
