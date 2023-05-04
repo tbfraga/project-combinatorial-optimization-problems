@@ -2056,33 +2056,30 @@ namespace extruderPlanningProblemLibrary
             }
         }
 
+        // solving this insue !!!
+
+        // need to calculate correctly the setup time (prevColor)
+
         // randomly choose an extruder and a day
-
-
-        /*unsigned int extruder = rand()%(_problem._NExtruders);
 
         // there is a problem here if no extruder can process the product because of its width (an infinite loop will be generated)
         while(_problem._length[extruder] < _problem._width[product])
         {
-            extruder = rand()%(_problem._NExtruders);
-        }
+            random = rand()%(sum+1);
 
-        unsigned int day = rand()%(_problem._NDays);*/
+            sum = 0;
 
-        random = rand()%(sum+1);
-
-        sum = 0;
-
-        for(unsigned int e=0; e<_extruderIdleness.size(); e++)
-        {
-            for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+            for(unsigned int e=0; e<_extruderIdleness.size(); e++)
             {
-                sum += _extruderIdleness[e][d];
-                if(random <= sum)
+                for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
                 {
-                    extruder = e;
-                    day = d;
-                    break;
+                    sum += _extruderIdleness[e][d];
+                    if(random <= sum)
+                    {
+                        extruder = e;
+                        day = d;
+                        break;
+                    }
                 }
             }
         }
