@@ -1239,6 +1239,9 @@ namespace extruderPlanningProblemLibrary
 
         float width = 0;
 
+        cout << endl << "extruder: " << extruder << "  day: " << day << endl;
+        cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  time: " << time << "  setup: " << _problem._setupTime[prevColor][color] << endl;
+
         if(_extruderIdleness[extruder][day] < time + _problem._setupTime[prevColor][color])
         {
             cout << endl << "error: extruder idleness must be grater than or equal to the <time> of batch + setup time !" << endl;
@@ -2056,6 +2059,8 @@ namespace extruderPlanningProblemLibrary
             }
         }
 
+        cout << endl << "sum: " << sum << endl;
+
         // solving this insue !!!
 
         // need to calculate correctly the setup time (prevColor)
@@ -2063,9 +2068,11 @@ namespace extruderPlanningProblemLibrary
         // randomly choose an extruder and a day
 
         // there is a problem here if no extruder can process the product because of its width (an infinite loop will be generated)
-        while(_problem._length[extruder] < _problem._width[product])
+        do
         {
             random = rand()%(sum+1);
+
+            cout << endl << "random: " << random << endl;
 
             sum = 0;
 
@@ -2082,9 +2089,9 @@ namespace extruderPlanningProblemLibrary
                     }
                 }
             }
-        }
+        } while(_problem._length[extruder] < _problem._width[product]);
 
-        cout << endl << "extruder: " << extruder << "  day: " << day << endl;
+        cout << endl << "product: " << product << "  extruder: " << extruder << "  day: " << day << endl;
         getchar();
 
         // calculating setup time and
@@ -2093,7 +2100,7 @@ namespace extruderPlanningProblemLibrary
 
         unsigned int time, production, prodLimit;
 
-         if(i_print == 1) cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  setup: " << _problem._setupTime[color][color] << endl;
+        if(i_print == 1) cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  setup: " << _problem._setupTime[color][color] << endl;
 
         if(_extruderIdleness[extruder][day] <= _problem._setupTime[color][color]) // if extruder idleness is not enough do not create a new batch
         {
@@ -2106,7 +2113,9 @@ namespace extruderPlanningProblemLibrary
         }else
         {
             // calculating maximum production allowed
+
             production = (_extruderIdleness[extruder][day]-_problem._setupTime[color][color])*_problem._productionPerTime[product][extruder];
+
             prodLimit = productionLimit(product,day);
 
             if(i_print == 1) cout << endl << "production: " << production << " production limit: " << prodLimit << endl;
@@ -2117,7 +2126,7 @@ namespace extruderPlanningProblemLibrary
                 time = rint(floor(prodLimit / _problem._productionPerTime[product][extruder]));
             }else
             {
-                time = _extruderIdleness[extruder][day];
+                time = _extruderIdleness[extruder][day] - _problem._setupTime[color][color];
             }
 
             if(i_print == 1) cout << endl << "time: " << time << endl;
