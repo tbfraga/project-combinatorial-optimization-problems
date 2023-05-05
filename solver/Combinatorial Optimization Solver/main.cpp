@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/04/26
+// last modification: 2023/05/05
 
 // goal: develop a solver for extruders planning optimization
 
@@ -24,14 +24,6 @@ using namespace extruderPlanningProblemLibrary;
 
 int main()
 {
-
-    /*srand((unsigned) time(NULL));
-
-    for(unsigned int t=0; t<100; t++)
-    {
-        cout << endl << rand()%10;
-    }*/
-
     EPPInstance problem;
 
     problem.EPP001();
@@ -45,21 +37,19 @@ int main()
     solution.restart(problem);
     solution.print();
     cout << endl << "empty solution" << endl;
-    getchar();
+    // getchar();
 
     solution.generate();
     solution.print();
     cout << endl << "initial solution" << endl;
-    getchar();
+    // getchar();
 
-    solution.particleCollision(30,100);
+    solution.particleCollision(100,1000);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
-    getchar();
+    //getchar();
 
 
     cout << endl << endl << "step 11: debuggin :(((" << endl;
-    // next step: continue debugging :(((
-
-
+    // just testing convergence :))
 }

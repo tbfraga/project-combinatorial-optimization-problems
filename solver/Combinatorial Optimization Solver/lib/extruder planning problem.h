@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/04/26
+// last modification: 2023/05/05
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 #define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
