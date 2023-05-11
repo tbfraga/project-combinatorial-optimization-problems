@@ -293,6 +293,7 @@ namespace extruderPlanningProblemLibrary
         /*****************************
         Small problem developed to test the solver operation.
         It is expected that the allocation will be done correctly according to the measurements of the products and the extruders.
+        Only one color - no problem with setup time.
         *****************************/
 
          clear();
@@ -445,7 +446,7 @@ namespace extruderPlanningProblemLibrary
     bool EPPSolution::print(unsigned int type)
     {
         bool error = 0;
-        unsigned int batch, position = 0;
+        unsigned int batch;
 
         if(type == 0) // fitness
         {
@@ -456,66 +457,34 @@ namespace extruderPlanningProblemLibrary
             cout << endl << "unmet demand total cost: " << _unmetDemandTotalCost  << endl;
             cout << endl << "inventory total cost: " << _inventoryTotalCost<< endl;
 
-        }else if(type == 1) // _balancing primary variables and variables linked to batch
+        }else if(type == 1) // _balancing
         {
             cout << endl << "[batch, product]" << endl;
-            cout << endl << "balancing / processing time (min) / width (m) / idleness (m)" << endl;
 
-            cout << endl << "\t";
-            for(unsigned int p=0; p<_problem._NProducts; p++)
-            {
-                cout << p << "\t";
-            }
-
-            cout << "time \twidth \tidleness" << endl;
+            cout << endl << "balancing" << endl;
 
             for(unsigned int b=0; b<_balancing.size(); b++)
             {
                 if(b==0)
                 {
                     batch = _balancing[b][0];
-                    cout << batch << "\t";
+                    cout << endl << batch << "\t" << _balancing[b][1];
                 }else if(_balancing[b][0] != _balancing[b-1][0]) // if not the same batch
                 {
-                    for(unsigned int p=position; p<_problem._NProducts; p++)
-                    {
-                        cout << "\t";
-                    }
-
-                    cout << _processingTime[batch];
-                    cout << "\t" << _batchWidth[batch];
-                    cout << "\t" << _batchIdleness[batch];
-                    //cout << "\t" << _batchColor[batch];
-                    cout << endl;
-                    position = 0;
                     batch = _balancing[b][0];
-                    cout << batch << "\t";
-                }
 
-                for(unsigned int p=position; p<_problem._NProducts; p++)
+                    cout << endl << batch << "\t" << _balancing[b][1];
+                }else
                 {
-                    if(_balancing[b][1]==p)
-                    {
-                            cout << p << "X" << "\t";
-                            position = p+1;
-                            break;
-                    }else
-                    {
-                        cout << "\t";
-                    }
+                    cout << "\t" << _balancing[b][1];
                 }
+            }
 
-                if(b == (_balancing.size()-1))
-                {
-                    for(unsigned int p=position; p<_problem._NProducts; p++)
-                    {
-                        cout << "\t";
-                    }
-                    cout << _processingTime[batch];
-                    cout << "\t" << _batchWidth[batch];
-                    cout << "\t" << _batchIdleness[batch];
-                    //cout << "\t" << _batchColor[batch];
-                }
+            cout << endl  << endl << "batch \ttime (min) \twidth (m) \tidleness (m)" << endl;
+
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                cout << endl << b << "\t" << _processingTime[b] << "\t" << _batchWidth[b] << "\t" << _batchIdleness[b];
             }
 
             cout << endl;
@@ -1800,9 +1769,8 @@ namespace extruderPlanningProblemLibrary
             step = -1;
             if(_processingTime[batch] < 1)
             {
-                if(i_print == 1) cout << endl << "error: time cannot be reduced !" << endl;
+                if(i_print == 1) cout << endl << "info: time cannot be reduced !" << endl;
                 if(i_print == 1) cout << endl << "production not changed." << endl;
-                if(i_print == 1) getchar();
                 return 1;
             }
         } else if(_processingTime[batch] < 1)
@@ -1835,9 +1803,8 @@ namespace extruderPlanningProblemLibrary
             {
                 if(productionVariation > prodLimit)
                 {
-                    if(i_print == 1) cout << endl << "error: can not increase production !" << endl;
+                    if(i_print == 1) cout << endl << "info: can not increase production !" << endl;
                     if(i_print == 1) cout << endl << "production not changed." << endl;
-                    if(i_print == 1) getchar();
                     return 1;
                 }else
                 {
@@ -1849,9 +1816,20 @@ namespace extruderPlanningProblemLibrary
             }
         }
 
-         _processingTime[batch] += step;
+        _processingTime[batch] += step;
         _extruderProcTime[extruder][day] += step;
         _extruderIdleness[extruder][day] -= step;
+
+        // erasing batch if processing time is zero
+
+        if(i_print == 1) cout << endl << "processing time: " << _processingTime[batch] << endl;
+
+        if(_processingTime[batch] == 0)
+        {
+            if(i_print == 1) cout << endl << "info: empty processing time." << endl;
+            if(i_print == 1) getchar();
+            clean(1, batch);
+        }
 
         return 0;
     };
@@ -1882,13 +1860,154 @@ namespace extruderPlanningProblemLibrary
         if(i_print == 1) print(6);
     };
 
-    // apply a simulated annealing method for improving solution
+    // cleanning a batch with empty processing
 
-    void EPPSolution::particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA)
+    bool EPPSolution::clean(unsigned int cleanType, unsigned int batch)
     {
         bool i_print = 0;
 
-        cout << endl << "function: particle collision - wait" << endl;
+        if(i_print == 1) cout << endl << "function: cleaning a batch with empty processing time." << endl;
+
+        unsigned int color,prevColor,setup,location,extruder,day,first,last,position;
+
+        if(cleanType == 1) // batches with empty processing time
+        {
+            if(i_print == 1) cout << endl << "batch: " << batch << endl;
+            if(_processingTime[batch] == 0)
+            {
+                // clearing batch and linked variables
+
+                if(i_print == 1) cout << endl << "batch being cleaned: " << batch << endl;
+
+                extruder = _allocation[batch][0];
+                day = _allocation[batch][1];
+                color = _allocation[batch][4];
+
+                if(_allocation[batch][2] > 0)
+                {
+                    location = _allocation[batch][2]-1;
+                    prevColor = _problem._color[_balancing[location][1]];
+                }else
+                {
+                    prevColor = color;
+                }
+
+                setup = _problem._setupTime[prevColor][color];
+
+                _extruderProcTime[extruder][day] -= setup;
+                _extruderIdleness[extruder][day] += setup;
+
+                // *** clearing batch and linked variables
+
+                // printing _balancing before cleaning
+
+                if(i_print == 1) cout << endl << "balancing: " << endl;
+                if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
+                {
+                    cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                }
+                if(i_print == 1) cout << endl;
+
+                // erasing batch
+
+                first = _allocation[batch][2];
+                last = _allocation[batch][3];
+
+                if(i_print == 1) cout << endl << "last: " << last << "  first: " << first << endl;
+
+                for(unsigned int p=last+1; p>first; p--)
+                {
+                    position = p-1;
+                    if(i_print == 1) cout << endl << "info: excluding position " << position << endl;
+
+                    erase(position);
+
+                    if(i_print == 1) cout << endl << "info: after excluding." << endl;
+                }
+
+                // printing _balancing after erasing
+
+                if(i_print == 1) cout << endl;
+                if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
+                {
+                    cout << endl << i << endl;
+                    cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                }
+                if(i_print == 1) cout << endl;
+
+                // adjusting batches indexes in _balancing
+
+                if(_allocation.size() > batch+1) // if batch is not the last one
+                {
+                    for(unsigned int i=_allocation[batch+1][2]; i<_balancing.size(); i++)
+                    {
+                        _balancing[i][0] -= 1;
+                    }
+                }
+
+                // printing _balancing after adjusting _balancing indexes
+
+                if(i_print == 1) cout << endl << "balancing: " << endl;
+                if(i_print == 1) for(unsigned int i=0; i<_balancing.size(); i++)
+                {
+                    cout << endl << _balancing[i][0] << "  " << _balancing[i][1];
+                }
+                if(i_print == 1) cout << endl;
+
+                location = find(_batchColorGroup[color],batch);
+
+                if(location >= _batchColorGroup[color].size())
+                {
+                    cout << endl << "error: location of " << batch << " not found." << endl;
+                    cout << endl << "info: there is an error in code, please verify." << endl;
+                    getchar();
+                    return 1;
+                }else
+                {
+                    _batchColorGroup[color].erase(_batchColorGroup[color].begin()+location);
+                }
+
+                for(unsigned int i=0; i<_batchColorGroup[color].size(); i++)
+                {
+                    if(_batchColorGroup[color][i] > batch)
+                    {
+                        _batchColorGroup[color][i] -= 1;
+                    }
+                }
+
+                _allocation.erase(_allocation.begin()+batch);
+                _batchWidth.erase(_batchWidth.begin()+batch);
+                _batchIdleness.erase(_batchIdleness.begin()+batch);
+                _processingTime.erase(_processingTime.begin()+batch);
+                //_batchColor.erase(_batchColor.begin()+b);
+            }else
+            {
+                cout << endl << "error: this batch does not have empty processing time !" << endl;
+                getchar();
+                return 1;
+            }
+
+        }else
+        {
+            cout << endl << "error: type not know !" << endl;
+
+            cout << endl << "types: " << endl;
+
+            cout << endl << "1: clear a batch with empty processing time." << endl;
+
+            getchar();
+
+            return 1;
+        }
+
+        return 0;
+    };
+
+    // apply a simulated annealing method for improving solution
+
+    void EPPSolution::particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA) // PC = Particle Collision
+    {
+        cout << endl << "function: particle collision." << endl;
 
         srand((unsigned) time(NULL));
 
@@ -1897,104 +2016,88 @@ namespace extruderPlanningProblemLibrary
 
         float probality = 0, aux = 0;
 
-        if(i_print == 1) _problem.print();
-        if(i_print == 1) print();
-        if(i_print == 1) cout << endl << "problem and initial solution in PCA." << endl;
-        if(i_print == 1) getchar();
+        if(_i_print == 1) _problem.print();
+        if(_i_print == 1) print();
+        if(_i_print == 1) cout << endl << "iinfo: problem and initial solution in PCA." << endl;
+        if(_i_print == 1) getchar();
 
         for(unsigned int ite=0; ite<NMaxIte; ite++)
         {
-            solution = autoCopy();
+            solution = autoCopy(); // take the corrent solution
 
-            solution.swapProduct();
-            if(i_print == 1) solution.print();
+            solution.swapProduct(); // PC pertubation
+            if(_i_print == 1) solution.print();
 
-            if(i_print == 1) cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
-            //getchar();
+            if(_i_print == 1) cout << endl << "info: solution after pertubation." << endl;
+            if(_i_print == 1) cout << endl << "fitness: " << solution._fitness << " - best fitness: " << _fitness << endl;
+            if(_i_print == 1) getchar();
 
+            // if improved take the solution as the current
             if(solution._fitness > _fitness)
             {
-                if(solution._fitness > bestSolution._fitness)
-                {
-                    if(i_print == 1) cout << endl << "info: found a better solution." << endl;
-                    bestSolution.set(solution);
-                    ite = 0;
-                }
-
-                if(i_print == 1) cout << endl << "info: solution improved." << endl;
+                if(_i_print == 1) cout << endl << "info: solution improved." << endl;
 
                 set(solution);
 
-                if(i_print == 1) print();
-                if(i_print == 1) cout << endl << "info: solution improved by PCA." << endl;
-                //getchar();
+                if(_i_print == 1) print();
+                if(_i_print == 1) cout << endl << "info: solution improved by PCA." << endl;
 
-                clean(2);
-                if(i_print == 1) print();
-                if(i_print == 1) cout << endl << "info: solution cleared." << endl;
-                //getchar();
+                if(solution._fitness > bestSolution._fitness) // if best solution
+                {
+                    if(_i_print == 1) cout << endl << "info: found a better solution." << endl;
+                    bestSolution.set(solution); // update best solution
+                    ite = 0; // restat count
+                }
 
-                simultedAnnealing(NMaxIteSA);
+                simultedAnnealing(NMaxIteSA); // SA for improving solution by improving batches processing time
 
-                if(i_print == 1) print();
-                if(i_print == 1) cout << endl << "info: solution after SA." << endl;
-                //getchar();
+                if(_i_print == 1) print();
+                if(_i_print == 1) cout << endl << "info: solution after SA." << endl;
+                if(_i_print == 1) getchar();
 
-                clean(1);
-                if(i_print == 1) print();
-                if(i_print == 1) cout << endl << "info: empty processed time batches cleared." << endl;
-                //getchar();
-            }else
+                clean(1); // cleanning empty processing time batches
+                if(_i_print == 1) print();
+                if(_i_print == 1) cout << endl << "info: solution after cleanning." << endl;
+                if(_i_print == 1) getchar();
+            }else // if not improved ramdomly take or not solution as current
             {
                 probality = solution._fitness / bestSolution._fitness;
-                if(i_print == 1) cout << endl << "probality: " << probality << endl;
+                if(_i_print == 1) cout << endl << "probality: " << probality << endl;
                 aux = rand()%10;
                 aux = aux/10;
-                if(i_print == 1) cout << endl << "random: " << aux << endl;
+                if(_i_print == 1) cout << endl << "random: " << aux << endl;
 
-                if(i_print == 1) cout << endl << "info: solution not improved" << endl;
+                if(_i_print == 1) cout << endl << "info: solution not improved" << endl;
+
                 if(aux <= probality)
                 {
-                    if(i_print == 1) cout << " but acepted..." << endl;
-                    set(solution);
+                    if(_i_print == 1) cout << "but acepted..." << endl;
+                    set(solution); // take solution as current
 
-                    if(i_print == 1) print();
-                    if(i_print == 1) cout << endl << "info: solution accepted by PCA." << endl;
-                    //getchar();
+                    if(_i_print == 1) print();
+                    if(_i_print == 1) cout << endl << "info: solution accepted by PCA." << endl;
 
-                    clean(2);
-                    if(i_print == 1) print();
-                    if(i_print == 1) cout << endl << "info: solution cleared." << endl;
-                    //getchar();
+                    simultedAnnealing(NMaxIteSA); // SA for improving solution by improving batches processing time
 
-                    simultedAnnealing(NMaxIteSA);
+                    if(_i_print == 1) print();
+                    if(_i_print == 1) cout << endl << "info: solution after SA." << endl;
+                    if(_i_print == 1) getchar();
 
-                    if(i_print == 1) print();
-                    if(i_print == 1) cout << endl << "info: solution after SA." << endl;
-                    //getchar();
-
-                    //aux = rand()%10;
-                    //aux = aux / 10;
-                    //cout << endl << "random clear: " << aux << endl;
-
-                    //if(aux < 0.2)
-                    //{
-                        clean(1);
-                        if(i_print == 1) print();
-                        if(i_print == 1) cout << endl << "info: empty processed time batches cleared." << endl;
-                        //getchar();
-                    //}
+                    clean(1);
+                    if(_i_print == 1) print();
+                    if(_i_print == 1) cout << endl << "info: empty processed time batches cleared." << endl;
+                    if(_i_print == 1) getchar();
                 }
             }
 
-            if(i_print == 1) cout << endl << "PC iteration: " << ite << endl;
+            cout << endl << "PC iteration: " << ite << endl;
             //getchar();
         }
 
         set(bestSolution);
-        if(i_print == 1) print();
-        if(i_print == 1) cout << endl << "info: final PCA solution." << endl;
-        if(i_print == 1) getchar();
+        if(_i_print == 1) print();
+        if(_i_print == 1) cout << endl << "info: final PCA solution." << endl;
+        if(_i_print == 1) getchar();
 
         solution.clear();
         bestSolution.clear();
@@ -2008,17 +2111,15 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::swapProduct()
     {
-        bool i_print = 0;
-
-        if(i_print == 1) cout << endl << "function: adding a new product on batch. " << endl << endl;
+        if(_i_print == 2 || _i_print == 3) cout << endl << "function: adding a new product on batch. " << endl << endl;
 
         unsigned int aux, batch;
 
         unsigned int product = rand()%_problem._NProducts; // randomly select a product
-        if(i_print == 1) cout << endl << "product randonly selected:  " << product << endl;
+        if(_i_print == 2 || _i_print == 3) cout << endl << "product randonly selected:  " << product << endl;
 
         unsigned int color = _problem._color[product]; // identify the product color
-        if(i_print == 1) cout << endl << "product color:  " << color << endl;
+        if(_i_print == 2 || _i_print == 3) cout << endl << "product color:  " << color << endl;
 
         if(_batchColorGroup[color].size() > 0) // if there are other batches of the same color
         {
@@ -2027,20 +2128,20 @@ namespace extruderPlanningProblemLibrary
 
             if(aux == _batchColorGroup[color].size()) // create another batch
             {
-                if(i_print == 1) cout << endl << "info: creating a new batch." << endl;
+                if(_i_print == 2 || _i_print == 3) cout << endl << "info: creating a new batch." << endl;
 
                 insert(product);
             }else // insert the new product in the chosen batch
             {
                 batch = _batchColorGroup[color][aux];
 
-                if(i_print == 1) cout << endl << "batch:  " << batch << endl;
+                if(_i_print == 2 || _i_print == 3) cout << endl << "batch:  " << batch << endl;
                 include(product, batch);
             }
         }else // if there are any batch of the same color, create a new one
         {
-            if(i_print == 1) cout << endl << "info: there is no batch of this color." << endl;
-            if(i_print == 1) cout << endl << "info: creating a new batch." << endl;
+            if(_i_print == 2 || _i_print == 3) cout << endl << "info: there is no batch of this color." << endl;
+            if(_i_print == 2 || _i_print == 3) cout << endl << "info: creating a new batch." << endl;
 
             insert(product);
         }
@@ -2147,19 +2248,17 @@ namespace extruderPlanningProblemLibrary
 
     bool EPPSolution::include(unsigned int product, unsigned int batch)
     {
-        bool i_print = 0;
-
-        if(i_print == 1) cout << endl << "function: including product on batch..." << endl;
+        if(_i_print == 2 || _i_print == 3) cout << endl << "function: including product on batch..." << endl;
 
         unsigned int extruder = _allocation[batch][0];
         unsigned int day = _allocation[batch][1];
 
-        if(i_print == 1) cout << endl << "extruder: " << extruder << "  day: " << day  << endl;
+        if(_i_print == 2 || _i_print == 3) cout << endl << "extruder: " << extruder << "  day: " << day  << endl;
 
         if(_problem._length[extruder] < _problem._width[product])
         {
-            if(i_print == 1) cout << endl << "error: product cannot be allocated on this extruder !" << endl;
-            if(i_print == 1) getchar();
+            if(_i_print == 2 || _i_print == 3) cout << endl << "info: product cannot be allocated on this extruder - product wont be included !" << endl;
+            if(_i_print == 2 || _i_print == 3) getchar();
             return 1;
         }else
         {
@@ -2167,7 +2266,7 @@ namespace extruderPlanningProblemLibrary
             unsigned int production = _processingTime[batch]*_problem._productionPerTime[product][extruder];
             unsigned int prodLimit = productionLimit(product,day);
 
-            if(i_print == 1) cout << endl << "production: " << production << "  limit: " << prodLimit << endl;
+            if(_i_print == 2 || _i_print == 3) cout << endl << "production: " << production << "  limit: " << prodLimit << endl;
 
             if(production > prodLimit)
             {
@@ -2175,14 +2274,14 @@ namespace extruderPlanningProblemLibrary
                 time = rint(floor(production / _problem._productionPerTime[product][extruder]));
                 diff = _processingTime[batch] - time;
 
-                if(i_print == 1) cout << endl << "production: " << production << "  time: " << time << "  diff: " << diff << endl;
+                if(_i_print == 2 || _i_print == 3) cout << endl << "production: " << production << "  time: " << time << "  diff: " << diff << endl;
 
                 if(split(batch, time) == 1) processingTime(batch, time);
             }
 
-            while(_batchIdleness[batch] < _problem._width[product])
+            while(_batchIdleness[batch] < _problem._width[product]) // excluding products on batch
             {
-                if(i_print == 1) cout << endl << "idleness: "<< _batchIdleness[batch] << "  width: " << _problem._width[product] << endl;
+                if(_i_print == 2 || _i_print == 3) cout << endl << "idleness: "<< _batchIdleness[batch] << "  width: " << _problem._width[product] << endl;
                 randomErase(batch);
             }
 
@@ -2190,7 +2289,7 @@ namespace extruderPlanningProblemLibrary
         }
     };
 
-    // split a batch into two batches
+    // spliting a batch into two batches
 
     bool EPPSolution::split(unsigned int batch, unsigned int time)
     {
@@ -2607,7 +2706,7 @@ namespace extruderPlanningProblemLibrary
         return 0;
     };
 
-    //
+    // cleanning empty processing time batches
 
     bool EPPSolution::clean(unsigned int cleanType)
     {
@@ -2813,5 +2912,13 @@ namespace extruderPlanningProblemLibrary
         }
 
         return position;
+    };
+
+    // improving the solution by joining batches with similar properties
+
+    bool EPPSolution::collapse()
+    {
+
+        return 0;
     };
 }

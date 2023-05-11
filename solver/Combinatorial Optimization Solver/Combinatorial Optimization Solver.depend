@@ -10,3 +10,14 @@
 1683298552 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
 	"../lib/extruder planning problem.h"
 
+1683734406 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+	"lib/extruder planning problem.h"
+
+1683734406 /home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
+	<math.h>
+	<iostream>
+	<vector>
+
+1683734406 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
+	"../lib/extruder planning problem.h"
+

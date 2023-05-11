@@ -150,7 +150,13 @@ namespace extruderPlanningProblemLibrary
 
         //auxiliary
 
-        bool _i_print = 0;
+        int _i_print = 1;
+        // 0 print only no restricted print
+        // 1 print only PCA solutions in each iteration
+        // 2 print all
+        // 3 print only swapProduct function
+
+
         vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
 
         // functions
@@ -177,8 +183,9 @@ namespace extruderPlanningProblemLibrary
         void set(EPPSolution solution);
         bool swapTime();
         void reduce(unsigned int production, unsigned int product, unsigned int day);
+        bool clean(unsigned int cleanType, unsigned int batch);
 
-        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
+        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA); // ok
         void swapProduct();
         bool insert(unsigned int product);
         bool include(unsigned int product, unsigned int batch);
@@ -190,6 +197,7 @@ namespace extruderPlanningProblemLibrary
         bool insert(unsigned int product, unsigned int batch);
         bool clean(unsigned int cleanType);
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
+        bool collapse();
     };
 }
 
