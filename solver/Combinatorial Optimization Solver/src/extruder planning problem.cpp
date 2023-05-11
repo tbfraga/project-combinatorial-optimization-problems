@@ -2016,20 +2016,20 @@ namespace extruderPlanningProblemLibrary
 
         float probality = 0, aux = 0;
 
-        if(_i_print == 1) _problem.print();
-        if(_i_print == 1) print();
-        if(_i_print == 1) cout << endl << "iinfo: problem and initial solution in PCA." << endl;
-        if(_i_print == 1) getchar();
+        /*if(_i_print == 1)*/ _problem.print();
+        /*if(_i_print == 1)*/ print();
+        /*if(_i_print == 1)*/ cout << endl << "iinfo: problem and initial solution in PCA." << endl;
+        /*if(_i_print == 1)*/ getchar();
 
         for(unsigned int ite=0; ite<NMaxIte; ite++)
         {
             solution = autoCopy(); // take the corrent solution
 
             solution.swapProduct(); // PC pertubation
-            if(_i_print == 1) solution.print();
+            /*if(_i_print == 1)*/ solution.print();
 
-            if(_i_print == 1) cout << endl << "info: solution after pertubation." << endl;
-            if(_i_print == 1) cout << endl << "fitness: " << solution._fitness << " - best fitness: " << _fitness << endl;
+            /*if(_i_print == 1)*/ cout << endl << "info: solution after pertubation." << endl;
+            /*if(_i_print == 1)*/ cout << endl << "fitness: " << solution._fitness << " - best fitness: " << _fitness << endl;
             if(_i_print == 1) getchar();
 
             // if improved take the solution as the current
@@ -2051,8 +2051,8 @@ namespace extruderPlanningProblemLibrary
 
                 simultedAnnealing(NMaxIteSA); // SA for improving solution by improving batches processing time
 
-                if(_i_print == 1) print();
-                if(_i_print == 1) cout << endl << "info: solution after SA." << endl;
+                /*if(_i_print == 1)*/ print();
+                /*if(_i_print == 1)*/ cout << endl << "info: solution after SA." << endl;
                 if(_i_print == 1) getchar();
 
                 clean(1); // cleanning empty processing time batches
@@ -2079,8 +2079,8 @@ namespace extruderPlanningProblemLibrary
 
                     simultedAnnealing(NMaxIteSA); // SA for improving solution by improving batches processing time
 
-                    if(_i_print == 1) print();
-                    if(_i_print == 1) cout << endl << "info: solution after SA." << endl;
+                    /*if(_i_print == 1)*/ print();
+                    /*if(_i_print == 1)*/ cout << endl << "info: solution after SA." << endl;
                     if(_i_print == 1) getchar();
 
                     clean(1);
@@ -2109,7 +2109,7 @@ namespace extruderPlanningProblemLibrary
     Additionally, the production limit for the new product is checked and then, if the batch processing time is too high, the batch is divided into two batches.
     The first batch with the limit processing time and the second with the remaining batch time value, subtracted from the setup value. */
 
-    void EPPSolution::swapProduct()
+    void EPPSolution::swapProduct() // pertubation function
     {
         if(_i_print == 2 || _i_print == 3) cout << endl << "function: adding a new product on batch. " << endl << endl;
 
@@ -2260,9 +2260,9 @@ namespace extruderPlanningProblemLibrary
             if(_i_print == 2 || _i_print == 3) cout << endl << "info: product cannot be allocated on this extruder - product wont be included !" << endl;
             if(_i_print == 2 || _i_print == 3) getchar();
             return 1;
-        }else
+        }else // break (just a min) ...
         {
-            unsigned int time, diff;
+            unsigned int time/*, diff*/;
             unsigned int production = _processingTime[batch]*_problem._productionPerTime[product][extruder];
             unsigned int prodLimit = productionLimit(product,day);
 
@@ -2270,22 +2270,32 @@ namespace extruderPlanningProblemLibrary
 
             if(production > prodLimit)
             {
-                production = prodLimit;
-                time = rint(floor(production / _problem._productionPerTime[product][extruder]));
-                diff = _processingTime[batch] - time;
+                production = prodLimit; // limit production to the limit allowed (to assure viability)
+                time = rint(floor(production / _problem._productionPerTime[product][extruder])); // calculating new processing time
+                //diff = _processingTime[batch] - time; // diff to create a new batch we won't do this
 
-                if(_i_print == 2 || _i_print == 3) cout << endl << "production: " << production << "  time: " << time << "  diff: " << diff << endl;
+                if(_i_print == 2 || _i_print == 3) cout << endl << "production: " << production << "  time: " << time /*<< "  diff: " << diff */<< endl;
 
-                if(split(batch, time) == 1) processingTime(batch, time);
+                /*if(time == 0) // need to reduce production from other batch - mabe program does not find a way for improving cause of it - surely
+                {
+                    if(_i_print == 2 || _i_print == 3) cout << endl << "info: connot produce more of this product - product wont be included !" << endl;
+                    if(_i_print == 2 || _i_print == 3) getchar();
+                    return 1;
+                } // else*/  /// I have just commented here
+
+                /*if(split(batch, time) == 1)*/ processingTime(batch, time); // reducing batch processing time for including new product (to assure viability)
+                // that is why I have created a split function (I dind't want to modify a lot the solution)
+
+                // I belive it is not a good idea reduce processing time to zero so let's make anothe resstriction
             }
 
-            while(_batchIdleness[batch] < _problem._width[product]) // excluding products on batch
+            while(_batchIdleness[batch] < _problem._width[product]) // excluding products on batch (to assure viability)
             {
                 if(_i_print == 2 || _i_print == 3) cout << endl << "idleness: "<< _batchIdleness[batch] << "  width: " << _problem._width[product] << endl;
                 randomErase(batch);
             }
 
-            return insert(product, batch);
+            return insert(product, batch); // than insert new product on batch
         }
     };
 

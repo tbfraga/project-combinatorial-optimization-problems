@@ -28,9 +28,9 @@ int main()
 
     problem.EPP001();
 
-    //problem.print();
-    //cout << endl << "problem" << endl;
-    //getchar();
+    problem.print();
+    cout << endl << "problem" << endl;
+    getchar();
 
     EPPSolution solution;
 
@@ -44,21 +44,18 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(100,500);
-    //solution.print();
-    //cout << endl << "solution after Particle Collision" << endl;
-    //getchar();
+    solution.particleCollision(200,3000);
+    solution.print();
+    cout << endl << "solution after Particle Collision" << endl;
+    getchar();
 
 
-    cout << endl << endl << "step 12: creating class EPPSolution - debbuging... looking closer Swap Product function." << endl;
-    cout << endl << endl << "next step: changing swap product function." << endl;
+    cout << endl << endl << "step 13: creating class EPPSolution - changing pertubation function (not spliting batches)." << endl;
+    cout << endl << endl << "next step: printing on file." << endl;
 
-    we have to possibilities:
 
-    1) to create a collapse function;
-    2) change the pertubation function.
-
-    So, I will try the second
+    // nest step print in a file
+    // lets print all in a file ***
 
 
     // also I will be remodeling solver

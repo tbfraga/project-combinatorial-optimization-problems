@@ -150,7 +150,7 @@ namespace extruderPlanningProblemLibrary
 
         //auxiliary
 
-        int _i_print = 1;
+        int _i_print = 0;
         // 0 print only no restricted print
         // 1 print only PCA solutions in each iteration
         // 2 print all
