@@ -1,0 +1,11957 @@
+
+function: particle collision.
+
+EXTRUDER PLANNING PROBLEM
+
+Days: 2
+
+Extruders: 2
+
+setup cost: 20  -  operation cost: 0.5
+
+[extruder]  production rate (m/min) / length (m)
+
+0	40	1
+1	60	0.8
+
+[extruder, day]  capacity(min)
+
+	0	1
+0	420	420
+1	420	420
+
+Products: 4
+
+[product]  width (m) / weight ratio (g/m²) / unit contribution ($/g)/ initial inventory (g) / maximum inventory (g) / color
+
+0	0.6	10	1.1	1000	10000	0
+1	0.3	10	1.3	0	50000	0
+2	0.6	10	1.2	3000	20000	0
+3	0.2	10	1.1	0	10000	0
+
+Factory: 
+
+maximum inventory (g): 50000  -  inventory unit cost ($/g): 0.01
+
+[product, day]  demand (g)
+
+	0	1
+0	99400	73800
+1	149600	35800
+2	2000	4000
+3	3000	0
+
+Factory: 
+
+unmet demand cost ($/g): 0.5
+
+[product, product]  relation of products of same color and material
+
+	0	1	2	3
+0	1	1	1	1
+1	1	1	1	1
+2	1	1	1	1
+3	1	1	1	1
+
+Colors: 1
+
+[color]  color group
+
+0	0	1	2	3
+
+[color, color]  setup time (min)
+
+	0
+0	10
+
+[product, extruder]  production rate (g/min)
+
+	0	1
+0	240	360
+1	120	180
+2	240	360
+3	80	120
+
+Outlets: 2
+
+[outlet]  maximum outlet inventory (g)
+
+0	10000
+1	5000
+
+[product, outlet]  maximum inventory (g)
+
+	0	1
+0	1000	1000
+1	5000	10000
+2	10000	5000
+3	5000	500
+
+
+SOLUTION
+
+fitness: 46748
+
+production total profit: 227064
+
+unmet demand total cost: 179800
+
+inventory total cost: 516
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	2
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	94	0.6	0.2
+3	108	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	222	0		198	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	15840	15840		4160	4160		20000
+3	9960	9960		40	40		10000
+
+			total:	24200	24200	total:	50000
+
+
+info: problem and initial solution in PCA.
+
+function: adding a new product on batch. 
+
+product randonly selected:  1
+
+function: including product on batch...
+
+function: random exclusion. 
+
+_balancing indexes: start: 2  end: 2
+
+info: only one product on this batch. 
+
+loation to be erased: 2
+
+
+SOLUTION
+
+fitness: 4956.8
+
+production total profit: 186456
+
+unmet demand total cost: 181300
+
+inventory total cost: 199.2
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	94	0	0.8
+3	108	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	2	2	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	222	0		198	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	0	0	0	0	5000	500
+
+				total:	10000	5000
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9960	9960		40	40		10000
+
+			total:	40040	40040	total:	50000
+
+
+info: solution after random exclusion. 
+
+
+SOLUTION
+
+fitness: 43872.8
+
+production total profit: 208452
+
+unmet demand total cost: 164380
+
+inventory total cost: 199.2
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	94	0.3	0.5
+3	108	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	222	0		198	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	16920	49200		16920	49200		132680	119280		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	0	0	0	0	5000	500
+
+				total:	10000	5000
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9960	9960		40	40		10000
+
+			total:	40040	40040	total:	50000
+
+
+info: solution after pertubation. // ok
+
+function: Simulated Annealing.
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 95
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 94
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 94
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 96
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 95
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 95
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 97
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 107
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 98
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 99
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 98
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 100
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 99
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 109
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 108
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 101
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 102
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 103
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 110
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 109
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 104
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 105
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 104
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 104
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 111
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 106
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 112
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 111
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 111
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 113
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 112
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 112
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 114
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 113
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 113
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 113
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 115
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 116
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 117
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 105
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 118
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 119
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 107
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 120
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 121
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 120
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 108
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 122
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 123
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 124
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 123
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 109
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 110
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 111
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 112
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 113
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 125
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 112
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 114
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 126
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 115
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 116
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 127
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 117
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 126
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 116
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 118
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 126
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 119
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 128
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 129
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 130
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 120
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 131
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 130
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 121
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 132
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 120
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 122
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 121
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 131
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 131
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 123
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 131
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 124
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 133
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 125
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 132
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 132
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 132
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 124
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 132
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 134
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 135
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 136
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 137
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 138
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 126
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 139
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 138
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 140
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 127
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 139
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 126
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 126
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 128
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 141
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 140
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 127
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 142
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 143
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 127
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 127
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 129
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 144
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 145
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 146
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 128
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 147
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 130
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 148
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 131
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 130
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 130
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 149
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 148
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 148
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 130
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 132
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 150
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 131
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 149
+
+SA iteration: 3
+
+function: swaping time.  
+
+improving 
+step:  1
+
+processing time: 151
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 131
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 150
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 133
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 152
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 134
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 153
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 154
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 135
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 134
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 134
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 136
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 135
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 137
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 136
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 138
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 139
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 138
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 140
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 141
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 142
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 141
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 143
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 142
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 142
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 144
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 145
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 144
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 146
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 145
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 145
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 147
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 148
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 149
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 150
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 151
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 152
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 153
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 154
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 155
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 154
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 154
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 156
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 155
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 157
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 156
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 158
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 159
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 158
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 160
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 159
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 161
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 160
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 160
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 160
+
+SA iteration: 18
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 19
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 20
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 21
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 22
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 162
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 163
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 164
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 163
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 165
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 166
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 167
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 168
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 167
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 169
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 170
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 169
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 171
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 172
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 173
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 172
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 172
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 174
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 175
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 176
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 175
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 175
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 175
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 18
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 19
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 20
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 21
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 22
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 23
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 24
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 25
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 26
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 27
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 175
+
+SA iteration: 28
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 29
+
+
+SOLUTION
+
+fitness: 83892.4
+
+production total profit: 233712
+
+unmet demand total cost: 149620
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	176	0.3	0.5
+3	154	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	350	0		70	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	31680	49200		31680	49200		117920	104520		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after SA. 
+
+
+SOLUTION
+
+fitness: 83892.4
+
+production total profit: 233712
+
+unmet demand total cost: 149620
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	176	0.3	0.5
+3	154	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	350	0		70	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	31680	49200		31680	49200		117920	104520		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after cleanning. 
+
+
+SOLUTION
+
+fitness: 83892.4
+
+production total profit: 233712
+
+unmet demand total cost: 149620
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	176	0.3	0.5
+3	154	0.2	0.6
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	350	0		70	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	31680	49200		31680	49200		117920	104520		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after iteration: 0
+
+function: adding a new product on batch. 
+
+product randonly selected:  1
+
+function: including product on batch...
+
+
+SOLUTION
+
+fitness: 147648
+
+production total profit: 269748
+
+unmet demand total cost: 121900
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	176	0.3	0.5
+3	154	0.5	0.3
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	4	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	350	0		70	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	59400	49200		59400	49200		90200	76800		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after pertubation.
+
+function: Simulated Annealing.
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 175
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 177
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 178
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 179
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 178
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 178
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 178
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 180
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 181
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 180
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 180
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 182
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 181
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 181
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 181
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 183
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 182
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 182
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 182
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 184
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 185
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 186
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 187
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 188
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 189
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 190
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 189
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 189
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 189
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 191
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 192
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 193
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 192
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 192
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 194
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 195
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 196
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 195
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 195
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 197
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 196
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 198
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 197
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 199
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 200
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 201
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 202
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 201
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 203
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 204
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 203
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 203
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 205
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 204
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 206
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 205
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 207
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 208
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 209
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 210
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 209
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 211
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 212
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 211
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 213
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 214
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 215
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 216
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 217
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 218
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 217
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 219
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 218
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 218
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 218
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 220
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 221
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 220
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 220
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 222
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 223
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 224
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 225
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 224
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 226
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 225
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 227
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 226
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 228
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 229
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 230
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 229
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 229
+
+SA iteration: 18
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 229
+
+SA iteration: 19
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 20
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 21
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 231
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 231
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+
+
+
+step:  1
+
+processing time: 235
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 236
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 237
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 238
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 237
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 239
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+ 
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 238
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 238
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 240
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 239
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 239
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 239
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 239
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 241
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 242
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 241
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 243
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 244
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 245
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  1
+
+processing time: 246
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 18
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 19
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 20
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 21
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 22
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 23
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 24
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 25
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 26
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 27
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 28
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 29
+
+
+SOLUTION
+
+fitness: 201468
+
+production total profit: 300168
+
+unmet demand total cost: 98500
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.5	0.3
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	4	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	82800	49200		82800	49200		66800	53400		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after SA. 
+
+
+SOLUTION
+
+fitness: 201468
+
+production total profit: 300168
+
+unmet demand total cost: 98500
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.5	0.3
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	4	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	82800	49200		82800	49200		66800	53400		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after cleanning. 
+
+
+SOLUTION
+
+fitness: 201468
+
+production total profit: 300168
+
+unmet demand total cost: 98500
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.5	0.3
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	4	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	82800	49200		82800	49200		66800	53400		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after iteration: 0
+
+function: adding a new product on batch. 
+
+product randonly selected:  1
+
+function: including product on batch...
+
+
+SOLUTION
+
+fitness: 265224
+
+production total profit: 336204
+
+unmet demand total cost: 70780
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.8	0
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	5	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	110520	49200		110520	49200		39080	25680		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after pertubation.
+
+function: Simulated Annealing.
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 0
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 1
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 2
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 3
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 4
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 5
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 6
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 7
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 8
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 9
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 10
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 11
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 12
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 13
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 14
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 15
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 16
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 17
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 18
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 19
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 20
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 21
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 22
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 23
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 24
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 25
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 153
+
+SA iteration: 26
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 27
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 245
+
+SA iteration: 28
+
+function: swaping time.  
+
+
+step:  -1
+
+processing time: 409
+
+SA iteration: 29
+
+
+SOLUTION
+
+fitness: 265224
+
+production total profit: 336204
+
+unmet demand total cost: 70780
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.8	0
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	5	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	110520	49200		110520	49200		39080	25680		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after SA. 
+
+
+SOLUTION
+
+fitness: 265224
+
+production total profit: 336204
+
+unmet demand total cost: 70780
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.8	0
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	5	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	110520	49200		110520	49200		39080	25680		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after cleanning. 
+
+
+SOLUTION
+
+fitness: 265224
+
+production total profit: 336204
+
+unmet demand total cost: 70780
+
+inventory total cost: 199.6
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	1	3
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.8	0
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	5	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	110520	49200		110520	49200		39080	25680		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	18480	0		3000	0		0	0		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	5000	0	500	0	0	0
+
+				total:	5000	4500
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	9980	9980		20	20		10000
+
+			total:	40020	40020	total:	50000
+
+
+info: solution after iteration: 0
+
+function: adding a new product on batch. 
+
+product randonly selected:  0
+
+function: including product on batch...
+
+function: random exclusion. 
+
+_balancing indexes: start: 3  end: 5
+
+number of products on this batch: 3
+
+loation to be erased: 5
+
+
+SOLUTION
+
+fitness: 242096
+
+production total profit: 315876
+
+unmet demand total cost: 73780
+
+inventory total cost: 0
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+3	1	1
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.6	0.2
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	4	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	110520	49200		110520	49200		39080	25680		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	0	0		0	0		3000	3000		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	0	0	0	0	5000	500
+
+				total:	10000	5000
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	0	0		10000	10000		10000
+
+			total:	50000	50000	total:	50000
+
+
+info: solution after random exclusion. 
+
+function: random exclusion. 
+
+_balancing indexes: start: 3  end: 4
+
+number of products on this batch: 2
+
+loation to be erased: 4
+
+
+SOLUTION
+
+fitness: 178340
+
+production total profit: 279840
+
+unmet demand total cost: 101500
+
+inventory total cost: 0
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1 
+3	1 // erasing last element in _balancing - batch 3 do not exist anymore
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0.3	0.5
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	 // but indexes do not change, since I stel need this information
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	82800	49200		82800	49200		66800	53400		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	0	0		0	0		3000	3000		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	0	0	0	0	5000	500
+
+				total:	10000	5000
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	0	0		10000	10000		10000
+
+			total:	50000	50000	total:	50000
+
+
+info: solution after random exclusion. 
+
+function: random exclusion. 
+
+_balancing indexes: start: 3  end: 3
+
+info: only one product on this batch. 
+
+loation to be erased: 3
+
+
+SOLUTION 
+
+fitness: 114584
+
+production total profit: 243804
+
+unmet demand total cost: 129220
+
+inventory total cost: 0
+
+[batch, product]
+
+balancing
+
+0	0
+1	1
+2	1
+
+batch 	time (min) 	width (m) 	idleness (m)
+
+0	410	0.6	0.4
+1	410	0.3	0.7
+2	246	0.3	0.5
+3	154	0	0.8
+
+allocation [batch, extruder, day, iterator ref, iterator ref, color]: 
+
+0	0	0	0	0	0	
+1	0	1	1	1	0	
+2	1	0	2	2	0	
+3	1	0	3	3	0	
+
+
+batch color group [batch vector]: 
+
+
+
+
+[extruder, day]
+
+   processing time (min)  /  idleness (min)
+
+	0	1		0	1
+
+0	420	420		0	0
+
+1	420	0		0	420
+
+
+production / demand (g) [product, day]:
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	98400	0		99400	0		0	73800		99400	73800
+1	55080	49200		55080	49200		94520	81120		149600	35800
+2	0	0		2000	1000		0	3000		2000	4000
+3	0	0		0	0		3000	3000		3000	0
+
+
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	0	0	0	0	10000	5000
+3	0	0	0	0	5000	500
+
+				total:	10000	5000
+
+inventory (g) [product, day]
+
+	inventory		free			maximum
+
+	0	1		0	1
+
+0	0	0		10000	10000		10000
+1	0	0		50000	50000		50000
+2	0	0		20000	20000		20000
+3	0	0		10000	10000		10000
+
+			total:	50000	50000	total:	50000
+
+
+info: solution after random exclusion. 

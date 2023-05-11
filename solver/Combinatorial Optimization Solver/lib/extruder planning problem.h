@@ -21,7 +21,9 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 #include<math.h>
 
 #include<iostream>
+#include<fstream>
 #include<vector>
+
 using namespace std;
 
 namespace extruderPlanningProblemLibrary
@@ -87,6 +89,8 @@ namespace extruderPlanningProblemLibrary
         public:
 
         bool print();
+        bool print(ofstream &file);
+
         void clear();
         void restart();
     };
@@ -150,7 +154,8 @@ namespace extruderPlanningProblemLibrary
 
         //auxiliary
 
-        int _i_print = 0;
+        int _i_print = 4;
+        // 4 print all on file
         // 0 print only no restricted print
         // 1 print only PCA solutions in each iteration
         // 2 print all
@@ -165,7 +170,9 @@ namespace extruderPlanningProblemLibrary
 
         void clear();
         bool print();
+        bool print(ofstream &file);
         bool print(unsigned int type);
+        bool print(unsigned int type, ofstream &file);
 
         void restart(EPPInstance problem);
         void generate();
@@ -178,24 +185,24 @@ namespace extruderPlanningProblemLibrary
         void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet);
 
 
-        void simultedAnnealing(unsigned int NMaxIte);
+        void simultedAnnealing(unsigned int NMaxIte, ofstream &file);
         EPPSolution autoCopy();
         void set(EPPSolution solution);
-        bool swapTime();
+        bool swapTime(ofstream &file);
         void reduce(unsigned int production, unsigned int product, unsigned int day);
-        bool clean(unsigned int cleanType, unsigned int batch);
+        bool clean(unsigned int batch);
 
         void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA); // ok
-        void swapProduct();
+        void swapProduct(ofstream &file);
         bool insert(unsigned int product);
-        bool include(unsigned int product, unsigned int batch);
+        bool include(unsigned int product, unsigned int batch, ofstream &file);
         bool split(unsigned int batch, unsigned int time);
         vector<unsigned int> productList(unsigned int batch);
         void processingTime(unsigned int batch, unsigned int time);
-        void randomErase(unsigned int batch);
+        void randomErase(unsigned int batch, ofstream &file);
         bool erase(unsigned int location);
         bool insert(unsigned int product, unsigned int batch);
-        bool clean(unsigned int cleanType);
+        bool clean();
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
         bool collapse();
     };

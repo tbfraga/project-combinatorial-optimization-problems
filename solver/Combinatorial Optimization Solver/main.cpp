@@ -24,10 +24,14 @@ using namespace extruderPlanningProblemLibrary;
 
 int main()
 {
+    ofstream file;
+    file.open ("problem.txt");
+
     EPPInstance problem;
 
     problem.EPP001();
 
+    problem.print(file);
     problem.print();
     cout << endl << "problem" << endl;
     getchar();
@@ -44,15 +48,29 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(200,3000);
+    solution.particleCollision(30,30);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     getchar();
 
+    // g/min
+    // 0 240 360
+    // 1 120 180
+    // 2 240 360
+    // 3  80 120
 
-    cout << endl << endl << "step 13: creating class EPPSolution - changing pertubation function (not spliting batches)." << endl;
+    // only producing 1 and 3 in _ballancing
+    // some error when deleting _ballnacing ???
+
+    cout << endl << endl << "step 13: creating class EPPSolution - looking closer - clean function." << endl;
     cout << endl << endl << "next step: printing on file." << endl;
 
+    // we have an error in SA function
+    // when we have an empty processing time batch
+    // function is increasing production without changing solution
+    // weird
+
+    // sinse I have a nonsense problem, I need to look all code again
 
     // nest step print in a file
     // lets print all in a file ***
@@ -107,4 +125,6 @@ int main()
     // as we can see we have many separated batches with the same group of products and on the same extruder (next step)
     // there is a erro in code when including new batches (need to adjust correctly setup time)
     // function clean is no mere necessary after SA
+
+    file.close();
 }
