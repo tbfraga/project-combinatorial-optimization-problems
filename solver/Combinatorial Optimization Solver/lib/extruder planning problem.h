@@ -201,7 +201,7 @@ namespace extruderPlanningProblemLibrary
         void processingTime(unsigned int batch, unsigned int time);
         void randomErase(unsigned int batch, ofstream &file);
         bool erase(unsigned int location);
-        bool insert(unsigned int product, unsigned int batch);
+        bool insert(unsigned int product, unsigned int batch, ofstream &file);
         bool clean();
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
         bool collapse();

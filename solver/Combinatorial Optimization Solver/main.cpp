@@ -53,6 +53,8 @@ int main()
     cout << endl << "solution after Particle Collision" << endl;
     getchar();
 
+    // lets stop for today
+
     // g/min
     // 0 240 360
     // 1 120 180

@@ -2243,7 +2243,7 @@ namespace extruderPlanningProblemLibrary
     bool EPPSolution::swapTime(ofstream &file)
     {
         if(_i_print == 2) cout << endl << "function: swaping time.  " << endl << endl;
-        if(_i_print == 4) file << endl << "function: swaping time.  " << endl << endl;
+        //if(_i_print == 4) file << endl << "function: swaping time.  " << endl << endl;
 
         unsigned int batch = rand()%_allocation.size();
         if(_i_print == 2) cout << endl << "batch:  " << batch << endl;
@@ -2279,7 +2279,7 @@ namespace extruderPlanningProblemLibrary
             }
         }
         if(_i_print == 2) cout << endl << "step:  " << step << endl;
-        if(_i_print == 4) file << endl << "step:  " << step << endl;
+        //if(_i_print == 4) file << endl << "step:  " << step << endl;
 
         unsigned int product;
         unsigned int productionVariation;
@@ -2318,12 +2318,11 @@ namespace extruderPlanningProblemLibrary
         // erasing batch if processing time is zero
 
         if(_i_print == 2) cout << endl << "processing time: " << _processingTime[batch] << endl;
-        if(_i_print == 4) file << endl << "processing time: " << _processingTime[batch] << endl;
+       // if(_i_print == 4) file << endl << "processing time: " << _processingTime[batch] << endl;
 
         if(_processingTime[batch] == 0)
         {
             if(_i_print == 2) cout << endl << "info: empty processing time." << endl;
-            if(_i_print == 4) file << endl << "info: empty processing time." << endl;
             //if(_i_print == 4) file << endl << "info: empty processing time." << endl;
             if(_i_print == 2) getchar();
             clean(batch);
@@ -2816,7 +2815,7 @@ namespace extruderPlanningProblemLibrary
                 // I belive it is not a good idea reduce processing time to zero so let's make anothe resstriction
             }
 
-            return insert(product, batch); // than insert new product on batch
+            return insert(product, batch, file); // than insert new product on batch
         }
     };
 
@@ -3136,9 +3135,10 @@ namespace extruderPlanningProblemLibrary
         return 0;
     };
 
-    bool EPPSolution::insert(unsigned int product, unsigned int batch)
+    bool EPPSolution::insert(unsigned int product, unsigned int batch, ofstream &file)
     {
         if(_i_print == 2) cout << endl << "function: inserting a new product on batch... " << endl;
+        if(_i_print == 4) file << endl << "function: inserting a new product on batch... " << endl;
 
         if(_i_print == 2) print(2);
 
@@ -3160,14 +3160,17 @@ namespace extruderPlanningProblemLibrary
             return 1;
         }
 
-        unsigned int location = _allocation[batch][3]; // location = last index in of batch in _balancing
+        unsigned int location = _allocation[batch][3]; // location = last index of batch in _balancing
 
         if(_i_print == 2) cout << endl << "location: " << location << endl;
+        if(_i_print == 4) file << endl << "location: " << location << endl;
 
         // problem solved // solver cannot find _balancing[location][0] if this element os the vector do not exists
 
         if(location >= _balancing.size())
         {
+            if(_i_print == 4) file << endl << "last location " << endl;
+
             if(_i_print == 2) cout << endl << "location: " << location << endl;
             if(_i_print == 2) cout << "new last batch index: " << _allocation[batch][3] << endl; // but it is a weird bug since program were working today
             // in this case we change nothing
@@ -3201,11 +3204,11 @@ namespace extruderPlanningProblemLibrary
             if(_i_print == 2) cout << endl << "new last batch index: " << _allocation[batch][3] << endl;
         }
 
-        if(_i_print == 2) cout << endl << "here 03" << endl;
+        if(_i_print == 4) file << endl << "here 03" << endl;
 
-        if(_i_print == 2) cout << endl << "location: " << location << endl;
+        if(_i_print == 4) file << endl << "location: " << location << endl;
 
-        if(_i_print == 2) cout << endl << "info: reorganizing balancing location indexes. " << endl;
+        if(_i_print == 4) file << endl << "info: reorganizing balancing location indexes. " << endl;
 
         for(unsigned int b=batch+1; b<_allocation.size(); b++)
         {
@@ -3219,7 +3222,11 @@ namespace extruderPlanningProblemLibrary
 
         if(_i_print == 2) cout << endl << "info: inserting new product on batch." << endl;
 
-        _balancing.insert(_balancing.begin()+location,{batch,product});
+         if(_i_print == 4) file << endl << "info: before inserting." << endl;
+
+        _balancing.insert(_balancing.begin()+location,{batch,product}); // like push back ?
+
+        if(_i_print == 4) file << endl << "info: after inserting." << endl;
 
         _batchWidth[batch] += _problem._width[product];
 
