@@ -53,4 +53,5 @@ int main()
     cout << endl << endl << "step 12: creating EPPSolution class - changing pertubation fuction - swapProduct - stop spliting batches." << endl;
     // I will change batch selection - product can replace other of different collor changing batch collor
     // so code will improuve better batches sequence triyng to reduce total setup time - ok
+    // now I will change order of procedures, I'll ask for erasing first of reducing batch processing time - for improve silver performance
 }

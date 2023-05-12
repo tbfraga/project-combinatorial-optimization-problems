@@ -158,6 +158,11 @@ namespace extruderPlanningProblemLibrary
         // _i_print = 2 - print only PC informations
         // _i_print = 3 - print pertubation operator informations
 
+        bool _SA_print = 1;
+        bool _PCP_print = 1;
+        bool _PCRE_print = 1;
+        bool _PCR_print = 1;
+
         // functions
 
         public:
@@ -195,6 +200,8 @@ namespace extruderPlanningProblemLibrary
         bool insert(unsigned int product, unsigned int batch);
         bool clean(unsigned int cleanType);
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
+
+        bool verify();
     };
 }
 
