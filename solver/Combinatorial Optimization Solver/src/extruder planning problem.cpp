@@ -479,12 +479,11 @@ namespace extruderPlanningProblemLibrary
 
             for(unsigned int b=0; b<_allocation.size(); b++)
             {
-                batch = _balancing[b][0];
-                cout << endl << batch;
-                cout << "\t" << _processingTime[batch];
-                cout << "\t" << _batchWidth[batch];
-                cout << "\t" << _batchIdleness[batch];
-                cout << "\t" << _batchColor[batch];
+                cout << endl << b;
+                cout << "\t" << _processingTime[b];
+                cout << "\t" << _batchWidth[b];
+                cout << "\t" << _batchIdleness[b];
+                cout << "\t" << _batchColor[b];
             }
 
             cout << endl;
@@ -1787,6 +1786,7 @@ namespace extruderPlanningProblemLibrary
         unsigned int product;
         unsigned int productionVariation;
 
+        if(_batchWidth[batch] != 0) // if batch is not empty
         for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
         {
             product = _balancing[b][1];
@@ -1803,12 +1803,24 @@ namespace extruderPlanningProblemLibrary
                 {
                     if(_SA_print == 1) cout << endl << "error: can not increase production !" << endl;
                     if(_SA_print == 1) cout << endl << "production not changed." << endl;
-                    //if(_SA_print == 1) getchar();
+                    if(_SA_print == 1) getchar();
                     return 1;
-                }else
-                {
-                    increase(productionVariation, product, day);
                 }
+            }
+        }
+
+        for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
+        {
+            product = _balancing[b][1];
+            if(_SA_print == 1) cout << endl << "product: " << product << endl;
+
+            productionVariation = _problem._productionPerTime[product][extruder];
+            if(_SA_print == 1) cout << endl << "production variation: " << productionVariation << endl;
+
+            if(step == 1)
+            {
+                increase(productionVariation, product, day);
+
             }else
             {
                 reduce(productionVariation, product, day);
@@ -2314,7 +2326,7 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::processingTime(unsigned int batch, unsigned int time)
     {
-        if(_i_print == 3) cout << endl << "function: changing batch processing time and linked variables." << endl;
+        if(_i_print == 1) cout << endl << "function: changing batch processing time and linked variables." << endl;
 
         if(_i_print == 3) print();
         if(_i_print == 3) cout << endl << "info: solution before reducing processing time." << endl;
@@ -2328,7 +2340,7 @@ namespace extruderPlanningProblemLibrary
             unsigned int extruder = _allocation[batch][0];
             unsigned int day = _allocation[batch][1];
 
-            if(_allocation[batch].size()<=3)
+            if(_batchWidth[batch] == 0)
             {
                 if(_i_print == 3) cout << endl << "info: bach is empty." << endl;
             }else
@@ -2427,7 +2439,7 @@ namespace extruderPlanningProblemLibrary
 
         unsigned int batch = _balancing[location][0];
 
-        if(_i_print == 3) cout << endl << "location: "<< location << "   batch: " << batch << endl;
+        if(_i_print == 1) cout << endl << "location: "<< location << "   batch: " << batch << endl;
 
         if(location >= _balancing.size())
         {
@@ -2465,28 +2477,28 @@ namespace extruderPlanningProblemLibrary
 
             // adjusting _balancing
 
-             if(_i_print == 3) print(1);
-             if(_i_print == 3) cout << endl << "location: " << location << endl;
+             if(_i_print == 1) print(1);
+             if(_i_print == 1) cout << endl << "location: " << location << endl;
 
             _balancing[location].clear();
             _balancing.erase(_balancing.begin()+location); // vector lib function
 
-             if(_i_print == 3) print(1);
+             if(_i_print == 1) print(1);
 
             _batchWidth[batch] -= _problem._width[product]; // adjusting batch width
 
-            if(_i_print == 3) cout << endl << "batch width reduced to: " << _batchWidth[batch] << endl;
+            if(_i_print == 1) cout << endl << "batch width reduced to: " << _batchWidth[batch] << endl;
 
             _batchIdleness[batch] += _problem._width[product]; // adjusting batch idleness
 
-            if(_i_print == 3) cout << endl << "batch idleness augmented to: " << _batchIdleness[batch] << endl;
+            if(_i_print == 1) cout << endl << "batch idleness augmented to: " << _batchIdleness[batch] << endl;
 
-            if(_i_print == 3) print(0);
-            if(_i_print == 3) print(1);
-            if(_i_print == 3) print(2);
-            if(_i_print == 3) print(3);
-            if(_i_print == 3) print(4);
-            if(_i_print == 3) print(5);
+            if(_i_print == 1) print(0);
+            if(_i_print == 1) print(1);
+            if(_i_print == 1) print(2);
+            if(_i_print == 1) print(3);
+            if(_i_print == 1) print(4);
+            if(_i_print == 1) print(5);
 
             if(_processingTime[batch] > 0)
             {
@@ -2542,7 +2554,7 @@ namespace extruderPlanningProblemLibrary
 
         if(_i_print == 3) cout << endl << "location: " << location << endl;
 
-        if(location < _balancing.size()) // if bach is empty (no products) - location is _allocation[batch][3]
+        if(location >= _balancing.size()) // if bach is empty (no products) - location is _allocation[batch][3]
         {
             if(_i_print == 3) cout << endl << "location: " << location << endl;
             if(_i_print == 3) cout << "batch index not changed: " << _allocation[batch][3] << endl;

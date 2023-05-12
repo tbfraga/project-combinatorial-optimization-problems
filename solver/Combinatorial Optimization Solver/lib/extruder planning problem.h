@@ -152,16 +152,16 @@ namespace extruderPlanningProblemLibrary
 
         vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
 
-        int _i_print = 1;
+        int _i_print = 0;
         // _i_print = 0 - print only no restricted
         // _i_print = 1 - print only functions head
         // _i_print = 2 - print only PC informations
         // _i_print = 3 - print pertubation operator informations
 
-        bool _SA_print = 1;
-        bool _PCP_print = 1;
-        bool _PCRE_print = 1;
-        bool _PCR_print = 1;
+        bool _SA_print = 0;
+        bool _PCP_print = 0;
+        bool _PCRE_print = 0;
+        bool _PCR_print = 0;
 
         // functions
 
