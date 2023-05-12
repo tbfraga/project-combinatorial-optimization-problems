@@ -50,8 +50,7 @@ int main()
     //getchar();
 
 
-    cout << endl << endl << "step 11: debuggin :((( - ok" << endl;
-    // just testing convergence :))
-
-
+    cout << endl << endl << "step 12: creating EPPSolution class - changing pertubation fuction - swapProduct - stop spliting batches." << endl;
+    // I will change batch selection - product can replace other of different collor changing batch collor
+    // so code will improuve better batches sequence triyng to reduce total setup time - ok
 }

@@ -124,7 +124,7 @@ namespace extruderPlanningProblemLibrary
 
         vector<float> _batchWidth = {0}; // batch width
         vector<float> _batchIdleness = {0}; // batch idleness
-        vector<unsigned int> _batchColor = {0}; // batch color
+        vector<unsigned int> _batchColor = {0}; // batch color - replacing _allocation[batch][4]
         //vector<unsigned int> _batchColor = {0}; // batch color
         vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
         vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
@@ -150,8 +150,13 @@ namespace extruderPlanningProblemLibrary
 
         //auxiliary
 
-        bool _i_print = 0;
         vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
+
+        int _i_print = 1;
+        // _i_print = 0 - print only no restricted
+        // _i_print = 1 - print only functions head
+        // _i_print = 2 - print only PC informations
+        // _i_print = 3 - print pertubation operator informations
 
         // functions
 
