@@ -610,8 +610,6 @@ namespace extruderPlanningProblemLibrary
         print(5);
         print(6);
 
-
-
         return error;
     };
 
@@ -944,7 +942,7 @@ namespace extruderPlanningProblemLibrary
         error = print(5, file);
         error = print(6, file);
 
-        error = verify();
+        if(error == 0) error = verify();
 
         if(error == 1) getchar();
 
@@ -969,7 +967,7 @@ namespace extruderPlanningProblemLibrary
             if(_fitness != (_productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost))
             {
                  error = 1;
-                 file << endl << "error: costs not correctly calculated !";
+                 file << endl << "error print: costs not correctly calculated !";
             }
 
         }else if(type == 1) // _balancing
@@ -1540,12 +1538,10 @@ namespace extruderPlanningProblemLibrary
                             production = prodLimit;
                             time = rint(floor(production / _problem._productionPerTime[p][e]));
                         }
-                        cout << endl << "production: " << production << endl;
-                        cout << endl << "time: " << time << endl;
 
                         if(time <= _extruderIdleness[e][d])
                         {
-                             if(i_print == 1) cout << endl << "found solution";
+                            if(i_print == 1) cout << endl << "found solution";
                             day = d;
                             stop = 1;
                             break;
@@ -1553,7 +1549,7 @@ namespace extruderPlanningProblemLibrary
                         {
                             production = 0;
                             time = 0;
-                             if(i_print == 1) cout << endl << "time not ok";
+                            if(i_print == 1) cout << endl << "time not ok";
                         }
                     }
 
@@ -1626,7 +1622,7 @@ namespace extruderPlanningProblemLibrary
 
         demandLimit = _unmetDemand[product][day];
 
-        for(unsigned int d=day; d<_problem._NDays; d++)
+        for(unsigned int d=day+1; d<_problem._NDays; d++)
         {
             if(demandLimit > _unmetDemand[product][d])
             {
@@ -1649,7 +1645,7 @@ namespace extruderPlanningProblemLibrary
             }
         }
 
-        if(i_print == 1)cout << endl << "Limit inventory + unmet demand + outlet: " << prodLimit << endl;
+        if(i_print == 1)cout << endl << "Limit inventory + unmet demand + outlet: " << prodLimit << endl; // seens to be ok
 
         return prodLimit;
     };
@@ -2127,9 +2123,21 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::simultedAnnealing(unsigned int NMaxIte)
     {
-        bool i_print = 0;
-
         if(_i_print == 1) cout << endl << "function: Simulated Annealing." << endl;
+
+        ofstream file;
+
+        file.open("rst/simulatedAnnealing.txt", ios_base::app|ios_base::out);
+
+        if(_fprint == 1)
+        {
+            file << endl << "*** Simulated Annealing ***" << endl;
+            print(file);
+            file << endl << "info SA: initial solution." << endl;
+        }
+
+
+        bool i_print = 0;
 
         float probality = 0, aux = 0;
 
@@ -2183,6 +2191,15 @@ namespace extruderPlanningProblemLibrary
 
         solution.clear();
         bestSolution.clear();
+
+         if(_fprint == 1)
+        {
+            print(file);
+            file << endl << "info SA: final solution." << endl;
+        }
+
+
+        file.close();
     };
 
     // create a copy of the current solution by delivering this value to a variable of type EPPSolution
@@ -2287,49 +2304,53 @@ namespace extruderPlanningProblemLibrary
                 step = -1;
             }
         }
+
         if(_SA_print == 1) cout << endl << "step:  " << step << endl;
 
         unsigned int product;
         unsigned int productionVariation;
 
         if(_batchWidth[batch] != 0) // if batch is not empty
-        for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
         {
-            product = _balancing[b][1];
-            if(_SA_print == 1) cout << endl << "product: " << product << endl;
-
-            productionVariation = _problem._productionPerTime[product][extruder];
-            if(_SA_print == 1) cout << endl << "production variation: " << productionVariation << endl;
-
-            prodLimit = productionLimit(product, day);
-
-            if(step == 1)
+            for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
             {
-                if(productionVariation > prodLimit)
+                // evaluating if is possible to encrease production of all products
+                product = _balancing[b][1];
+                if(_SA_print == 1) cout << endl << "product: " << product << endl;
+
+                productionVariation = _problem._productionPerTime[product][extruder];
+                if(_SA_print == 1) cout << endl << "production variation: " << productionVariation << endl;
+
+                prodLimit = productionLimit(product, day);
+
+                if(step == 1)
                 {
-                    if(_SA_print == 1) cout << endl << "error: can not increase production !" << endl;
-                    if(_SA_print == 1) cout << endl << "production not changed." << endl;
-                    if(_SA_print == 1) getchar();
-                    return 1;
+                    if(productionVariation > prodLimit)
+                    {
+                        if(_SA_print == 1) cout << endl << "error: can not increase production !" << endl;
+                        if(_SA_print == 1) cout << endl << "production not changed." << endl;
+                        if(_SA_print == 1) getchar();
+                        return 1;
+                    }
                 }
             }
-        }
 
-        for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
-        {
-            product = _balancing[b][1];
-            if(_SA_print == 1) cout << endl << "product: " << product << endl;
-
-            productionVariation = _problem._productionPerTime[product][extruder];
-            if(_SA_print == 1) cout << endl << "production variation: " << productionVariation << endl;
-
-            if(step == 1)
+            for(unsigned int b=_allocation[batch][2]; b<=_allocation[batch][3]; b++)
             {
-                increase(productionVariation, product, day);
+                product = _balancing[b][1];
+                if(_SA_print == 1) cout << endl << "product: " << product << endl;
 
-            }else
-            {
-                reduce(productionVariation, product, day);
+                productionVariation = _problem._productionPerTime[product][extruder];
+                if(_SA_print == 1) cout << endl << "production variation: " << productionVariation << endl;
+
+                if(step == 1)
+                {
+                    increase(productionVariation, product, day);
+
+                }else
+                {
+                    reduce(productionVariation, product, day);
+                }
             }
         }
 
@@ -2337,12 +2358,10 @@ namespace extruderPlanningProblemLibrary
         _extruderProcTime[extruder][day] += step;
         _extruderIdleness[extruder][day] -= step;
 
-        cout << endl << "here" << endl;
-
         if(verify())
         {
             print();
-            cout << endl << "error: problem after swapping time !!!" << endl;
+            cout << endl << "error ST: problem after swapping time !!!" << endl;
             getchar();
         }
 
@@ -2380,9 +2399,11 @@ namespace extruderPlanningProblemLibrary
 
         if(_i_print == 1 || _i_print == 2) cout << endl << "function: particle collision - wait" << endl;
 
-        ofstream file;
+        ofstream file, SA_file;
 
         file.open("rst/particleCollision.txt");
+        SA_file.open("rst/simulatedAnnealing.txt");
+
 
         srand((unsigned) time(NULL));
 
@@ -2394,10 +2415,13 @@ namespace extruderPlanningProblemLibrary
         if(_fprint == 1)
         {
             file << endl << "*** Particle Collision ***" << endl;
+            SA_file << endl << "*** In Particle Collision ***" << endl;
             _problem.print(file);
-            print(file);
+            if(print(file) == 1) file << endl << "BUG HERE" << endl;
             file << endl << "info PC: initial solution." << endl;
         }
+
+        SA_file.close();
 
         if(_i_print == 2) _problem.print();
         if(_i_print == 2) print();
@@ -2414,8 +2438,11 @@ namespace extruderPlanningProblemLibrary
             if(_fprint == 1)
             {
                 file << endl << "*** PC - iteration " << ite << " ***";
-                solution.print(file);
-                file << endl << "info PC: solution after PC pertubation." << endl;
+                SA_file.open("rst/simulatedAnnealing.txt", ios_base::app|ios_base::out);
+                SA_file << endl << "*** PC - iteration " << ite << " ***";
+                SA_file.close();
+                if(solution.print(file) == 1) file << endl << "BUG HERE" << endl;
+                file << endl << "info PC: virtual solution after PC pertubation." << endl;
             }
 
             if(_i_print == 2) cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
@@ -2443,7 +2470,7 @@ namespace extruderPlanningProblemLibrary
 
                 if(_fprint == 1)
                 {
-                    print(file);
+                    if(print(file) == 1) file << endl << "BUG HERE" << endl;
                     file << endl << "info PC: solution updated." << endl;
                 }
 
@@ -2454,7 +2481,10 @@ namespace extruderPlanningProblemLibrary
 
                 if(_fprint == 1)
                 {
-                    print(file);
+                    if(print(file) == 1)
+                    {
+                        file << endl << "BUG HERE" << endl;
+                    }
                     file << endl << "info PC: solution after SA." << endl;
                 }
 
@@ -2465,6 +2495,15 @@ namespace extruderPlanningProblemLibrary
                 clean(1);
                 if(_i_print == 2) print();
                 if(_i_print == 2) cout << endl << "info: empty processed time batches cleared." << endl;
+
+                if(_fprint == 1)
+                {
+                    if(print(file) == 1)
+                    {
+                        file << endl << "BUG HERE" << endl;
+                    }
+                    file << endl << "info PC: solution after cleanning." << endl;
+                }
                 //getchar();
             }else
             {
@@ -2482,7 +2521,7 @@ namespace extruderPlanningProblemLibrary
 
                     if(_fprint == 1)
                     {
-                        print(file);
+                        if(print(file) == 1) file << endl << "BUG HERE" << endl;
                         file << endl << "info PC: solution updated - Metropolis criterium acceptation." << endl;
                     }
 
@@ -2494,7 +2533,7 @@ namespace extruderPlanningProblemLibrary
 
                     if(_fprint == 1)
                     {
-                        print(file);
+                        if(print(file) == 1) file << endl << "BUG HERE" << endl;
                         file << endl << "info PC: solution after SA." << endl;
                     }
 
@@ -2514,7 +2553,7 @@ namespace extruderPlanningProblemLibrary
 
                     if(_fprint == 1)
                     {
-                        print(file);
+                        if(print(file) == 1) file << endl << "BUG HERE" << endl;
                         file << endl << "info PC: solution after cleanning." << endl;
                     }
                         //getchar();
@@ -2533,7 +2572,7 @@ namespace extruderPlanningProblemLibrary
 
         if(_fprint == 1)
         {
-            print(file);
+            if(print(file) == 1) file << endl << "BUG HERE" << endl;
             file << endl << "info: PC - final solution." << endl;
         }
 
@@ -2745,7 +2784,7 @@ namespace extruderPlanningProblemLibrary
 
                 if(_i_print == 3) cout << endl << "production: " << production << "  time: " << time << "  diff: " << diff << endl;
 
-                processingTime(batch, time);
+                processingTime(batch, time); // not spliting
             }
 
             if(verify())
@@ -2896,7 +2935,6 @@ namespace extruderPlanningProblemLibrary
             if(_i_print == 3) cout << endl << "info: no change in bach time." << endl;
         }else
         {
-            cout << endl << "here" << endl;
             unsigned int extruder = _allocation[batch][0];
             unsigned int day = _allocation[batch][1];
 

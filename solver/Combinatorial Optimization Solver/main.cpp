@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/12
+// last modification: 2023/05/13
 
 // goal: develop a solver for extruders planning optimization
 
@@ -44,18 +44,17 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(5,5);
+    solution.particleCollision(20,20);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     //getchar();
 
 
-    cout << endl << endl << "step 12: creating EPPSolution class - changing pertubation fuction - swapProduct - stop spliting batches." << endl;
-    // I will change batch selection - product can replace other of different collor changing batch collor
+    cout << endl << endl << "step 12: creating EPPSolution class - debbuging." << endl;
+    // I will change batch selection - product can replace other of different collor changing batch collor - latter
     // so code will improuve better batches sequence triyng to reduce total setup time - ok
-    // bugs not solved !!!
 
-    // I will also try to create a function for verifying results
-    // there is an error in deliver function
-    // inventory is not correctly calculated
+    // it seens to have a small bug !!!
+    // we have a problem when calculating production limit
+    // problem in swapTime function - next step
 }
