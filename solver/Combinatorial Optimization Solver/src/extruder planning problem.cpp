@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/05
+// last modification: 2023/05/13
 
 #include "../lib/extruder planning problem.h"
 
@@ -186,6 +186,178 @@ namespace extruderPlanningProblemLibrary
                 cout << "\t" << _maximumOutletInventory[p][o];
             }
             cout << endl;
+        }
+
+        return error;
+    };
+
+
+    bool extruderPlanningProblem::print(ofstream &file)
+    {
+        bool error = 0; // false
+
+        file << endl << "EXTRUDER PLANNING PROBLEM" << endl;
+
+        file << endl << "Days: " << _NDays << endl;
+
+        file << endl << "Extruders: "  << _NExtruders << endl;
+
+        file << endl << "setup cost: " << _setupCost << "  -  operation cost: " << _operationCost << endl;
+
+        file << endl << "[extruder]  production rate (m/min) / length (m)" << endl;
+
+        for(unsigned int e=0; e<_NExtruders; e++)
+        {
+            file << endl << e << "\t" << _productionRate[e] << "\t" << _length[e];
+        }
+
+        file << endl << endl << "[extruder, day]  capacity(min)" << endl << endl;
+
+        for(unsigned int d=0; d<_NDays; d++)
+        {
+            file << "\t" << d;
+        }
+
+        for(unsigned int e=0; e<_NExtruders; e++)
+        {
+            file << endl << e;
+
+            for(unsigned int d=0; d<_NDays; d++)
+            {
+                file << "\t" << _capacity[e][d];
+            }
+        }
+
+        file << endl << endl << "Products: " << _NProducts << endl;
+
+        file << endl << "[product]  width (m) / weight ratio (g/m²) / unit contribution ($/g) / initial inventory (g) / maximum inventory (g) / color" << endl;
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            file << endl << p << "\t" << _width[p] << "\t" << _weightRatio[p] << "\t" << _unitContribution[p] << "\t" << _initialInventory[p] << "\t" << _maximumInventory[p]
+            << "\t" << _color[p];
+        } // how format output ??? see later
+
+        file << endl << endl << "Factory: " << endl;
+
+        file << endl << "maximum inventory (g): " << _totalMaximumInventory << "  -  inventory unit cost ($/g): " << _inventoryUnitCost << endl;
+
+        file << endl << "[product, day]  demand (g)" << endl << endl;
+
+        for(unsigned int d=0; d<_NDays; d++)
+        {
+            file << "\t" << d;
+        }
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            file << endl << p;
+
+            for(unsigned int d=0; d<_NDays; d++)
+            {
+                file << "\t" << _demand[p][d];
+            }
+        }
+
+        file << endl << endl << "Factory: " << endl;
+
+        file << endl << "unmet demand cost ($/g): " << _unmetDemandCost << endl;
+
+        file << endl << "[product, product]  relation of products of same color and material" << endl << endl;
+
+        for(unsigned p=0; p<_NProducts; p++)
+        {
+            file << "\t" << p;
+        }
+        file << endl;
+
+        for(unsigned p=0; p<_NProducts; p++)
+        {
+            file << p;
+
+            for(unsigned k=0; k<_NProducts; k++)
+            {
+                file << "\t" << _colorAndMaterialRatio[p][k];
+            }
+            file << endl;
+        }
+
+        file << endl << "Colors: " << _NColors << endl;
+
+        file << endl << "[color]  color group" << endl << endl;
+
+        for(unsigned int c=0; c<_NColors; c++)
+        {
+            file << c;
+            for(unsigned int s=0; s<_productColorGroup[c].size(); s++)
+            {
+                file << "\t" << _productColorGroup[c][s];
+            }
+            file << endl;
+        }
+
+        file << endl << "[color, color]  setup time (min)" << endl << endl;
+
+        for(unsigned int c=0; c<_NColors; c++)
+        {
+            file << "\t" << c;
+        }
+        file << endl;
+
+        for(unsigned int c=0; c<_NColors; c++)
+        {
+            file << c;
+            for(unsigned int k=0; k<_NColors; k++)
+            {
+                file << "\t" << _setupTime[c][k];
+            }
+            file << endl;
+        }
+
+        file << endl << "[product, extruder]  production rate (g/min)" << endl << endl;
+
+
+        for(unsigned int e=0; e<_NExtruders; e++)
+        {
+            file << "\t" << e;
+        }
+        file << endl;
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            file << p;
+            for(unsigned int e=0; e<_NExtruders; e++)
+            {
+                file << "\t" << _productionPerTime[p][e];
+            }
+            file << endl;
+        }
+
+        file << endl << "Outlets: " << _NOutlets << endl;
+
+        file << endl << "[outlet]  maximum outlet inventory (g)" << endl << endl;
+
+        for(unsigned int o=0; o<_NOutlets; o++)
+        {
+            file << o << "\t" << _totalMaximumOutletInventory[o] << endl;
+        }
+
+        file << endl << "[product, outlet]  maximum inventory (g)" << endl << endl;
+
+        for(unsigned int o=0; o<_NOutlets; o++)
+        {
+            file << "\t" << o;
+        }
+        file << endl;
+
+        for(unsigned int p=0; p<_NProducts; p++)
+        {
+            file << p;
+            for(unsigned int o=0; o<_NOutlets; o++)
+            {
+                file << "\t" << _maximumOutletInventory[p][o];
+            }
+            file << endl;
         }
 
         return error;
@@ -437,6 +609,8 @@ namespace extruderPlanningProblemLibrary
         print(4);
         print(5);
         print(6);
+
+
 
         return error;
     };
@@ -750,22 +924,358 @@ namespace extruderPlanningProblemLibrary
         }else
         {
             cout << endl << "info: please, choose a type betwing 0 and 6." << endl;
-            /*
-            cout << endl;
-            cout << "restricted: "<< endl;
-            cout << endl;
-            for(unsigned int i=0; i<_restricted.size(); i++)
-            {
-                for(unsigned int j=0; j<_restricted[i].size(); j++)
-                {
-                    cout << _restricted[i][j] << "\t";
-                }
-                cout << endl;
-            }
-            */
         }
 
         if(error == 1) getchar();
+        return error;
+    };
+
+    // print complete solution on <file>
+
+    bool EPPSolution::print(ofstream &file)
+    {
+        bool error = 0;
+
+        error = print(0, file);
+        error = print(1, file);
+        error = print(2, file);
+        error = print(3, file);
+        error = print(4, file);
+        error = print(5, file);
+        error = print(6, file);
+
+        error = verify();
+
+        if(error == 1) getchar();
+
+        return error;
+    };
+
+    // print on file as defined by <type>
+    bool EPPSolution::print(unsigned int type, ofstream &file)
+    {
+        bool error = 0;
+        unsigned int batch;
+
+        if(type == 0) // fitness
+        {
+            file << endl << endl << "SOLUTION" << endl;
+
+            file << endl << "fitness: " << _fitness << endl;
+            file << endl << "production total profit: " << _productionTotalProfit;
+            file << endl << "unmet demand total cost: " << _unmetDemandTotalCost;
+            file << endl << "inventory total cost: " << _inventoryTotalCost;
+
+            if(_fitness != (_productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost))
+            {
+                 error = 1;
+                 file << endl << "error: costs not correctly calculated !";
+            }
+
+        }else if(type == 1) // _balancing
+        {
+            file << endl << endl << "[batch, product] - balancing" << endl;
+
+            for(unsigned int b=0; b<_balancing.size(); b++)
+            {
+                if(b==0)
+                {
+                    batch = _balancing[b][0];
+                    file << endl << batch;
+                }else if(_balancing[b][0] != _balancing[b-1][0]) // if not the same batch
+                {
+                    batch = _balancing[b][0];
+                    file << endl << batch;
+                }
+
+                file << "\t" << _balancing[b][1];
+            }
+
+            file << endl << endl << "processing time (min) / width (m) / idleness (m) / color" << endl;
+
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                file << endl << b;
+                file << "\t" << _processingTime[b];
+                file << "\t" << _batchWidth[b];
+                file << "\t" << _batchIdleness[b];
+                file << "\t" << _batchColor[b];
+            }
+
+            file << endl;
+
+        }else if(type == 2)
+        {
+            file << endl << "allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: " << endl << endl;
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                file << b << "\t";
+                for(unsigned int i=0; i<_allocation[b].size(); i++)
+                {
+                    file << _allocation[b][i] << "\t";
+                }
+                file << endl;
+            }
+
+            file << endl << "batch color group [batch vector]: " << endl << endl;
+
+            for(unsigned int c=0; c<_batchColorGroup.size(); c++)
+            {
+                for(unsigned int s=0; s<_batchColorGroup[c].size(); s++)
+                {
+                    file << _batchColorGroup[c][s] << "\t";
+                }
+                file << endl;
+            }
+
+        }else if(type == 3)
+        {
+            file << endl << "[extruder, day] -  processing time (min)  /  idleness (min)" << endl;
+
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+            file << "\t";
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl;
+
+            for(unsigned int e=0; e<_extruderProcTime.size(); e++)
+            {
+                file << endl << e;
+                for(unsigned int d=0; d<_extruderProcTime[e].size(); d++)
+                {
+                    file << "\t" << _extruderProcTime[e][d];
+                }
+
+                file << "\t";
+                for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+                {
+                    file << "\t" << _extruderIdleness[e][d];
+                }
+                file << endl;
+            }
+
+        }else if(type == 4)
+        {
+            file << endl << "[product, day] - production / demand (g):" << endl;
+            file << endl << "\t" << "production" << "\t\t" << "delivered" << "\t\t" << "unmet" << "\t\t\t" << "demand";
+            file << endl << endl;
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl << endl;
+
+            unsigned int sum;
+            for(unsigned int p=0; p<_production.size(); p++)
+            {
+                file << p;
+                for(unsigned int d=0; d<_production[p].size(); d++)
+                {
+                    file << "\t" << _production[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_delivered[p].size(); d++)
+                {
+                    file << "\t" << _delivered[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_unmetDemand[p].size(); d++)
+                {
+                    file << "\t" << _unmetDemand[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_problem._demand[p].size(); d++)
+                {
+                    file << "\t" << _problem._demand[p][d];
+                }
+
+                file << endl;
+
+                if(_unmetDemand[p][0] != (_problem._demand[p][0] - _delivered[p][0])) error = 1;
+                if(_unmetDemand[p][0] > _problem._demand[p][0]) error = 1;
+
+                sum = _problem._demand[p][0];
+                for(unsigned int d=1; d<_problem._demand[p].size(); d++)
+                {
+                    if(_unmetDemand[p][d] != (_unmetDemand[p][d-1] + _problem._demand[p][d] - _delivered[p][d])) error = 1;
+
+                    sum += _problem._demand[p][d];
+                    if(_unmetDemand[p][d] > sum) error = 1;
+                }
+            }
+
+            if(error == 1) file << endl << "error: demand variables not correctly calculated !" << endl;
+
+        }else if (type == 5)
+        {
+            file << endl << "delivered to outlet (g) [product, outlet, day]" << endl << endl;
+
+            for(unsigned int o=0; o<_problem._NOutlets; o++)
+            {
+                file << "\t" << "outlet: " << o;
+
+                for(unsigned int d=2; d<_problem._NDays; d++)
+                {
+                    file << "\t";
+                }
+            }
+
+            file << "\t" << "free";
+
+            file << endl << endl;
+
+            for (unsigned int d=0; d<=_problem._NDays; d++)
+            {
+                for(unsigned int o=0; o<_problem._NOutlets; o++)
+                {
+                    file << "\t" << o;
+                }
+            }
+
+            file << endl << endl;
+
+            for(unsigned int p=0; p<_deliveredToOutlet.size(); p++)
+            {
+                file << p;
+                for(unsigned int o=0; o<_deliveredToOutlet[p].size(); o++)
+                {
+                    for(unsigned int d=0; d<_deliveredToOutlet[p][o].size(); d++)
+                    {
+                        file << "\t" << _deliveredToOutlet[p][o][d];
+                    }
+                }
+
+                for(unsigned int o=0; o<_freeOutletInventory[p].size(); o++)
+                {
+                    file << "\t" << _freeOutletInventory[p][o];
+                }
+
+                file << endl;
+            }
+
+            file << endl;
+
+            for(unsigned int o=0; o<_problem._NOutlets; o++)
+            {
+                for(unsigned int d=0; d<_problem._NDays; d++)
+                {
+                    file << "\t";
+                }
+            }
+
+            file << "total:";
+
+            for(unsigned int o=0; o<_totalFreeOutletInventory.size(); o++)
+            {
+                file << "\t"<< _totalFreeOutletInventory[o];
+                if(_totalFreeOutletInventory[o] > _problem._totalMaximumOutletInventory[o]) error = 1;
+            }
+            file << endl;
+
+            if(error == 1) file << "error: outlet inventory variables not correctly calculated." << endl;
+
+        }else if(type == 6)  // inventory
+        {
+            file << endl << "inventory (g) [product, day]" << endl << endl;
+            file << "\t" << "inventory" << "\t\t" << "free" << "\t\t\t" << "maximum";
+            file << endl << endl;
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl << endl;
+
+            for(unsigned int p=0; p<_inventory.size(); p++)
+            {
+                file << p;
+                for(unsigned int d=0; d<_inventory[p].size(); d++)
+                {
+                    file << "\t" << _inventory[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_freeInventory[p].size(); d++)
+                {
+                    file << "\t"<< _freeInventory[p][d];
+                    if(_freeInventory[p][d] > _problem._maximumInventory[p]) error = 1;
+                }
+
+                file << "\t";
+
+                file << "\t"<< _problem._maximumInventory[p];
+
+                file << endl;
+            }
+
+            file << endl;
+
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t";
+            }
+
+            file << "\t" << "total:";
+            for(unsigned int d=0; d< _totalFreeInventory.size(); d++)
+            {
+                file << "\t" << _totalFreeInventory[d] ;
+                if(_totalFreeInventory[d] > _problem._totalMaximumInventory) error = 1;
+            }
+            file << "\t" << "total:" << "\t" << _problem._totalMaximumInventory;
+
+            file << endl;
+
+            if(error == 1) file << endl << "error: inventory variables not correctly calculated." << endl;
+
+        }else
+        {
+            file << endl << "info: please, choose a type betwing 0 and 6." << endl;
+        }
+
         return error;
     };
 
@@ -1364,7 +1874,7 @@ namespace extruderPlanningProblemLibrary
         if(_i_print == 3) cout << endl << "distribution: ";
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
-            distribution[d] += _production[product][d];
+            distribution[d] += _production[product][d]; // acumulated production of <product> on day d
             if(_i_print == 3) cout << "\t" << distribution[d];
         }
         if(_i_print == 3) cout << endl;
@@ -1388,7 +1898,7 @@ namespace extruderPlanningProblemLibrary
 
             if(i_print == 1) cout << endl << "day: " << day << endl;
 
-            unmet +=  _problem._demand[product][day];
+            unmet +=  _problem._demand[product][day]; // acumulated unmet demand in decreasing order
 
             if(i_print == 1) cout << endl << "distribution (demand): " << distribution[day] << "  unmet: " << unmet << endl;
 
@@ -1409,6 +1919,8 @@ namespace extruderPlanningProblemLibrary
 
             forwardDelivery(product, d, distribution[d]);
         }
+
+        // updating inventory
 
         if(_i_print == 3) print(0);
         if(_i_print == 3) print(4);
@@ -1558,62 +2070,56 @@ namespace extruderPlanningProblemLibrary
     {
         bool i_print = 0;
 
-        unsigned int day, delivered, diff;
-
-        for(unsigned int d=start; d<_problem._NDays; d++)
+        if(unmet > 0 && _production[product][start] > 0)
         {
-            day = d;
+            unsigned int delivered, diff;
 
-            if(i_print == 1) cout << endl << "forward distribution " << day << ": " << distribution << endl;
+            unsigned int amount = _production[product][start];
 
-            for(unsigned int l=day; l<_problem._NDays; l++)
+            for(unsigned int d=start; d<_problem._NDays; d++) // distributes production
             {
-                if(distribution < _unmetDemand[product][l])
-                {
-                    delivered = distribution;
+                if(i_print == 1) cout << endl << "forward distribution " << d << ": " << distribution << endl;
 
-                }else
-                {
-                    delivered = _unmetDemand[product][l];
-                }
+                diff = _problem._demand[product][d] - _delivered[product][d];
 
-                // on backward delivering diff will always be +
-
-                diff = _problem._demand[product][day] - _delivered[product][day];
-
-                if(i_print == 1) cout << endl << "diff: " << diff << endl;
-
-                if(delivered > diff)
+                if(amount > diff)
                 {
                     delivered = diff;
+                }else
+                {
+                    delivered = amount;
                 }
 
-                if(i_print == 1) cout << endl << "delivered: " << delivered << endl;
+                // adjusting delivered and unmetDemand variables
 
                 if(delivered > 0)
                 {
-                    _delivered[product][l] += delivered;
+                    _delivered[product][d] += delivered;
 
-                    for(unsigned int k=l; k<_problem._NDays; k++)
+                    for(unsigned int l=d; l<_problem._NDays; l++)
                     {
-                        _unmetDemand[product][k] -= delivered;
+                        _unmetDemand[product][l] -= delivered;
                         _unmetDemandTotalCost -= delivered*_problem._unmetDemandCost;
                     }
 
-                    for(unsigned int k=day; k<l; k++) // between the day it was produced and the day before
-                    {
-                        _inventory[product][k] += delivered;
-                        _totalFreeInventory[k] -= delivered;
-                        _freeInventory[product][k] -= delivered;
-                        _inventoryTotalCost += delivered*_problem._inventoryUnitCost;
-                    }
-
+                    amount -= delivered;
                     distribution -= delivered;
                     unmet -= delivered;
                 }
 
-                if(distribution == 0 || unmet == 0) break;
+                // adjusting inventory variables
+
+                for(unsigned int k=start; k<d; k++) // between the day it was produced and the day before
+                {
+                    _inventory[product][k] += delivered;
+                    _totalFreeInventory[k] -= delivered;
+                    _freeInventory[product][k] -= delivered;
+                    _inventoryTotalCost += delivered*_problem._inventoryUnitCost;
+                }
+
+                if(amount == 0) break;
             }
+
         }
     };
 
@@ -1871,7 +2377,12 @@ namespace extruderPlanningProblemLibrary
 
     void EPPSolution::particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA)
     {
+
         if(_i_print == 1 || _i_print == 2) cout << endl << "function: particle collision - wait" << endl;
+
+        ofstream file;
+
+        file.open("rst/particleCollision.txt");
 
         srand((unsigned) time(NULL));
 
@@ -1879,6 +2390,14 @@ namespace extruderPlanningProblemLibrary
         EPPSolution bestSolution = autoCopy();
 
         float probality = 0, aux = 0;
+
+        if(_fprint == 1)
+        {
+            file << endl << "*** Particle Collision ***" << endl;
+            _problem.print(file);
+            print(file);
+            file << endl << "info PC: initial solution." << endl;
+        }
 
         if(_i_print == 2) _problem.print();
         if(_i_print == 2) print();
@@ -1892,6 +2411,13 @@ namespace extruderPlanningProblemLibrary
             solution.swapProduct();
             if(_i_print == 2) solution.print();
 
+            if(_fprint == 1)
+            {
+                file << endl << "*** PC - iteration " << ite << " ***";
+                solution.print(file);
+                file << endl << "info PC: solution after PC pertubation." << endl;
+            }
+
             if(_i_print == 2) cout << endl << "best fitness: " << _fitness << "  solution fitness: " << solution._fitness << endl;
             //getchar();
 
@@ -1902,22 +2428,35 @@ namespace extruderPlanningProblemLibrary
                     if(_i_print == 2) cout << endl << "info: found a better solution." << endl;
                     bestSolution.set(solution);
                     ite = 0;
+
+                    if(_fprint == 1)
+                    {
+                        file << endl << "info PC: *** found a best solution ***" << endl;
+                        bestSolution.print(file);
+                        file << endl << "info PC: best solution updated." << endl;
+                    }
                 }
 
                 if(_i_print == 2) cout << endl << "info: solution improved." << endl;
 
                 set(solution);
 
+                if(_fprint == 1)
+                {
+                    print(file);
+                    file << endl << "info PC: solution updated." << endl;
+                }
+
                 if(_i_print == 2) print();
                 if(_i_print == 2) cout << endl << "info: solution improved by PCA." << endl;
-                //getchar();
-
-                clean(2);
-                if(_i_print == 2) print();
-                if(_i_print == 2) cout << endl << "info: solution cleared." << endl;
-                //getchar();
 
                 simultedAnnealing(NMaxIteSA);
+
+                if(_fprint == 1)
+                {
+                    print(file);
+                    file << endl << "info PC: solution after SA." << endl;
+                }
 
                 if(_i_print == 2) print();
                 if(_i_print == 2) cout << endl << "info: solution after SA." << endl;
@@ -1941,16 +2480,23 @@ namespace extruderPlanningProblemLibrary
                     if(_i_print == 2) cout << " but acepted..." << endl;
                     set(solution);
 
+                    if(_fprint == 1)
+                    {
+                        print(file);
+                        file << endl << "info PC: solution updated - Metropolis criterium acceptation." << endl;
+                    }
+
                     if(_i_print == 2) print();
                     if(_i_print == 2) cout << endl << "info: solution accepted by PCA." << endl;
                     //getchar();
 
-                    clean(2);
-                    if(_i_print == 2) print();
-                    if(_i_print == 2) cout << endl << "info: solution cleared." << endl;
-                    //getchar();
-
                     simultedAnnealing(NMaxIteSA);
+
+                    if(_fprint == 1)
+                    {
+                        print(file);
+                        file << endl << "info PC: solution after SA." << endl;
+                    }
 
                     if(_i_print == 2) print();
                     if(_i_print == 2) cout << endl << "info: solution after SA." << endl;
@@ -1962,9 +2508,15 @@ namespace extruderPlanningProblemLibrary
 
                     //if(aux < 0.2)
                     //{
-                        clean(1);
-                        if(_i_print == 2) print();
-                        if(_i_print == 2) cout << endl << "info: empty processed time batches cleared." << endl;
+                    clean(1);
+                    if(_i_print == 2) print();
+                    if(_i_print == 2) cout << endl << "info: empty processed time batches cleared." << endl;
+
+                    if(_fprint == 1)
+                    {
+                        print(file);
+                        file << endl << "info PC: solution after cleanning." << endl;
+                    }
                         //getchar();
                     //}
                 }
@@ -1979,8 +2531,16 @@ namespace extruderPlanningProblemLibrary
         if(_i_print == 2) cout << endl << "info: final PCA solution." << endl;
         if(_i_print == 2) getchar();
 
+        if(_fprint == 1)
+        {
+            print(file);
+            file << endl << "info: PC - final solution." << endl;
+        }
+
         solution.clear();
         bestSolution.clear();
+
+        file.close();
     };
 
     // ramdomly changes a batch or create a new one

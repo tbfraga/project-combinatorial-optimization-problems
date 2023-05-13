@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/05
+// last modification: 2023/05/13
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 #define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
@@ -21,6 +21,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 #include<math.h>
 
 #include<iostream>
+#include<fstream>
 #include<vector>
 using namespace std;
 
@@ -87,6 +88,8 @@ namespace extruderPlanningProblemLibrary
         public:
 
         bool print();
+        bool print(ofstream &file);
+
         void clear();
         void restart();
     };
@@ -163,6 +166,8 @@ namespace extruderPlanningProblemLibrary
         bool _PCRE_print = 0;
         bool _PCR_print = 0;
 
+        bool _fprint = 1;
+
         // functions
 
         public:
@@ -170,6 +175,9 @@ namespace extruderPlanningProblemLibrary
         void clear();
         bool print();
         bool print(unsigned int type);
+
+        bool print(ofstream &file);
+        bool print(unsigned int type, ofstream &file);
 
         void restart(EPPInstance problem);
         void generate();

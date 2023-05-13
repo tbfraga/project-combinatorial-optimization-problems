@@ -44,7 +44,7 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(100,1000);
+    solution.particleCollision(5,5);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     //getchar();
@@ -53,5 +53,9 @@ int main()
     cout << endl << endl << "step 12: creating EPPSolution class - changing pertubation fuction - swapProduct - stop spliting batches." << endl;
     // I will change batch selection - product can replace other of different collor changing batch collor
     // so code will improuve better batches sequence triyng to reduce total setup time - ok
-    // bug solved !!!
+    // bugs not solved !!!
+
+    // I will also try to create a function for verifying results
+    // there is an error in deliver function
+    // inventory is not correctly calculated
 }
