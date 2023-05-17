@@ -1808,6 +1808,7 @@ namespace extruderPlanningProblemLibrary
 
     // distribute production between demand, outlets and inventory
 
+    // now I have a problem in deliver function - I have alread solved this bug but I deleted modifications since I had problems with solving bugs
     bool EPPSolution::deliver(unsigned int product, ofstream &file)
     {
         bool i_print = 0;
@@ -2030,13 +2031,24 @@ namespace extruderPlanningProblemLibrary
 
             for(unsigned int l=day; l<_problem._NDays; l++)
             {
-                if(distribution <= _unmetDemand[product][l])
-                {
-                    delivered = distribution;
+                delivered = distribution;
 
-                }else
+                if(delivered > _unmetDemand[product][l])
                 {
                     delivered = _unmetDemand[product][l];
+                }
+
+                for(unsigned int k=start; k<d; k++) // between the day it was produced and the day before
+                {
+                    if(delivered > _freeInventory[product][k])
+                    {
+                        delivered = _freeInventory[product][k];
+                    }
+
+                    if(delivered > _totalFreeInventory[k])
+                    {
+                        delivered = _totalFreeInventory[k];
+                    }
                 }
 
                 if(i_print == 1) cout << endl << "delivered: " << delivered << endl;
@@ -2067,9 +2079,13 @@ namespace extruderPlanningProblemLibrary
         }
     };
 
+
+    // problem was here - normaly it will solve the bug - lets see
     void EPPSolution::forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet)
     {
-        bool i_print = 0;
+        bool i_print = 0; // I'm not seeing inventory capacity whe distributing to demand
+
+        // As I remember, I just need to distribute production
 
         if(unmet > 0 && _production[product][start] > 0)
         {
@@ -2089,6 +2105,19 @@ namespace extruderPlanningProblemLibrary
                 }else
                 {
                     delivered = amount;
+                }
+
+                for(unsigned int k=start; k<d; k++) // between the day it was produced and the day before
+                {
+                    if(delivered > _freeInventory[product][k])
+                    {
+                        delivered = _freeInventory[product][k];
+                    }
+
+                    if(delivered > _totalFreeInventory[k])
+                    {
+                        delivered = _totalFreeInventory[k];
+                    }
                 }
 
                 // adjusting delivered and unmetDemand variables
@@ -2847,7 +2876,7 @@ namespace extruderPlanningProblemLibrary
                 if(print(file) == 1)
                 {
                     file << endl << "BUG HERE" << endl;
-                    cout << endl << "BUG HERE 2" << endl;
+                    cout << endl << "BUG on including product on batch - after updating delivering to outlets" << endl;
                     getchar();
                 }
                 file << endl << "info include: solution after updating delivering to outles." << endl;

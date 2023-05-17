@@ -53,6 +53,10 @@ int main()
 
 
     cout << endl << endl << "step 14: creating EPPSolution class - debugging." << endl;
+
+    // stop for a while
+    // next step solving deliver bug
+
     // I will change batch selection - product can replace other of different collor changing batch collor - latter
     // so code will improuve better batches sequence triyng to reduce total setup time - ok
 
