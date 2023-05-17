@@ -52,7 +52,7 @@ int main()
     //getchar();
 
 
-    cout << endl << endl << "step 14: creating EPPSolution class - debugging." << endl;
+    cout << endl << endl << "step 14: creating EPPSolution class - debugging - solving deliver function bug." << endl;
 
     // stop for a while
     // next step solving deliver bug

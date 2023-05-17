@@ -1904,6 +1904,12 @@ namespace extruderPlanningProblemLibrary
             if(i_print == 1) cout << endl << "after forward delivery function distribution: " << distribution[day] << "  unmet: " << unmet << endl;
         }
 
+        /*if(_fprint == 1)
+        {
+            if(print(file) == 1) file << endl << "BUG HERE" << endl;
+            file << endl << "info deliver: solution after backward distribution." << endl;
+        }*/
+
         // forward distribution
 
         if(i_print == 1) cout << endl << " forward distribution" << endl; // it is necessary cause backward distribution does not see previus demand
@@ -1915,6 +1921,12 @@ namespace extruderPlanningProblemLibrary
             if(i_print == 1) cout << endl << "distribution (demand): " << distribution[d] << endl;
 
             forwardDelivery(product, d, distribution[d]);
+        }
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1) file << endl << "BUG HERE" << endl;
+            file << endl << "info deliver: solution after forward distribution." << endl;
         }
 
         // updating inventory
@@ -2014,6 +2026,12 @@ namespace extruderPlanningProblemLibrary
 
         distribution.clear();
 
+        /*if(_fprint == 1)
+        {
+            if(print(file) == 1) file << endl << "BUG HERE" << endl;
+            file << endl << "info deliver: solution after delivering." << endl;
+        }*/
+
         return 0;
     };
 
@@ -2025,11 +2043,9 @@ namespace extruderPlanningProblemLibrary
 
         for(unsigned int d=start; d<_problem._NDays; d++)
         {
-            day = d;
+            if(i_print == 1) cout << endl << "forward distribution " << d << ": " << distribution << endl;
 
-            if(i_print == 1) cout << endl << "forward distribution " << day << ": " << distribution << endl;
-
-            for(unsigned int l=day; l<_problem._NDays; l++)
+            for(unsigned int l=d; l<_problem._NDays; l++)
             {
                 delivered = distribution;
 
@@ -2038,7 +2054,7 @@ namespace extruderPlanningProblemLibrary
                     delivered = _unmetDemand[product][l];
                 }
 
-                for(unsigned int k=start; k<d; k++) // between the day it was produced and the day before
+                for(unsigned int k=start; k<l; k++) // between the day it was produced and the day before
                 {
                     if(delivered > _freeInventory[product][k])
                     {
@@ -2063,7 +2079,7 @@ namespace extruderPlanningProblemLibrary
                         _unmetDemandTotalCost -= delivered*_problem._unmetDemandCost;
                     }
 
-                    for(unsigned int k=day; k<l; k++) // between the day it was produced and the day before
+                    for(unsigned int k=d; k<l; k++) // between the day it was produced and the day before
                     {
                         _inventory[product][k] += delivered;
                         _totalFreeInventory[k] -= delivered;
