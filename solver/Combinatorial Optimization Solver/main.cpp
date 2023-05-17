@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/13
+// last modification: 2023/05/17
 
 // goal: develop a solver for extruders planning optimization
 
@@ -24,6 +24,8 @@ using namespace extruderPlanningProblemLibrary;
 
 int main()
 {
+    ofstream file;
+
     EPPInstance problem;
 
     problem.EPP001();
@@ -39,7 +41,7 @@ int main()
     cout << endl << "empty solution" << endl;
     // getchar();
 
-    solution.generate();
+    solution.generate(file);
     solution.print();
     cout << endl << "initial solution" << endl;
     // getchar();
@@ -50,7 +52,7 @@ int main()
     //getchar();
 
 
-    cout << endl << endl << "step 12: creating EPPSolution class - debbuging." << endl;
+    cout << endl << endl << "step 14: creating EPPSolution class - debugging." << endl;
     // I will change batch selection - product can replace other of different collor changing batch collor - latter
     // so code will improuve better batches sequence triyng to reduce total setup time - ok
 

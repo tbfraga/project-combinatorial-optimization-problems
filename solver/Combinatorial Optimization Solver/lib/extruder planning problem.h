@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/13
+// last modification: 2023/05/17
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 #define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
@@ -155,6 +155,8 @@ namespace extruderPlanningProblemLibrary
 
         vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
 
+        // print parameters
+
         int _i_print = 0;
         // _i_print = 0 - print only no restricted
         // _i_print = 1 - print only functions head
@@ -180,12 +182,12 @@ namespace extruderPlanningProblemLibrary
         bool print(unsigned int type, ofstream &file);
 
         void restart(EPPInstance problem);
-        void generate();
+        void generate(ofstream &file);
 
         unsigned int productionLimit(unsigned int product, unsigned int day);
-        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time);
-        bool increase(unsigned int production, unsigned int product, unsigned int day);
-        bool deliver(unsigned int product);
+        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file);
+        bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file);
+        bool deliver(unsigned int product, ofstream &file);
         void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
         void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet);
 
@@ -193,20 +195,20 @@ namespace extruderPlanningProblemLibrary
         void simultedAnnealing(unsigned int NMaxIte);
         EPPSolution autoCopy();
         void set(EPPSolution solution);
-        bool swapTime();
-        void reduce(unsigned int production, unsigned int product, unsigned int day);
+        bool swapTime(ofstream &file);
+        void reduce(unsigned int production, unsigned int product, unsigned int day, ofstream &file);
 
         void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
-        void swapProduct();
-        bool insert(unsigned int product);
-        bool include(unsigned int product, unsigned int batch);
-        bool split(unsigned int batch, unsigned int time);
+        void swapProduct(ofstream &file);
+        bool insert(unsigned int product, ofstream &file);
+        bool include(unsigned int product, unsigned int batch, ofstream &file);
+        bool split(unsigned int batch, unsigned int time, ofstream &file);
         vector<unsigned int> productList(unsigned int batch);
-        void processingTime(unsigned int batch, unsigned int time);
-        void randomErase(unsigned int batch);
-        bool erase(unsigned int location);
-        bool insert(unsigned int product, unsigned int batch);
-        bool clean(unsigned int cleanType);
+        void processingTime(unsigned int batch, unsigned int time, ofstream &file);
+        void randomErase(unsigned int batch, ofstream &file);
+        bool erase(unsigned int location, ofstream &file);
+        bool insert(unsigned int product, unsigned int batch, ofstream &file);
+        bool clean(unsigned int cleanType, ofstream &file);
         unsigned int find(vector<unsigned int> UIVector, unsigned int value);
 
         bool verify();
