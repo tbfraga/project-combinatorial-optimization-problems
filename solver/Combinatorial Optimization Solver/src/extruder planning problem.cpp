@@ -2779,7 +2779,7 @@ namespace extruderPlanningProblemLibrary
                 if(print(file) == 1)
                 {
                     file << endl << "BUG HERE" << endl;
-                    cout << endl << "BUG HERE" << endl;
+                    cout << endl << "BUG on including product on batch - after random erasing" << endl;
                     getchar();
                 }
                 file << endl << "info include: solution after randon erasing." << endl;
