@@ -2039,7 +2039,7 @@ namespace extruderPlanningProblemLibrary
     {
         bool i_print = 0;
 
-        unsigned int day, delivered;
+        unsigned int delivered;
 
         for(unsigned int d=start; d<_problem._NDays; d++)
         {
@@ -2815,7 +2815,7 @@ namespace extruderPlanningProblemLibrary
 
             while(_batchIdleness[batch] < _problem._width[product]) // taking free space on extruder (force viable solution)
             {
-                if(_i_print == 3) cout << endl << "idleness: "<< _batchIdleness[batch] << "  width: " << _problem._width[product] << endl;
+                cout << endl << "idleness: "<< _batchIdleness[batch] << "  width: " << _problem._width[product] << endl;
                 randomErase(batch, file);
             }
 
@@ -3133,17 +3133,29 @@ namespace extruderPlanningProblemLibrary
 
     // random erease a product on <batch>
 
-    void EPPSolution::randomErase(unsigned int batch, ofstream &file)
+    bool EPPSolution::randomErase(unsigned int batch, ofstream &file)
     {
         if(_i_print == 1 || _i_print == 3 || _PCRE_print == 1) cout << endl << "function: random exclusion. " << endl;
 
         if(_PCRE_print == 1) print();
         if(_PCRE_print == 1) cout << endl << "solution befor random exclusion" << endl;
 
-        if(_allocation[batch].size() <= 3)
+        if(batch == (_allocation.size()-1) && _allocation[batch][3] > _balancing.size()) // if it is the last batch and there is no corresponding element in _balancing
         {
-            if(_PCRE_print == 1) cout << endl << "info: no product on this batch. " << endl;
-        }else
+            print();
+            cout << endl << "error random erase: no product on this batch. " << endl;
+            cout << endl << "batch: " << batch << " last batch: " << _allocation.size()-1 << " index last product" << _allocation[batch][3] << " _balancing size" << _balancing.size() << endl;
+            getchar();
+            return 1;
+        // if it is not the last batch and first index of next batch is the same of the last index of this batch
+        } else if(batch < (_allocation.size()-1) && (_allocation[batch][3] == _allocation[batch+1][2]))
+        {
+            print();
+            cout << endl << "error random erase: no product on this batch. " << endl;
+            cout << endl << "batch: " << batch << " last batch: " << _allocation.size()-1 << " index last product" << _allocation[batch][3] << " index first product " << _allocation[batch+1][2] << endl;
+            getchar();
+            return 1;
+        } else
         {
             // choosing a product in the batch
 
@@ -3169,6 +3181,8 @@ namespace extruderPlanningProblemLibrary
 
         if(_PCRE_print == 1) print();
         if(_PCRE_print == 1) cout << endl << "solution after random exclusion" << endl;
+
+        return 0;
     };
 
     bool EPPSolution::erase(unsigned int location, ofstream &file)

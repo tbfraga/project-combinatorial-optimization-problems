@@ -46,15 +46,13 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(20,20);
+    solution.particleCollision(30,30);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     //getchar();
 
 
-    cout << endl << endl << "step 14: creating EPPSolution class - debugging - solving deliver function bug." << endl;
-
-    // stop for a while
+    cout << endl << endl << "step 14: creating EPPSolution class - debugging - solving random erase bug." << endl;
     // next step solving deliver bug
 
     // I will change batch selection - product can replace other of different collor changing batch collor - latter

@@ -205,7 +205,7 @@ namespace extruderPlanningProblemLibrary
         bool split(unsigned int batch, unsigned int time, ofstream &file);
         vector<unsigned int> productList(unsigned int batch);
         void processingTime(unsigned int batch, unsigned int time, ofstream &file);
-        void randomErase(unsigned int batch, ofstream &file);
+        bool randomErase(unsigned int batch, ofstream &file);
         bool erase(unsigned int location, ofstream &file);
         bool insert(unsigned int product, unsigned int batch, ofstream &file);
         bool clean(unsigned int cleanType, ofstream &file);
