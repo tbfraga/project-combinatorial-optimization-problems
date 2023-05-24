@@ -2,17 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="lib/extruder planning problem.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9357" topLine="116" />
+			<Cursor1 position="1210" topLine="0" />
 		</Cursor>
-		<Folding>
-			<Collapse line="34" />
-		</Folding>
 	</File>
 	<File name="src/extruder planning problem.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="64873" topLine="296" />
+			<Cursor1 position="73366" topLine="113" />
 		</Cursor>
 		<Folding>
 			<Collapse line="23" />
@@ -24,36 +21,30 @@
 			<Collapse line="601" />
 			<Collapse line="619" />
 			<Collapse line="935" />
-			<Collapse line="953" />
-			<Collapse line="1281" />
-			<Collapse line="1464" />
-			<Collapse line="1587" />
-			<Collapse line="1655" />
-			<Collapse line="1782" />
-			<Collapse line="2158" />
-			<Collapse line="2241" />
-			<Collapse line="2274" />
-			<Collapse line="2303" />
-			<Collapse line="2409" />
-			<Collapse line="2431" />
-			<Collapse line="2555" />
+			<Collapse line="955" />
+			<Collapse line="1283" />
+			<Collapse line="1466" />
+			<Collapse line="1589" />
+			<Collapse line="1657" />
+			<Collapse line="1824" />
+			<Collapse line="2079" />
+			<Collapse line="2141" />
+			<Collapse line="2199" />
+			<Collapse line="2215" />
+			<Collapse line="2326" />
+			<Collapse line="2359" />
+			<Collapse line="2388" />
+			<Collapse line="2493" />
+			<Collapse line="2590" />
 			<Collapse line="2629" />
-			<Collapse line="2676" />
-			<Collapse line="2773" />
-			<Collapse line="2937" />
-			<Collapse line="3015" />
-			<Collapse line="3053" />
-			<Collapse line="3120" />
-			<Collapse line="3158" />
-			<Collapse line="3253" />
-			<Collapse line="3366" />
-			<Collapse line="3557" />
-			<Collapse line="3572" />
 		</Folding>
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="lib/extruder planning problem.h" open="1" top="1" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2129" topLine="20" />
+			<Cursor1 position="7116" topLine="76" />
 		</Cursor>
+		<Folding>
+			<Collapse line="34" />
+		</Folding>
 	</File>
 </CodeBlocks_layout_file>

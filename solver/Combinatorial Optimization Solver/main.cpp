@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/17
+// last modification: 2023/05/24
 
 // goal: develop a solver for extruders planning optimization
 
@@ -24,7 +24,13 @@ using namespace extruderPlanningProblemLibrary;
 
 int main()
 {
+    // starting files
+
     ofstream file;
+
+    file.open("rst/simulatedAnnealing.txt");
+    file << "Applying Particle Collision with Simulated Annealing - iterations: 60/30." << endl;
+    file.close();
 
     EPPInstance problem;
 
@@ -46,13 +52,13 @@ int main()
     cout << endl << "initial solution" << endl;
     // getchar();
 
-    solution.particleCollision(30,30);
+    solution.particleCollision(60,30);
     solution.print();
     cout << endl << "solution after Particle Collision" << endl;
     //getchar();
 
 
-    cout << endl << endl << "step 14: creating EPPSolution class - debugging - solving random erase bug." << endl;
+    cout << endl << endl << "step 14: creating EPPSolution class - debugging." << endl;
     // next step solving deliver bug
 
     // I will change batch selection - product can replace other of different collor changing batch collor - latter

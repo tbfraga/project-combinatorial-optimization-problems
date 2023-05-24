@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/17
+// last modification: 2023/05/24
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
 #define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
@@ -158,17 +158,14 @@ namespace extruderPlanningProblemLibrary
         // print parameters
 
         int _i_print = 0;
-        // _i_print = 0 - print only no restricted
-        // _i_print = 1 - print only functions head
-        // _i_print = 2 - print only PC informations
-        // _i_print = 3 - print pertubation operator informations
+
+        bool _hprint = 1; // print functions head
+        bool _fprint = 1; // print on file
 
         bool _SA_print = 0;
         bool _PCP_print = 0;
         bool _PCRE_print = 0;
         bool _PCR_print = 0;
-
-        bool _fprint = 1;
 
         // functions
 
@@ -192,10 +189,11 @@ namespace extruderPlanningProblemLibrary
         void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet);
 
 
-        void simultedAnnealing(unsigned int NMaxIte);
+        void simultedAnnealing(unsigned int NMaxIte, ofstream &file);
         EPPSolution autoCopy();
         void set(EPPSolution solution);
         bool swapTime(ofstream &file);
+        bool processingTime(unsigned int batch, unsigned int time, ofstream &file);
         void reduce(unsigned int production, unsigned int product, unsigned int day, ofstream &file);
 
         void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
@@ -204,7 +202,6 @@ namespace extruderPlanningProblemLibrary
         bool include(unsigned int product, unsigned int batch, ofstream &file);
         bool split(unsigned int batch, unsigned int time, ofstream &file);
         vector<unsigned int> productList(unsigned int batch);
-        void processingTime(unsigned int batch, unsigned int time, ofstream &file);
         bool randomErase(unsigned int batch, ofstream &file);
         bool erase(unsigned int location, ofstream &file);
         bool insert(unsigned int product, unsigned int batch, ofstream &file);
