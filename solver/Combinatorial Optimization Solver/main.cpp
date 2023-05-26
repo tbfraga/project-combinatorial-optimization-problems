@@ -12,59 +12,38 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/24
-
-// goal: develop a solver for extruders planning optimization
-
-// next step: start developing a library !!!
+// last modification: 2023/05/26
 
 #include "lib/extruder planning problem.h"
-
-using namespace extruderPlanningProblemLibrary;
+using namespace epp;
 
 int main()
 {
-    // starting files
+    cout << "*** creating library extruder planning problem ****" << endl;
+    cout << endl << "- creating a class for the problem" << endl;
+    cout << endl << "\t" << "-- defining the paramaters of the problem" << endl;
+    cout << endl << "\t" << "-- creating a function for printing the EPP" << endl;
+    cout << endl << "\t" << "-- creating a function for printing the EPP on file" << endl;
+    cout << endl << "\t" << "-- search how to format output using cout -- later" << endl;
+    cout << endl << "\t" << "-- in print function - verify dimensions of paramenters -- later" << endl;
+    cout << endl << "\t" << "-- create a function for calculate value of dependent variables" << endl;
+    cout << endl << "\t" << "-- creating a function for delete problem parameters and dependent variables of type vector" << endl;
+    cout << endl << "- creating a class for problem instances" << endl;
+    cout << endl << "\t" << "-- creating a function for creating a small and simple instance of the EPP (Extruder Planning Problem)" << endl;
+    cout << endl << "to be continued ..." << endl;
 
     ofstream file;
 
-    file.open("rst/simulatedAnnealing.txt");
-    file << "Applying Particle Collision with Simulated Annealing - iterations: 60/30." << endl;
-    file.close();
-
-    EPPInstance problem;
+    EPP problem;
 
     problem.EPP001();
-
     problem.print();
-    cout << endl << "problem" << endl;
-    getchar();
 
-    EPPSolution solution;
+    file.open("rst/EPP.txt");
+    problem.print(file);
+    file.close();
 
-    solution.restart(problem);
-    solution.print();
-    cout << endl << "empty solution" << endl;
-    // getchar();
+    problem.clear();
 
-    solution.generate(file);
-    solution.print();
-    cout << endl << "initial solution" << endl;
-    // getchar();
-
-    solution.particleCollision(60,30);
-    solution.print();
-    cout << endl << "solution after Particle Collision" << endl;
-    //getchar();
-
-
-    cout << endl << endl << "step 14: creating EPPSolution class - debugging." << endl;
-    // next step solving deliver bug
-
-    // I will change batch selection - product can replace other of different collor changing batch collor - latter
-    // so code will improuve better batches sequence triyng to reduce total setup time - ok
-
-    // it seens to have a small bug !!!
-    // we have a problem when calculating production limit
-    // problem in swapTime function - next step
+    return 0;
 }

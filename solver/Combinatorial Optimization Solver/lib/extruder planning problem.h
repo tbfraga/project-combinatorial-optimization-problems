@@ -13,31 +13,23 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/24
+// last modification: 2023/05/26
 
-#ifndef EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
-#define EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
-
-#include<math.h>
+#ifndef EXTRUDER_PLANNING_PROBLEM_H
+#define EXTRUDER_PLANNING_PROBLEM_H
 
 #include<iostream>
 #include<fstream>
 #include<vector>
 using namespace std;
 
-namespace extruderPlanningProblemLibrary
+namespace epp
 {
-    class extruderPlanningProblem;
-    class PPPIEInstance;
-    class EPPSolution;
-
     class extruderPlanningProblem
     {
-        friend class EPPSolution;
-
         protected:
 
-        // these paramenters define an instance of an EPP (Exturder Planning Problem)
+        // these paramenters define an instance of an Exturder Planning Problem
 
         // problem definition parameters
 
@@ -85,131 +77,28 @@ namespace extruderPlanningProblemLibrary
 
         vector<vector<unsigned int>> _productColorGroup = {{0}}; // variable defined to classify products by color and material
                                                                  // products of same color and material can be processed on a same batch
+
+        // *** functions
+
         public:
+
+        void clear();
+
+        bool restart(); // this function can be also used for verifying if informed data is ok - correct correspondence of dimensions of linked paramenters
 
         bool print();
         bool print(ofstream &file);
-
-        void clear();
-        void restart();
     };
 
-    // class for creating instances of EPP (Extruder Planning Problem)
+    // class for creating instances of Extruder Planning Problem
 
-    class EPPInstance: public extruderPlanningProblem
+    class EPP: public extruderPlanningProblem
     {
         public:
 
         void EPP001();
     };
-
-    // class for solving an EPP
-
-    class EPPSolution
-    {
-        //friend class EPPInstance;
-
-        protected:
-
-        // solution variables
-
-        // problem linked to the solution
-
-        EPPInstance _problem; // EPP
-
-        // solution variables
-
-        vector<vector<unsigned int>> _balancing = {{0}}; // for assigning product to batch
-        vector<vector<unsigned int>> _allocation = {{0}}; // for assingning batch to extruder and day
-        vector<unsigned int> _processingTime = {0}; // batch processing time
-
-        // secondary variables - calculated
-
-        vector<float> _batchWidth = {0}; // batch width
-        vector<float> _batchIdleness = {0}; // batch idleness
-        vector<unsigned int> _batchColor = {0}; // batch color - replacing _allocation[batch][4]
-        //vector<unsigned int> _batchColor = {0}; // batch color
-        vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
-        vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
-
-        // vector<vector<unsigned int>> _restricted = {{0}}; // I won't use it for now
-        // variable that informs the type of constraint not met and the index that informs the location of the error
-        // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
-
-        vector<vector<unsigned int>> _production = {{0}}; // production
-        vector<vector<unsigned int>> _delivered = {{0}}; // delivered
-        vector<vector<unsigned int>> _unmetDemand = {{0}}; // unmet demand
-        vector<vector<vector<unsigned int>>> _deliveredToOutlet = {{{0}}}; // delivered to outlet
-        vector<unsigned int> _totalFreeOutletInventory = {0}; // free outlet inventory
-        vector<vector<unsigned int>> _freeOutletInventory = {{0}}; // free outlet inventory by product
-        vector<vector<unsigned int>> _inventory = {{0}}; // inventory at factory
-        vector<unsigned int> _totalFreeInventory = {0}; // free inventory at factory
-        vector<vector<unsigned int>> _freeInventory = {{0}}; // free inventory at factory by product
-
-        double _fitness = 0; // fitness: profit = production profit - unmet demand cost - inventory cost
-        double _productionTotalProfit = 0; // production profit
-        double _unmetDemandTotalCost = 0; // unmet demand cost
-        double _inventoryTotalCost = 0; // inventory cost
-
-        //auxiliary
-
-        vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
-
-        // print parameters
-
-        int _i_print = 0;
-
-        bool _hprint = 1; // print functions head
-        bool _fprint = 1; // print on file
-
-        bool _SA_print = 0;
-        bool _PCP_print = 0;
-        bool _PCRE_print = 0;
-        bool _PCR_print = 0;
-
-        // functions
-
-        public:
-
-        void clear();
-        bool print();
-        bool print(unsigned int type);
-
-        bool print(ofstream &file);
-        bool print(unsigned int type, ofstream &file);
-
-        void restart(EPPInstance problem);
-        void generate(ofstream &file);
-
-        unsigned int productionLimit(unsigned int product, unsigned int day);
-        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file);
-        bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file);
-        bool deliver(unsigned int product, ofstream &file);
-        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
-        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution, unsigned int &unmet);
-
-
-        void simultedAnnealing(unsigned int NMaxIte, ofstream &file);
-        EPPSolution autoCopy();
-        void set(EPPSolution solution);
-        bool swapTime(ofstream &file);
-        bool processingTime(unsigned int batch, unsigned int time, ofstream &file);
-        void reduce(unsigned int production, unsigned int product, unsigned int day, ofstream &file);
-
-        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA);
-        void swapProduct(ofstream &file);
-        bool insert(unsigned int product, ofstream &file);
-        bool include(unsigned int product, unsigned int batch, ofstream &file);
-        bool split(unsigned int batch, unsigned int time, ofstream &file);
-        vector<unsigned int> productList(unsigned int batch);
-        bool randomErase(unsigned int batch, ofstream &file);
-        bool erase(unsigned int location, ofstream &file);
-        bool insert(unsigned int product, unsigned int batch, ofstream &file);
-        bool clean(unsigned int cleanType, ofstream &file);
-        unsigned int find(vector<unsigned int> UIVector, unsigned int value);
-
-        bool verify();
-    };
 }
 
-#endif // EXTRUDER_PLANNING_PROBLEM_H_INCLUDED
+
+#endif // EXTRUDER_PLANNING_PROBLEM_H
