@@ -157,13 +157,16 @@ namespace epp
 
         // functions
 
-        void clear(); // this function clear vector type solution variables
+        void clear(); // this function clears vector type solution variables
 
-        bool print(); // this function print a complete soltuion
-        bool print(unsigned int type); // this function print some part of the solution as specified by parameter <type>
+        bool print(); // this function prints a complete soltuion
+        bool print(unsigned int type); // this function prints some part of the solution as specified by parameter <type>
 
-        bool print(ofstream &file); // this function print a complete soltuion on file
-        bool print(unsigned int type, ofstream &file); // this function print some part of the solution on file as specified by parameter <type>
+        bool print(ofstream &file); // this function prints a complete soltuion on file
+        bool print(unsigned int type, ofstream &file); // this function prints some part of the solution on file as specified by parameter <type>
+
+        void restart(EPP problem); // this function initializes solution variables
+        void generate(); // this function generates a feasible initial solution
     };
 }
 

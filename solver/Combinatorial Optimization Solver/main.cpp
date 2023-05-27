@@ -23,18 +23,15 @@ int main()
     cout << endl << "- creating a class for solving the problem and manipulating solution" << endl;
     cout << endl << "\t" << "-- defining solution primary and dependent variables" << endl;
     cout << endl << "\t" << "-- creating a function for clearing vector type variables" << endl;
-
-    cout << endl << "to be continued..." << endl;
-
     cout << endl << "\t" << "-- creating a function for printing solution parts" << endl;
     cout << endl << "\t" << "-- creating a function for printing solution" << endl;
-
     cout << endl << "\t" << "-- creating a function for printing solution parts on file" << endl;
     cout << endl << "\t" << "-- creating a function for printing solution on file" << endl;
+    cout << endl << "\t" << "-- creating a function for inicializing solution variables" << endl;
+
+    // continue - next time - stoping for today :)
 
     cout << endl << "\t" << "-- creating a fuction for generating some initial solution" << endl;
-    cout << endl << "\t" << "-- creating a function for printing a solution" << endl;
-    cout << endl << "\t" << "-- creating a function for printing a solution on file" << endl;
 
     ofstream file;
 
@@ -46,8 +43,18 @@ int main()
     file.open("rst/EPP.txt");
     problem.print(file);
     file.close();
+    getchar();
 
     solution epp_solution;
+    epp_solution.print();
+
+    epp_solution.restart(problem);
+
+    file.open("rst/solution.txt");
+    epp_solution.print(file);
+    file.close();
+
+    epp_solution.print();
 
     epp_solution.clear();
     problem.clear();

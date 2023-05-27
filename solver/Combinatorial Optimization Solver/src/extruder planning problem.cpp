@@ -19,7 +19,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 
 namespace epp
 {
-    // clearing problem parameters and dependent variables of type vector
+    // clear problem parameters and dependent variables of type vector
 
     void extruderPlanningProblem::clear()
     {
@@ -635,7 +635,7 @@ namespace epp
         restart();
     };
 
-    // clearing solution primary and secondary variables of type vector
+    // clear solution primary and secondary variables of type vector
 
     void solution::clear()
     {
@@ -728,24 +728,30 @@ namespace epp
         _batchColorGroup.clear();
     };
 
-    // printing on screen some part of the solution as specified by parameter <type>
+    // print on screen some part of the solution as specified by parameter <type>
 
     bool solution::print(unsigned int type)
     {
-        if(_hprint == 1) cout << endl << "head: printing solution on screan..." << endl;
         bool error = 0;
+
         unsigned int batch;
 
-        if(type == 0) // fitness
+        if(type == 0) // print fitness
         {
             cout << endl << endl << "SOLUTION" << endl;
 
             cout << endl << "fitness: " << _fitness << endl;
-            cout << endl << "production total profit: " << _productionTotalProfit << endl;
-            cout << endl << "unmet demand total cost: " << _unmetDemandTotalCost  << endl;
+            cout << endl << "production total profit: " << _productionTotalProfit;
+            cout << endl << "unmet demand total cost: " << _unmetDemandTotalCost;
             cout << endl << "inventory total cost: " << _inventoryTotalCost<< endl;
 
-        }else if(type == 1) // _balancing
+            if(_fitness != (_productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost))
+            {
+                 error = 1;
+                 cout << endl << "error print: costs not correctly calculated !";
+            }
+
+        }else if(type == 1) // print _balancing and linked variables
         {
             cout << endl << "[batch, product] - balancing" << endl;
 
@@ -777,7 +783,7 @@ namespace epp
 
             cout << endl;
 
-        }else if(type == 2)
+        }else if(type == 2) // print _allocation and linked variables
         {
             cout << endl << "allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: ";
             cout << endl << endl;
@@ -804,16 +810,20 @@ namespace epp
             }
             cout << endl;
 
-        }else if(type == 3)
+        }else if(type == 3) // print extruder variables
         {
-            cout << endl << "[extruder, day]" << endl;
-            cout << endl << "   processing time (min)  /  idleness (min)" << endl << endl;
+            cout << endl << "[extruder, day] - processing time (min) / idleness (min) / capacity (min)" << endl << endl;
 
             for(unsigned int d=0; d<_problem._NDays; d++)
             {
                 cout << "\t" << d;
             }
             cout << "\t";
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                cout << "\t" << d;
+            }
+             cout << "\t";
             for(unsigned int d=0; d<_problem._NDays; d++)
             {
                 cout << "\t" << d;
@@ -834,11 +844,17 @@ namespace epp
                 {
                     cout << "\t" << _extruderIdleness[e][d];
                 }
+
+                cout << "\t";
+                for(unsigned int d=0; d<_problem._capacity[e].size(); d++)
+                {
+                    cout << "\t" << _problem._capacity[e][d];
+                }
                 cout << endl;
             }
             cout << endl;
 
-        }else if(type == 4)
+        }else if(type == 4) // print product variables
         {
             cout << endl << "production / demand (g) [product, day]:" << endl;
             cout << endl << "\t" << "production" << "\t\t" << "delivered" << "\t\t" << "unmet" << "\t\t\t" << "demand";
@@ -872,6 +888,8 @@ namespace epp
 
             cout << endl << endl;
 
+            unsigned int sum;
+
             for(unsigned int p=0; p<_production.size(); p++)
             {
                 cout << p;
@@ -902,12 +920,25 @@ namespace epp
                 }
 
                 cout << endl;
+
+                if(_unmetDemand[p][0] != (_problem._demand[p][0] - _delivered[p][0])) error = 1;
+                if(_unmetDemand[p][0] > _problem._demand[p][0]) error = 1;
+
+                sum = _problem._demand[p][0];
+                for(unsigned int d=1; d<_problem._demand[p].size(); d++)
+                {
+                    if(_unmetDemand[p][d] != (_unmetDemand[p][d-1] + _problem._demand[p][d] - _delivered[p][d])) error = 1;
+
+                    sum += _problem._demand[p][d];
+                    if(_unmetDemand[p][d] > sum) error = 1;
+                }
             }
+
             cout << endl;
 
             if(error == 1) cout << endl << "error: demand variables not correctly calculated." << endl;
 
-        }else if (type == 5)
+        }else if (type == 5) // print outlets variables
         {
             cout << endl  << endl;
 
@@ -974,12 +1005,22 @@ namespace epp
             }
             cout << endl;
 
-        }else if(type == 6)  // inventory
+            for(unsigned int o=0; o<_totalFreeOutletInventory.size(); o++)
+            {
+                cout << "\t"<< _totalFreeOutletInventory[o];
+                if(_totalFreeOutletInventory[o] > _problem._totalMaximumOutletInventory[o]) error = 1;
+            }
+            cout << endl;
+
+            if(error == 1) cout << "error: outlet inventory variables not correctly calculated." << endl;
+
+        }else if(type == 6)  // print inventory variables
         {
             cout << endl << "inventory (g) [product, day]" << endl << endl;
             cout << "\t" << "inventory" << "\t\t" << "free" << "\t\t\t" << "maximum";
             cout << endl << endl;
 
+            cout << "\t" << "i";
             for(unsigned int d=0; d< _problem._NDays; d++)
             {
                 cout << "\t" << d;
@@ -996,7 +1037,7 @@ namespace epp
 
             for(unsigned int p=0; p<_inventory.size(); p++)
             {
-                cout << p;
+                cout << p << "\t" << _problem._initialInventory[p];
                 for(unsigned int d=0; d<_inventory[p].size(); d++)
                 {
                     cout << "\t" << _inventory[p][d];
@@ -1024,7 +1065,7 @@ namespace epp
                 cout << "\t";
             }
 
-            cout << "\t" << "total:";
+            cout << "\t\t" << "total:";
             for(unsigned int d=0; d< _totalFreeInventory.size(); d++)
             {
                 cout << "\t" << _totalFreeInventory[d] ;
@@ -1045,4 +1086,558 @@ namespace epp
         return error;
     };
 
+    // print on screen a complete solution
+
+    bool solution::print()
+    {
+        bool error = 0;
+
+        error = print(0);
+        print(1);
+        print(2);
+        print(3);
+        error = print(4);
+        print(5);
+        error = print(6);
+
+        return error;
+    };
+
+    // print on <file> some part of the solution as specified by parameter <type>
+
+    bool solution::print(unsigned int type, ofstream &file)
+    {
+        bool error = 0;
+
+        unsigned int batch;
+
+        if(type == 0) // print fitness
+        {
+            file << endl << endl << "SOLUTION" << endl;
+
+            file << endl << "fitness: " << _fitness << endl;
+            file << endl << "production total profit: " << _productionTotalProfit;
+            file << endl << "unmet demand total cost: " << _unmetDemandTotalCost;
+            file << endl << "inventory total cost: " << _inventoryTotalCost << endl;
+
+            if(_fitness != (_productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost))
+            {
+                 error = 1;
+                 file << endl << "error print: costs not correctly calculated !";
+            }
+
+        }else if(type == 1) // print _balancing and linked variables
+        {
+            file << endl << endl << "[batch, product] - balancing" << endl;
+
+            for(unsigned int b=0; b<_balancing.size(); b++)
+            {
+                if(b==0)
+                {
+                    batch = _balancing[b][0];
+                    file << endl << batch;
+                }else if(_balancing[b][0] != _balancing[b-1][0]) // if not the same batch
+                {
+                    batch = _balancing[b][0];
+                    file << endl << batch;
+                }
+
+                file << "\t" << _balancing[b][1];
+            }
+
+            file << endl << endl << "processing time (min) / width (m) / idleness (m) / color" << endl;
+
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                file << endl << b;
+                file << "\t" << _processingTime[b];
+                file << "\t" << _batchWidth[b];
+                file << "\t" << _batchIdleness[b];
+                file << "\t" << _batchColor[b];
+            }
+
+            file << endl;
+
+        }else if(type == 2) // print _allocation and linked variables
+        {
+            file << endl << "allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: " << endl << endl;
+            for(unsigned int b=0; b<_allocation.size(); b++)
+            {
+                file << b << "\t";
+                for(unsigned int i=0; i<_allocation[b].size(); i++)
+                {
+                    file << _allocation[b][i] << "\t";
+                }
+                file << endl;
+            }
+
+            file << endl << "batch color group [batch vector]: " << endl << endl;
+
+            for(unsigned int c=0; c<_batchColorGroup.size(); c++)
+            {
+                for(unsigned int s=0; s<_batchColorGroup[c].size(); s++)
+                {
+                    file << _batchColorGroup[c][s] << "\t";
+                }
+                file << endl;
+            }
+
+        }else if(type == 3) // print extruder variables
+        {
+            file << endl << "[extruder, day] -  processing time (min) / idleness (min) / capacity (min)" << endl;
+
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+            file << "\t";
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl;
+
+            for(unsigned int e=0; e<_extruderProcTime.size(); e++)
+            {
+                file << endl << e;
+                for(unsigned int d=0; d<_extruderProcTime[e].size(); d++)
+                {
+                    file << "\t" << _extruderProcTime[e][d];
+                }
+
+                file << "\t";
+                for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+                {
+                    file << "\t" << _extruderIdleness[e][d];
+                }
+
+                file << "\t";
+                for(unsigned int d=0; d<_problem._capacity[e].size(); d++)
+                {
+                    file << "\t" << _problem._capacity[e][d];
+                }
+                file << endl;
+            }
+
+        }else if(type == 4) // print product variables
+        {
+            file << endl << "[product, day] - production / demand (g):" << endl;
+            file << endl << "\t" << "production" << "\t\t" << "delivered" << "\t\t" << "unmet" << "\t\t\t" << "demand";
+            file << endl << endl;
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl << endl;
+
+            unsigned int sum;
+            for(unsigned int p=0; p<_production.size(); p++)
+            {
+                file << p;
+                for(unsigned int d=0; d<_production[p].size(); d++)
+                {
+                    file << "\t" << _production[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_delivered[p].size(); d++)
+                {
+                    file << "\t" << _delivered[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_unmetDemand[p].size(); d++)
+                {
+                    file << "\t" << _unmetDemand[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_problem._demand[p].size(); d++)
+                {
+                    file << "\t" << _problem._demand[p][d];
+                }
+
+                file << endl;
+
+                if(_unmetDemand[p][0] != (_problem._demand[p][0] - _delivered[p][0])) error = 1;
+                if(_unmetDemand[p][0] > _problem._demand[p][0]) error = 1;
+
+                sum = _problem._demand[p][0];
+                for(unsigned int d=1; d<_problem._demand[p].size(); d++)
+                {
+                    if(_unmetDemand[p][d] != (_unmetDemand[p][d-1] + _problem._demand[p][d] - _delivered[p][d])) error = 1;
+
+                    sum += _problem._demand[p][d];
+                    if(_unmetDemand[p][d] > sum) error = 1;
+                }
+            }
+
+            if(error == 1) file << endl << "error: demand variables not correctly calculated !" << endl;
+
+        }else if (type == 5) // print outlets variables
+        {
+            file << endl << "delivered to outlet (g) [product, outlet, day]" << endl << endl;
+
+            for(unsigned int o=0; o<_problem._NOutlets; o++)
+            {
+                file << "\t" << "outlet: " << o;
+
+                for(unsigned int d=2; d<_problem._NDays; d++)
+                {
+                    file << "\t";
+                }
+            }
+
+            file << "\t" << "free";
+
+            file << endl << endl;
+
+            for (unsigned int d=0; d<=_problem._NDays; d++)
+            {
+                for(unsigned int o=0; o<_problem._NOutlets; o++)
+                {
+                    file << "\t" << o;
+                }
+            }
+
+            file << endl << endl;
+
+            for(unsigned int p=0; p<_deliveredToOutlet.size(); p++)
+            {
+                file << p;
+                for(unsigned int o=0; o<_deliveredToOutlet[p].size(); o++)
+                {
+                    for(unsigned int d=0; d<_deliveredToOutlet[p][o].size(); d++)
+                    {
+                        file << "\t" << _deliveredToOutlet[p][o][d];
+                    }
+                }
+
+                for(unsigned int o=0; o<_freeOutletInventory[p].size(); o++)
+                {
+                    file << "\t" << _freeOutletInventory[p][o];
+                }
+
+                file << endl;
+            }
+
+            file << endl;
+
+            for(unsigned int o=0; o<_problem._NOutlets; o++)
+            {
+                for(unsigned int d=0; d<_problem._NDays; d++)
+                {
+                    file << "\t";
+                }
+            }
+
+            file << "total:";
+
+            for(unsigned int o=0; o<_totalFreeOutletInventory.size(); o++)
+            {
+                file << "\t"<< _totalFreeOutletInventory[o];
+                if(_totalFreeOutletInventory[o] > _problem._totalMaximumOutletInventory[o]) error = 1;
+            }
+            file << endl;
+
+            if(error == 1) file << "error: outlet inventory variables not correctly calculated." << endl;
+
+        }else if(type == 6)  // print inventory variables
+        {
+            file << endl << "inventory (g) [product, day]" << endl << endl;
+            file << "\t" << "inventory" << "\t\t" << "free" << "\t\t\t" << "maximum";
+            file << endl << endl;
+
+            file << "\t" << "i";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << "\t";
+
+            for(unsigned int d=0; d< _problem._NDays; d++)
+            {
+                file << "\t" << d;
+            }
+
+            file << endl << endl;
+
+            for(unsigned int p=0; p<_inventory.size(); p++)
+            {
+                file << p << "\t" << _problem._initialInventory[p];
+                for(unsigned int d=0; d<_inventory[p].size(); d++)
+                {
+                    file << "\t" << _inventory[p][d];
+                }
+
+                file << "\t";
+
+                for(unsigned int d=0; d<_freeInventory[p].size(); d++)
+                {
+                    file << "\t"<< _freeInventory[p][d];
+                    if(_freeInventory[p][d] > _problem._maximumInventory[p]) error = 1;
+                }
+
+                file << "\t";
+
+                file << "\t"<< _problem._maximumInventory[p];
+
+                file << endl;
+            }
+
+            file << endl;
+
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                file << "\t";
+            }
+
+            file << "\t\t" << "total:";
+            for(unsigned int d=0; d< _totalFreeInventory.size(); d++)
+            {
+                file << "\t" << _totalFreeInventory[d] ;
+                if(_totalFreeInventory[d] > _problem._totalMaximumInventory) error = 1;
+            }
+            file << "\t" << "total:" << "\t" << _problem._totalMaximumInventory;
+
+            file << endl;
+
+            if(error == 1) file << endl << "error: inventory variables not correctly calculated." << endl;
+
+        }else
+        {
+            file << endl << "info: please, choose a type betwing 0 and 6." << endl;
+        }
+
+        return error;
+    };
+
+    // print on <file> a complete solution
+
+    bool solution::print(ofstream &file)
+    {
+        if(_hprint == 1) cout << endl << "head: starting printing on file..." << endl;
+
+        bool error = 0;
+
+        error = print(0, file);
+        error = print(1, file);
+        error = print(2, file);
+        error = print(3, file);
+        error = print(4, file);
+        error = print(5, file);
+        error = print(6, file);
+
+        return error;
+    };
+
+    // create an empty initial solution for the problem
+
+    void solution::restart(EPP problem)
+    {
+        clear();
+
+        _problem.clear();
+        _problem = problem; // linking solution to the problem
+
+        if(_hprint == 1) cout << endl << "head: generating an empty initial solution for the <problem>..." << endl;
+
+        _fitness = 0;
+        _productionTotalProfit = 0;
+        _unmetDemandTotalCost = 0;
+        _inventoryTotalCost = 0;
+
+        _extruderProcTime.resize(_problem._NExtruders);
+        _extruderIdleness.resize(_problem._NExtruders);
+        for(unsigned int e=0; e<_problem._NExtruders; e++)
+        {
+            _extruderProcTime[e].resize(_problem._NDays,0);
+            _extruderIdleness[e].resize(_problem._NDays,0);
+
+            for(unsigned int d=0; d<_extruderIdleness[e].size(); d++)
+            {
+                _extruderIdleness[e][d] = _problem._capacity[e][d];
+            }
+        }
+
+        _batchColorGroup.resize(_problem._NColors);
+
+        _production.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_production.size(); p++)
+        {
+            _production[p].resize(_problem._NDays,0);
+        }
+
+        _totalFreeInventory.resize(_problem._NDays,0);
+        for(unsigned int d=0; d<_totalFreeInventory.size(); d++)
+        {
+            _totalFreeInventory[d] = _problem._totalMaximumInventory;
+        }
+
+        _inventory.resize(_problem._NProducts);
+        _freeInventory.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            _inventory[p].resize(_problem._NDays,0);
+            _freeInventory[p].resize(_problem._NDays,0);
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                _inventory[p][d] = _problem._initialInventory[p];
+                _freeInventory[p][d] = _problem._maximumInventory[p] - _inventory[p][d];
+                _totalFreeInventory[d] -= _inventory[p][d];
+                _inventoryTotalCost += _inventory[p][d]*_problem._inventoryUnitCost;
+            }
+        }
+
+        _delivered.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_delivered.size(); p++)
+        {
+            _delivered[p].resize(_problem._NDays,0);
+
+            for(unsigned int d=0; d<_delivered[p].size(); d++)
+            {
+                if(_problem._demand[p][d] >= _inventory[p][d])
+                {
+                    _delivered[p][d] = _inventory[p][d];
+                }else
+                {
+                    _delivered[p][d] = _problem._demand[p][d];
+                }
+
+                for(unsigned int i=d; i<_problem._NDays; i++)
+                {
+                    _inventory[p][i] -= _delivered[p][d];
+                    _freeInventory[p][i] += _delivered[p][d];
+                    _totalFreeInventory[i] += _delivered[p][d];
+                    _inventoryTotalCost -= _delivered[p][d]*_problem._inventoryUnitCost;
+                }
+            }
+        }
+
+        _unmetDemand.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_unmetDemand.size(); p++)
+        {
+            _unmetDemand[p].resize(_problem._NDays,0);
+
+            _unmetDemand[p][0] = _problem._demand[p][0]-_delivered[p][0];
+            _unmetDemandTotalCost += _unmetDemand[p][0]*_problem._unmetDemandCost;
+
+            for(unsigned int d=1; d<_unmetDemand[p].size(); d++)
+            {
+                _unmetDemand[p][d] = _unmetDemand[p][d-1] + _problem._demand[p][d] - _delivered[p][d];
+                _unmetDemandTotalCost += _unmetDemand[p][d]*_problem._unmetDemandCost;
+            }
+        }
+
+        _fitness -= _unmetDemandTotalCost;
+
+        _totalFreeOutletInventory.resize(_problem._NOutlets,0);
+        for(unsigned int o=0; o<_totalFreeOutletInventory.size(); o++)
+        {
+            _totalFreeOutletInventory[o] = _problem._totalMaximumOutletInventory[o];
+        }
+
+        _freeOutletInventory.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_freeOutletInventory.size(); p++)
+        {
+            _freeOutletInventory[p].resize(_problem._NOutlets,0);
+
+            for(unsigned int o=0; o<_freeOutletInventory[p].size(); o++)
+            {
+                if(_freeOutletInventory[p][o] <= _totalFreeOutletInventory[o])
+                {
+                    _freeOutletInventory[p][o] = _problem._maximumOutletInventory[p][o];
+                }else
+                {
+                    _freeOutletInventory[p][o] = _totalFreeOutletInventory[o];
+                }
+            }
+        }
+
+        unsigned int aux, day;
+
+        _deliveredToOutlet.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_deliveredToOutlet.size(); p++)
+        {
+            _deliveredToOutlet[p].resize(_problem._NOutlets);
+            for(unsigned int o=0; o<_deliveredToOutlet[p].size(); o++)
+            {
+                _deliveredToOutlet[p][o].resize(_problem._NDays,0);
+
+                for(unsigned int d=0; d<_deliveredToOutlet[p][o].size(); d++)
+                {
+                    aux = _inventory[p][d];
+                    day = d;
+
+                    for(unsigned int i=d+1; i<_problem._NDays; i++)
+                    {
+                        if(_inventory[p][i]<aux)
+                        {
+                            aux = _inventory[p][i];
+                            day = i;
+                        }
+                    }
+
+                    if(_inventory[p][day] != 0)
+                    {
+                        if(_inventory[p][d] <= _freeOutletInventory[p][o] || _inventory[p][day] <= _freeOutletInventory[p][o])
+                        {
+                            if(_inventory[p][d] <= _inventory[p][day])
+                            {
+                                _deliveredToOutlet[p][o][d] = _inventory[p][d];
+                            }else
+                            {
+                                _deliveredToOutlet[p][o][d] = _inventory[p][day];
+                            }
+                        }else
+                        {
+                            _deliveredToOutlet[p][o][d] = _freeOutletInventory[p][o];
+                        }
+
+                        _freeOutletInventory[p][o] -= _deliveredToOutlet[p][o][d];
+                        _totalFreeOutletInventory[o] -= _deliveredToOutlet[p][o][d];
+
+                        for(unsigned int i=d; i<_problem._NDays; i++)
+                        {
+                            _inventory[p][i] -= _deliveredToOutlet[p][o][d];
+                            _totalFreeInventory[i] += _deliveredToOutlet[p][o][d];
+                            _freeInventory[p][i] += _deliveredToOutlet[p][o][d];
+                            _inventoryTotalCost -= _deliveredToOutlet[p][o][d]*_problem._inventoryUnitCost;
+                        }
+                    }
+                }
+            }
+        }
+
+        _fitness -= _inventoryTotalCost;
+    };
 }
