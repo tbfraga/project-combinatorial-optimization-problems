@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/26
+// last modification: 2023/05/27
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H
 #define EXTRUDER_PLANNING_PROBLEM_H
@@ -27,6 +27,8 @@ namespace epp
 {
     class extruderPlanningProblem
     {
+        friend class solution;
+
         protected:
 
         // these paramenters define an instance of an Exturder Planning Problem
@@ -82,7 +84,7 @@ namespace epp
 
         public:
 
-        void clear();
+        void clear(); // this function clear memory allocated to vector type parameters and dependent variables used to represent an EPP
 
         bool restart(); // this function can be also used for verifying if informed data is ok - correct correspondence of dimensions of linked paramenters
 
@@ -97,6 +99,71 @@ namespace epp
         public:
 
         void EPP001();
+    };
+
+    // class for solving an extruder planning problem
+
+    class solution
+    {
+        protected:
+
+        EPP _problem; // EPP linked to the solution
+
+        // primary variables
+
+        vector<vector<unsigned int>> _balancing = {{0}}; // for assigning product to batch
+        vector<vector<unsigned int>> _allocation = {{0}}; // for assingning batch to extruder and day
+        vector<unsigned int> _processingTime = {0}; // batch processing time
+
+        // secondary variables - calculated
+
+        vector<float> _batchWidth = {0}; // batch width
+        vector<float> _batchIdleness = {0}; // batch idleness
+        vector<unsigned int> _batchColor = {0}; // batch color
+        vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
+        vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
+
+        // vector<vector<unsigned int>> _restricted = {{0}}; // I won't use it for now
+        // variable that informs the type of constraint not met and the index that informs the location of the error
+        // restricted[1][b] indicates that the width of batch <b> is greater than the extruder can handle.
+
+        vector<vector<unsigned int>> _production = {{0}}; // production
+        vector<vector<unsigned int>> _delivered = {{0}}; // delivered to demand
+        vector<vector<unsigned int>> _unmetDemand = {{0}}; // unmet demand
+        vector<vector<vector<unsigned int>>> _deliveredToOutlet = {{{0}}}; // delivered to outlet
+        vector<unsigned int> _totalFreeOutletInventory = {0}; // free outlet inventory
+        vector<vector<unsigned int>> _freeOutletInventory = {{0}}; // free outlet inventory by product
+        vector<vector<unsigned int>> _inventory = {{0}}; // inventory at factory
+        vector<unsigned int> _totalFreeInventory = {0}; // free inventory at factory
+        vector<vector<unsigned int>> _freeInventory = {{0}}; // free inventory at factory by product
+
+        double _fitness = 0; // fitness: profit = production profit - unmet demand cost - inventory cost
+        double _productionTotalProfit = 0; // production profit
+        double _unmetDemandTotalCost = 0; // unmet demand cost
+        double _inventoryTotalCost = 0; // inventory cost
+
+        //auxiliary
+
+        vector<vector<unsigned int>> _batchColorGroup = {{0}}; // batch grouped by color
+
+        // print parameters
+
+        bool _hprint = 1; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
+        bool _fprint = 1; // if _fprint == 1 solver will print everything on differente files
+
+        // I'll also use some print parameter inside functions, so I can see solver results on screen
+
+        public:
+
+        // functions
+
+        void clear(); // this function clear vector type solution variables
+
+        bool print(); // this function print a complete soltuion
+        bool print(unsigned int type); // this function print some part of the solution as specified by parameter <type>
+
+        bool print(ofstream &file); // this function print a complete soltuion on file
+        bool print(unsigned int type, ofstream &file); // this function print some part of the solution on file as specified by parameter <type>
     };
 }
 

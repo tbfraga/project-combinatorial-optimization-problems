@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/26
+// last modification: 2023/05/27
 
 #include "lib/extruder planning problem.h"
 using namespace epp;
@@ -20,17 +20,21 @@ using namespace epp;
 int main()
 {
     cout << "*** creating library extruder planning problem ****" << endl;
-    cout << endl << "- creating a class for the problem" << endl;
-    cout << endl << "\t" << "-- defining the paramaters of the problem" << endl;
-    cout << endl << "\t" << "-- creating a function for printing the EPP" << endl;
-    cout << endl << "\t" << "-- creating a function for printing the EPP on file" << endl;
-    cout << endl << "\t" << "-- search how to format output using cout -- later" << endl;
-    cout << endl << "\t" << "-- in print function - verify dimensions of paramenters -- later" << endl;
-    cout << endl << "\t" << "-- create a function for calculate value of dependent variables" << endl;
-    cout << endl << "\t" << "-- creating a function for delete problem parameters and dependent variables of type vector" << endl;
-    cout << endl << "- creating a class for problem instances" << endl;
-    cout << endl << "\t" << "-- creating a function for creating a small and simple instance of the EPP (Extruder Planning Problem)" << endl;
-    cout << endl << "to be continued ..." << endl;
+    cout << endl << "- creating a class for solving the problem and manipulating solution" << endl;
+    cout << endl << "\t" << "-- defining solution primary and dependent variables" << endl;
+    cout << endl << "\t" << "-- creating a function for clearing vector type variables" << endl;
+
+    cout << endl << "to be continued..." << endl;
+
+    cout << endl << "\t" << "-- creating a function for printing solution parts" << endl;
+    cout << endl << "\t" << "-- creating a function for printing solution" << endl;
+
+    cout << endl << "\t" << "-- creating a function for printing solution parts on file" << endl;
+    cout << endl << "\t" << "-- creating a function for printing solution on file" << endl;
+
+    cout << endl << "\t" << "-- creating a fuction for generating some initial solution" << endl;
+    cout << endl << "\t" << "-- creating a function for printing a solution" << endl;
+    cout << endl << "\t" << "-- creating a function for printing a solution on file" << endl;
 
     ofstream file;
 
@@ -43,6 +47,9 @@ int main()
     problem.print(file);
     file.close();
 
+    solution epp_solution;
+
+    epp_solution.clear();
     problem.clear();
 
     return 0;
