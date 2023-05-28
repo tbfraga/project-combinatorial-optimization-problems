@@ -12,7 +12,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Combinatorial Optimization Solver
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/27
+// last modification: 2023/05/28
 
 #include "lib/extruder planning problem.h"
 using namespace epp;
@@ -28,10 +28,11 @@ int main()
     cout << endl << "\t" << "-- creating a function for printing solution parts on file" << endl;
     cout << endl << "\t" << "-- creating a function for printing solution on file" << endl;
     cout << endl << "\t" << "-- creating a function for inicializing solution variables" << endl;
-
-    // continue - next time - stoping for today :)
-
+    cout << endl << "\t" << "-- creating a function for calculating the maximum production allowed" << endl;
     cout << endl << "\t" << "-- creating a fuction for generating some initial solution" << endl;
+    cout << endl << "\t" << "-- creating a function for insert a new batch on solution" << endl;
+    cout << endl << "\t" << "-- creating a function for increasing production" << endl;
+    cout << endl << "\t" << "-- creating a function for distributing production betwing demand, outles and inventory" << endl;
 
     ofstream file;
 
@@ -50,6 +51,10 @@ int main()
 
     epp_solution.restart(problem);
 
+    file.open("rst/debug.txt");
+    epp_solution.generate(file);
+    file.close();
+
     file.open("rst/solution.txt");
     epp_solution.print(file);
     file.close();
@@ -58,6 +63,8 @@ int main()
 
     epp_solution.clear();
     problem.clear();
+
+    cout << endl << "next step: creating functions for applying Simulated Annealing for improve batches processing time" << endl;
 
     return 0;
 }

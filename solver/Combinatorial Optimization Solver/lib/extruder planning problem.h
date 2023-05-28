@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/27
+// last modification: 2023/05/28
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H
 #define EXTRUDER_PLANNING_PROBLEM_H
@@ -22,6 +22,8 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 #include<fstream>
 #include<vector>
 using namespace std;
+
+#include<math.h>
 
 namespace epp
 {
@@ -136,6 +138,7 @@ namespace epp
         vector<vector<unsigned int>> _inventory = {{0}}; // inventory at factory
         vector<unsigned int> _totalFreeInventory = {0}; // free inventory at factory
         vector<vector<unsigned int>> _freeInventory = {{0}}; // free inventory at factory by product
+        vector<vector<unsigned int>> _productionLimit = {{0}}; // maximum production allowed for products by day
 
         double _fitness = 0; // fitness: profit = production profit - unmet demand cost - inventory cost
         double _productionTotalProfit = 0; // production profit
@@ -166,7 +169,14 @@ namespace epp
         bool print(unsigned int type, ofstream &file); // this function prints some part of the solution on file as specified by parameter <type>
 
         void restart(EPP problem); // this function initializes solution variables
-        void generate(); // this function generates a feasible initial solution
+        unsigned int productionLimit(unsigned int product, unsigned int day);
+
+        void generate(ofstream &file); // this function generates a feasible initial solution
+        bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file); // this function creates a new batch
+        bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file); // this function increases production
+        bool deliver(unsigned int product, ofstream &file);
+        void backwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
+        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
     };
 }
 

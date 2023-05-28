@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1685207194 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+1685278464 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
 	"lib/extruder planning problem.h"
 
-1685202691 /home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
+1685277992 /home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
 	<iostream>
 	<fstream>
 	<vector>
+	<math.h>
 
-1685207073 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
+1685278070 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
 	"../lib/extruder planning problem.h"
 
