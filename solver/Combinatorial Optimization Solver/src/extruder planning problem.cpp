@@ -2124,6 +2124,74 @@ namespace epp
             }
         }
 
+        unsigned int amount;
+
+        for(unsigned int o=0; o<_problem._NOutlets; o++)
+        {
+            if(_totalFreeOutletInventory[o] > 0)
+            {
+                for(unsigned int p=0; p<_problem._NProducts; p++)
+                {
+                    if(_freeOutletInventory[p][o] > 0)
+                    {
+                        for(unsigned int d=0; d<_problem._NDays; d++)
+                        {
+                            amount = _inventory[p][d];
+
+                            if(amount == 0) break;
+
+                            for(unsigned int k=d+1; k<_problem._NDays; k++)
+                            {
+                                if(_inventory[p][k] < amount)
+                                {
+                                    amount = _inventory[p][k];
+
+                                    if(amount == 0)
+                                    {
+                                        d = k;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if(amount > 0)
+                            {
+                                if(amount > _freeOutletInventory[p][o])
+                                {
+                                    amount = _freeOutletInventory[p][o];
+                                }
+
+                                if(amount > _totalFreeOutletInventory[o])
+                                {
+                                    amount = _totalFreeOutletInventory[o];
+                                }
+
+                                _deliveredToOutlet[p][o][d] += amount;
+                                _freeOutletInventory[p][o] -= amount;
+                                _totalFreeOutletInventory[o] -= amount;
+
+                                if(i_print == 1) cout << endl << "totalFreeOutletInventory[o]: " << _totalFreeOutletInventory[o] << " amount: " << amount << endl;
+
+                                for(unsigned int k=d; k<_problem._NDays; k++)
+                                {
+                                    _inventory[p][k] -= amount;
+                                    _freeInventory[p][k] += amount;
+                                    _totalFreeInventory[k] += amount;
+
+                                    _inventoryTotalCost -= _problem._inventoryUnitCost*amount;
+                                }
+
+                                if(_freeOutletInventory[p][o] == 0) break;
+                                if(_totalFreeOutletInventory[o] == 0) break;
+                            }
+                        }
+
+                        if(_totalFreeOutletInventory[o] == 0) break;
+                    }
+                }
+            }
+        }
+
         _fitness = _productionTotalProfit - _unmetDemandTotalCost - _inventoryTotalCost;
 
         distribution.clear();
@@ -2531,6 +2599,99 @@ namespace epp
 
         return error;
     };
+
+    // exclude product on _balancing <location> from its batch
+
+    bool solution::erase(unsigned int location, ofstream &file)
+    {
+        bool i_print = 0;
+
+        if(_hprint == 1 || i_print == 1) cout << endl << "head: erasing product on batch..." << endl;
+
+        if(i_print == 1) print(1);
+        if(i_print == 1) cout << endl << "info erase: initial solution" << endl;
+
+        if(i_print == 1) cout << endl << "location: "<< location << "  _balancing size: " << _balancing.size() << endl;
+
+        if(location >= _balancing.size())
+        {
+            cout << endl << "error erase: " << location << " bigger than _balancing size - element do not exist !" << endl;
+            cout << endl << "no product will be erased from batch" << endl;
+            getchar();
+            return 1;
+        }else
+        {
+            unsigned int batch = _balancing[location][0];
+
+            // adjusting allocation indexes
+
+            if(_allocation[batch][2] < _allocation[batch][3])
+            {
+                _allocation[batch][3] -= 1;
+                if(i_print == 1) cout << endl << "new last batch index: " << _allocation[batch][3] << endl;
+            }
+
+            if(i_print == 1) cout << endl << "info erase: reorganizing other batches first and last indexes." << endl;
+
+            for(unsigned int b=batch+1; b<_allocation.size(); b++)
+            {
+                if(i_print == 1) cout << endl << "batch: " << b;
+                _allocation[b][2] -= 1;
+                if(i_print == 1) cout << "  new first batch index: " << _allocation[b][2];
+
+                _allocation[b][3] -= 1;
+                if(i_print == 1) cout << "  new last batch index: " << _allocation[b][3] << endl;
+            }
+
+            // excluding product from batch on _balancing
+
+            unsigned int product = _balancing[location][1];
+            unsigned int extruder = _allocation[batch][0];
+            unsigned int day = _allocation[batch][1];
+
+            if(i_print == 1) cout << endl << "product being excluded from batch: " << product << " extruder: " << extruder << " day: " << day << endl;
+
+            // adjusting _balancing
+
+             if(i_print == 1) print(1); // printing _balancing
+             if(i_print == 1) cout << endl << "location: " << location << endl;
+
+            _balancing[location].clear();
+            _balancing.erase(_balancing.begin()+location); // vector lib function
+
+             if(i_print == 1) print(1); // printing _balancing
+
+            _batchWidth[batch] -= _problem._width[product]; // adjusting batch width
+
+            if(i_print == 1) cout << endl << "batch width reduced to: " << _batchWidth[batch] << endl;
+
+            _batchIdleness[batch] += _problem._width[product]; // adjusting batch idleness
+
+            if(i_print == 1) cout << endl << "batch idleness augmented to: " << _batchIdleness[batch] << endl;
+
+            if(i_print == 1) print();
+
+            if(_processingTime[batch] > 0)
+            {
+                // adjusting production
+
+                unsigned int amount = _processingTime[batch]*_problem._productionPerTime[product][extruder];
+
+                if(i_print == 1) cout << endl << "production being reduced: " << amount << endl;
+
+                if(amount > 0)
+                {
+                    reduce(amount, product, day, file);
+                }
+            }
+
+            if(i_print == 1) print();
+        }
+
+        return 0;
+    };
+
+
 
     // generate an inicial not empty and feaseble solution
 

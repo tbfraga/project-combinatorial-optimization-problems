@@ -119,11 +119,11 @@ namespace epp
 
         // secondary variables - calculated
 
-        vector<float> _batchWidth = {0}; // batch width
-        vector<float> _batchIdleness = {0}; // batch idleness
+        vector<float> _batchWidth = {0}; // batch width (m)
+        vector<float> _batchIdleness = {0}; // batch idleness (m)
         vector<unsigned int> _batchColor = {0}; // batch color
-        vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time
-        vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness
+        vector<vector<unsigned int>> _extruderProcTime = {{0}}; // extruder processing time (min)
+        vector<vector<unsigned int>> _extruderIdleness = {{0}}; // extruder idleness (min)
 
         // vector<vector<unsigned int>> _restricted = {{0}}; // I won't use it for now
         // variable that informs the type of constraint not met and the index that informs the location of the error
@@ -180,14 +180,24 @@ namespace epp
         void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
 
         bool processingTime(unsigned int batch, unsigned int time, ofstream &file); // this function changes the processing time of a batch and changes linked variables accordly
-        bool reduce(unsigned int amount, unsigned int product, unsigned int day, ofstream &file); // this function reduces de production of some product at corresponding day
+        bool reduce(unsigned int amount, unsigned int product, unsigned int day, ofstream &file); // this function reduces the production of some product at corresponding day
                                                                                                   // while changing processing time of one of its batches
+        bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file); // this function increases the production of some product at corresponding day
+                                                                                                        // while changing processing time of one of its batches
+
+        bool erase(unsigned int location, ofstream &file); // exclude product of _balancing <location> from its batch
+
         void generate(ofstream &file); // this function generates a feasible initial solution
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file); // this function creates a new batch
-        bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file); // this function increases production
 
-        void simultedAnnealing(unsigned int NMaxIte, ofstream &file);
-        bool swapTime(ofstream &file);
+        void simultedAnnealing(unsigned int NMaxIte, ofstream &file); // this function applies a Simulated Annealing method for improving batches processing times
+        bool swapTime(ofstream &file); // this function ramdomly changes a batch processing time
+
+        void particleCollision(unsigned int NMaxIte, unsigned int NMaxIteSA); // this function applies a Particle Collision method for improving solution
+        void swapProduct(ofstream &file); // this function allocates some product randonly choosed on batch
+                                          // if _batchIdleness is not enought for allocating product on batch, other products will be excluded from batch
+                                          // if product color is not the same of batch color, all products on batch will be excluded before new product allocation
+                                          // and the color of batch will change to the color of product
     };
 }
 

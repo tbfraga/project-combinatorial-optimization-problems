@@ -4,7 +4,7 @@
 	<ActiveTarget name="Debug" />
 	<File name="src/extruder planning problem.cpp" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="87948" topLine="653" />
+			<Cursor1 position="118962" topLine="1289" />
 		</Cursor>
 		<Folding>
 			<Collapse line="23" />
@@ -28,6 +28,7 @@
 			<Collapse line="2376" />
 			<Collapse line="2405" />
 			<Collapse line="2510" />
+			<Collapse line="2607" />
 			<Collapse line="2895" />
 			<Collapse line="3608" />
 			<Collapse line="3814" />
@@ -35,7 +36,7 @@
 	</File>
 	<File name="lib/extruder planning problem.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="9322" topLine="107" />
+			<Cursor1 position="9081" topLine="109" />
 		</Cursor>
 		<Folding>
 			<Collapse line="34" />

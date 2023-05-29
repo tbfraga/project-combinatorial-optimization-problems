@@ -21,14 +21,15 @@ int main()
 {
     cout << "*** creating library extruder planning problem ****" << endl;
     cout << endl << "- creating a class for solving the problem and manipulating solution" << endl;
-    cout << endl << "-- creating functions for applying Simulated Annealing for improve batches processing time" << endl;
-    cout << endl << "--- creat a function for ramdomly chang a batch processing time" << endl;
-    cout << endl << "--- creat a function for applying Simulated Annealing" << endl;
+    cout << endl << "-- creating a function for excluding some product from some batch" << endl;
 
-    cout << endl << "when production is reduced, free space in outlets, if exists, are not filled with other products in inventory " << endl;
-    cout << endl << "need to improuve it" << endl;
+    cout << endl << "-- next - creating a function for including some product in some batch" << endl;
 
-    cout << endl << "working perfectly - next step: create a function for applying Particle Collision for improving solution" << endl;
+    cout << endl << "to be continued..." << endl;
+
+    cout << endl << "-- creating functions for applying Particle Collision for improving solution" << endl;
+    cout << endl << "--- creating a function for applying particle collision" << endl;
+    cout << endl << "--- create a pertubation function" << endl;
 
     ofstream file;
 
@@ -110,7 +111,7 @@ int main()
     file.open("rst/processingTime.txt", ios_base::app);
     epp_solution.processingTime(1, 300, file);
     epp_solution.processingTime(2, 40, file);
-    epp_solution.processingTime(3, 40, file);
+    //epp_solution.processingTime(3, 40, file);
     file.close();
 
     epp_solution.print();
@@ -123,6 +124,14 @@ int main()
 
     epp_solution.print();
     cout << endl << "epp_solution - after simulated annealing" << endl;
+    getchar();
+
+    file.open("rst/particleCollision.txt");
+    epp_solution.erase(2,file);
+    file.close();
+
+    epp_solution.print();
+    cout << endl << "epp_solution - after erasing" << endl;
     getchar();
 
     epp_solution.clear();
