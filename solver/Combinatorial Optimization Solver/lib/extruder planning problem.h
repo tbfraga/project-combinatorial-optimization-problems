@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/28
+// last modification: 2023/05/29
 
 #ifndef EXTRUDER_PLANNING_PROBLEM_H
 #define EXTRUDER_PLANNING_PROBLEM_H
@@ -151,8 +151,8 @@ namespace epp
 
         // print parameters
 
-        bool _hprint = 1; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
-        bool _fprint = 1; // if _fprint == 1 solver will print everything on differente files
+        bool _hprint = 0; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
+        bool _fprint = 0; // if _fprint == 1 solver will print everything on differente files
 
         // I'll also use some print parameter inside functions, so I can see solver results on screen
 
@@ -168,15 +168,26 @@ namespace epp
         bool print(ofstream &file); // this function prints a complete soltuion on file
         bool print(unsigned int type, ofstream &file); // this function prints some part of the solution on file as specified by parameter <type>
 
-        void restart(EPP problem); // this function initializes solution variables
-        unsigned int productionLimit(unsigned int product, unsigned int day);
+        bool verify(); // this function verifies if solution is feaseble
+        void set(solution solution); // this function sets the values of current solution
+        solution copy(); // this function creates a copy of the current solution by delivering this value to a variable of type solution
 
+        void restart(EPP problem); // this function initializes solution variables
+        unsigned int productionLimit(unsigned int product, unsigned int day); // this function calculates the maximum production allowed for products
+
+        bool deliver(unsigned int product, ofstream &file); // this function distributes production of <product> to demand, outlets and inventory
+        void backwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
+        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
+
+        bool processingTime(unsigned int batch, unsigned int time, ofstream &file); // this function changes the processing time of a batch and changes linked variables accordly
+        bool reduce(unsigned int amount, unsigned int product, unsigned int day, ofstream &file); // this function reduces de production of some product at corresponding day
+                                                                                                  // while changing processing time of one of its batches
         void generate(ofstream &file); // this function generates a feasible initial solution
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file); // this function creates a new batch
         bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file); // this function increases production
-        bool deliver(unsigned int product, ofstream &file);
-        void backwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
-        void forwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
+
+        void simultedAnnealing(unsigned int NMaxIte, ofstream &file);
+        bool swapTime(ofstream &file);
     };
 }
 

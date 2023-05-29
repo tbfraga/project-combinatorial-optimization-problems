@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/28
+// last modification: 2023/05/29
 
 #include "../lib/extruder planning problem.h"
 
@@ -1490,6 +1490,125 @@ namespace epp
         return error;
     };
 
+    // verify if the values of variable _production are correct
+
+    bool solution::verify()
+    {
+        /**************************************************************************************************************************
+        It calculates production and verifies if variable _production is correct.
+        **************************************************************************************************************************/
+
+        if(_hprint == 1) cout << endl << "head: verifying _production..." << endl;
+
+        bool error = 0;
+
+        vector<vector<unsigned int>> production = {{0}}; // production
+        production.resize(_problem._NProducts);
+        for(unsigned int s=0; s<production.size(); s++)
+        {
+            production[s].resize(_problem._NDays,0);
+        }
+
+        unsigned int batch, product, extruder, day;
+
+        for(unsigned int s=0; s<_balancing.size(); s++)
+        {
+            batch = _balancing[s][0];
+            product = _balancing[s][1];
+            extruder = _allocation[batch][0];
+            day = _allocation[batch][1];
+
+            production[product][day] += _processingTime[batch]*_problem._productionPerTime[product][extruder];
+        }
+
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            for(unsigned int d=0; d<_problem._NDays; d++)
+            {
+                if(production[p][d] != _production[p][d])
+                {
+                    cout << endl << "erro: problem with production calculation of product " << p << " and day " << d << " !!!" << endl;
+                    cout << endl << "production: " << production[p][d] << " - _production: " << _production[p][d] << endl;
+                    getchar();
+
+                    error = 1;
+                }
+            }
+        }
+
+        for(unsigned int s=0; s<production.size(); s++)
+        {
+            production[s].clear();
+        }
+        production.clear();
+
+        return error;
+    };
+
+    // set the values of current solution
+
+    void solution::set(solution solution)
+    {
+        _problem = solution._problem;
+        _balancing = solution._balancing;
+        _allocation = solution._allocation;
+        _processingTime = solution._processingTime;
+        _batchWidth = solution._batchWidth;
+        _batchIdleness = solution._batchIdleness;
+        _batchColor = solution._batchColor;
+        _extruderProcTime = solution._extruderProcTime ;
+        _extruderIdleness = solution._extruderIdleness;
+        _production = solution._production;
+        _delivered = solution._delivered;
+        _unmetDemand = solution._unmetDemand;
+        _deliveredToOutlet = solution._deliveredToOutlet;
+        _totalFreeOutletInventory = solution._totalFreeOutletInventory;
+        _freeOutletInventory = solution._freeOutletInventory;
+        _inventory = solution._inventory;
+        _totalFreeInventory = solution._totalFreeInventory;
+        _freeInventory = solution._freeInventory;
+        _fitness = solution._fitness;
+        _productionLimit = solution._productionLimit;
+        _productionTotalProfit = solution._productionTotalProfit;
+        _unmetDemandTotalCost = solution._unmetDemandTotalCost;
+        _inventoryTotalCost = solution._inventoryTotalCost;
+        _batchColorGroup = solution._batchColorGroup;
+    };
+
+    // create a copy of the current solution by delivering this value to a variable of type solution
+
+    solution solution::copy()
+    {
+        solution _solution;
+
+        _solution._problem = _problem;
+        _solution._balancing = _balancing;
+        _solution._allocation = _allocation;
+        _solution._processingTime = _processingTime;
+        _solution._batchWidth = _batchWidth;
+        _solution._batchIdleness = _batchIdleness;
+        _solution._batchColor = _batchColor;
+        _solution._extruderProcTime = _extruderProcTime;
+        _solution._extruderIdleness = _extruderIdleness;
+        _solution._production = _production;
+        _solution._delivered = _delivered;
+        _solution._unmetDemand = _unmetDemand;
+        _solution._deliveredToOutlet = _deliveredToOutlet;
+        _solution._totalFreeOutletInventory = _totalFreeOutletInventory;
+        _solution._freeOutletInventory = _freeOutletInventory;
+        _solution._inventory = _inventory;
+        _solution._totalFreeInventory = _totalFreeInventory;
+        _solution._freeInventory = _freeInventory;
+        _solution._productionLimit = _productionLimit;
+        _solution._fitness = _fitness;
+        _solution._productionTotalProfit = _productionTotalProfit;
+        _solution._unmetDemandTotalCost = _unmetDemandTotalCost;
+        _solution._inventoryTotalCost = _inventoryTotalCost;
+        _solution._batchColorGroup = _batchColorGroup;
+
+        return _solution;
+    };
+
     // create an empty initial solution for the problem
 
     void solution::restart(EPP problem)
@@ -1755,300 +1874,7 @@ namespace epp
         return prodLimit;
     };
 
-    // generate an inicial not empty and feaseble solution
-
-    void solution::generate(ofstream &file)
-    {
-        /**************************************************************************************************************************
-        This function creates a non empty and feasible initial solution.
-        It calculates a mean batch processing time and creates a batch for each product wich (cujo) processing time is the mean
-        calculated or the maximum value allowed.
-        **************************************************************************************************************************/
-
-        if(_hprint == 1) cout << endl << "head: generating a new solution... " << endl;
-
-        bool i_print = 0;
-
-        // taking the biggest setup time to define a mean batch processing time
-
-        unsigned int setup = _problem._setupTime[0][0];
-
-        for(unsigned int i=0; i<_problem._setupTime.size(); i++)
-        {
-            for(unsigned int j=0; j<_problem._setupTime[i].size(); j++)
-            {
-                if(_problem._setupTime[i][j] > setup)
-                {
-                    setup = _problem._setupTime[i][j];
-                }
-            }
-        }
-
-        // calculating a mean batch processing time
-
-        unsigned int totalCapacity = 0;
-
-        for(unsigned int e=0; e<_problem._capacity.size(); e++)
-        {
-            for(unsigned int d=0; d<_problem._capacity[e].size(); d++)
-            {
-                totalCapacity = totalCapacity + _problem._capacity[e][d];
-            }
-        }
-
-        unsigned int batchTime = rint(floor(totalCapacity / _problem._NProducts)) - setup;
-
-        if(i_print == 1) cout << endl << "mean batch processing time: " << batchTime << endl;
-
-        // creating a batch for each product
-
-        bool stop;
-        unsigned int day = 0;
-        unsigned int extruder = 0;
-        unsigned int production = 0, prodLimit = 0;
-        unsigned int time = 0;
-        vector<unsigned int> newVector;
-
-        for(unsigned int p=0; p<_problem._NProducts; p++)
-        {
-            if(i_print == 1) cout << endl << "product: " << p << endl;
-
-            extruder = _problem._NExtruders;
-            day = 0;
-            time = 0;
-            stop = 0;
-
-            for(unsigned int e=0; e<_problem._NExtruders; e++)
-            {
-                if(_problem._width[p] <= _problem._length[e])
-                {
-                    extruder = e;
-
-                    for(unsigned int d=0; d<_problem._NDays; d++)
-                    {
-                        production = batchTime*_problem._productionPerTime[p][e];
-
-                        prodLimit = productionLimit(p,d);
-
-                        if(production <= prodLimit)
-                        {
-                            time = batchTime;
-                        }else
-                        {
-                             if(i_print == 1) cout << endl << "inventory problem - reducing production...";
-                            production = prodLimit;
-                            time = rint(floor(production / _problem._productionPerTime[p][e]));
-                        }
-
-                        if(time <= _extruderIdleness[e][d])
-                        {
-                            if(i_print == 1) cout << endl << "found solution";
-                            day = d;
-                            stop = 1;
-                            break;
-                        }else
-                        {
-                            if(i_print == 1) cout << endl << "info generate: extruder idleness is not enought to allocate another batch.";
-                        }
-                    }
-
-                    if(stop == 1)
-                    {
-                        break;
-                    }
-                }
-            }
-
-            // creating a new batch
-
-            if (extruder < _problem._NExtruders)
-            {
-                if(i_print == 1) cout << endl << "Solution found: " << endl;
-
-                if(i_print == 1) cout << endl << "extruder: " << extruder;
-                if(i_print == 1) cout << endl << "day: " << day;
-                if(i_print == 1) cout << endl << "time: " << time;
-                if(i_print == 1) cout << endl << "production: " << production << endl;
-
-                insert({p}, extruder, day, time, file);
-            }else
-            {
-                cout << endl << "Product " << p << " cannot be allocated cause its width is very large for extruders !!!" << endl;
-            }
-        }
-
-        newVector.clear();
-    };
-
-    // create a new batch and adjust linked variables
-
-    bool solution::insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file)
-    {
-        if(_hprint == 1) cout << endl << "head: creating a new batch..." << endl;
-
-        bool i_print = 0, error = 0;
-
-        unsigned int batch = _allocation.size(); // selecting the new position (last position)
-        // after I'll try to order by color but not now
-
-        if(i_print == 1) cout << endl << "new position: " << batch << endl;
-
-        if(productList.size() > 1) // verify if products of the informed list are of same color and material
-        {
-            if(i_print == 1) cout << endl << "info: verifying products similarity" << endl;
-
-            for(unsigned int s=1; s<productList.size(); s++)
-            {
-                if(_problem._colorAndMaterialRatio[productList[0]][productList[s]] == 0)
-                {
-                    cout << endl << "error: products on batch must have same color and material !" << endl;
-                    cout << endl << "info: batch will not be created." << endl;
-                    getchar();
-                    return 1;
-                }
-            }
-        }
-
-        // identifying _balancing indexes and batch color
-
-        unsigned int positionFirst = _balancing.size(); // _balancing indexes
-        unsigned int positionLast = positionFirst;
-
-        unsigned int color=0, product;
-
-        if(productList.size() == 0)
-        {
-            if(i_print == 1) cout << endl << "info: creating an empty batch." << endl;
-            color = 0;
-        }else
-        {
-            positionLast += productList.size() - 1;
-
-            product = productList[0];
-            color = _problem._color[product]; // selecting batch color
-        }
-
-        vector <unsigned int> newVector;
-
-        // finding setup time
-
-        unsigned int prevColor;
-
-        if(_balancing.size() > 0)
-        {
-            newVector = _balancing.back();
-            prevColor = _problem._color[newVector[1]];
-        }else
-        {
-            prevColor = color;
-        }
-
-        float width = 0;
-
-        if(i_print == 1) cout << endl << "extruder: " << extruder << "  day: " << day << endl;
-        if(i_print == 1) cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  time: " << time << "  setup: " << _problem._setupTime[prevColor][color] << endl;
-
-        if(_extruderIdleness[extruder][day] < time + _problem._setupTime[prevColor][color])
-        {
-            cout << endl << "error: extruder idleness must be grater than or equal to the <time> of batch + setup time !" << endl;
-            cout << endl << "info: batch will not be created." << endl;
-            getchar();
-            return 1;
-        }
-
-        if(i_print == 1) cout << endl << "info: creating new batch and adjusting linked variables." << endl;
-
-        for(unsigned int i=0; i<productList.size(); i++)
-        {
-            product = productList[i];
-            newVector.clear();
-            newVector = {batch,product};
-            _balancing.push_back(newVector);
-            width += _problem._width[product];
-
-            if(i_print == 1) cout << endl << "product inserted: "<< product << " width: " << _problem._width[product] << endl;
-        }
-
-        if(i_print == 1) cout << endl << "color: " << color << endl;
-
-        _batchColorGroup[color].push_back(batch);
-
-        _batchWidth.push_back(width);
-        _batchIdleness.push_back(_problem._length[extruder] - width);
-        _batchColor.push_back(color);
-
-        // adjusting _allocation
-
-        newVector.clear();
-
-        newVector = {extruder,day,positionFirst,positionLast};
-        _allocation.push_back(newVector);
-
-        _processingTime.push_back(time);
-        _extruderProcTime[extruder][day] += time + _problem._setupTime[prevColor][color];
-        _extruderIdleness[extruder][day] -= time + _problem._setupTime[prevColor][color];
-
-        if(i_print == 1) cout << endl << "extruder processing time: " << _extruderProcTime[extruder][day]  << "  extruder idleness: " << _extruderIdleness[extruder][day] << endl;
-
-        if(time > 0)
-        {
-            unsigned int production; // increasing production and adjusting linked variables
-
-            for(unsigned int i=0; i<productList.size(); i++)
-            {
-                product = productList[i];
-                production = time*_problem._productionPerTime[product][extruder];
-
-                if(i_print == 1) cout << endl << "product: " << product << "  production: " << production << endl;
-
-                error = increase(production, product, day, file);
-            }
-        }
-
-        newVector.clear();
-        return error;
-    };
-
-    // increase production and adjust linked variables
-
-    bool solution::increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file)
-    {
-        if(_hprint == 1) cout << endl << "head: increasing <production> and adjusting linked variables..." << endl;
-        if(_fprint == 1) file << endl << "head: increasing <production> and adjusting linked variables..." << endl;
-
-        bool i_print = 0, error = 0;
-
-        if(i_print == 1) cout << endl << "product: " << product << " production: " << _production[product][day] << endl;
-
-        _production[product][day] += production;
-        _productionTotalProfit += production*_problem._unitContribution[product];
-
-        // verification here can result in a false bug since this function increase production of only one product per time
-
-        if(i_print == 1) cout << endl << "new production: " << _production[product][day] << endl;
-
-        error = deliver(product, file);
-
-        if(_fprint == 1)
-        {
-            if(print(file) == 1)
-            {
-                cout << endl << "info increase: BUG after increasing production (print)" << endl;
-                file << endl << "BUG HERE - after increasing production (print)" << endl;
-                getchar();
-                error = 1;
-            }
-            file << endl << "info: solution after increasing production." << endl;
-        }
-
-        // verification here can result in a false bug since this function increase production of only one product per time
-
-        if(error == 1) cout << endl << "error after increase function !" << endl;
-
-        return error;
-    };
-
-    // distribute production between demand, outlets and inventory
+    // distribute production of <product> between demand, outlets and inventory
 
     bool solution::deliver(unsigned int product, ofstream &file)
     {
@@ -2453,4 +2279,716 @@ namespace epp
         }
     };
 
+    // change processing time of <batch> to <time> and linked variables accordly
+
+    bool solution::processingTime(unsigned int batch, unsigned int time, ofstream &file)
+    {
+        if(_hprint == 1) cout << endl << "head: changing batch processing time and linked variables..." << endl;
+
+        bool i_print = 0; // set value to 1 if you wanna debbug this function
+
+        bool error = 0;
+
+        if(i_print == 1) print();
+        if(i_print == 1) cout << endl << "info processingTime: solution before changing processing time." << endl;
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1)
+            {
+                cout << endl << "info processingTime: BUG before adjusting processing time (print)" << endl;
+                file << endl << "BUG HERE - before adjusting processing time (print)" << endl;
+                getchar();
+                error = 1;
+            }
+            file << endl << "info processingTime: solution before adjusting processing time." << endl;
+        }
+
+        if(verify() == 1)
+        {
+            cout << endl << "info processingTime: BUG before adjusting processing time (verify)" << endl;
+            if(_fprint == 1) file << endl << "BUG HERE - before adjusting processing time (verify)" << endl;
+            getchar();
+            error = 1;
+        }
+
+        unsigned int procTime = _processingTime[batch];
+
+        if(time == procTime)
+        {
+            if(_hprint == 1) cout << endl << "info processingTime: no change in bach time." << endl;
+        }else
+        {
+            unsigned int extruder = _allocation[batch][0];
+            unsigned int day = _allocation[batch][1];
+
+            if(_batchWidth[batch] == 0)
+            {
+                if(_hprint == 1) cout << endl << "info processingTime: bach is empty." << endl;
+            }else
+            {
+                unsigned int product, amount, prodLimit;
+
+                vector<int> nProducts;
+
+                nProducts.clear();
+                nProducts.resize(_problem._NProducts,0);
+
+                // verifying if there is some bug in solver
+
+                if(time < procTime) // reduce
+                {
+                    for(unsigned int s=_allocation[batch][2]; s<=_allocation[batch][3]; s++)
+                    {
+                        product = _balancing[s][1];
+                        nProducts[product] += 1;
+
+                        if(i_print == 1) cout << endl << "product: " << product << " repetitions: " << nProducts[product] << endl;
+
+                        amount = nProducts[product]*((procTime-time)*_problem._productionPerTime[product][extruder]);
+
+                        if(amount > _production[product][day])
+                        {
+                            print();
+                            cout << endl << "error processingTime: amount to be reduced: " << amount << " > _production: " << _production[product][day] << " !" << endl;
+                            cout << endl << "processing time wont be changed." << endl;
+
+                            if(_fprint == 1) file << endl << "BUG before reducing - amount to be increased >> _production" << endl;
+
+                            getchar();
+                            return 1;
+                        }
+                    }
+                } else // increase
+                {
+                    if((time-procTime) > _extruderIdleness[extruder][day])
+                    {
+                        cout << endl << "error processingTime: not possible to increase ptocessing time - time to be increased >> extruder idleness" << endl;
+                        cout << endl << "processing time wont be changed." << endl;
+
+                        if(_fprint == 1) file << endl << "BUG before increasing - time increased >> extruder idleness" << endl;
+
+                        getchar();
+                        return 1;
+                    }
+
+                    for(unsigned int s=_allocation[batch][2]; s<=_allocation[batch][3]; s++)
+                    {
+                        product = _balancing[s][1];
+                        nProducts[product] += 1;
+
+                        if(i_print == 1) cout << endl << "product: " << product << " repetitions: " << nProducts[product] << endl;
+
+                        amount = nProducts[product]*((time-procTime)*_problem._productionPerTime[product][extruder]);
+                        prodLimit = productionLimit(product,day);
+
+                        if(amount > prodLimit)
+                        {
+                            if(i_print == 1) cout << endl << "info processingTime: amount to be increased: " << amount << " > production limit: " << prodLimit << " !" << endl;
+                            if(i_print == 1) cout << endl << "processing time wont be changed." << endl;
+                            return 1;
+                        }
+                    }
+                }
+
+                // reducing or increasing production of one product per time
+
+                for(unsigned int s=_allocation[batch][2]; s<=_allocation[batch][3]; s++)
+                {
+                    product = _balancing[s][1];
+
+                    if(i_print == 1) cout << endl << "product: " << product << endl;
+
+                    if(time < procTime) // reduce
+                    {
+                        amount = (procTime-time)*_problem._productionPerTime[product][extruder];
+
+                        if(i_print == 1) cout << endl << "info processingTime: production reduction: " << amount << endl;
+
+                        reduce(amount, product, day, file);
+                    }else // increase
+                    {
+                        amount = (time-procTime)*_problem._productionPerTime[product][extruder];
+
+                        if(i_print == 1) cout << endl << "info processingTime: production increasing: " << amount << endl;
+
+                        increase(amount, product, day, file);
+                    }
+                }
+            }
+
+            _extruderProcTime[extruder][day] -= _processingTime[batch] - time;
+            _extruderIdleness[extruder][day] += _processingTime[batch] - time;
+            _processingTime[batch] = time; // here we reduce the time of batch
+
+            // verification can be done here
+
+            if(i_print == 1) cout << endl << "time: " << time << "  extruder: " << extruder << "  day: " << day << endl;
+
+            if(i_print == 1) cout << endl << "time: " << _processingTime[batch] << " extruder time: " << _extruderProcTime[extruder][day] << " and idleness: "
+                << _extruderIdleness[extruder][day] << "." << endl;
+        }
+
+        if(verify() == 1)
+        {
+            cout << endl << "error processingTime: production not correctly changed" << endl;
+            error = 1;
+        }
+
+        return error;
+    };
+
+    // reduce production and adjust linked variables
+
+    bool solution::reduce(unsigned int amount, unsigned int product, unsigned int day, ofstream &file)
+    {
+        if(_hprint == 1) cout << endl << "head: reducing <production> and adjusting linked variables..." << endl;
+
+        bool error = 0;
+
+        _production[product][day] -= amount;
+        _productionTotalProfit -= amount*_problem._unitContribution[product];
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1)
+            {
+                cout << endl << "info reduce: BUG before reducing production (print)" << endl;
+                file << endl << "BUG HERE - befor reducing production" << endl;
+                getchar();
+                error = 1;
+            }
+            file << endl << "info: solution before reducing production." << endl;
+        }
+
+        // verification here can result in a false bug cause this function reduce production of only one product per time
+
+        if(deliver(product, file) == 1)
+        {
+            error = 1;
+            print();
+            cout << endl << "error reduce: error after deliver function" << endl;
+            getchar();
+        }
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1)
+            {
+                cout << endl << "BUG after reducing production" << endl;
+                file << endl << "BUG HERE - after reducing production" << endl;
+                getchar();
+                error = 1;
+            }
+            file << endl << "info: solution after reducing production." << endl;
+        }
+
+        return error;
+
+    };
+
+    // increase production and adjust linked variables
+
+    bool solution::increase(unsigned int amount, unsigned int product, unsigned int day, ofstream &file)
+    {
+        if(_hprint == 1) cout << endl << "head: increasing <production> and adjusting linked variables..." << endl;
+        if(_fprint == 1) file << endl << "head: increasing <production> and adjusting linked variables..." << endl;
+
+        bool i_print = 0, error = 0;
+
+        if(i_print == 1) cout << endl << "product: " << product << " production: " << _production[product][day] << endl;
+
+        _production[product][day] += amount;
+        _productionTotalProfit += amount*_problem._unitContribution[product];
+
+        // verification here can result in a false bug since this function increase production of only one product per time
+
+        if(i_print == 1) cout << endl << "new production: " << _production[product][day] << endl;
+
+        if(deliver(product, file) == 1)
+        {
+            error = 1;
+            print();
+            cout << endl << "error reduce: error after deliver function" << endl;
+            getchar();
+        }
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1)
+            {
+                cout << endl << "info increase: BUG after increasing production (print)" << endl;
+                file << endl << "BUG HERE - after increasing production (print)" << endl;
+                getchar();
+                error = 1;
+            }
+            file << endl << "info: solution after increasing production." << endl;
+        }
+
+        // verification here can result in a false bug since this function increase production of only one product per time
+
+        if(error == 1) cout << endl << "error after increase function !" << endl;
+
+        return error;
+    };
+
+    // generate an inicial not empty and feaseble solution
+
+    void solution::generate(ofstream &file)
+    {
+        /**************************************************************************************************************************
+        This function creates a non empty and feasible initial solution.
+        It calculates a mean batch processing time and creates a batch for each product wich (cujo) processing time is the mean
+        calculated or the maximum value allowed.
+        **************************************************************************************************************************/
+
+        if(_hprint == 1) cout << endl << "head: generating a new solution... " << endl;
+
+        bool i_print = 0;
+
+        // taking the biggest setup time to define a mean batch processing time
+
+        unsigned int setup = _problem._setupTime[0][0];
+
+        for(unsigned int i=0; i<_problem._setupTime.size(); i++)
+        {
+            for(unsigned int j=0; j<_problem._setupTime[i].size(); j++)
+            {
+                if(_problem._setupTime[i][j] > setup)
+                {
+                    setup = _problem._setupTime[i][j];
+                }
+            }
+        }
+
+        // calculating a mean batch processing time
+
+        unsigned int totalCapacity = 0;
+
+        for(unsigned int e=0; e<_problem._capacity.size(); e++)
+        {
+            for(unsigned int d=0; d<_problem._capacity[e].size(); d++)
+            {
+                totalCapacity = totalCapacity + _problem._capacity[e][d];
+            }
+        }
+
+        unsigned int batchTime = rint(floor(totalCapacity / _problem._NProducts)) - setup;
+
+        if(i_print == 1) cout << endl << "mean batch processing time: " << batchTime << endl;
+
+        // creating a batch for each product
+
+        bool stop;
+        unsigned int day = 0;
+        unsigned int extruder = 0;
+        unsigned int production = 0, prodLimit = 0;
+        unsigned int time = 0;
+        vector<unsigned int> newVector;
+
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            if(i_print == 1) cout << endl << "product: " << p << endl;
+
+            extruder = _problem._NExtruders;
+            day = 0;
+            time = 0;
+            stop = 0;
+
+            for(unsigned int e=0; e<_problem._NExtruders; e++)
+            {
+                if(_problem._width[p] <= _problem._length[e])
+                {
+                    extruder = e;
+
+                    for(unsigned int d=0; d<_problem._NDays; d++)
+                    {
+                        production = batchTime*_problem._productionPerTime[p][e];
+
+                        prodLimit = productionLimit(p,d);
+
+                        if(production <= prodLimit)
+                        {
+                            time = batchTime;
+                        }else
+                        {
+                             if(i_print == 1) cout << endl << "inventory problem - reducing production...";
+                            production = prodLimit;
+                            time = rint(floor(production / _problem._productionPerTime[p][e]));
+                        }
+
+                        if(time <= _extruderIdleness[e][d])
+                        {
+                            if(i_print == 1) cout << endl << "found solution";
+                            day = d;
+                            stop = 1;
+                            break;
+                        }else
+                        {
+                            if(i_print == 1) cout << endl << "info generate: extruder idleness is not enought to allocate another batch.";
+                        }
+                    }
+
+                    if(stop == 1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            // creating a new batch
+
+            if (extruder < _problem._NExtruders)
+            {
+                if(i_print == 1) cout << endl << "Solution found: " << endl;
+
+                if(i_print == 1) cout << endl << "extruder: " << extruder;
+                if(i_print == 1) cout << endl << "day: " << day;
+                if(i_print == 1) cout << endl << "time: " << time;
+                if(i_print == 1) cout << endl << "production: " << production << endl;
+
+                insert({p}, extruder, day, time, file);
+            }else
+            {
+                cout << endl << "Product " << p << " cannot be allocated cause its width is very large for extruders !!!" << endl;
+            }
+        }
+
+        newVector.clear();
+    };
+
+    // create a new batch and adjust linked variables
+
+    bool solution::insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file)
+    {
+        if(_hprint == 1) cout << endl << "head: creating a new batch..." << endl;
+
+        bool i_print = 0, error = 0;
+
+        unsigned int batch = _allocation.size(); // selecting the new position (last position)
+        // after I'll try to order by color but not now
+
+        if(i_print == 1) cout << endl << "new position: " << batch << endl;
+
+        if(productList.size() > 1) // verify if products of the informed list are of same color and material
+        {
+            if(i_print == 1) cout << endl << "info: verifying products similarity" << endl;
+
+            for(unsigned int s=1; s<productList.size(); s++)
+            {
+                if(_problem._colorAndMaterialRatio[productList[0]][productList[s]] == 0)
+                {
+                    cout << endl << "error: products on batch must have same color and material !" << endl;
+                    cout << endl << "info: batch will not be created." << endl;
+                    getchar();
+                    return 1;
+                }
+            }
+        }
+
+        // identifying _balancing indexes and batch color
+
+        unsigned int positionFirst = _balancing.size(); // _balancing indexes
+        unsigned int positionLast = positionFirst;
+
+        unsigned int color=0, product;
+
+        if(productList.size() == 0)
+        {
+            if(i_print == 1) cout << endl << "info: creating an empty batch." << endl;
+            color = 0;
+        }else
+        {
+            positionLast += productList.size() - 1;
+
+            product = productList[0];
+            color = _problem._color[product]; // selecting batch color
+        }
+
+        vector <unsigned int> newVector;
+
+        // finding setup time
+
+        unsigned int prevColor;
+
+        if(_balancing.size() > 0)
+        {
+            newVector = _balancing.back();
+            prevColor = _problem._color[newVector[1]];
+        }else
+        {
+            prevColor = color;
+        }
+
+        float width = 0;
+
+        if(i_print == 1) cout << endl << "extruder: " << extruder << "  day: " << day << endl;
+        if(i_print == 1) cout << endl << "idleness: " << _extruderIdleness[extruder][day] << "  time: " << time << "  setup: " << _problem._setupTime[prevColor][color] << endl;
+
+        if(_extruderIdleness[extruder][day] < time + _problem._setupTime[prevColor][color])
+        {
+            cout << endl << "error: extruder idleness must be grater than or equal to the <time> of batch + setup time !" << endl;
+            cout << endl << "info: batch will not be created." << endl;
+            getchar();
+            return 1;
+        }
+
+        if(i_print == 1) cout << endl << "info: creating new batch and adjusting linked variables." << endl;
+
+        for(unsigned int i=0; i<productList.size(); i++)
+        {
+            product = productList[i];
+            newVector.clear();
+            newVector = {batch,product};
+            _balancing.push_back(newVector);
+            width += _problem._width[product];
+
+            if(i_print == 1) cout << endl << "product inserted: "<< product << " width: " << _problem._width[product] << endl;
+        }
+
+        if(i_print == 1) cout << endl << "color: " << color << endl;
+
+        _batchColorGroup[color].push_back(batch);
+
+        _batchWidth.push_back(width);
+        _batchIdleness.push_back(_problem._length[extruder] - width);
+        _batchColor.push_back(color);
+
+        // adjusting _allocation
+
+        newVector.clear();
+
+        newVector = {extruder,day,positionFirst,positionLast};
+        _allocation.push_back(newVector);
+
+        _processingTime.push_back(time);
+        _extruderProcTime[extruder][day] += time + _problem._setupTime[prevColor][color];
+        _extruderIdleness[extruder][day] -= time + _problem._setupTime[prevColor][color];
+
+        if(i_print == 1) cout << endl << "extruder processing time: " << _extruderProcTime[extruder][day]  << "  extruder idleness: " << _extruderIdleness[extruder][day] << endl;
+
+        if(time > 0)
+        {
+            unsigned int production; // increasing production and adjusting linked variables
+
+            for(unsigned int i=0; i<productList.size(); i++)
+            {
+                product = productList[i];
+                production = time*_problem._productionPerTime[product][extruder];
+
+                if(i_print == 1) cout << endl << "product: " << product << "  production: " << production << endl;
+
+                error = increase(production, product, day, file);
+            }
+        }
+
+        newVector.clear();
+        return error;
+    };
+
+    // apply a simulated annealing method for improving batches processing times
+
+    void solution::simultedAnnealing(unsigned int NMaxIte, ofstream &file)
+    {
+        bool i_print = 0;
+
+        if(_hprint == 1 || i_print == 1) cout << endl << "head: applying simulated annealing for improuve batches processing time..." << endl;
+
+        if(_fprint == 1)
+        {
+            file << endl << "*** Starting Simulated Annealing ***" << endl;
+            if(print(file) == 1)
+            {
+                print();
+                cout << endl << "info SA: BUG HERE - starting SA (print)" << endl;
+                file << endl << "BUG HERE (print)" << endl;
+                getchar();
+            }
+            file << endl << "info SA: initial solution." << endl;
+        }
+
+        if(verify() == 1)
+        {
+            print();
+            cout << endl << "info SA: BUG HERE - starting SA (verify)" << endl;
+            file << endl << "BUG HERE (verify)" << endl;
+            getchar();
+        }
+
+        float probality = 0, aux = 0;
+
+        solution _solution;
+        solution bestSolution = copy();
+
+        for(unsigned int ite=0; ite<NMaxIte; ite++)
+        {
+            if(i_print == 1) cout << endl << "SA iteration: " << ite << endl;
+            if(_fprint == 1) file << endl << "SA iteration: " << ite << endl;
+
+            _solution = copy();
+            _solution.swapTime(file);
+
+            if(_fprint == 1)
+            {
+                if(_solution.print(file) == 1)
+                {
+                    _solution.print();
+                    cout << endl << "info SA: BUG HERE - after swaping time - virtual solution" << endl;
+                    file << endl << "BUG HERE (print - virtual solution)" << endl;
+                    getchar();
+                }
+                file << endl << "info SA: virtual solution after swaping time." << endl;
+            }
+
+            if(_solution.verify() == 1)
+            {
+                print();
+                cout << endl << "info SA: BUG HERE - after swaping time - virtual solution (verify)" << endl;
+                file << endl << "BUG HERE (verify - virtual solution)" << endl;
+                getchar();
+            }
+
+            if(_solution._fitness > _fitness)
+            {
+                if(_solution._fitness > bestSolution._fitness)
+                {
+                    if(i_print == 1) cout << endl << "info: found a better solution." << endl;
+                    bestSolution.set(_solution);
+                    ite = 0;
+                }
+
+                if(i_print == 1) cout << endl << "solution improved..." << endl;
+                set(_solution);
+
+                if(i_print == 1)
+                {
+                    print();
+                    cout << endl << "info SA: solution improved by SA." << endl;
+                    getchar();
+                }
+            }else
+            {
+                probality = _solution._fitness / bestSolution._fitness;
+                if(i_print == 1) cout << endl << "probality: " << probality << endl;
+                aux = rand();
+                aux = aux;
+                if(i_print == 1) cout << endl << "random: " << aux << endl;
+
+                if(aux <= probality)
+                {
+                    if(i_print == 1) cout << endl << "info SA: solution acepted..." << endl;
+                    set(_solution);
+
+                    if(i_print == 1)
+                    {
+                        print();
+                        cout << endl << "info SA: solution improved by SA." << endl;
+                        getchar();
+                    }
+                }
+            }
+
+            if(i_print == 1) cout << endl << "SA iteration: " << ite << endl;
+        }
+
+        set(bestSolution);
+
+        _solution.clear();
+        bestSolution.clear();
+
+        if(_fprint == 1)
+        {
+            file << endl << "*** Starting Simulated Annealing ***" << endl;
+            if(print(file) == 1)
+            {
+                print();
+                cout << endl << "info SA: BUG HERE - starting SA (print)" << endl;
+                file << endl << "BUG HERE (print)" << endl;
+                getchar();
+            }
+            file << endl << "info SA: final solution." << endl;
+        }
+
+        if(verify() == 1)
+        {
+            print();
+            cout << endl << "info SA: BUG HERE - starting SA (verify)" << endl;
+            file << endl << "BUG HERE (verify)" << endl;
+            getchar();
+        }
+    };
+
+    // modify the processing time of a randomly chosen batch, decreasing or increasing by one unit of time (minute).
+
+    bool solution::swapTime(ofstream &file)
+    {
+        bool i_print = 0; // set i_print = 0 if you wanna to debbug this function;
+
+        if(_hprint == 1 || i_print == 1) cout << endl << "head: swaping time..." << endl;
+
+        bool error = 0;
+
+        unsigned int batch = rand()%_allocation.size();
+        if(i_print == 1) cout << endl << "batch:  " << batch << endl;
+
+        unsigned int extruder = _allocation[batch][0];
+        if(i_print == 1) cout << endl << "extruder:  " << extruder << endl;
+
+        unsigned int day = _allocation[batch][1];
+        if(i_print == 1) cout << endl << "day:  " << day << endl;
+
+        int step;
+
+        if(_extruderIdleness[extruder][day] < 1)
+        {
+            if(_processingTime[batch] < 1)
+            {
+                if(i_print == 1) cout << endl << "info swapTime: time of batch cannot be reduced or increased." << endl;
+                if(i_print == 1) cout << endl << "no change in batch time." << endl;
+                if(i_print == 1) getchar();
+                return 1;
+            }else
+            {
+                step = -1;
+            }
+        } else if(_processingTime[batch] < 1)
+        {
+            step = 1;
+        } else
+        {
+            step = rand()%2;
+            if(step == 0)
+            {
+                step = -1;
+            }
+        }
+
+        if(i_print == 1) cout << endl << "step: " << step << endl;
+
+        processingTime(batch, _processingTime[batch]+step, file);
+
+        // printing on file and verify if solution is ok
+
+        if(_fprint == 1)
+        {
+            if(print(file) == 1)
+            {
+                cout << endl << "info swapTime: BUG after swap time (print)" << endl;
+                file << endl << "BUG HERE - after swap time" << endl;
+                error = 1;
+                getchar();
+            }
+            file << endl << "info: solution after swap time." << endl;
+        }
+
+        if(verify() == 1)
+        {
+            cout << endl << "info swapTime: BUG after swap time (verify)" << endl;
+            if(_fprint == 1) file << endl << "BUG HERE - after swap time" << endl;
+            error = 1;
+            getchar();
+        }
+
+        return error;
+    };
 }

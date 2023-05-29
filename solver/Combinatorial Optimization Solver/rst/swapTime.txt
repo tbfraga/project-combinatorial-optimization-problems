@@ -1,0 +1,2128 @@
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184824
+unmet demand total cost: 218200
+inventory total cost: 556
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info processingTime: solution before adjusting processing time.
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 556
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info: solution before reducing production.
+
+head: delivering production...
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 556
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info deliver: solution before start delivering.
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184692
+unmet demand total cost: 221200
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		0	0		3000	3000		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after clearing distribution.
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after backward distribution.
+
+
+SOLUTION
+
+fitness: -33932
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after forward distribution.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution after delivering.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info: solution after reducing production.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info: solution after swap time.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184692
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49200		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info processingTime: solution before adjusting processing time.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184536
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info: solution before reducing production.
+
+head: delivering production...
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184536
+unmet demand total cost: 218200
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49200		149600	136200		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution before start delivering.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184536
+unmet demand total cost: 242800
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	0		149600	185400		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution after clearing distribution.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184536
+unmet demand total cost: 224900
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	35800		149600	149600		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution after backward distribution.
+
+
+SOLUTION
+
+fitness: -34061.6
+
+production total profit: 184536
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution after forward distribution.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184536
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution after delivering.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184536
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	410	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	420		160	0		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info: solution after reducing production.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184536
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info: solution after swap time.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184536
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12840	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info processingTime: solution before adjusting processing time.
+
+head: increasing <production> and adjusting linked variables...
+
+head: delivering production...
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 553.6
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9840	9840		160	160		18500	18500		10000
+
+				total:	20320	24320				total:	50000
+
+info deliver: solution before start delivering.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184668
+unmet demand total cost: 221260
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		0	0		3000	3000		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after clearing distribution.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after backward distribution.
+
+
+SOLUTION
+
+fitness: -34277.6
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 356.8
+
+error print: costs not correctly calculated !
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	0	0		10000	10000		18500	18500		10000
+
+				total:	30160	34160				total:	50000
+
+info deliver: solution after forward distribution.
+
+
+SOLUTION
+
+fitness: -34148
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 556
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info deliver: solution after delivering.
+
+
+SOLUTION
+
+fitness: -34148
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 556
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	107	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	221	0		199	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info: solution after increasing production.
+
+
+SOLUTION
+
+fitness: -34148
+
+production total profit: 184668
+unmet demand total cost: 218260
+inventory total cost: 556
+
+
+[batch, product] - balancing
+
+0	0
+1	1
+2	2
+3	3
+
+processing time (min) / width (m) / idleness (m) / color
+
+0	250	0.6	0.4	0
+1	409	0.3	0.7	0
+2	94	0.6	0.2	0
+3	108	0.2	0.6	0
+
+allocation [batch, extruder, day, index for _balancing - first product, index for _balancing - last product]: 
+
+0	0	0	0	0	
+1	0	1	1	1	
+2	1	0	2	2	
+3	1	0	3	3	
+
+batch color group [batch vector]: 
+
+0	1	2	3	
+
+[extruder, day] -  processing time (min) / idleness (min) / capacity (min)
+	0	1		0	1
+
+0	260	419		160	1		420	420
+
+1	222	0		198	420		420	420
+
+[product, day] - production / demand (g):
+
+	production		delivered		unmet			demand
+
+	0	1		0	1		0	1		0	1
+
+0	60000	0		61000	0		38400	112200		99400	73800
+1	0	49080		0	49080		149600	136320		149600	35800
+2	33840	0		2000	4000		0	0		2000	4000
+3	12960	0		3000	0		0	0		3000	0
+
+delivered to outlet (g) [product, outlet, day]
+
+	outlet: 0	outlet: 1	free
+
+	0	1	0	1	0	1
+
+0	0	0	0	0	1000	1000
+1	0	0	0	0	5000	10000
+2	10000	0	5000	0	0	0
+3	0	0	0	0	5000	500
+
+				total:	0	0
+
+inventory (g) [product, day]
+
+		inventory		free			limit			maximum
+
+	i	0	1		0	1		0	1
+
+0	1000	0	0		10000	10000		110400	184200		10000
+1	0	0	0		50000	50000		208600	245400		50000
+2	3000	19840	15840		160	4160		34000	38000		20000
+3	0	9960	9960		40	40		18500	18500		10000
+
+				total:	20200	24200				total:	50000
+
+info: solution after swap time.

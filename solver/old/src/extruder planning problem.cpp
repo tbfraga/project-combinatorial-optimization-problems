@@ -3856,5 +3856,5 @@ namespace extruderPlanningProblemLibrary
         production.clear();
 
         return 0;
-    }
+    };
 }
