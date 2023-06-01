@@ -151,7 +151,7 @@ namespace epp
 
         // print parameters
 
-        bool _hprint = 0; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
+        bool _hprint = 1; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
         bool _fprint = 0; // if _fprint == 1 solver will print everything on differente files
 
         // I'll also use some print parameter inside functions, so I can see solver results on screen
@@ -162,11 +162,11 @@ namespace epp
 
         void clear(); // this function clears vector type solution variables
 
-        bool print(); // this function prints a complete soltuion
-        bool print(unsigned int type); // this function prints some part of the solution as specified by parameter <type>
+        void print(); // this function prints a complete soltuion
+        void print(unsigned int type); // this function prints some part of the solution as specified by parameter <type>
 
-        bool print(ofstream &file); // this function prints a complete soltuion on file
-        bool print(unsigned int type, ofstream &file); // this function prints some part of the solution on file as specified by parameter <type>
+        void print(ofstream &file); // this function prints a complete soltuion on file
+        void print(unsigned int type, ofstream &file); // this function prints some part of the solution on file as specified by parameter <type>
 
         bool verify(); // this function verifies if solution is feaseble
         void set(solution solution); // this function sets the values of current solution
@@ -174,6 +174,7 @@ namespace epp
 
         void restart(EPP problem); // this function initializes solution variables
         unsigned int productionLimit(unsigned int product, unsigned int day); // this function calculates the maximum production allowed for products
+        unsigned int limit(unsigned int batch); // this function calculates the maximum processing time allowed for a set of products
 
         bool deliver(unsigned int product, ofstream &file); // this function distributes production of <product> to demand, outlets and inventory
         void backwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);
@@ -184,8 +185,17 @@ namespace epp
                                                                                                   // while changing processing time of one of its batches
         bool increase(unsigned int production, unsigned int product, unsigned int day, ofstream &file); // this function increases the production of some product at corresponding day
                                                                                                         // while changing processing time of one of its batches
+        bool erase(unsigned int location, ofstream &file); // this function excludes the product of _balancing <location> from its batch
+        bool insert(unsigned int product, unsigned int batch, ofstream &file); // this function includes <product> on <batch>
 
-        bool erase(unsigned int location, ofstream &file); // exclude product of _balancing <location> from its batch
+        bool insert(unsigned int product, ofstream &file); // this functions creates a ramdom batch with only one <product>
+        bool include(unsigned int product, unsigned int batch, ofstream &file); // this function includes <product> on <batch> and adjust linked variables
+
+        bool randomErase(unsigned int batch, ofstream &file); // this function ramdomly choose a product and erase it from the <batch>
+        bool eraseAll(unsigned int batch, ofstream &file); // this function erases all products on batch
+
+        bool clean(ofstream &file); // this function erases from solution batches with empty processing times
+        unsigned int find(vector<unsigned int> UIVector, unsigned int value); // auxiliar function
 
         void generate(ofstream &file); // this function generates a feasible initial solution
         bool insert(vector<unsigned int> productList, unsigned int extruder, unsigned int day, unsigned int time, ofstream &file); // this function creates a new batch
