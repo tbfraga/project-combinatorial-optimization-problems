@@ -122,7 +122,7 @@ Espero que essa ideia resulte em um material muito útil, relevante e interessan
 
 O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, com taxa de produção (unidades/minuto) diferente para cada produto. Neste problema consideramos que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem/envio de cada produto e um limite de estocagem/envio para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período. \\
 
-\subsection{Modelagem matemática}
+\subsection{Modelagem e solução matemática}
 
 seja: \\
 
@@ -156,11 +156,26 @@ sendo $TC_i$ a parte do tempo de processamento do produto $i$ referente à $PC$;
 
 temos que: \\
 
-$TI_{i} + TC_{i} = TI_{j} + TC_{j}$ \\
+$T = TI_{i} + TC_{i} = TI_{j} + TC_{j}$ \\
 
-para qualquer conjunto $\{i,j\}$ tal que $i$ e $j$ sejam dois produtos distintos do mesmo lote.
+para qualquer conjunto $\{i,j\}$ tal que $i$ e $j$ sejam dois produtos distintos do mesmo lote. \\
+
+sendo $T$ o tempo de processamento do lote. \\
+
+Portanto temos o problema de otimização: \\
 
 
+$max \quad T$ \\
+
+$s.t.$ \\
+
+$T = TI_{i} + PC_i/p_i \quad \forall i$ \\
+
+$\sum_i PC_i = PC$ \\
+
+$TI_i \leq PI_i/p_i \quad \forall i$ \\
+
+$TI_i, PC_i \geq 0 \quad \forall i$
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
