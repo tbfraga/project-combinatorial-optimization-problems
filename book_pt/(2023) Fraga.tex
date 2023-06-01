@@ -120,12 +120,33 @@ Espero que essa ideia resulte em um material muito útil, relevante e interessan
 
 \section{Problema de dimensionamento do tempo de processamento de lotes de produção}
 
-O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, a taxa de produção (unidades/minuto) pode ser diferente para cada produto. Neste problema considera-se que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem de cada produto e um limite de estocagem para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período.
+O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, com taxa de produção (unidades/minuto) diferente para cada produto. Neste problema consideramos que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem/envio de cada produto e um limite de estocagem/envio para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período. \\
 
-Solução:
+\subsection{Modelagem matemática}
 
+seja: \\
 
-considere
+$PI_i$ o limite individual de produção para o produto $i$ (unidades); \\
+
+$PC$ o limite de produção comum para todos os produtos do lote (unidades); \\
+
+de forma que: \\
+
+$PC = \sum_i{PC_i}$ \\
+
+sendo: \\
+
+$PC_i$ a parte dessa capacidade utilizada pelo produto $i$ (unidades). \\
+
+seja ainda: \\
+
+$p_i$ a taxa de produção do produto $i$ (unidades/unidades de tempo). \\
+
+Assim temos que: \\
+
+$TI_i \leq PI_i/p_i$ \\
+
+sendo $TI_i$ o tempo de processamento do produto $i$;
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
