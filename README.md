@@ -1,4 +1,4 @@
-# project-elaboration-of-water-distribution-schedules-in-periods-of-scarcity
+# project-combinatorial-optimization-problems
 
 Combinatorial Optimization Problems Project
 
