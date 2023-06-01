@@ -160,7 +160,8 @@ $T = TI_{i} + TC_{i} = TI_{j} + TC_{j}$ \\
 
 para qualquer conjunto $\{i,j\}$ tal que $i$ e $j$ sejam dois produtos distintos do mesmo lote. \\
 
-sendo $T$ o tempo de processamento do lote. \\
+sendo $T$ o tempo de processamento do lote limitado pela capacidade do processador (CP - em unidades de tempo).\\
+
 
 Portanto temos o problema de otimização: \\
 
@@ -175,7 +176,30 @@ $\sum_i PC_i = PC$ \\
 
 $TI_i \leq PI_i/p_i \quad \forall i$ \\
 
-$TI_i, PC_i \geq 0 \quad \forall i$
+$T \leq CP$ \\
+
+$TI_i, PC_i \geq 0 \quad \forall i$ \\
+
+\subsection{Solução matemática}
+
+Para dois produtos temos: \\
+
+$TI_{1} + PC_1/p_1 = TI_{2} + PC_2/p_2$ \\
+
+$PC_1/p_1 - PC_2/p_2 = TI_{2} - TI_{1}$ \\
+
+$PC_2 = PC - PC_1$ \\
+
+$PC_1/p_1 - (PC - PC_1)/p_2 = TI_{2} - TI_{1}$ \\
+
+$PC_1/p_1 + PC_1/p_2 = TI_{2} - TI_{1} + PC/p_2$ \\
+
+$(p_1 + p_2) PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1*p_2$ \\
+
+$PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1p_2/(p_1 + p_2) $ \\
+
+
+portanto é possível calcular $PC_1$ e $PC_2$, definindo valores para $TI_1$ e $TI_2$ de forma que $T \leq CP$ \\
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
