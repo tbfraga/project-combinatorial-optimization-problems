@@ -132,7 +132,7 @@ $PC$ o limite de produção comum para todos os produtos do lote (unidades); \\
 
 de forma que: \\
 
-$PC = \sum_i{PC_i}$ \\
+$\sum_i{PC_i} \leq PC$ \\
 
 sendo: \\
 
@@ -146,7 +146,21 @@ Assim temos que: \\
 
 $TI_i \leq PI_i/p_i$ \\
 
-sendo $TI_i$ o tempo de processamento do produto $i$;
+sendo $TI_i$ a parte do tempo de processamento do produto $i$ referente à $PI_i$; \\
+
+e: \\
+
+$TC_i = PC_i/p_i$ \\
+
+sendo $TC_i$ a parte do tempo de processamento do produto $i$ referente à $PC$; \\
+
+temos que: \\
+
+$TI_{i} + TC_{i} = TI_{j} + TC_{j}$ \\
+
+para qualquer conjunto $\{i,j\}$ tal que $i$ e $j$ sejam dois produtos distintos do mesmo lote.
+
+
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
