@@ -172,7 +172,7 @@ $s.t.$ \\
 
 $T = TI_{i} + PC_i/p_i \quad \forall i$ \\
 
-$\sum_i PC_i = PC$ \\
+$\sum_i PC_i \leq PC$ \\
 
 $TI_i \leq PI_i/p_i \quad \forall i$ \\
 
@@ -180,7 +180,7 @@ $T \leq CP$ \\
 
 $TI_i, PC_i \geq 0 \quad \forall i$ \\
 
-\subsection{Solução matemática}
+\subsection{Solução matemática (em desenvolvimento)}
 
 Para dois produtos temos: \\
 
@@ -198,8 +198,32 @@ $(p_1 + p_2) PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1*p_2$ \\
 
 $PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1p_2/(p_1 + p_2) $ \\
 
-
 portanto é possível calcular $PC_1$ e $PC_2$, definindo valores para $TI_1$ e $TI_2$ de forma que $T \leq CP$ \\
+
+Exemplo de aplicação: \\
+
+Considere um lote com dois produtos A e B. \\
+
+A taxa de produção de A é de 60g/min enquanto que a taxa de produção de B é de 40g / min. \\
+
+A fábrica tem estoque livre para no máximo 3000 g de qualquer produto, sendo que a gerencia de produção permite um estoque máximo de mais 3000 g do produto A e 2000 g do produto B. \\
+
+Existe uma demanda de 1000 g do produto A e 500 g do produto B. \\
+
+A fábrica tem um outlet que tem espaço livre em estoque de 1000 g, contudo devido à politica de estoque, só poderá receber no máximo 600 g de cada um. \\
+
+Usando os valores limites de produção para cáculo, temos: \\
+
+$PC_1 = (500/40 - 1000/60 + (1000 + 3000)/40) * 40*60/(40+60)$
+
+$PC_1 = 3100$
+$PC_2 = 900$
+
+$T_1 = 51,66$
+
+Para três produtos, temos:
+
+
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
