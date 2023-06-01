@@ -1,46 +1,46 @@
 \documentclass{book}
-\usepackage[brazilian]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage{multirow}
+%\usepackage[brazilian]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{multirow}
 
-\usepackage{amsmath}
-\usepackage{graphicx}
-\graphicspath{ {Figures/} }
-\usepackage{float}
-\usepackage[dvipsnames]{xcolor}
-\usepackage{tcolorbox}
+%\usepackage{amsmath}
+%\usepackage{graphicx}
+%\graphicspath{ {Figures/} }
+%\usepackage{float}
+%\usepackage[dvipsnames]{xcolor}
+%\usepackage{tcolorbox}
 
-\usepackage{natbib,stfloats}
+%\usepackage{natbib,stfloats}
 
-\tcbuselibrary{skins,breakable}
-\usetikzlibrary{shadings,shadows}
-\usepackage{rotating}
+%\tcbuselibrary{skins,breakable}
+%\usetikzlibrary{shadings,shadows}
+%\usepackage{rotating}
 
-\usepackage{tikz}
-\usetikzlibrary{snakes}
-\usetikzlibrary{patterns}
+%\usepackage{tikz}
+%\usetikzlibrary{snakes}
+%\usetikzlibrary{patterns}
 
-\usepackage{colortbl}
-\newcolumntype{a}{>{\columncolor{yellow}}l}
-\newcolumntype{b}{>{\columncolor{blue}}l}
-\newcolumntype{d}{>{\columncolor{green}}l}
+%\usepackage{colortbl}
+%\newcolumntype{a}{>{\columncolor{yellow}}l}
+%\newcolumntype{b}{>{\columncolor{blue}}l}
+%\newcolumntype{d}{>{\columncolor{green}}l}
 
-\usepackage{fancyhdr}
-\pagestyle{fancy}
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
 
-\fancyhead{}
-\fancyhead[RO]{\textsl{\rightmark}} 
-\fancyhead[LE]{\textsl{\leftmark}} 
+%\fancyhead{}
+%\fancyhead[RO]{\textsl{\rightmark}} 
+%\fancyhead[LE]{\textsl{\leftmark}} 
 
-\fancyfoot{} 
-\fancyfoot[L]{T.B. Fraga (2023). Combinatorial Optimization Problems.}
-\fancyfoot[R]{\thepage}
+%\fancyfoot{} 
+%\fancyfoot[L]{T.B. Fraga (2023). Combinatorial Optimization Problems.}
+%\fancyfoot[R]{\thepage}
 
-\definecolor{cambridgeblue}{rgb}{0.64, 0.76, 0.68}
-\definecolor{camel}{rgb}{0.76, 0.6, 0.42}
-\definecolor{camouflagegreen}{rgb}{0.47, 0.53, 0.42}
-\definecolor{desertsand}{rgb}{0.93, 0.79, 0.69}
+%\definecolor{cambridgeblue}{rgb}{0.64, 0.76, 0.68}
+%\definecolor{camel}{rgb}{0.76, 0.6, 0.42}
+%\definecolor{camouflagegreen}{rgb}{0.47, 0.53, 0.42}
+%\definecolor{desertsand}{rgb}{0.93, 0.79, 0.69}
 
 \newenvironment{exerciseblock}[1]{%
     \tcolorbox[beamer,%
@@ -80,9 +80,9 @@
 
 % para construção de diagramas
 
-\tikzstyle{place}=[circle,draw=camouflagegreen!80,fill=desertsand!20,thick]
-\tikzstyle{Ret}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick]
-\tikzstyle{RoundRet}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick, rounded corners]
+%\tikzstyle{place}=[circle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+%\tikzstyle{Ret}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+%\tikzstyle{RoundRet}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick, rounded corners]
 
 \begin{document}
 
@@ -102,19 +102,35 @@ O conteúdo apresentado neste livro estará sendo modificado ao longo de sua ela
 
 \chapter{Problemas de Otimização Combinatória}
 
-Há três processos chaves na construção de um algoritmo para solução de problemas de otimização combinatória - .
+Há três pontos chaves na construção de um algoritmo para solução de problemas de otimização combinatória que são: representação da solução; criação de solução inicial / nova solução dentro do espaço viável; e mecanismo de conversão. \\
+
+Neste livro pretendo apresentar uma revisão da literatura focada nestes três tópicos, iniciando a abordagem sobre problemas de designação, depois passando pelos problemas de balanceamento, roteamento, e escalonamento até finalmente chegar aos complexos problemas mistos. \\
+
+Com vista a este propósito, o livro será dividido em seis capítulos, sendo os dois primeiros capítulos voltados à apresentação de importantes classes de problemas de otimização combinatória (problemas de otimização combinatória e modelagem matemática), os três capítulos seguintes voltados aos três pontos chaves anteriormente discutidos (representação de soluções, construção de soluções viáveis e mecanismos de busca), e o último capítulo será utilizado para a apresentação de algoritmos conhecidos aplicados aos diferentes problemas e uma comparação entre tais algoritmos. \\
+
+Esse livro partiu da ideia da criação de um solver capaz de solucionar problemas de otimização combinatória de diferentes classes. \\
+
+Esse solver terá como princípio a identificação da natureza do problema, possivelmente através de um algoritmo de rede neural, e posterior solução focando nos três pontos chaves anteriormente discutidos. \\
+
+Assim sendo, este livro será construído em conjunto com o solver (em C++), o qual poderá ser encontrado na pasta solver deste mesmo diretório. \\
+
+Este projeto estará sendo desenvolvido em conjunto com outros projetos, de forma que não será possível desenvolvê-lo muito rapidamente... \\
+
+Espero que essa ideia resulte em um material muito útil, relevante e interessante.
+
+\section{Problema de dimensionamento do tempo de lotes de produção}
 
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
 
-\begin{thebibliography}{12}
+%\begin{thebibliography}{12}
 
-\bibitem[\protect\citeauthoryear{Ballou}{2001}]{Ballou2001}
-Ballou, R.H. (2001).{\it Gerenciamento da Cadeia de Suprimentos: Planejamento, Organização e Logística Empresarial}, 4. ed., Porto Alegre: Bookman.
+%\bibitem[\protect\citeauthoryear{Ballou}{2001}]{Ballou2001}
+%Ballou, R.H. (2001).{\it Gerenciamento da Cadeia de Suprimentos: Planejamento, Organização e Logística Empresarial}, 4. ed., Porto Alegre: Bookman.
 
-\bibitem[\protect\citeauthoryear{Boylan et al.}{2008}]{BoylanEtAl2008}
-Boylan, J.E., Syntetos, A.A., e Karakostas, G.C. (2008). 'Classification for forecasting and stock control:a case study'. {\it Journal of the Operational Research Society}, Vol. 59, pp. 473--481.
+%\bibitem[\protect\citeauthoryear{Boylan et al.}{2008}]{BoylanEtAl2008}
+%Boylan, J.E., Syntetos, A.A., e Karakostas, G.C. (2008). 'Classification for forecasting and stock control:a case %study'. {\it Journal of the Operational Research Society}, Vol. 59, pp. 473--481.
 
-\end{thebibliography}
+%\end{thebibliography}
 
 \end{document}
