@@ -4,7 +4,8 @@
 %\usepackage[T1]{fontenc}
 %\usepackage{multirow}
 
-%\usepackage{amsmath}
+\usepackage{amsmath}
+\usepackage{amsfonts}
 %\usepackage{graphicx}
 %\graphicspath{ {Figures/} }
 %\usepackage{float}
@@ -120,47 +121,71 @@ Espero que essa ideia resulte em um material muito útil, relevante e interessan
 
 \section{Problema de dimensionamento do tempo de processamento de lotes de produção}
 
-O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, com taxa de produção (unidades/minuto) diferente para cada produto. Neste problema consideramos que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem/envio de cada produto e um limite de estocagem/envio para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período. \\
+O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, com taxa de produção (quantidade/(unidade de tempo)) diferente para cada produto. Neste problema consideramos que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem/envio de cada produto e um limite de estocagem/envio para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período. \\
 
-\subsection{Modelagem e solução matemática}
+\subsection{Exemplo}
 
-seja: \\
+Determinada máquina deve processar um lote contendo 2 produtos distintos: A e B. \\
 
-$PI_i$ o limite individual de produção para o produto $i$ (unidades); \\
+A taxa de produção de A é de 60 g/min enquanto que a taxa de produção de B é de 40 g/min. \\
 
-$PC$ o limite de produção comum para todos os produtos do lote (unidades); \\
+A fábrica tem estoque livre para no máximo 3000 g de qualquer produto, sendo que, de acordo com o estoque máximo permitido para cada produto, poderá ser estoqcado na fábrica mais 3000 g do produto A e 2000 g do produto B. \\
 
-de forma que: \\
+Existe uma demanda de 1000 g do produto A e 500 g do produto B para entrega no primeiro e segundo dia de planejamento, respectivamente. \\
 
-$\sum_i{PC_i} \leq PC$ \\
+A fábrica tem um outlet que tem espaço livre em estoque de 1000 g, poderendo receber no máximo 600 g de cada produto. \\
+
+Um tempo máximo de 300 minutos desta máquina pode ser atribuído para processamento deste lote. \\
+
+Qual é o tempo de processamento deste lote ? \\
+
+\subsection{Modelagem matemática}
 
 sendo: \\
 
-$PC_i$ a parte dessa capacidade utilizada pelo produto $i$ (unidades). \\
+$\textrm{UD}_i$ a demanda referente ao produto $i$; \\
 
-seja ainda: \\
+$\textrm{I}$ a quantidade máxima permitida para estocagem em fábrica de todos os produtos; \\
 
-$p_i$ a taxa de produção do produto $i$ (unidades/unidades de tempo). \\
+$\textrm{UI}_i$ a quantidade máxima permitida para estocagem em fábrica do produto $i$; \\
 
-Assim temos que: \\
+$\textrm{O}$ a quantidade máxima permitida para envio de todos os produtos para as lojas de fábrica; \\
 
-$TI_i \leq PI_i/p_i$ \\
+$\textrm{UO}_i$ a quantidade máxima do produto $i$ que pode ser enviada para as lojas de fábrica; \\ 
 
-sendo $TI_i$ a parte do tempo de processamento do produto $i$ referente à $PI_i$; \\
+$\textrm{p}_i$ a taxa de produção do produto $i$; \\
 
-e: \\
+$\textrm{Z}$ tempo limite para processamento do lote; \\
 
-$TC_i = PC_i/p_i$ \\
+queremos definir tempo máximo de processamento do lote, $T$. \\
 
-sendo $TC_i$ a parte do tempo de processamento do produto $i$ referente à $PC$; \\
+assim sendo, considerando que: \\
 
-temos que: \\
+$P_i$ a quantidade produzida do produto $i$ (unidades); \\
 
-$T = TI_{i} + TC_{i} = TI_{j} + TC_{j}$ \\
+$P_i - \textrm{p}_i * T  = 0 \quad \forall i$ \\
 
-para qualquer conjunto $\{i,j\}$ tal que $i$ e $j$ sejam dois produtos distintos do mesmo lote. \\
+$P_i - D_i - O_i - I_i = 0 \quad \forall i$ \\
 
-sendo $T$ o tempo de processamento do lote limitado pela capacidade do processador (CP - em unidades de tempo).\\
+$D_i$ a quantidade entregue para demanda do produto $i$; \\
+
+$D_i \leq \textrm{UD}_i \quad \forall i$ \\
+
+$O_i$ quantidade do produto $i$ enviado para as lojas de fábrica; \\
+
+$O_i \leq \textrm{UO}_i \quad \forall i$\\
+
+$\sum_i{O_i} \leq \textrm{O} \quad \forall i$ \\
+
+$I_i$ a quantidade do produto $i$ que será estocado em fábrica; \\
+
+$I_i \leq \textrm{UI}_i \quad \forall i$ \\
+
+$\sum_i{I_i} \leq \textrm{I} \quad \forall i$ \\
+
+e, por ultimo temos as restrições relacionadas às variáveis de decisão: \\
+
+$P_i, D_i, O_i, I_i \in \textrm{Z}^* \quad \forall i $ \\
 
 
 Portanto temos o problema de otimização: \\
@@ -170,59 +195,23 @@ $max \quad T$ \\
 
 $s.t.$ \\
 
-$T = TI_{i} + PC_i/p_i \quad \forall i$ \\
+$P_i - \textrm{p}_i * T  = 0 \quad \forall i$ \\
 
-$\sum_i PC_i \leq PC$ \\
+$P_i - D_i - O_i - I_i = 0 \quad \forall i$ \\
 
-$TI_i \leq PI_i/p_i \quad \forall i$ \\
+$D_i \leq \textrm{UD}_i \quad \forall i$ \\
 
-$T \leq CP$ \\
+$O_i \leq \textrm{UO}_i \quad \forall i$ \\
 
-$TI_i, PC_i \geq 0 \quad \forall i$ \\
+$\sum_i{O_i} \leq \textrm{O} \quad \forall i$ \\
 
-\subsection{Solução matemática (em desenvolvimento)}
+$I_i \leq \textrm{UI}_i \quad \forall i$ \\
 
-Para dois produtos temos: \\
+$\sum_i{I_i} \leq \textrm{I} \quad \forall i$ \\
 
-$TI_{1} + PC_1/p_1 = TI_{2} + PC_2/p_2$ \\
+$T \leq \textrm{Z}$ \\
 
-$PC_1/p_1 - PC_2/p_2 = TI_{2} - TI_{1}$ \\
-
-$PC_2 = PC - PC_1$ \\
-
-$PC_1/p_1 - (PC - PC_1)/p_2 = TI_{2} - TI_{1}$ \\
-
-$PC_1/p_1 + PC_1/p_2 = TI_{2} - TI_{1} + PC/p_2$ \\
-
-$(p_1 + p_2) PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1*p_2$ \\
-
-$PC_1 = (TI_{2} - TI_{1} + PC/p_2)*p_1p_2/(p_1 + p_2) $ \\
-
-portanto é possível calcular $PC_1$ e $PC_2$, definindo valores para $TI_1$ e $TI_2$ de forma que $T \leq CP$ \\
-
-Exemplo de aplicação: \\
-
-Considere um lote com dois produtos A e B. \\
-
-A taxa de produção de A é de 60g/min enquanto que a taxa de produção de B é de 40g / min. \\
-
-A fábrica tem estoque livre para no máximo 3000 g de qualquer produto, sendo que a gerencia de produção permite um estoque máximo de mais 3000 g do produto A e 2000 g do produto B. \\
-
-Existe uma demanda de 1000 g do produto A e 500 g do produto B. \\
-
-A fábrica tem um outlet que tem espaço livre em estoque de 1000 g, contudo devido à politica de estoque, só poderá receber no máximo 600 g de cada um. \\
-
-Usando os valores limites de produção para cáculo, temos: \\
-
-$PC_1 = (500/40 - 1000/60 + (1000 + 3000)/40) * 40*60/(40+60)$
-
-$PC_1 = 3100$
-$PC_2 = 900$
-
-$T_1 = 51,66$
-
-Para três produtos, temos:
-
+$P_i, D_i, O_i, I_i \in  \mathbb{Z}^+ \quad \forall i$
 
 
 %\bibliographystyle{acm}
