@@ -218,6 +218,17 @@ $P_i, D_i, O_i, I_i \in  \mathbb{Z}^+ \quad \forall i$
 
 1) Na verdade não há diferença entre a quantidade que será estocada e a quantidade que será enviada para as lojas de fábrica. Assim, podemos considerar o estoque na fábrica nas lojas de fábrica como sendo um único estoque.
 
+2) Portanto podemos resolver o problema de uma forma recursiva:
+
+ - primeiro resolvemos um problema menor, considerando apenas a quantidade necessária para atender à demanda
+ 
+ 		- encontramos máximo T' que atende o conjunto de equações $D_i \leq \textrm{UD}_i \quad \forall i$
+ 		
+ 		- então calculamos a sobra (quantidade da demanda não atendida) $S_i = \textrm{UD}_i - D_i \quad \forall i$ 
+ 
+ - em seguida encon
+ 		
+
 %\bibliographystyle{acm}
 %\bibliography{Bibliography/BibFile}
 
