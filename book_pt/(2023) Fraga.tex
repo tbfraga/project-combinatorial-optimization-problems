@@ -218,7 +218,7 @@ $D_i, O_i, I_i \in  \mathbb{Z}^+ \quad \forall i$
 
 \section{Solução analítica e matemática}
 
-1) Na verdade não há diferença entre a quantidade que será estocada e a quantidade que será enviada para as lojas de fábrica. Assim, podemos considerar o estoque na fábrica nas lojas de fábrica como sendo um único estoque. \\
+1) Na verdade não há diferença entre a quantidade que será estocada e a quantidade que será enviada para as lojas de fábrica. Assim, podemos considerar o estoque na fábrica e nas lojas de fábrica como sendo um único estoque. \\
 
 $E_i = O_i + I_i \quad \forall i $ \\
 
@@ -230,7 +230,7 @@ $\sum_i{E_i} \leq \textrm{O} + \textrm{I} \quad \forall i$ \\
 
  - primeiro resolvemos um problema menor, considerando apenas a quantidade necessária para atender à demanda \\
  
- 		-- encontramos máximo T' que atende o conjunto de equações \\
+ 		-- encontramos máximo T' que atende o conjunto de equações: \\
  		
  		$D_i \leq \textrm{UD}_i \quad \forall i$ \\
  		
@@ -242,7 +242,7 @@ $\sum_i{E_i} \leq \textrm{O} + \textrm{I} \quad \forall i$ \\
  		
  		$S_i = \textrm{UD}_i - \textrm{p}_i * T' \quad \forall i$ \\
  
- - em seguida encontramos máximo T'' resolvendo as equações \\
+ - em seguida encontramos máximo T'' resolvendo as equações: \\
  
 $E_i - S_i \leq \textrm{UO}_i + \textrm{UI}_i \quad \forall i$ \\
 
@@ -316,9 +316,7 @@ $D_A = 1000g$ e $D_B = 500g$ \\
 
 $E_A = 2300g$ e $E_B = 1700g$ \\
 
-Observe que não é importante conhecer os valores de $O_i$ e $I_i$ \\
-
-contudo estes valores podem ser encontrados resolvendo o sistema de equações: \\
+Observe que não é importante conhecer os valores de $O_i$ e $I_i$ contudo estes valores podem ser encontrados resolvendo o sistema de equações: \\
 
 $\sum_i{O_i} \leq \textrm{O}$ \\
 
