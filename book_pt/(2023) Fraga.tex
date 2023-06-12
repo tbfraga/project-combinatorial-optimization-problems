@@ -224,13 +224,17 @@ $E_i \leq \textrm{UO}_i + \textrm{UI}_i \quad \forall i$ \\
 
 $\sum_i{E_i} \leq \textrm{O} + \textrm{I} \quad \forall i$ \\
 
-2) Portanto podemos resolver o problema de uma forma recursiva:
+2) Portanto podemos resolver o problema de uma forma recursiva: \\
 
- - primeiro resolvemos um problema menor, considerando apenas a quantidade necessária para atender à demanda
+ - primeiro resolvemos um problema menor, considerando apenas a quantidade necessária para atender à demanda \\
  
  		-- encontramos máximo T' que atende o conjunto de equações \\
  		
- 		$ T' \leq \textrm{UD}_i/\textrm{p}_i \quad \forall i$ \\
+ 		$D_i \leq \textrm{UD}_i \quad \forall i$ \\
+ 		
+ 		Assim, temos: \\
+ 		
+ 		$ T' = \textrm{UD}_i/\textrm{p}_i \quad \forall i$ \\
  		
  		-- então calculamos a sobra (quantidade da demanda não atendida) \\
  		
