@@ -121,7 +121,7 @@ Espero que essa ideia resulte em um material muito útil, relevante e interessan
 
 \section{Problema de dimensionamento do tempo de processamento de lotes de produção}
 
-PS: Este problema foi encontrado por mim, recentemente, quando eu estava desenvolvendo o solver para planejamento da produção em extrusoras. Segue a modelagem matemática e solução analítica do problema com um exemplo pequeno de aplicação. Em breve estarei desenvolvendo um solver para este problema com aplicação deste método analítico, para problemas maiores. Também estaremos criando benchmarks. É possível que façamos uma comparação com o método do plano de corte (nesse caso será necessário programar também este último método - parece perda de tempo). Mas certamente poderemos fazer uma comparação com outras formas de solução (solvers) desenvolvidas para problemas de programação linear inteira. \\
+PS: Este problema foi encontrado por mim, recentemente, quando eu estava desenvolvendo o solver para planejamento da produção em extrusoras. Segue a modelagem matemática e solução analítica do problema com um exemplo pequeno de aplicação. Em breve estarei desenvolvendo um solver para este problema com aplicação deste método analítico, para problemas maiores. Também estaremos criando benchmarks. É possível que façamos uma comparação com o método do plano de corte (nesse caso será necessário programar também este ultimo método - parece perda de tempo). Mas certamente poderemos fazer uma comparação com outras formas de solução (solvers) desenvolvidas para problemas de programação linear inteira. \\
 
 O problema de dimensionamento do tempo de processamento de lotes de produção surge quando um conjunto de produtos distintos são processados simultaneamente em um mesmo lote de produção, sendo a quantidade produzida de cada produto diretamente proporcional ao tempo de processamento, contudo, com taxa de produção (quantidade/(unidade de tempo)) diferente para cada produto. Neste problema consideramos que há uma quantidade máxima permitida para a produção dos produtos do lote, definida tanto individualmente como para o conjunto, já que existe uma quantida máxima de produção para cada produto e uma quantida máxima de produção definida para o conjunto. A quantidade máxima de produção de cada produto é definida de acordo com a demanda do produto. Contudo é ainda possível estocar os produtos e/ou enviá-los para as lojas de fábrica. Tanto no caso do estoque em fábrica quanto no caso das lojas de fábrica, existe um limite para estocagem/envio de cada produto e um limite de estocagem/envio para o conjunto de produtos do lote. O problema consiste em definir o maior tempo de processamento do lote viável considerando um período fixo de planejamento e demanda variável dentro deste período.
 
@@ -131,7 +131,7 @@ Determinada máquina deve processar um lote contendo 2 produtos distintos: A e B
 
 A taxa de produção de A é de 60 g/min enquanto que a taxa de produção de B é de 40 g/min. \\
 
-A fábrica tem estoque livre para no máximo 3000 g de qualquer produto, sendo que, de acordo com o estoque máximo permitido para cada produto, poderá ser estoqcado na fábrica mais 3000 g do produto A e 2000 g do produto B. \\
+A fábrica tem estoque livre para no máximo 3000 g de qualquer produto, sendo que, de acordo com o estoque máximo permitido para cada produto, poderá ser estocado na fábrica mais 3000 g do produto A e 2000 g do produto B. \\
 
 Existe uma demanda de 1000 g do produto A e 500 g do produto B para entrega no primeiro e segundo dia de planejamento, respectivamente. \\
 
@@ -177,17 +177,17 @@ $O_i$ quantidade do produto $i$ enviado para as lojas de fábrica; \\
 
 $O_i \leq \textrm{UO}_i \quad \forall i$\\
 
-$\sum_i{O_i} \leq \textrm{O} \quad \forall i$ \\
+$\sum_i{O_i} \leq \textrm{O}$ \\
 
 $I_i$ a quantidade do produto $i$ que será estocado em fábrica; \\
 
-$I_i \leq \textrm{UI}_i \quad \forall i$ \\
+$I_i \leq \textrm{UI}_i \quad \forall i$\\
 
-$\sum_i{I_i} \leq \textrm{I} \quad \forall i$ \\
+$\sum_i{I_i} \leq \textrm{I}$ \\
 
 e, por ultimo temos as restrições relacionadas às variáveis de decisão: \\
 
-$P_i, D_i, O_i, I_i \in \textrm{Z}^* \quad \forall i $ \\
+$D_i, O_i, I_i \in \textrm{Z}^+ \quad \forall i $ \\
 
 
 Portanto temos o problema de otimização: \\
@@ -213,7 +213,7 @@ $\sum_i{I_i} \leq \textrm{I}$ \\
 
 $T \leq \textrm{Z}$ \\
 
-$P_i, D_i, O_i, I_i \in  \mathbb{Z}^+ \quad \forall i$
+$D_i, O_i, I_i \in  \mathbb{Z}^+ \quad \forall i$
 
 
 \section{Solução analítica e matemática}
