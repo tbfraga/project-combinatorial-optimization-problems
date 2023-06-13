@@ -139,7 +139,7 @@ A fábrica tem um outlet que tem espaço livre em estoque de 1000 g, poderendo r
 
 Um tempo máximo de 300 minutos desta máquina pode ser atribuído para processamento deste lote. \\
 
-Qual é o tempo de processamento deste lote ? \\
+Qual é o tempo máximo possível para processamento deste lote ? \\
 
 \section{Modelagem matemática}
 
@@ -238,7 +238,7 @@ $\sum_i{E_i} \leq \textrm{O} + \textrm{I} \quad \forall i$ \\
  		
  		$ T' \leq \textrm{UD}_i/\textrm{p}_i \quad \forall i$ \\
  		
- 		-- então calculamos a sobra (quantidade da demanda não atendida) \\
+ 		-- então calculamos a sobra (quantidade da demanda não atendida para cada produto) \\
  		
  		$S_i = \textrm{UD}_i - \textrm{p}_i * T' \quad \forall i$ \\
  
@@ -248,7 +248,7 @@ $E_i - S_i \leq \textrm{UO}_i + \textrm{UI}_i \quad \forall i$ \\
 
 $\sum_i{(E_i- S_i)} \leq \textrm{O} + \textrm{I}$ \\
 
-Portanto, temos: \\
+De onde, temos: \\
  
 $T'' \leq (\textrm{UO}_i + \textrm{UI}_i + S_i) / \textrm{p}_i  \quad \forall i$ \\
 
