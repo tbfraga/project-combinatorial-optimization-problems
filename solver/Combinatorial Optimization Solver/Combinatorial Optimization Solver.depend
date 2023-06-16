@@ -11,3 +11,23 @@
 1685644259 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
 	"../lib/extruder planning problem.h"
 
+1686917198 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
+	"../lib/extruder planning problem.h"
+
+1686147583 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
+	<iostream>
+	<fstream>
+	<vector>
+	<math.h>
+
+1686920592 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+	"lib/max multiproduct batch time problem.h"
+
+1686920671 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/max multiproduct batch time problem.cpp
+	"../lib/max multiproduct batch time problem.h"
+
+1686920545 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/max multiproduct batch time problem.h
+	<iostream>
+	<vector>
+	<math.h>
+

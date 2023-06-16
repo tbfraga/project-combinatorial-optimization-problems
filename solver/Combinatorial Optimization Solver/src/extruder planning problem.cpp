@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/05/30
+// last modification: 2023/06/16
 
 #include "../lib/extruder planning problem.h"
 
@@ -1850,13 +1850,13 @@ namespace epp
 
     // calculate largest possible processing time increase for the <batch>
 
-    unsigned int solution::limit(unsigned int batch)
-    {
+    /*unsigned int solution::limit(unsigned int batch)
+    {*/
         /**************************************************************************************************************************
         This function calculates maximum processing time increase for a batch.
         **************************************************************************************************************************/
 
-        if(_hprint == 1) cout << endl << "head: calculating limit of increasing batch processing time..." << endl;
+        /*if(_hprint == 1) cout << endl << "head: calculating limit of increasing batch processing time..." << endl;
 
         bool i_print = 0;
 
@@ -1918,7 +1918,7 @@ namespace epp
         if(i_print == 1) cout << endl << "Limit by inventory, unmet demand and outlet: " << prodLimit << endl;
 
         return prodLimit;
-    };
+    };*/
 
     // distribute production of <product> between demand, outlets and inventory
 

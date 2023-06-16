@@ -14,12 +14,26 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // start date: 2023/04/26
 // last modification: 2023/05/31
 
-#include "lib/extruder planning problem.h"
-using namespace epp;
+#include "lib/max multiproduct batch time problem.h"
+
+//#include "lib/extruder planning problem.h"
+//using namespace epp;
 
 int main()
 {
-    cout << "*** creating library extruder planning problem ****" << endl;
+    mmbtp::MMBTP mmbtp_problem;
+
+    mmbtp_problem.MMBTP001();
+    mmbtp_problem.print();
+
+    mmbtp::solution mmbtp_solution;
+
+    mmbtp_solution.start(mmbtp_problem);
+    mmbtp_solution.analyticalMethod();
+
+    mmbtp_problem.clear();
+
+    /*cout << "*** creating library extruder planning problem ****" << endl;
     cout << endl << "to be continued - debugging..." << endl;
 
     ofstream file;
@@ -59,7 +73,7 @@ int main()
     getchar();
 
     epp_solution.clear();
-    problem.clear();
+    problem.clear();*/
 
     return 0;
 }
