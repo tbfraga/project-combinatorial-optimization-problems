@@ -20,14 +20,25 @@
 	<vector>
 	<math.h>
 
-1686920592 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
-	"lib/max multiproduct batch time problem.h"
+1687011215 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+	"lib/multiproduct batch processing time maximization problem.h"
 
-1686920671 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/max multiproduct batch time problem.cpp
+1687010736 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/max multiproduct batch time problem.cpp
 	"../lib/max multiproduct batch time problem.h"
 
-1686920545 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/max multiproduct batch time problem.h
+1687009411 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/max multiproduct batch time problem.h
 	<iostream>
+	<iomanip>
 	<vector>
 	<math.h>
+
+1687011585 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/multiproduct batch processing time maximization problem.h
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<math.h>
+
+1687012023 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/multiproduct batch processing time maximization problem.cpp
+	"../lib/multiproduct batch processing time maximization problem.h"
 

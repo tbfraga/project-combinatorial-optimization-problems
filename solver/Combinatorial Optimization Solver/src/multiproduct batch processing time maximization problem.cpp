@@ -29,44 +29,46 @@ namespace mpbptmp
 
     void multiproductBatchProcessingTimeMaximizationProblem::print()
     {
-         cout << endl << "products: " << _NProducts << endl << endl;
+        ofstream file;
 
-         cout << endl << "production rate:" << endl << endl;
+        file.open("problem.txt");
 
-         for(unsigned int p=0; p<_productionRate.size(); p++)
-         {
-            cout << "p" << setw(3) << p << "=" << setw(3) << _productionRate[p] << "\t ";
-         }
-         cout << endl;
+        file << endl << "products: " << _NProducts << endl << endl;
 
-         cout << endl << "demand:" << endl << endl;
+        file << endl << "production rate:" << endl << endl;
 
-         for(unsigned int p=0; p<_demand.size(); p++)
-         {
-            cout << "p" << setw(3) << p << "=" << setw(4) <<  _demand[p] << "\t ";
-         }
-         cout << endl;
+        for(unsigned int p=0; p<_productionRate.size(); p++)
+        {
+            file << "p" << setw(3) << p << "=" << setw(3) << _productionRate[p] << "\t ";
+        }
+        file << endl;
 
-         cout << endl << "fatctory maximum inventory:" << endl << endl;
+        file << endl << "demand:" << endl << endl;
 
-         for(unsigned int p=0; p<_maximumInventory.size(); p++)
-         {
-            cout << "p" << setw(3) << p << "=" << setw(4) << _maximumInventory[p] << "\t ";
-         }
-         cout << endl;
+        for(unsigned int p=0; p<_demand.size(); p++)
+        {
+            file << "p" << setw(3) << p << "=" << setw(4) <<  _demand[p] << "\t ";
+        }
 
-         cout << endl << "total fatctory maximum inventory: " << _totalMaximumInventory << endl;
+        file << endl << endl << "fatctory maximum inventory:" << endl << endl;
 
-         cout << endl << "outlets maximum inventory:" << endl << endl;
+        for(unsigned int p=0; p<_maximumInventory.size(); p++)
+        {
+            file << "p" << setw(3) << p << "=" << setw(4) << _maximumInventory[p] << "\t ";
+        }
 
-         for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
-         {
-            cout << "p" << setw(3) << p << "=" << setw(4) << _maximumOutletInventory[p] << "\t ";
-         }
-         cout << endl;
+        file << endl << endl << "total fatctory maximum inventory: " << _totalMaximumInventory << endl;
 
-         cout << endl << "total outlets maximum inventory: " << _totalMaximumOutletInventory << endl;
+        file << endl << "outlets maximum inventory:" << endl << endl;
 
+        for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
+        {
+            file << "p" << setw(3) << p << "=" << setw(4) << _maximumOutletInventory[p] << "\t ";
+        }
+
+        file << endl << endl << "total outlets maximum inventory: " << _totalMaximumOutletInventory << endl;
+
+        file.close();
     };
 
     void MPBPTMP::MPBPTMP001()
@@ -147,22 +149,28 @@ namespace mpbptmp
 
     void solution::analyticalMethod()
     {
+        ofstream file;
+
+        file.open("output.txt");
+
         cout << endl << "Analytical solution:" << endl << endl;
+        file << endl << "Analytical solution:" << endl << endl;
+
         unsigned int aux, sum, T1, T2;
 
         T1 = floor(_problem._demand[0]/_problem._productionRate[0]);
 
-        cout << "C'" << setw(3) << 0 << "=" << setw(4) << T1 << "\t ";
+        file << "C'" << setw(3) << 0 << "=" << setw(4) << T1 << "\t ";
 
         for(unsigned int p=1; p<_problem._NProducts; p++)
         {
             aux = floor(_problem._demand[p]/_problem._productionRate[p]);
-            cout << "C'" << setw(3) << p << "=" << setw(4) << aux << "\t ";
+            file << "C'" << setw(3) << p << "=" << setw(4) << aux << "\t ";
 
             if(aux < T1) T1 = aux;
         }
 
-        cout << endl << endl << "T' = " << T1 << endl << endl;
+        file << endl << endl << "T' = " << T1 << endl << endl;
 
         vector<unsigned int> S;
         S.resize(_problem._NProducts,0);
@@ -170,10 +178,10 @@ namespace mpbptmp
         for(unsigned int p=1; p<_problem._NProducts; p++)
         {
             S[p] = _problem._demand[p] - T1*_problem._productionRate[p];
-            cout << "S'" << setw(3) << p << "=" << S[p] << "\t ";
+            file << "S'" << setw(3) << p << "=" << S[p] << "\t ";
         }
 
-        cout << endl << endl;
+        file << endl << endl;
 
         T2 = floor((_problem._maximumInventory[0] + _problem._maximumOutletInventory[0] + S[0])/_problem._productionRate[0]);
 
@@ -181,7 +189,7 @@ namespace mpbptmp
         {
             aux = floor((_problem._maximumInventory[p] + _problem._maximumOutletInventory[p] + S[p])/_problem._productionRate[p]);
 
-            cout << "C''" << setw(3) << p << "=" << setw(4) << aux << "\t ";
+            file << "C''" << setw(3) << p << "=" << setw(4) << aux << "\t ";
 
             if(aux < T2) T2 = aux;
         }
@@ -199,20 +207,24 @@ namespace mpbptmp
 
         aux = floor(aux/sum);
 
-        cout << endl << endl << "C''(all)" << "=" << setw(4) << aux;
+        file << endl << endl << "C''(all)" << "=" << setw(4) << aux;
 
         if(aux < T2) T2 = aux;
 
-        cout << endl << endl << "T''=" << T2 << endl << endl;
+        file << endl << endl << "T''=" << T2 << endl << endl;
 
         _problem._batchProcessingTime = T1 + T2;
 
         if(_problem._batchProcessingTime > _problem._maxBatchProcessingTime) _problem._batchProcessingTime = _problem._maxBatchProcessingTime;
 
+        file << endl << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
+        file << endl << "batch processing time: " << _problem._batchProcessingTime << endl;
+
         cout << endl << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
         cout << endl << "batch processing time: " << _problem._batchProcessingTime << endl;
 
         S.clear();
+        file.close();
     };
 
     void solution::start(MPBPTMP mmbtp_problem)

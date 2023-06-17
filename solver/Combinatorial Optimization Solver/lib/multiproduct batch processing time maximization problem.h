@@ -19,6 +19,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 #define MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
 
 #include<iostream>
+#include<fstream>
 #include<iomanip>
 #include<vector>
 using namespace std;

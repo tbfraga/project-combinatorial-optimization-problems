@@ -14,24 +14,35 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // start date: 2023/04/26
 // last modification: 2023/05/31
 
-#include "lib/max multiproduct batch time problem.h"
+#include "lib/multiproduct batch processing time maximization problem.h"
 
 //#include "lib/extruder planning problem.h"
 //using namespace epp;
 
 int main()
 {
-    mmbtp::MMBTP mmbtp_problem;
+    /**** Multiproduct batch processing time maximization problem ****/
 
-    mmbtp_problem.MMBTP001();
-    mmbtp_problem.print();
+    /** set values for the following parameters for defining a random problem with size <NProduct> **/
 
-    mmbtp::solution mmbtp_solution;
+    time_t source = 0;
+    unsigned int NProducts = 1000;
 
-    mmbtp_solution.start(mmbtp_problem);
-    mmbtp_solution.analyticalMethod();
+    /** do not change following code **/
 
-    mmbtp_problem.clear();
+    srand((unsigned) source);
+
+    mpbptmp::MPBPTMP mpbptmp_problem;
+
+    mpbptmp_problem.randomMPBPTMP(NProducts);
+    mpbptmp_problem.print();
+
+    mpbptmp::solution mpbptmp_solution;
+
+    mpbptmp_solution.start(mpbptmp_problem);
+    mpbptmp_solution.analyticalMethod();
+
+    mpbptmp_problem.clear();
 
     /*cout << "*** creating library extruder planning problem ****" << endl;
     cout << endl << "to be continued - debugging..." << endl;
