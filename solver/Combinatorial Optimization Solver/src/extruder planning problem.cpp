@@ -3546,7 +3546,7 @@ namespace epp
 
         int step;
 
-        if(_extruderIdleness[extruder][day] < 1)
+        if(_extruderIdleness[extruder][day] < 1 || ( (timeLimit(batch) - _processingTime[batch]) < 1))
         {
             if(_processingTime[batch] < 1)
             {

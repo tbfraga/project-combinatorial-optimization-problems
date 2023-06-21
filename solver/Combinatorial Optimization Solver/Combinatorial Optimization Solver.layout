@@ -2,9 +2,19 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="lib/multiproduct batch processing time maximization problem.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3468" topLine="46" />
+		</Cursor>
+	</File>
+	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1331" topLine="49" />
+		</Cursor>
+	</File>
 	<File name="src/extruder planning problem.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="61564" topLine="140" />
+			<Cursor1 position="128913" topLine="83" />
 		</Cursor>
 		<Folding>
 			<Collapse line="24" />
@@ -21,49 +31,38 @@
 			<Collapse line="1524" />
 			<Collapse line="1554" />
 			<Collapse line="1588" />
-			<Collapse line="1925" />
-			<Collapse line="2219" />
-			<Collapse line="2289" />
-			<Collapse line="2358" />
-			<Collapse line="2491" />
-			<Collapse line="2516" />
-			<Collapse line="2549" />
-			<Collapse line="2640" />
-			<Collapse line="2769" />
-			<Collapse line="2825" />
-			<Collapse line="2867" />
-			<Collapse line="3008" />
-			<Collapse line="3025" />
-			<Collapse line="3150" />
-			<Collapse line="3279" />
-			<Collapse line="3389" />
-			<Collapse line="3447" />
-			<Collapse line="3517" />
-			<Collapse line="3569" />
-			<Collapse line="3708" />
+			<Collapse line="1780" />
+			<Collapse line="1853" />
+			<Collapse line="1938" />
+			<Collapse line="2232" />
+			<Collapse line="2302" />
+			<Collapse line="2371" />
+			<Collapse line="2504" />
+			<Collapse line="2529" />
+			<Collapse line="2562" />
+			<Collapse line="2653" />
+			<Collapse line="2782" />
+			<Collapse line="2838" />
+			<Collapse line="2880" />
+			<Collapse line="3021" />
+			<Collapse line="3038" />
+			<Collapse line="3163" />
+			<Collapse line="3292" />
+			<Collapse line="3402" />
+			<Collapse line="3460" />
+			<Collapse line="3530" />
+			<Collapse line="3582" />
+			<Collapse line="3721" />
 		</Folding>
 	</File>
 	<File name="src/multiproduct batch processing time maximization problem.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3525" topLine="63" />
-		</Cursor>
-	</File>
-	<File name="main.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1331" topLine="40" />
+			<Cursor1 position="3902" topLine="54" />
 		</Cursor>
 	</File>
 	<File name="lib/extruder planning problem.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="8622" topLine="155" />
-		</Cursor>
-		<Folding>
-			<Collapse line="101" />
-		</Folding>
-	</File>
-	<File name="lib/multiproduct batch processing time maximization problem.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="2365" topLine="19" />
+			<Cursor1 position="7275" topLine="138" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>
