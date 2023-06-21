@@ -53,6 +53,9 @@ namespace mpbptmp
 
         void clear();
         void print();
+
+        void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
+                 vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);
     };
 
     // class for creating instances of max multiproduct batch time problem
@@ -78,7 +81,7 @@ namespace mpbptmp
         public:
 
         void start(MPBPTMP mmbtp_problem); // this function initializes solution variables
-        void analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
+        unsigned int analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
     };
 }
 

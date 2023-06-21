@@ -1768,10 +1768,10 @@ namespace epp
         {
             _productionLimit[p].resize(_problem._NDays,0);
 
-            for(unsigned int d=0; d<_productionLimit[p].size();d++)
+            /*for(unsigned int d=0; d<_productionLimit[p].size();d++)
             {
                 _productionLimit[p][d] = productionLimit(p,d);
-            }
+            }*/
         }
     };
 
@@ -1848,77 +1848,90 @@ namespace epp
         return prodLimit;
     };
 
-    // calculate largest possible processing time increase for the <batch>
+    // calculate largest possible processing time for the <batch>
 
-    /*unsigned int solution::limit(unsigned int batch)
-    {*/
+    unsigned int solution::timeLimit(unsigned int batch)
+    {
         /**************************************************************************************************************************
-        This function calculates maximum processing time increase for a batch.
+        This function calculates maximum processing time for a batch.
         **************************************************************************************************************************/
 
-        /*if(_hprint == 1) cout << endl << "head: calculating limit of increasing batch processing time..." << endl;
+        if(_hprint == 1) cout << endl << "head: calculating limit for batch processing time..." << endl;
 
         bool i_print = 0;
 
         unsigned int prodLimit;
 
-        unsigned int totalFreeInventory = _totalFreeInventory[day];
-        unsigned int freeInventory = _freeInventory[product][day];
+        // defining the MPBPTMP
 
-        for(unsigned int d=day+1; d<_problem._NDays; d++)
+        unsigned int NProducts;
+        vector<float> productionRate = {0};
+        vector<unsigned int> demand = {0};
+        vector<unsigned int> maximumInventory = {0};
+        unsigned int totalMaximumInventory;
+        vector<unsigned int> maximumOutletInventory = {0};
+        unsigned int totalMaximumOutletInventory;
+        unsigned int maxBatchProcessingTime = 0;
+
+        productionRate.clear();
+        demand.clear();
+        maximumInventory.clear();
+        maximumOutletInventory.clear();
+
+        if(batch < _allocation.size()) // if batch exist
         {
-            if(totalFreeInventory > _totalFreeInventory[d])
+            // if batch is not empty
+            if((( batch < (_allocation.size() - 1) ) && (_allocation[batch][3] != _allocation[batch+1][2])) || ((batch == (_allocation.size() - 1)) && (_allocation[batch][3] < _balancing.size())))
             {
-                totalFreeInventory = _totalFreeInventory[d];
-            }
-
-            if(freeInventory > _freeInventory[product][d])
-            {
-                freeInventory = _freeInventory[product][d];
-            }
-        }
-
-        if(totalFreeInventory > freeInventory)
-        {
-            prodLimit = freeInventory;
-        }else
-        {
-            prodLimit = totalFreeInventory;
-        }
-
-        if(i_print == 1)  cout << endl << "Limit by inventory: " << prodLimit << endl;
-
-        unsigned int demandLimit;
-
-        demandLimit = _unmetDemand[product][day];
-
-        for(unsigned int d=day+1; d<_problem._NDays; d++)
-        {
-            if(demandLimit > _unmetDemand[product][d])
-            {
-                demandLimit = _unmetDemand[product][d];
-            }
-        }
-
-        prodLimit += demandLimit;
-
-        if(i_print == 1) cout << endl << "Limit by inventory and unmet demand: " << prodLimit << endl;
-
-        for(unsigned int o=0; o<_problem._NOutlets; o++)
-        {
-            if(_totalFreeOutletInventory[o] < _freeOutletInventory[product][o])
-            {
-                prodLimit += _totalFreeOutletInventory[o];
+                NProducts = _allocation[batch][3] - _allocation[batch][2] + 1;
             }else
             {
-                prodLimit += _freeOutletInventory[product][o];
+                NProducts = 0;
             }
+
+            unsigned int extruder = _allocation[batch][0];
+            unsigned int day = _allocation[batch][1];
+
+            productionRate.resize(NProducts,0);
+            demand.resize(NProducts,0);
+            maximumInventory.resize(NProducts,0);
+            maximumOutletInventory.resize(NProducts,0);
+
+            for(unsigned int p=0; p<NProducts; p++)
+            {
+                productionRate[p] = _problem._productionPerTime[p][extruder];
+                demand[p] = _problem._demand[p][day];
+                maximumInventory[p] = _freeInventory[p][day];
+                totalMaximumInventory  = _totalFreeInventory[day];
+
+                maximumOutletInventory[p] = 0;
+                totalMaximumOutletInventory = 0;
+                for(unsigned int o=0; o<_problem._NOutlets; o++)
+                {
+                    maximumOutletInventory[p] += _freeOutletInventory[p][o];
+                    totalMaximumOutletInventory += _totalFreeOutletInventory[o];
+                }
+            }
+
+            maxBatchProcessingTime = _processingTime[batch] + _extruderIdleness[extruder][day];
         }
 
-        if(i_print == 1) cout << endl << "Limit by inventory, unmet demand and outlet: " << prodLimit << endl;
+        _subProblem.clear();
+        _subProblem.set(NProducts,productionRate,demand,maximumInventory,totalMaximumInventory,maximumOutletInventory,totalMaximumOutletInventory,maxBatchProcessingTime);
+
+        productionRate.clear();
+        demand.clear();
+        maximumInventory.clear();
+        maximumOutletInventory.clear();
+
+        _subSolution.start(_subProblem);
+
+        prodLimit = _subSolution.analyticalMethod();
+
+        _subProblem.clear();
 
         return prodLimit;
-    };*/
+    };
 
     // distribute production of <product> between demand, outlets and inventory
 

@@ -25,6 +25,8 @@ using namespace std;
 
 #include<math.h>
 
+#include "multiproduct batch processing time maximization problem.h"
+
 namespace epp
 {
     class extruderPlanningProblem
@@ -110,6 +112,8 @@ namespace epp
         protected:
 
         EPP _problem; // EPP linked to the solution
+        mpbptmp::MPBPTMP _subProblem; //
+        mpbptmp::solution _subSolution;
 
         // primary variables
 
@@ -174,7 +178,7 @@ namespace epp
 
         void restart(EPP problem); // this function initializes solution variables
         unsigned int productionLimit(unsigned int product, unsigned int day); // this function calculates the maximum production allowed for products
-        unsigned int limit(unsigned int batch); // this function calculates the maximum processing time allowed for a set of products
+        unsigned int timeLimit(unsigned int batch); // this function calculates the maximum processing time allowed for a set of products
 
         bool deliver(unsigned int product, ofstream &file); // this function distributes production of <product> to demand, outlets and inventory
         void backwardDelivery(unsigned int product, unsigned int start, unsigned int &distribution);

@@ -14,10 +14,10 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // start date: 2023/04/26
 // last modification: 2023/05/31
 
-#include "lib/multiproduct batch processing time maximization problem.h"
+//#include "lib/multiproduct batch processing time maximization problem.h"
 
-//#include "lib/extruder planning problem.h"
-//using namespace epp;
+#include "lib/extruder planning problem.h"
+using namespace epp;
 
 int main()
 {
@@ -25,12 +25,12 @@ int main()
 
     /** set values for the following parameters for defining a random problem with size <NProduct> **/
 
-    time_t source = 0;
-    unsigned int NProducts = 1000;
+    /*time_t source = 0;
+    unsigned int NProducts = 1000;*/
 
     /** do not change following code **/
 
-    srand((unsigned) source);
+    /*srand((unsigned) source);
 
     mpbptmp::MPBPTMP mpbptmp_problem;
 
@@ -42,10 +42,12 @@ int main()
     mpbptmp_solution.start(mpbptmp_problem);
     mpbptmp_solution.analyticalMethod();
 
-    mpbptmp_problem.clear();
+    mpbptmp_problem.clear();*/
+
+    /**** Extruder planning problem ****/
 
     /*cout << "*** creating library extruder planning problem ****" << endl;
-    cout << endl << "to be continued - debugging..." << endl;
+    cout << endl << "to be continued - debugging..." << endl;*/
 
     ofstream file;
 
@@ -84,7 +86,7 @@ int main()
     getchar();
 
     epp_solution.clear();
-    problem.clear();*/
+    problem.clear();
 
     return 0;
 }

@@ -71,6 +71,22 @@ namespace mpbptmp
         file.close();
     };
 
+    void multiproductBatchProcessingTimeMaximizationProblem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
+                                                                 unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory,
+                                                                 unsigned int maxBatchProcessingTime)
+    {
+        clear();
+
+        _NProducts = NProducts;
+        _productionRate = productionRate;
+        _demand = demand;
+        _maximumInventory = maximumInventory;
+        _totalMaximumInventory = totalMaximumInventory;
+        _maximumOutletInventory = maximumOutletInventory;
+        _totalMaximumOutletInventory = totalMaximumOutletInventory;
+        _maxBatchProcessingTime = maxBatchProcessingTime;
+    };
+
     void MPBPTMP::MPBPTMP001()
     {
         /**************************************************************************************************************************
@@ -147,7 +163,7 @@ namespace mpbptmp
         _maxBatchProcessingTime = 100;
     };
 
-    void solution::analyticalMethod()
+    unsigned int solution::analyticalMethod()
     {
         ofstream file;
 
@@ -225,6 +241,8 @@ namespace mpbptmp
 
         S.clear();
         file.close();
+
+        return _problem._batchProcessingTime;
     };
 
     void solution::start(MPBPTMP mmbtp_problem)

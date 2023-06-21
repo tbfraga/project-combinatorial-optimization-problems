@@ -11,17 +11,18 @@
 1685644259 source:/home/user/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
 	"../lib/extruder planning problem.h"
 
-1686917198 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
+1687375243 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/extruder planning problem.cpp
 	"../lib/extruder planning problem.h"
 
-1686147583 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
+1687373373 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/extruder planning problem.h
 	<iostream>
 	<fstream>
 	<vector>
 	<math.h>
+	"multiproduct batch processing time maximization problem.h"
 
-1687011215 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
-	"lib/multiproduct batch processing time maximization problem.h"
+1687356240 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/main.cpp
+	"lib/extruder planning problem.h"
 
 1687010736 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/max multiproduct batch time problem.cpp
 	"../lib/max multiproduct batch time problem.h"
@@ -32,13 +33,13 @@
 	<vector>
 	<math.h>
 
-1687011585 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/multiproduct batch processing time maximization problem.h
+1687375169 /home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/lib/multiproduct batch processing time maximization problem.h
 	<iostream>
 	<fstream>
 	<iomanip>
 	<vector>
 	<math.h>
 
-1687012023 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/multiproduct batch processing time maximization problem.cpp
+1687375169 source:/home/tbfraga/Documentos/GitHub/project-combinatorial-optimization-problems/solver/Combinatorial Optimization Solver/src/multiproduct batch processing time maximization problem.cpp
 	"../lib/multiproduct batch processing time maximization problem.h"
 
