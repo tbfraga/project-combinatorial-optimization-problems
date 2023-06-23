@@ -29,6 +29,7 @@ namespace mpbptmp
 
     void multiproductBatchProcessingTimeMaximizationProblem::print()
     {
+        cout << endl << "head: printing problem..." << endl;
         ofstream file;
 
         file.open("problem.txt");
@@ -186,6 +187,8 @@ namespace mpbptmp
             if(aux < T1) T1 = aux;
         }
 
+        cout << endl << "in";
+
         file << endl << endl << "T' = " << T1 << endl << endl;
 
         vector<unsigned int> S;
@@ -209,6 +212,8 @@ namespace mpbptmp
 
             if(aux < T2) T2 = aux;
         }
+
+        cout << endl << "in";
 
         aux = 0;
         sum = 0;
@@ -241,6 +246,8 @@ namespace mpbptmp
 
         S.clear();
         file.close();
+
+        cout << endl << "in";
 
         return _problem._batchProcessingTime;
     };

@@ -13,7 +13,7 @@ This project with its files can be consulted at https://github.com/tbfraga/proje
 // Extruder Planning Problem Library
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/06/16
+// last modification: 2023/06/23
 
 #include "../lib/extruder planning problem.h"
 
@@ -1855,6 +1855,7 @@ namespace epp
         /**************************************************************************************************************************
         This function calculates maximum processing time for a batch.
         **************************************************************************************************************************/
+        cout << endl << "here";
 
         if(_hprint == 1) cout << endl << "head: calculating limit for batch processing time..." << endl;
 
@@ -1864,13 +1865,13 @@ namespace epp
 
         // defining the MPBPTMP
 
-        unsigned int NProducts;
-        vector<float> productionRate = {0};
-        vector<unsigned int> demand = {0};
-        vector<unsigned int> maximumInventory = {0};
-        unsigned int totalMaximumInventory;
-        vector<unsigned int> maximumOutletInventory = {0};
-        unsigned int totalMaximumOutletInventory;
+        unsigned int NProducts = 0;
+        vector<float> productionRate;
+        vector<unsigned int> demand;
+        vector<unsigned int> maximumInventory;
+        unsigned int totalMaximumInventory = 0;
+        vector<unsigned int> maximumOutletInventory;
+        unsigned int totalMaximumOutletInventory = 0;
         unsigned int maxBatchProcessingTime = 0;
 
         productionRate.clear();
@@ -1878,46 +1879,54 @@ namespace epp
         maximumInventory.clear();
         maximumOutletInventory.clear();
 
+        cout << endl << "here";
+
         if(batch < _allocation.size()) // if batch exist
         {
             // if batch is not empty
             if((( batch < (_allocation.size() - 1) ) && (_allocation[batch][3] != _allocation[batch+1][2])) || ((batch == (_allocation.size() - 1)) && (_allocation[batch][3] < _balancing.size())))
             {
                 NProducts = _allocation[batch][3] - _allocation[batch][2] + 1;
-            }else
-            {
-                NProducts = 0;
-            }
 
-            unsigned int extruder = _allocation[batch][0];
-            unsigned int day = _allocation[batch][1];
+                unsigned int product;
+                unsigned int extruder = _allocation[batch][0];
+                unsigned int day = _allocation[batch][1];
 
-            productionRate.resize(NProducts,0);
-            demand.resize(NProducts,0);
-            maximumInventory.resize(NProducts,0);
-            maximumOutletInventory.resize(NProducts,0);
+                productionRate.resize(NProducts,0);
+                demand.resize(NProducts,0);
+                maximumInventory.resize(NProducts,0);
+                maximumOutletInventory.resize(NProducts,0);
 
-            for(unsigned int p=0; p<NProducts; p++)
-            {
-                productionRate[p] = _problem._productionPerTime[p][extruder];
-                demand[p] = _problem._demand[p][day];
-                maximumInventory[p] = _freeInventory[p][day];
-                totalMaximumInventory  = _totalFreeInventory[day];
-
-                maximumOutletInventory[p] = 0;
-                totalMaximumOutletInventory = 0;
-                for(unsigned int o=0; o<_problem._NOutlets; o++)
+                for(unsigned int p=0; p<NProducts; p++)
                 {
-                    maximumOutletInventory[p] += _freeOutletInventory[p][o];
-                    totalMaximumOutletInventory += _totalFreeOutletInventory[o];
-                }
-            }
+                    product = _balancing[_allocation[batch][2] + p][1];
+                    cout << endl << p << endl << product;
+                    productionRate[p] = _problem._productionPerTime[product][extruder];
+                    demand[p] = _unmetDemand[product][day];
+                    maximumInventory[p] = _freeInventory[product][day];
+                    totalMaximumInventory  = _totalFreeInventory[day];
 
-            maxBatchProcessingTime = _processingTime[batch] + _extruderIdleness[extruder][day];
+                    maximumOutletInventory[p] = 0;
+                    totalMaximumOutletInventory = 0;
+                    for(unsigned int o=0; o<_problem._NOutlets; o++)
+                    {
+                        maximumOutletInventory[p] += _freeOutletInventory[product][o];
+                        totalMaximumOutletInventory += _totalFreeOutletInventory[o];
+                    }
+                }
+
+                maxBatchProcessingTime = _processingTime[batch] + _extruderIdleness[extruder][day];
+            }
         }
+
+        cout << endl << "here";
 
         _subProblem.clear();
         _subProblem.set(NProducts,productionRate,demand,maximumInventory,totalMaximumInventory,maximumOutletInventory,totalMaximumOutletInventory,maxBatchProcessingTime);
+
+        _subProblem.print();
+
+        cout << endl << "here";
 
         productionRate.clear();
         demand.clear();
@@ -1929,6 +1938,8 @@ namespace epp
         prodLimit = _subSolution.analyticalMethod();
 
         _subProblem.clear();
+
+        cout << endl << "here";
 
         return prodLimit;
     };
@@ -3450,6 +3461,14 @@ namespace epp
             }
 
             error = insert(product, batch, file); // than insert product on batch
+
+            time = timeLimit(batch);
+
+            if(_processingTime[batch] != time)
+            {
+                cout << endl << "processing time: " << _processingTime[batch] << " limit: " <<  time << endl;
+                getchar();
+            }
         }
 
         return error;

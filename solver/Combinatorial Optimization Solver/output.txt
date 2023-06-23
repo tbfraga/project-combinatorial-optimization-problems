@@ -1,19 +1,19 @@
 
 Analytical solution:
 
-C'  0= 205	 
+C'  0=   0	 
 
-T' = 205
-
-
+T' = 0
 
 
 
-C''(all)=  59
-
-T''=33
 
 
-T': 205	 T'': 33	 max batch processing time: 295
+C''(all)=  61
 
-batch processing time: 238
+T''=14
+
+
+T': 0	 T'': 14	 max batch processing time: 383
+
+batch processing time: 14

@@ -155,7 +155,7 @@ namespace epp
 
         // print parameters
 
-        bool _hprint = 0; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
+        bool _hprint = 1; // if _hprint == 1 solver will print all functions head on screen - usualy used to find bugs
         bool _fprint = 0; // if _fprint == 1 solver will print everything on differente files
 
         // I'll also use some print parameter inside functions, so I can see solver results on screen

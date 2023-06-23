@@ -1,0 +1,23 @@
+
+products: 2
+
+
+production rate:
+
+p  0=120	 p  1=240	 
+
+demand:
+
+p  0=143520	 p  1=   0	 
+
+fatctory maximum inventory:
+
+p  0=50000	 p  1=4160	 
+
+total fatctory maximum inventory: 14240
+
+outlets maximum inventory:
+
+p  0=15000	 p  1=   0	 
+
+total outlets maximum inventory: 0
