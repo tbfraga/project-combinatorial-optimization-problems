@@ -40,7 +40,7 @@ namespace mpbptmp
 
         for(unsigned int p=0; p<_productionRate.size(); p++)
         {
-            file << "p" << setw(3) << p << "=" << setw(3) << _productionRate[p] << "\t ";
+            file << setw(3) << _productionRate[p] << "\t ";
         }
         file << endl;
 
@@ -48,14 +48,14 @@ namespace mpbptmp
 
         for(unsigned int p=0; p<_demand.size(); p++)
         {
-            file << "p" << setw(3) << p << "=" << setw(4) <<  _demand[p] << "\t ";
+            file << setw(4) <<  _demand[p] << "\t ";
         }
 
         file << endl << endl << "fatctory maximum inventory:" << endl << endl;
 
         for(unsigned int p=0; p<_maximumInventory.size(); p++)
         {
-            file << "p" << setw(3) << p << "=" << setw(4) << _maximumInventory[p] << "\t ";
+            file << setw(4) << _maximumInventory[p] << "\t ";
         }
 
         file << endl << endl << "total fatctory maximum inventory: " << _totalMaximumInventory << endl;
@@ -64,7 +64,7 @@ namespace mpbptmp
 
         for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
         {
-            file << "p" << setw(3) << p << "=" << setw(4) << _maximumOutletInventory[p] << "\t ";
+            file << setw(4) << _maximumOutletInventory[p] << "\t ";
         }
 
         file << endl << endl << "total outlets maximum inventory: " << _totalMaximumOutletInventory << endl;
@@ -150,15 +150,18 @@ namespace mpbptmp
         _maximumInventory.resize(_NProducts,0);
         _maximumOutletInventory.resize(_NProducts,0);
 
-        _totalMaximumInventory = rand()%5000 + 1000;
-        _totalMaximumOutletInventory = rand()%3000 + 500;
+        unsigned int seed1 = rand()%3000 + 500;
+        unsigned int seed2 = rand()%5000 + 1000;
+
+        _totalMaximumOutletInventory = (_NProducts/2)*seed1;
+        _totalMaximumInventory = (_NProducts/2)*seed2;
 
         for(unsigned int p=0; p<_NProducts; p++)
         {
             _productionRate[p] = rand()%30 + 10;
             _demand[p] = rand()%3000 + 800;
-            _maximumInventory[p] = rand()%(_totalMaximumInventory - 1000) + 1000;
-            _maximumOutletInventory[p] = rand()%(_totalMaximumOutletInventory-500) + 500;
+            _maximumOutletInventory[p] = rand()%(seed1-500) + 500;
+            _maximumInventory[p] = rand()%(seed2 - 1000) + 1000;
         }
 
         _maxBatchProcessingTime = 100;
@@ -171,25 +174,17 @@ namespace mpbptmp
         file.open("output.txt");
 
         cout << endl << "Analytical solution:" << endl << endl;
-        file << endl << "Analytical solution:" << endl << endl;
+        file << "Analytical solution:" << endl << endl;
 
         unsigned int aux, sum, T1, T2;
 
         T1 = floor(_problem._demand[0]/_problem._productionRate[0]);
 
-        file << "C'" << setw(3) << 0 << "=" << setw(4) << T1 << "\t ";
-
         for(unsigned int p=1; p<_problem._NProducts; p++)
         {
             aux = floor(_problem._demand[p]/_problem._productionRate[p]);
-            file << "C'" << setw(3) << p << "=" << setw(4) << aux << "\t ";
-
             if(aux < T1) T1 = aux;
         }
-
-        cout << endl << "in";
-
-        file << endl << endl << "T' = " << T1 << endl << endl;
 
         vector<unsigned int> S;
         S.resize(_problem._NProducts,0);
@@ -197,23 +192,17 @@ namespace mpbptmp
         for(unsigned int p=1; p<_problem._NProducts; p++)
         {
             S[p] = _problem._demand[p] - T1*_problem._productionRate[p];
-            file << "S'" << setw(3) << p << "=" << S[p] << "\t ";
         }
-
-        file << endl << endl;
 
         T2 = floor((_problem._maximumInventory[0] + _problem._maximumOutletInventory[0] + S[0])/_problem._productionRate[0]);
 
         for(unsigned int p=1; p<_problem._NProducts; p++)
         {
             aux = floor((_problem._maximumInventory[p] + _problem._maximumOutletInventory[p] + S[p])/_problem._productionRate[p]);
-
-            file << "C''" << setw(3) << p << "=" << setw(4) << aux << "\t ";
-
             if(aux < T2) T2 = aux;
         }
 
-        cout << endl << "in";
+        cout << endl;
 
         aux = 0;
         sum = 0;
@@ -228,17 +217,13 @@ namespace mpbptmp
 
         aux = floor(aux/sum);
 
-        file << endl << endl << "C''(all)" << "=" << setw(4) << aux;
-
         if(aux < T2) T2 = aux;
-
-        file << endl << endl << "T''=" << T2 << endl << endl;
 
         _problem._batchProcessingTime = T1 + T2;
 
         if(_problem._batchProcessingTime > _problem._maxBatchProcessingTime) _problem._batchProcessingTime = _problem._maxBatchProcessingTime;
 
-        file << endl << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
+        file << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
         file << endl << "batch processing time: " << _problem._batchProcessingTime << endl;
 
         cout << endl << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
@@ -246,8 +231,6 @@ namespace mpbptmp
 
         S.clear();
         file.close();
-
-        cout << endl << "in";
 
         return _problem._batchProcessingTime;
     };

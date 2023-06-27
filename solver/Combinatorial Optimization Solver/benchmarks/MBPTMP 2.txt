@@ -1,0 +1,23 @@
+
+products: 3
+
+
+production rate:
+
+ 60	  40	  50	 
+
+demand:
+
+1000	  500	  800	 
+
+fatctory maximum inventory:
+
+3000	 2000	 1000	 
+
+total fatctory maximum inventory: 3500
+
+outlets maximum inventory:
+
+ 600	  600	  600	 
+
+total outlets maximum inventory: 1500
