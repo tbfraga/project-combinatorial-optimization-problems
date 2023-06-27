@@ -189,7 +189,7 @@ namespace mpbptmp
         vector<unsigned int> S;
         S.resize(_problem._NProducts,0);
 
-        for(unsigned int p=1; p<_problem._NProducts; p++)
+        for(unsigned int p=0; p<_problem._NProducts; p++)
         {
             S[p] = _problem._demand[p] - T1*_problem._productionRate[p];
         }

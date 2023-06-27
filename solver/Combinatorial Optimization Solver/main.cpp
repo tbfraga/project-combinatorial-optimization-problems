@@ -26,7 +26,7 @@ int main()
     /** set values for the following parameters for defining a random problem with size <NProduct> **/
 
     time_t source = 0;
-    unsigned int NProducts = 20;
+    unsigned int NProducts = 10000;
 
     /** do not change following code **/
 
