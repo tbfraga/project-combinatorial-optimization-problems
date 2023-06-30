@@ -53,6 +53,7 @@ namespace mpbptmp
 
         void clear();
         void print();
+        void generateLingoData();
 
         void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
                  vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);

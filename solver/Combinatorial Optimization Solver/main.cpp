@@ -35,13 +35,14 @@ int main()
     mpbptmp::MPBPTMP mpbptmp_problem;
 
     mpbptmp_problem.randomMPBPTMP(NProducts);
+    mpbptmp_problem.generateLingoData();
     //mpbptmp_problem.MPBPTMP003(); // for using a predefined problem
-    mpbptmp_problem.print();
+    //mpbptmp_problem.print();
 
-    mpbptmp::solution mpbptmp_solution;
+    //mpbptmp::solution mpbptmp_solution;
 
-    mpbptmp_solution.start(mpbptmp_problem);
-    mpbptmp_solution.analyticalMethod();
+    //mpbptmp_solution.start(mpbptmp_problem);
+    //mpbptmp_solution.analyticalMethod();
 
     mpbptmp_problem.clear();
 

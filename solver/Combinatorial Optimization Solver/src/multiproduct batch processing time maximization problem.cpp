@@ -72,6 +72,103 @@ namespace mpbptmp
         file.close();
     };
 
+    void multiproductBatchProcessingTimeMaximizationProblem::generateLingoData()
+    {
+        cout << endl << "head: printing problem..." << endl;
+        ofstream file;
+
+        file.open("../../LingoSolver/MPBPTMP/data.ldt");
+
+        file << "! products;" << endl << endl;
+
+        for(unsigned int p=0; p<_productionRate.size(); p++)
+        {
+            file << "P" << p+1;
+            if((p+1) >= 20 && (p+1)%20 == 0)
+            {
+                file << endl;
+            }else
+            {
+                file << " ";
+            }
+        }
+        file << "~" << endl;
+
+        file << endl << "! production rate;" << endl << endl;
+
+        for(unsigned int p=0; p<_productionRate.size(); p++)
+        {
+            file << _productionRate[p];
+            if((p+1) >= 20 && (p+1)%20 == 0)
+            {
+                file << endl;
+            }else
+            {
+                file << " ";
+            }
+        }
+        file << "~" << endl;
+
+        file << endl << "! demand;" << endl << endl;
+
+        for(unsigned int p=0; p<_demand.size(); p++)
+        {
+            file << _demand[p];
+            if((p+1) >= 20 && (p+1)%20 == 0)
+            {
+                file << endl;
+            }else
+            {
+                file << " ";
+            }
+        }
+        file << "~" << endl;
+
+        file << endl << "! total outlets free inventory;" << endl << endl;
+
+        file << _totalMaximumOutletInventory << " ~" << endl;
+
+        file << endl << "! outlets free inventory;" << endl << endl;
+
+        for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
+        {
+            file << _maximumOutletInventory[p];
+            if((p+1) >= 20 && (p+1)%20 == 0)
+            {
+                file << endl;
+            }else
+            {
+                file << " ";
+            }
+        }
+        file << "~" << endl;
+
+        file << endl << "! total factory free inventory;" << endl << endl;
+
+        file << _totalMaximumInventory << " ~" << endl;
+
+        file << endl << "! factory free inventory;" << endl << endl;
+
+        for(unsigned int p=0; p<_maximumInventory.size(); p++)
+        {
+            file << _maximumInventory[p];
+            if((p+1) >= 20 && (p+1)%20 == 0)
+            {
+                file << endl;
+            }else
+            {
+                file << " ";
+            }
+        }
+        file << "~" << endl;
+
+        file << endl << "! processing time limite;" << endl << endl;
+
+        file << _maxBatchProcessingTime << " ~";
+
+        file.close();
+    };
+
     void multiproductBatchProcessingTimeMaximizationProblem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
                                                                  unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory,
                                                                  unsigned int maxBatchProcessingTime)
