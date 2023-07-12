@@ -88,7 +88,9 @@
 
 Transporte compartilhado é um sistema de transporte no qual um grupo de pessoas compartilham um mesmo veículo. O compartilhamento pode ser feito tanto de forma simultânea (\emph{e.g}, compartilhamento de carros), quando de forma temporal (\emph{e.g}, compartilhamento de bicicletas) \citep{Wikipedia}. De acordo com o \cite{SMC} há varios tipos de transporte coletivo sendo um destes o \emph{Vanpooling}. Citanto o site "o \emph{Vanpooling} é um serviço baseado em assinatura, onde um motorista oferece passeios pré-distribuídos a 3 a 15 passageiros com quem eles compartilham uma origem e destino. Geralmente administrado por um órgão público, distrito comercial ou local de trabalho, programas de vanpooling normalmente arrendam e disponibilizam os veículos (minivans ou vans de passageiros) e os participantes compartilham uma taxa mensal que cobre o custo, o seguro, a manutenção e o gás do veículo - geralmente muito menos do que o custo de fazer a mesma viagem diária em um veículo pessoal."
 
-Neste projeto será feito o estudo de um transporte do tipo \emph{Vanpooling} buscando um melhor planejamento para o transporte.
+A literatura científica apresenta uma série de trabalhos que abordam o tema \emph{Vanpooling}. \cite{Nassar1986} propos um modelo matemático para um serviço de transporte do tipo \emph{Vanpooling}. Após realizar avaliações do problem e simulações com o modelo proposto, o autor concluiu que o transporte compartilhado em vãs (\emph{Vanpool}) apresenta como vantagens a redução dos problemas de estacionamento, dos custos de transporte, e dos atrasos e abcenteísmos. Já \cite{DitmoreDeming2018} realizaram um estudo para determinar se passageiros que utilizam o \emph{Vanpool} para realizar o delocamento casa-trabalho-casa experimentam um nível diferenciado de extresse quando comparado ao transporte em veículos com um único ocupante. Como resultado, os autores puderam concluir que o \emph{Vanpool} ajudou a diminuir o estress experimentado pelos trabalhadores durante os dias de trabalho.
+
+Neste projeto será feito o estudo de um serviço de transporte do tipo \emph{Vanpooling} buscando um melhor planejamento para este serviço.
 
 \section{Objetivos}
 
@@ -106,9 +108,6 @@ Buscando atender esté proprósito são definidos os seguintes objetivos especí
 \item propor solução para melhoria do planejamento do serviço estudado;
 \item testar solução, comparando resultados de acordo com os parâmetros identificados.
 \end{itemize}
-
-\section{Fundamentação Teórica}
-
 
 \section{Metodologia}
 
@@ -130,12 +129,13 @@ Tais atividades serão desenvolvidas pela aluna, sob a orientação e supervisã
 
 \section{Resulados esperados}
 
-Após a aplicação da metodologia acima descrita, esperamos esperamos obter os seguintes resultados: 
+Após a aplicação da metodologia acima descrita, esperamos obter os seguintes resultados: 
 
 \begin{itemize}
-    \item dados de históricos de vendas e outros dados relevantes referentes aos principais produtos da empresa estudada;
-    \item mapeamento dos padrões de demanda destes produtos;
-    \item aprofundamento do conhecimento dos participantes dos projetos sobre os comportamentos de vendas e sobre a identificação de padrões de demanda;
+    \item descrição de um serviço do tipo \emph{Vanpooling};
+    \item definição de parâmetros para avaliação deste serviço;
+    \item dados sobre o processo estudado e resultados;
+    \item aprofundamento do conhecimento da aluna e orientadora sobre o problema estudado e abordagem de solução utilizada;
     \item artigo apresentado no CONIC.
 \end{itemize}
 
@@ -143,9 +143,7 @@ Os resultados destes trabalhos também serão incluídos em pelo menos um artigo
 
 \section{Viabilidade de execução}
 
-Os projetos serão realizados preferencialmente no CAA-UFPE. Assim, todos os participantes deste projeto, terão acesso garantido a toda a infraestrutura necessária para o correto desenvolvimento de seu trabalho incluindo recursos físicos (sala e mobiliário), bibliográficos e computacionais da UFPE e mais especificamente do CAA. O departamento de engenharia de produção do CAA conta atualmente com dois laboratórios de informática que disponibilizam, pelo menos, 30 computadores. O GAMOS, em especial, conta com laboratório próprio, e que atualmente dispõe de 3 computadores. Em termos de recursos bibliográficos, os pesquisadores da área de engenharia da produção contam com a biblioteca central da UFPE e as bibliotecas setoriais do CTG (Centro de Tecnologia e Geociências) e do CCEN (Centro de Ciências Exatas e da Natureza), localizadas no campus da UFPE de Recife, e com a biblioteca do próprio CAA, que possuem assinatura de alguns dos principais periódicos na área além do acesso remoto à base de dados disponíveis hoje via rede entre elas o banco de dados disponibilizados pela CAPES e pelo sciencedirect. 
-
-Parte do projeto será também realizada através de visitas à empresa escolhida para realização desse trabalho. A parceria com a empresa será firmada durante a realização do projeto e o termo de parceria será anexado no relatório final.
+O projeto será realizado \emph{in loco} e no CAA-UFPE. Assim, a aluna terá acesso garantido a toda a infraestrutura necessária para o correto desenvolvimento de seu trabalho incluindo recursos físicos (sala e mobiliário), bibliográficos e computacionais da UFPE e mais especificamente do CAA. O departamento de engenharia de produção do CAA conta atualmente com dois laboratórios de informática que disponibilizam, pelo menos, 30 computadores. O GAMOS, em especial, conta com laboratório próprio, e que atualmente dispõe de 3 computadores. Em termos de recursos bibliográficos, os pesquisadores da área de engenharia da produção contam com a biblioteca central da UFPE e as bibliotecas setoriais do CTG (Centro de Tecnologia e Geociências) e do CCEN (Centro de Ciências Exatas e da Natureza), localizadas no campus da UFPE de Recife, e com a biblioteca do próprio CAA, que possuem assinatura de alguns dos principais periódicos na área além do acesso remoto à base de dados disponíveis hoje via rede entre elas o banco de dados disponibilizados pela CAPES e pelo sciencedirect.  
 
 \section{Cronograma de atividades do estudante}
 
@@ -175,14 +173,19 @@ $6^a$ &  &  &  &  &  & xx  \\ \cline {1-7}
 \clearpage
 \begin{thebibliography}{12}
 
-\bibitem[\protect\citeauthoryear{Wikipedia}{}]{Wikipedia}
-Wikipedia. {\it Shared transport}. Disponível em https:/en.wikipedia.org/wiki/Shared\_transport, último acesso em 12/07/23.
+\bibitem[\protect\citeauthoryear{Ditmore \& Deming}{2018}]{DitmoreDeming2018}
+Ditmore, C.J, e Deming, D.M. (2018). 'Vanpooling and its effect on commuter stress'. {\it Research in Transportation Business \& Management}, Vol. 27, pp. 98--106.
+
+\bibitem[\protect\citeauthoryear{Nassar}{1986}]{Nassar1986}
+Nassar, S.M. (1986). 'Simulation model for a vanpooling system'. {\it Computers \& Industrial Engineering}, Vol. 11(1-4), pp. 395--400.
 
 \bibitem[\protect\citeauthoryear{Shared-Use Mobility Center}{}]{SMC}
 Shared-Use Mobility Center. {\it What is Shared Mobility ?} Disponível em hhttps://sharedusemobilitycenter.org/what-is-shared-mobility/, último acesso em 12/07/23.
 
-\bibitem[\protect\citeauthoryear{Ballou}{2001}]{Ballou2001}
-Ballou, R.H. (2001).{\it Gerenciamento da Cadeia de Suprimentos: Planejamento, Organização e Logística Empresarial}, 4. ed., Porto Alegre: Bookman.
+\bibitem[\protect\citeauthoryear{Wikipedia}{}]{Wikipedia}
+Wikipedia. {\it Shared transport}. Disponível em https:/en.wikipedia.org/wiki/Shared\_transport, último acesso em 12/07/23.
+
+
 
 \bibitem[\protect\citeauthoryear{Ballou}{2006}]{Ballou2006}
 Ballou, R.H. (2006).{\it Gerenciamento da Cadeia de Suprimentos / Logística Empresarial}, 5. ed., Porto Alegre: Bookman.
@@ -193,8 +196,7 @@ Boylan, J.E., Syntetos, A.A., e Karakostas, G.C. (2008). 'Classification for for
 \bibitem[\protect\citeauthoryear{Businger e Read}{1999}]{BusingerRead1999}
 Businger, M.P., e Read, R.R. (1999). 'Identification of demand patterns for selective processing: acase study'. {\it Omega, Int. J. Mgmt Sci.}, Vol. 27, pp. 189--200.
 
-\bibitem[\protect\citeauthoryear{Eaves e Kingsman}{2004}]{EavesKingsman2004}
-Eaves A.H.C., e Kingsman B.G. (2004). 'Forecasting for the ordering and stock-holding of spare parts'. {\it J. O. Opl. Res. Soc.}, Vol. 55, pp. 431--437.
+
 
 \bibitem[\protect\citeauthoryear{Fraga}{2021}]{Fraga2021}
 Fraga, T.B. (2021). 'Análise e Modelagem de Problemas de Otimização Contínua e Combinatória'. Projeto de Pesquisa registrado em 21/09/2018, e aprovado pela Pró-reitoria de Pesquisa da UFPE em 09/12/2021 (Processo SIPAC 23076.037097/2021-67).
