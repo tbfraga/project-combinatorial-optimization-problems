@@ -31,8 +31,8 @@
 \usepackage{helvet}
 
 % PUT YOUR TITLE AND NAME HERE
-\newcommand{\titlestr}{Planejamento do transporte coletivo em vans \\ Projeto PIBIC}
-\newcommand{\shorttitlestr}{Planejamento do transporte coletivo em vans}
+\newcommand{\titlestr}{Planejamento do transporte compartilhado em vans \\ Projeto PIBIC}
+\newcommand{\shorttitlestr}{Planejamento do transporte compartilhado em vans}
 \newcommand{\authorstr}{Profa. Tatiana Balbi Fraga} % INSERT YOUR NAME(S)
 
 \begin{document}
@@ -51,7 +51,7 @@
   \vspace{1cm}
   \today     % PUT YOUR DATE HERE
 
-  \vspace{1.5cm}
+  \vspace{1.3cm}
   Projeto submetido ao
   {\bf Edital PROPESQI no 02/2022}
   da Pró-Reitoria de Pesquisa e Inovação
@@ -59,15 +59,15 @@
 
   \includegraphics[width=0.25\textwidth]{logos/ufpe_logo.png}
 
-  \vspace{2cm}
+  \vspace{1.8cm}
   \flushleft
   {\bf Departamento de Engenharia de Produção} \\
   {\bf Núcleo de Tecnologia} \\
   {\bf Centro Acadêmico do Agreste} \\
 
- \vspace{5mm} {\footnotesize Este projeto é parte do projeto de pesquisa registrado na Propesqi intitulado 'Análise e Modelagem de Problemas de Otimização Contínua e Combinatória' \citep{Fraga2018}. Ao submeter este projeto eu declaro que o mesmo é de minha autoria e que todas as referências consultadas estão claramente citadas. O projeto está embasado no projeto desenvolvido pela aluna Dayane Eduarda da Silva, sob minha orientação, na disciplina 'Português Instrumental e Metodologia Científica' (disponível em www.github.com/tbfraga/project-combinatorial-optimization-problems/library). Contudo o projeto que aqui apresento foi elaborado após extenso trabalho de pesquisa realizado por mim (incluindo levantamento bibliogŕafico e proposição da metodologia a ser aplicada).\par}
+ \vspace{5mm} {\footnotesize Este projeto é parte do projeto de pesquisa registrado na Propesqi intitulado 'Análise e Modelagem de Problemas de Otimização Contínua e Combinatória' \citep{Fraga2018}. Ao submeter este projeto eu declaro que o mesmo é de minha autoria e que todas as referências consultadas estão claramente citadas. O projeto está embasado no projeto desenvolvido pela aluna Dayane Eduarda da Silva (disponível no github através do site: www.github.com/tbfraga/project-combinatorial-optimization-problems/library), sob minha orientação, na disciplina 'Português Instrumental e Metodologia Científica'. Contudo o projeto que aqui apresento foi elaborado após extenso trabalho de pesquisa realizado por mim (incluindo levantamento bibliogŕafico e proposição da metodologia a ser aplicada).\par}
     
-  \vspace{2mm} {\footnotesize O texto do projeto (atualizado), está disponível em forma de artigo no site MadScientistsDiary: https://github.com/tbfraga/gamos-madScientistsDiary-, portanto qualquer utilização, distribuição, replicação deste projeto deve estar em conformidade com a Licença Pública Internacional Creative Commons Atribuição-NãoComercial-SemDerivativos 4.0 e qualquer outro projeto desenvolvido com base neste projeto deve citá-lo como referência respeitando os direitos de autoria.\par}
+  \vspace{2mm} {\footnotesize O texto do projeto (atualizado), estará disponível em forma de artigo no site MadScientistsDiary: https://github.com/tbfraga/gamos-madScientistsDiary-, portanto qualquer utilização, alteração, distribuição, replicação deste projeto deve estar em conformidade com a Licença Pública Internacional Creative Commons Atribuição-NãoComercial-SemDerivativos 4.0 e qualquer outro projeto desenvolvido com base neste projeto deve citá-lo como referência respeitando os direitos de autoria.\par}
     
   \vfill
 \end{titlepage}
@@ -86,11 +86,11 @@
 \clearpage
 \section{Introdução}
 
-Transporte compartilhado é um sistema de transporte no qual um grupo de pessoas compartilham um mesmo veículo. O compartilhamento pode ser feito tanto de forma simultânea (\emph{e.g}, compartilhamento de carros), quando de forma temporal (\emph{e.g}, compartilhamento de bicicletas) \citep{Wikipedia}. De acordo com o \cite{SMC} há varios tipos de transporte coletivo sendo um destes o \emph{Vanpooling}. Citanto o site "o \emph{Vanpooling} é um serviço baseado em assinatura, onde um motorista oferece passeios pré-distribuídos a 3 a 15 passageiros com quem eles compartilham uma origem e destino. Geralmente administrado por um órgão público, distrito comercial ou local de trabalho, programas de vanpooling normalmente arrendam e disponibilizam os veículos (minivans ou vans de passageiros) e os participantes compartilham uma taxa mensal que cobre o custo, o seguro, a manutenção e o gás do veículo - geralmente muito menos do que o custo de fazer a mesma viagem diária em um veículo pessoal."
+Transporte compartilhado é um sistema de transporte no qual um grupo de pessoas compartilham um mesmo veículo. O compartilhamento pode ser feito tanto de forma simultânea (\emph{e.g}, compartilhamento de carros), quando de forma temporal (\emph{e.g}, compartilhamento de bicicletas) \citep{Wikipedia}. De acordo com o \cite{SMC} há varios tipos de transporte compartilhado sendo um destes o \emph{Vanpooling}. Citanto o site "o \emph{Vanpooling} é um serviço baseado em assinatura, onde um motorista oferece passeios pré-distribuídos a 3 a 15 passageiros com quem eles compartilham uma origem e destino. Geralmente administrado por um órgão público, distrito comercial ou local de trabalho ... programas de vanpooling normalmente arrendam e disponibilizam os veículos (minivans ou vans de passageiros) e os participantes compartilham uma taxa mensal que cobre o custo, o seguro, a manutenção e o gás do veículo - geralmente muito menor do que o custo de fazer a mesma viagem diária em um veículo pessoal."
 
 A literatura científica apresenta alguns trabalhos que abordam o tema \emph{Vanpooling}. \cite{Nassar1986} propos um modelo matemático para simulação de um serviço de transporte do tipo \emph{Vanpooling}. Após realizar avaliações do problem e simulações com o modelo proposto, o autor concluiu que o transporte compartilhado em vãs (\emph{Vanpool}) apresenta como vantagens a redução dos problemas de estacionamento, dos custos de transporte, e dos atrasos e abcenteísmos. \cite{KaanOlinick2013} apresentaram um modelo matemático para um problema de otimização do transporte \emph{Vanpool}, denomidado pelo autores como MCVAM. O MCVAN considera restrições de capacidade e relacionadas ao custo e ao tempo de transporte e tem como objetivo minimizar o custo total do transporte de todos os funcionários.  Já \cite{DitmoreDeming2018} realizaram um estudo para determinar se passageiros que utilizam o \emph{Vanpool} para realizar o delocamento casa-trabalho-casa experimentam um nível diferenciado de extresse quando comparado ao transporte em veículos com um único ocupante. Como resultado, os autores puderam concluir que o \emph{Vanpool} ajudou a diminuir o estress experimentado pelos trabalhadores durante os dias de trabalho.
 
-Neste projeto será feito o estudo de um serviço de transporte do tipo \emph{Vanpooling} buscando um melhorar planejamento para este serviço com foco na satisfação das pessoas transportadas.
+Neste projeto será feito o estudo de um serviço de transporte do tipo \emph{Vanpooling} buscando um melhor planejamento para este serviço com foco na satisfação das pessoas transportadas.
 
 \section{Objetivos}
 
@@ -147,7 +147,7 @@ O projeto será realizado \emph{in loco} e no CAA-UFPE. Assim, a aluna terá ace
 
 \section{Cronograma de atividades do estudante}
 
-Este projeto foi planejado para ser realizado durante o período de 1 ano, com início previsto para 2022/2023. As atividades descritas na metodologia estão projetadas para serem realizadas conforme cronograma apresentado na Tab. 3 :
+Este projeto foi planejado para ser realizado durante o período de 1 ano, com início previsto para 2022/2023. As atividades descritas na metodologia estão projetadas para serem realizadas conforme cronograma apresentado na Tab. 1:
 
 \begin{table}[h]
 \begin{center}
