@@ -25,17 +25,17 @@ int main()
 
     /** set values for the following parameters for defining a random problem with size <NProduct> **/
 
-    time_t source = 0;
-    unsigned int NProducts = 10000;
+    //time_t source = 0;
+    //unsigned int NProducts = 10000;
 
     /** do not change following code **/
 
-    srand((unsigned) source);
+    //srand((unsigned) source);
 
-    mpbptmp::MPBPTMP mpbptmp_problem;
+    //mpbptmp::MPBPTMP mpbptmp_problem;
 
-    mpbptmp_problem.randomMPBPTMP(NProducts);
-    mpbptmp_problem.generateLingoData();
+    //mpbptmp_problem.randomMPBPTMP(NProducts);
+    //mpbptmp_problem.generateLingoData();
     //mpbptmp_problem.MPBPTMP003(); // for using a predefined problem
     //mpbptmp_problem.print();
 
@@ -44,14 +44,14 @@ int main()
     //mpbptmp_solution.start(mpbptmp_problem);
     //mpbptmp_solution.analyticalMethod();
 
-    mpbptmp_problem.clear();
+    //mpbptmp_problem.clear();
 
     /**** Extruder planning problem ****/
 
-    /*cout << "*** creating library extruder planning problem ****" << endl;
-    cout << endl << "to be continued - debugging..." << endl;*/
+    cout << "*** creating library extruder planning problem ****" << endl;
+    cout << endl << "to be continued - debugging..." << endl;
 
-    /*ofstream file;
+    ofstream file;
 
     EPP problem;
 
@@ -88,7 +88,7 @@ int main()
     getchar();
 
     epp_solution.clear();
-    problem.clear();*/
+    problem.clear();
 
     return 0;
 }
