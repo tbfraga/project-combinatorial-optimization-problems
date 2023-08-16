@@ -91,6 +91,7 @@ namespace mmbptmp
 
         void start(problem _problem); // this function initializes solution variables
         unsigned int analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
+        vector<vector<unsigned int>> analyticalMethod(unsigned int T1); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
         void clear();
     };
 }

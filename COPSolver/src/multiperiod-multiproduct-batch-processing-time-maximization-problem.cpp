@@ -488,6 +488,11 @@ namespace mmbptmp
         return _batchProcessingTime;
     };
 
+    vector<vector<unsigned int>> solution::analyticalMethod(unsigned int T1)
+    {
+        return {{}};
+    };
+
     void solution::start(problem _problem)
     {/*
         //clear();

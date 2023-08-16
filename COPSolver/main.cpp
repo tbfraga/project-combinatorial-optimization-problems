@@ -12,12 +12,13 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 ******************************************************************************************************************************************************************************/
 
 // COPSolver (Combinatorial Optimization Problems Solver)
-// version: V01_20230731
+// version: V02_20230816
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/08/04
+// last modification: 2023/08/16
 
-#include "lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
+#include "lib/combinatorial-optimization-problem.h"
+using namespace cop;
 
 #include <unistd.h>
 #include <bits/stdc++.h>
@@ -31,6 +32,14 @@ bool proc(P problem, S solution);
 
 int main()
 {
+    cop::solver();
+    //auto f = GetElementFunctor<mbptmp::problem>(0);
+
+    // For defining a problem you can use one of the tree methods:
+    // problemDefinitionMethod = 1 - taking problem from data.txt file
+    // problemDefinitionMethod = 2 - taking a predefined problem
+    // problemDefinitionMethod = 3 - generating a random problem
+
     char cwd[PATH_MAX];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
        printf("\nCurrent working dir: %s\n", cwd);
@@ -40,17 +49,22 @@ int main()
     }
 
     string site = cwd;
-    site += "/Documents/COPSolver/data.txt";
+    site += "/COPSolver/data.txt";
 
     cout << endl << "Data file dir: " << site << endl;
 
     fstream file;
 
-    unsigned int problemType = 1;
+    unsigned int problemType;
 
     file.open(site);
     file >> problemType;
     file.close();
+
+//    combinatorial_optimization_problem COProblem;
+
+
+    getchar();
 
     switch(problemType)
     {
@@ -58,18 +72,19 @@ int main()
         {
             mbptmp::problem problem;
             mbptmp::solution solution;
-            proc(problem,solution);
+            return proc(problem,solution);
         }
         break;
         case 2:
         {
             mmbptmp::problem problem;
             mmbptmp::solution solution;
-            proc(problem,solution);
+            return proc(problem,solution);
         }
         break;
         default:
             cout << endl;
+            return 1;
     };
 }
 
@@ -170,7 +185,7 @@ bool proc(P problem, S solution)
     problem.generateLingoData();
 
     solution.start(problem);
-    solution.analyticalMethod();
+    solution.analyticalMethod(0);
 
     problem.clear();
     solution.clear();

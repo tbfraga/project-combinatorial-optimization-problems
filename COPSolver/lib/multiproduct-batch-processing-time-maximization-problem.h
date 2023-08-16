@@ -12,10 +12,10 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 ******************************************************************************************************************************************************************************/
 
 // COPSolver (Combinatorial Optimization Problems Solver)
-// version: V01_20230731
+// version: V01_20230809
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/08/04
+// last modification: 2023/08/09
 
 #ifndef MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
 #define MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
@@ -51,8 +51,6 @@ namespace mbptmp
 
         unsigned int _maxBatchProcessingTime = 0; // maximum batch processing time (min)
 
-        unsigned int _batchProcessingTime = 0; // batch processing time (min)
-
         public:
 
         void clear();
@@ -73,9 +71,10 @@ namespace mbptmp
         void MPBPTMP001();
         void MPBPTMP002();
         void MPBPTMP003();
-        void random(unsigned int problemSize);
 
         bool choose();
+
+        void random(unsigned int problemSize);
     };
 
     // class for solving a max multiproduct batch time problem
@@ -86,10 +85,20 @@ namespace mbptmp
 
         problem _problem; // MPBPTMP linked to the solution
 
+        unsigned int _batchProcessingTime = 0; // batch processing time (min)
+        vector<unsigned int> _production = {0}; // production for each product
+        vector<unsigned int> _delivered = {0}; // production delivered
+        vector<unsigned int> _deliveredToOutlets = {0}; // production delivered to outlets
+        vector<unsigned int> _stocked = {0}; // production stocked at the factory
+
+        vector<vector<unsigned int>> _solution;
+
         public:
 
         void start(problem mpbptmp_problem); // this function initializes solution variables
         unsigned int analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
+        vector<vector<unsigned int>> analyticalMethod(unsigned int T1); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
+
         void clear();
     };
 }
