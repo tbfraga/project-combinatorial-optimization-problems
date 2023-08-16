@@ -22,9 +22,6 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 #include "multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
 
-//template <typename>
-//class Problem;
-
 namespace cop
 {
     bool solver();
@@ -104,7 +101,7 @@ namespace cop
         void clear()
         {
             _problem.clear();
-        }
+        };
     };
 
     template <class P>

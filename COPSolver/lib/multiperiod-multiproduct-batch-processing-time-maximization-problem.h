@@ -84,13 +84,13 @@ namespace mmbptmp
         unsigned int _totalFreeOutletInventory; // total free outlets inventory (g)
         vector<vector<unsigned int>> _unmetDemand; // unmet demand per product per day (g)
 
+        vector<vector<unsigned int>> _solution;
 
         unsigned int _batchProcessingTime = 0; // batch processing time (min)
 
         public:
 
         void start(problem _problem); // this function initializes solution variables
-        unsigned int analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
         vector<vector<unsigned int>> analyticalMethod(unsigned int T1); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
         void clear();
     };

@@ -252,7 +252,7 @@ namespace mmbptmp
         }
 
         string site = cwd;
-        site += "/Documents/COPSolver/data.txt";
+        site += "/COPSolver/data.txt";
 
         cout << endl << "Data file dir: " << site << endl;
 
@@ -420,86 +420,31 @@ namespace mmbptmp
         _maxBatchProcessingTime = 100;*/
     };
 
-    unsigned int solution::analyticalMethod()
-    {/*
-        ofstream file;
-
-        file.open("Documents/COPSolver/output.txt");
-
-        cout << endl << "Analytical solution:" << endl;
-        file << "Analytical solution:" << endl << endl;
-
-        unsigned int aux, sum, T1, T2;
-
-        T1 = floor(_problem._demand[0]/_problem._productionRate[0]);
-
-        for(unsigned int p=1; p<_problem._NProducts; p++)
-        {
-            aux = floor(_problem._demand[p]/_problem._productionRate[p]);
-            if(aux < T1) T1 = aux;
-        }
-
-        vector<unsigned int> S;
-        S.resize(_problem._NProducts,0);
-
-        for(unsigned int p=0; p<_problem._NProducts; p++)
-        {
-            S[p] = _problem._demand[p] - T1*_problem._productionRate[p];
-        }
-
-        T2 = floor((_problem._maximumInventory[0] + _problem._maximumOutletInventory[0] + S[0])/_problem._productionRate[0]);
-
-        for(unsigned int p=1; p<_problem._NProducts; p++)
-        {
-            aux = floor((_problem._maximumInventory[p] + _problem._maximumOutletInventory[p] + S[p])/_problem._productionRate[p]);
-            if(aux < T2) T2 = aux;
-        }
-
-        aux = 0;
-        sum = 0;
-
-        for(unsigned int p=0; p<_problem._NProducts; p++)
-        {
-            aux += S[p];
-            sum += _problem._productionRate[p];
-        }
-
-        aux += _problem._totalMaximumInventory + _problem._totalMaximumOutletInventory;
-
-        aux = floor(aux/sum);
-
-        if(aux < T2) T2 = aux;
-
-        _problem._batchProcessingTime = T1 + T2;
-
-        if(_problem._batchProcessingTime > _problem._maxBatchProcessingTime) _problem._batchProcessingTime = _problem._maxBatchProcessingTime;
-
-        file << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
-        file << endl << "batch processing time: " << _problem._batchProcessingTime << endl;
-
-        cout << endl << "T': " << T1 << "\t T'': " << T2 << "\t max batch processing time: " << _problem._maxBatchProcessingTime << endl;
-        cout << endl << "batch processing time: " << _problem._batchProcessingTime << endl << endl;
-
-        S.clear();
-        file.close();
-
-        cout << endl << "info: output of analytical method is available on file Documents/COPSolver/output.txt" << endl;
-*/
-        return _batchProcessingTime;
-    };
-
     vector<vector<unsigned int>> solution::analyticalMethod(unsigned int T1)
     {
-        return {{}};
+        mbptmp::problem _mbptmp;
+        mbptmp::solution _mbptms;
+
+        vector<unsigned int> demand = {};
+        vector<unsigned int> maximumInventory = {};
+        unsigned int totalMaximumInventory = 0;
+        vector<unsigned int> maximumOutletInventory = {};
+        unsigned int totalMaximumOutletInventory = 0;
+        unsigned int maxBatchProcessingTime = 0;
+
+        // calculate _mbptmp problem
+
+        _mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
+
+        _mbptms.start(_mbptmp);
+        _solution = _mbptms.analyticalMethod(0);
+        return _solution;
     };
 
-    void solution::start(problem _problem)
-    {/*
-        //clear();
-
+    void solution::start(problem _mmbptmp)
+    {
         _problem.clear();
-        _problem = mpbptmp_problem; // linking solution to the problem
-*/
+        _problem = _mmbptmp; // linking solution to the problem
     };
 
     void solution::clear()
