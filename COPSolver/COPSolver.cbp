@@ -31,8 +31,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="lib/combinatorial-optimization-problem.h" />
+		<Unit filename="lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h" />
 		<Unit filename="lib/multiproduct-batch-processing-time-maximization-problem.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/combinatorial-optimization-problem.cpp" />
+		<Unit filename="src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp" />
 		<Unit filename="src/multiproduct-batch-processing-time-maximization-problem.cpp" />
 		<Extensions />
 	</Project>

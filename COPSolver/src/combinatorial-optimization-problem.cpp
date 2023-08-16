@@ -37,158 +37,130 @@ namespace cop
         cout << "repository: github.com/tbfraga/COPSolver" << endl;
 
         cout << endl << "Please, resize the window (if needed) and press enter." << endl;
+        cout << endl << "You can stop solver anytime pressing 0." << endl;
         getchar();
 
         unsigned int _problemDefinitionMethod;
 
-        do
-        {
-            cout << endl << "Please select the problem definition method." << endl;
-            cout << endl << "choose:" << endl << endl;
-            cout << "1 for taking the problem from data.txt file;" << endl;
-            cout << "2 for using a predefined problem;" << endl;
-            cout << "3 for generating a random problem; " << endl;
-            cout << "0 if you want to stop the solver." << endl;
-
-            cout << endl << "digite option and then press enter: ";
-            cin >> _problemDefinitionMethod;
-
-            if(_problemDefinitionMethod > 3)
-            {
-                cout << endl << endl << "atention: please digite 0, 1, 2 or 3 !!!" << endl;
-            }
-        }while(_problemDefinitionMethod > 3);
-
-        unsigned int _problemType;
-
-        if(_problemDefinitionMethod == 0)
-        {
-            cout << endl << "Thanks for using COPSolver !!!";
-            cout << endl << "See you..." << endl;
-
-            cout << endl << "Press enter for closing this window." << endl;
-            getchar();
-            return 0;
-        } else if(_problemDefinitionMethod == 1)
-        {
-            char cwd[PATH_MAX];
-            if (getcwd(cwd, sizeof(cwd)) != NULL)
-            {
-                printf("\nCurrent working dir: %s\n", cwd);
-            } else {
-                perror("getcwd() error");
-                return 1;
-            }
-
-            string site = cwd;
-            site += "/COPSolver/data.txt";
-
-            cout << endl << "Data file dir: " << site << endl;
-
-            fstream file;
-
-            file.open(site);
-            file >> _problemType;
-            file.close();
-        } else if(_problemDefinitionMethod == 2 || _problemDefinitionMethod == 3)
-        {
+        do{
             do
             {
-                cout << endl << "Please select the problem type" << endl;
+                cout << endl << "Please select the problem definition method." << endl;
                 cout << endl << "choose:" << endl << endl;
-                cout << "1 for Multi-product batch processing time maximization;" << endl;
-                cout << "2 for Multi-period and multi-product batch processing time maximization;" << endl;
+                cout << "1 for taking the problem from data.txt file;" << endl;
+                cout << "2 for using a predefined problem;" << endl;
+                cout << "3 for generating a random problem; " << endl;
                 cout << "0 if you want to stop the solver." << endl;
 
                 cout << endl << "digite option and then press enter: ";
-                cin >> _problemType;
+                cin >> _problemDefinitionMethod;
 
-                if(_problemType > 2)
+                if(_problemDefinitionMethod > 3)
                 {
-                    cout << endl << endl << "atention: please digite 0, 1 or 2 !!!" << endl;
+                    cout << endl << endl << "atention: please digite 0, 1, 2 or 3 !!!" << endl;
                 }
-            }while(_problemType > 2);
-        }
+            }while(_problemDefinitionMethod > 3);
 
-        switch(_problemType)
-        {
-            case 1:
+            unsigned int _problemType;
+
+            if(_problemDefinitionMethod == 0)
             {
-                problem<mbptmp::problem> _problem;
-                _problem.get();
-                _problem.print();
-                _problem.generateLingoData();
+                cout << endl << "Thanks for using COPSolver !!!";
+                cout << endl << "See you..." << endl;
 
-                solution<mbptmp::problem, mbptmp::solution> _solution;
-
-                _solution.start(_problem);
-                _solution.analyticalMethod();
-
-                //_problem.clear();
-                //_solution.clear();
-
-    cout << endl << "Thanks for using COPSolver !!!";
-    cout << endl << "See you..." << endl;
-
-    cout << endl << "Press enter for closing this window." << endl << endl;
-            }
-            break;
-            case 2:
+                cout << endl << "Press enter for closing this window." << endl;
+                getchar();
+                return 0;
+            } else if(_problemDefinitionMethod == 1)
             {
-                mmbptmp::problem problem;
-                mmbptmp::solution solution;
+                char cwd[PATH_MAX];
+                if (getcwd(cwd, sizeof(cwd)) != NULL)
+                {
+                    printf("\nCurrent working dir: %s\n", cwd);
+                } else {
+                    perror("getcwd() error");
+                    return 1;
+                }
+
+                string site = cwd;
+                site += "/COPSolver/data.txt";
+
+                cout << endl << "Data file dir: " << site << endl;
+
+                fstream file;
+
+                file.open(site);
+                file >> _problemType;
+                file.close();
+            } else if(_problemDefinitionMethod == 2 || _problemDefinitionMethod == 3)
+            {
+                do
+                {
+                    cout << endl << "Please select the problem type" << endl;
+                    cout << endl << "choose:" << endl << endl;
+                    cout << "1 for Multi-product batch processing time maximization;" << endl;
+                    cout << "2 for Multi-period and multi-product batch processing time maximization;" << endl;
+                    cout << "0 if you want to stop the solver." << endl;
+
+                    cout << endl << "digite option and then press enter: ";
+                    cin >> _problemType;
+
+                    if(_problemType > 2)
+                    {
+                        cout << endl << endl << "atention: please digite 0, 1 or 2 !!!" << endl;
+                    }
+                }while(_problemType > 2);
             }
-            break;
-            default:
-                cout << endl;
-                return 1;
-        };
+
+            switch(_problemType)
+            {
+                case 1:
+                {
+                    problem<mbptmp::problem> _problem;
+                    _problem.set_PDM(_problemDefinitionMethod);
+                    _problem.get();
+                    _problem.print();
+                    _problem.generateLingoData();
+
+                    solution<mbptmp::problem, mbptmp::solution> _solution;
+
+                    _solution.start(_problem);
+                    _solution.analyticalMethod();
+
+                    _problem.clear();
+                    _solution.clear();
+                }
+                break;
+                case 2:
+                {
+                    problem<mmbptmp::problem> _problem;
+                    _problem.set_PDM(_problemDefinitionMethod);
+                    _problem.get();
+                    _problem.print();
+                    _problem.generateLingoData();
+
+                    solution<mmbptmp::problem, mmbptmp::solution> _solution;
+
+                    _solution.start(_problem);
+                    _solution.analyticalMethod();
+
+                    _problem.clear();
+                    _solution.clear();
+
+                }
+                break;
+                default:
+                    cout << endl;
+                    return 1;
+            };
+
+        }while(_problemDefinitionMethod != 0);
+
+        cout << endl << "Thanks for using COPSolver !!!";
+        cout << endl << "See you..." << endl;
+
+        cout << endl << "Press enter for closing this window." << endl << endl;
 
         return 0;
     }
-/*    bool combinatorial_optimization_problem::start()
-    {
-
-
-
-
-
-
-        return 0;
-    };
-
-    bool combinatorial_optimization_problem::get()
-    {
-        unsigned int problemDefinitionMethod;
-
-
-
-
-
-
-        if(problemDefinitionMethod == 1)
-        {
-            //problem.get();
-        } else if(problemDefinitionMethod == 2)
-        {
-            //if (problem.choose() == 1) return 1;
-        } else if(problemDefinitionMethod == 3)
-        {
-            time_t source = 0;
-            unsigned int NProducts = 10;
-
-            cout << endl << "Please informe the source for random generation (interger value)." << endl;
-            cout << endl << "digite option and then press enter: ";
-            cin >> source;
-
-            cout << endl << "Please informe number of products for random generation (interger value)." << endl;
-            cout << endl << "digite option and then press enter: ";
-            cin >> NProducts;
-
-            srand((unsigned) source);
-            //problem.random(NProducts);
-        }
-
-        return 0;
-    };*/
 }

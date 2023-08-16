@@ -28,20 +28,6 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 namespace cop
 {
     bool solver();
-   /* template <typename problem>
-    struct GetElementFunctor
-    {
-        using problemType = typename problem::problemType;
-
-        GetElementFunctor(problem const& c) : c_(c) {}
-
-        problemType const& getNthElement(std::size_t n) const
-        {
-            return reinterpret_cast<std::vector<problemType> const*>(&c_)->operator[](n);
-        }
-
-        problem const& c_;
-    };*/
 
     template <class problem>
     class combinatorial_optimization_problem
@@ -59,14 +45,50 @@ namespace cop
         // 1 - Multi-product batch processing time maximization problem
         // 2 - Multi-period and multi-product batch processing time maximization problem
 
-
         public:
 
-        bool start();
+        void set_PDM(unsigned int problemDefinitionMethod)
+        {
+            _problemDefinitionMethod = problemDefinitionMethod;
+        };
 
         bool get()
         {
-            return _problem.get();
+            switch(_problemDefinitionMethod)
+            {
+                case 1:
+                {
+                    return _problem.get();
+                }
+                break;
+                case 2:
+                {
+                    if (_problem.choose() == 1) return 1;
+                    return 0;
+                }
+                break;
+                case 3:
+                {
+                    time_t source = 0;
+                    unsigned int NProducts = 10;
+
+                    cout << endl << "Please informe the source for random generation (interger value)." << endl;
+                    cout << endl << "digite option and then press enter: ";
+                    cin >> source;
+
+                    cout << endl << "Please informe number of products for random generation (interger value)." << endl;
+                    cout << endl << "digite option and then press enter: ";
+                    cin >> NProducts;
+
+                    srand((unsigned) source);
+                    _problem.random(NProducts);
+                    return 0;
+                }
+                break;
+                default:
+                    cout << endl;
+                    return 1;
+            };
         };
 
         bool print()
@@ -115,18 +137,5 @@ namespace cop
         }
     };
 }
-
-/*bool func()
-{
-    return 0;
-};*/
-
-/*namespace cop
-{
-    class combinatorialOptimizationProblem
-    {
-        mbptmp::problem problem; // MPBPTMP linked to the solution
-    };
-}*/
 
 #endif // COMBINATORIAL_OPTIMIZATION_PROBLEM_H_INCLUDED

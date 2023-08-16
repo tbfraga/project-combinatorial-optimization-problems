@@ -51,7 +51,7 @@ namespace mmbptmp
 
         void clear();
         bool print();
-        void generateLingoData();
+        bool generateLingoData();
 
         bool get();
         bool choose();

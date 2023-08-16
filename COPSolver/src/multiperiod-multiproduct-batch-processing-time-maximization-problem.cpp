@@ -130,7 +130,7 @@ namespace mmbptmp
         return 0;
     };
 
-    void multiperiodMultiproductBatchProcessingTimeMaximizationProblem::generateLingoData()
+    bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::generateLingoData()
     {/*
         cout << endl << "head: generating LINGO data..." << endl;
         ofstream file;
