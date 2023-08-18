@@ -19,7 +19,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 #include "../lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
 
-namespace mmbptmp
+namespace mmbptm
 {
     void multiperiodMultiproductBatchProcessingTimeMaximizationProblem::clear()
     {
@@ -31,7 +31,11 @@ namespace mmbptmp
         }
         _demand.clear();
 
-        _maximumInventory.clear();
+        for(unsigned int p=0; p<_planned.size(); p++)
+        {
+            _planned[p].clear();
+        }
+        _planned.clear();
 
         for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
         {
@@ -40,6 +44,8 @@ namespace mmbptmp
         _maximumOutletInventory.clear();
 
         _totalMaximumOutletInventory.clear();
+
+        _maximumInventory.clear();
     };
 
     bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::print()
@@ -237,6 +243,8 @@ namespace mmbptmp
         cout << endl << "info: data.ldt (input for LINGO application) is available on Documents/COPSolver/LINGOSolver/MPBPTMP/data.ldt" << endl;
 
         file.close();*/
+
+        return 0;
     };
 
     bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::get()
@@ -319,12 +327,6 @@ namespace mmbptmp
 
         return 0;
     };
-
-    bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::choose()
-    {
-        return 0;
-    };
-
     void multiperiodMultiproductBatchProcessingTimeMaximizationProblem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
                                                                  unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory,
                                                                  unsigned int maxBatchProcessingTime)
@@ -341,56 +343,62 @@ namespace mmbptmp
         _maxBatchProcessingTime = maxBatchProcessingTime;*/
     };
 
-    /*void MPBPTMP::MPBPTMP001()
+    void problem::MMBPTM_02()
     {
         /**************************************************************************************************************************
         Small problem developed to test the solver.
         **************************************************************************************************************************/
-         /*clear();
+         clear();
 
         _NProducts = 2;
+        _NDays = 2;
+        _NOutlets = 1;
         _productionRate = {60,40};
-        _demand = {1000,500};
-        _maximumOutletInventory = {600,600};
-        _totalMaximumOutletInventory = 1000;
+        _demand = {{1000,500},{500,300}};
+        _planned = {{1000,0},{0,1500}};
+        _maximumOutletInventory = {{600,600}};
+        _totalMaximumOutletInventory = {1000};
         _maximumInventory = {3000,2000};
         _totalMaximumInventory = 3000;
         _maxBatchProcessingTime = 100;
     };
 
-    void MPBPTMP::MPBPTMP002()
+    bool problem::choose()
     {
-        /**************************************************************************************************************************
-        Small problem developed to test the solver.
-        **************************************************************************************************************************/
-         /*clear();
+        unsigned int preDefProblem;
 
-        _NProducts = 3;
-        _productionRate = {60,40,50};
-        _demand = {1000,500,800};
-         _maximumOutletInventory = {600,600,600};
-        _totalMaximumOutletInventory = 1500;
-        _maximumInventory = {3000,2000,1000};
-        _totalMaximumInventory = 3500;
-        _maxBatchProcessingTime = 100;
+        do
+        {
+            cout << endl << "Please select the predefined problem." << endl;
+            cout << endl << "choose:" << endl << endl;
+            cout << "1 for taking the MMBPTM_02;" << endl;
+            cout << "0 if you want to stop the solver." << endl;
+
+            cout << endl << "digite option and then tecle enter: ";
+            cin >> preDefProblem;
+
+            if(preDefProblem > 1)
+            {
+                cout << endl << endl << "atention: please digite 0 or 1 !!!" << endl;
+            }
+
+        }while(preDefProblem > 1);
+
+        if(preDefProblem == 1)
+        {
+            MMBPTM_02();
+        } else if(preDefProblem == 0)
+        {
+            cout << endl << "Thanks for using COPSolver !!!";
+            cout << endl << "See you..." << endl;
+
+            cout << endl << "Press enter for closing this window." << endl;
+            getchar();
+            return 1;
+        }
+        return 0;
     };
 
-    void MPBPTMP::MPBPTMP003()
-    {
-        /**************************************************************************************************************************
-        Small problem developed to test the solver.
-        **************************************************************************************************************************/
-        /*clear();
-
-        _NProducts = 10;
-        _productionRate = {60,40,50,40,30,50,60,10,20,40};
-        _demand = {1000,500,800,500,400,500,2000,300,500,1000};
-         _maximumOutletInventory = {600,600,600,1500,300,200,500,800,0,200};
-        _totalMaximumOutletInventory = 3000;
-        _maximumInventory = {3000,2000,1000,800,3000,1000,400,300,200,0};
-        _totalMaximumInventory = 5000;
-        _maxBatchProcessingTime = 100;
-    };*/
 
     void problem::random(unsigned int problemSize)
     {/*
@@ -422,29 +430,37 @@ namespace mmbptmp
 
     vector<vector<unsigned int>> solution::analyticalMethod(unsigned int T1)
     {
-        mbptmp::problem _mbptmp;
-        mbptmp::solution _mbptms;
+        mbptmp::problem mbptmp;
+        mbptmp::solution mbptms;
 
         vector<unsigned int> demand = {};
-        vector<unsigned int> maximumInventory = {};
-        unsigned int totalMaximumInventory = 0;
         vector<unsigned int> maximumOutletInventory = {};
         unsigned int totalMaximumOutletInventory = 0;
+        vector<unsigned int> maximumInventory = {};
+        unsigned int totalMaximumInventory = 0;
         unsigned int maxBatchProcessingTime = 0;
 
-        // calculate _mbptmp problem
+        // calculate mbptm problem
 
-        _mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
+        mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
 
-        _mbptms.start(_mbptmp);
-        _solution = _mbptms.analyticalMethod(0);
+        // solve mbptm problem
+
+        mbptms.start(mbptmp);
+        _solution = mbptms.analyticalMethod(0);
+
+
+        demand.clear();
+        maximumOutletInventory.clear();
+        maximumInventory.clear();
+
         return _solution;
     };
 
-    void solution::start(problem _mmbptmp)
+    void solution::start(problem mmbptmp)
     {
         _problem.clear();
-        _problem = _mmbptmp; // linking solution to the problem
+        _problem = mmbptmp; // linking solution to the problem
     };
 
     void solution::clear()

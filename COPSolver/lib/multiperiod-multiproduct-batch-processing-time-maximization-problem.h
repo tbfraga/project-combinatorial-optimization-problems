@@ -22,7 +22,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 #include "multiproduct-batch-processing-time-maximization-problem.h"
 
-namespace mmbptmp
+namespace mmbptm
 {
     class multiperiodMultiproductBatchProcessingTimeMaximizationProblem
     {
@@ -31,19 +31,20 @@ namespace mmbptmp
         protected:
 
         unsigned int _NProducts = 0; // number of products
+        unsigned int _NDays = 0; // number of days
+        unsigned int _NOutlets = 0; // number of outlets
 
         vector<float> _productionRate = {0}; // weight ratio per product (g/m^2)
-        vector<unsigned int> _maximumInventory = {0}; // maximum inventory at factory per product (g)
-        unsigned int _totalMaximumInventory = 0; // total maximum inventory at factory (g)
-
-        unsigned int _NDays = 0; // number of products
 
         vector<vector<unsigned int>> _demand = {{0}}; // demand per product per day (g)
 
-        unsigned int _NOutlets = 0; // number of outlets
+        vector<vector<unsigned int>> _planned = {{0}}; // planned production per product per day (g)
 
         vector<vector<unsigned int>> _maximumOutletInventory = {{0}}; // maximum outlet inventory per product per outlet (g)
         vector<unsigned int> _totalMaximumOutletInventory = {0}; // total maximum outlet inventory per outlet (g)
+
+        vector<unsigned int> _maximumInventory = {0}; // maximum inventory at factory per product (g)
+        unsigned int _totalMaximumInventory = 0; // total maximum inventory at factory (g)
 
         unsigned int _maxBatchProcessingTime = 0; // maximum batch processing time (min)
 
@@ -54,7 +55,6 @@ namespace mmbptmp
         bool generateLingoData();
 
         bool get();
-        bool choose();
         void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
                 vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);
     };
@@ -65,10 +65,9 @@ namespace mmbptmp
     {
         public:
 
-        //void MPBPTMP001();
-        //void MPBPTMP002();
-        //void MPBPTMP003();
+        void MMBPTM_02();
         void random(unsigned int problemSize);
+        bool choose();
     };
 
     // class for solving a max multiproduct batch time problem

@@ -1,6 +1,6 @@
 Analytical solution:
 
-starting time (s): 08/16/23 16:50:02.530383774 UTC
+starting time (s): 08/18/23 13:33:55.719368511 UTC
 
 T': 0	 T'': 55	 max batch processing time: 100
 
@@ -38,6 +38,6 @@ I0 = 1900
 O1 = 400
 I1 = 1300
 
-finishing time (s): 08/16/23 16:50:02.530533616 UTC
+finishing time (s): 08/18/23 13:33:55.719549644 UTC
 
-execution time (s): 0.000149842
+execution time (s): 0.000181133

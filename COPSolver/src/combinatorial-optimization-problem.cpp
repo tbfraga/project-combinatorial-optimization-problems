@@ -133,13 +133,13 @@ namespace cop
                 break;
                 case 2:
                 {
-                    problem<mmbptmp::problem> _problem;
+                    problem<mmbptm::problem> _problem;
                     _problem.set_PDM(_problemDefinitionMethod);
                     _problem.get();
                     _problem.print();
                     _problem.generateLingoData();
 
-                    solution<mmbptmp::problem, mmbptmp::solution> _solution;
+                    solution<mmbptm::problem, mmbptm::solution> _solution;
 
                     _solution.start(_problem);
                     _solution.analyticalMethod();
