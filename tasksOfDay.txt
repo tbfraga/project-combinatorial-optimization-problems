@@ -1,0 +1,7 @@
+starting a working day 18/08/2023 - tasks of day
+
+- continue developing COPSolver V02 - multi-períod and multi-product batch processing time maximization problem (try to finish it);
+- make benchmarks and perform some tests;
+- continue developing the corresponding paper;
+- verify paper review progress;
+- adv pf.
