@@ -61,7 +61,7 @@ namespace mmbptm
         }
 
         string site = cwd;
-        site += "/Documents/COPSolver/problem.txt";
+        site += "/Documents/COPSolver/mmbptmp.txt";
 
         ofstream file;
 
@@ -356,7 +356,7 @@ namespace mmbptm
         _productionRate = {60,40};
         _demand = {{1000,500},{500,300}};
         _planned = {{1000,0},{0,1500}};
-        _maximumOutletInventory = {{600,600}};
+        _maximumOutletInventory = {{600},{600}};
         _totalMaximumOutletInventory = {1000};
         _maximumInventory = {3000,2000};
         _totalMaximumInventory = 3000;
@@ -428,22 +428,17 @@ namespace mmbptm
         _maxBatchProcessingTime = 100;*/
     };
 
-    vector<vector<unsigned int>> solution::analyticalMethod(unsigned int T1)
+    vector<vector<unsigned int>> solution::analyticalMethod()
     {
-        mbptm::problem mbptmp;
-        mbptm::solution mbptms;
-
         unsigned int totalMaximumOutletInventory;
         vector<int> totalMaximumInventory = {};
 
         vector<unsigned int> demand = {};
         vector<vector<unsigned int>> delivered = {{}};
-        vector<vector<unsigned int>> maximumInventory = {{}};
+        vector<vector<int>> maximumInventory = {{}};
         vector<vector<unsigned int>> deliverToOutlet = {{}};
 
         vector<unsigned int> maximumOutletInventory = {};
-
-        unsigned int maxBatchProcessingTime = 0;
 
         // algorithm 1 - distributing planned production
 
@@ -464,7 +459,8 @@ namespace mmbptm
 
         maximumOutletInventory.resize(_problem._NProducts,0);
 
-        unsigned int available, unmet, aux;
+        unsigned int available, unmet;
+        unsigned int aux, aux2;
 
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
@@ -590,25 +586,48 @@ namespace mmbptm
 
         for(unsigned int p=0; p<_problem._NProducts; p++)
         {
-           // _mbptmp.maximumInventory();
+           aux = maximumInventory[p][0];
+           for(unsigned int d=1; d<_problem._NDays; d++)
+           {
+                aux2 = maximumInventory[p][d];
+                aux = min(aux, aux2);
+           }
+
+           _mbptmp.maximumInventory(aux,p);
         }
 
-        // solve mbptm problem
+        aux = totalMaximumInventory[0];
+        for(unsigned int d=1; d<_problem._NDays; d++)
+        {
+            aux2 = totalMaximumInventory[d];
+            aux = min(aux, aux2);
+        }
 
-        mbptms.start(mbptmp);
-        _solution = mbptms.analyticalMethod(0);
+        _mbptmp.totalMaximumInventory(aux);
 
-        totalMaximumInventory.clear();
+        _mbptmp.maximumOutletInventory(maximumOutletInventory);
+        _mbptmp.totalMaximumOutletInventory(totalMaximumOutletInventory);
+        _mbptmp.maxBatchProcessingTime(_problem._maxBatchProcessingTime);
+
+        // solving mbptm problem
+
+        _mbptms.start(_mbptmp);
+        _solution = _mbptms.analyticalMethod(0);
+
+        // clearing vectors
 
         for(unsigned int p=0; p<_problem._NProducts; p++)
         {
             delivered[p].clear();
+            deliverToOutlet[p].clear();
             maximumInventory[p].clear();
         }
+        demand.clear();
         delivered.clear();
-        maximumInventory.clear();
-
+        deliverToOutlet.clear();
         maximumOutletInventory.clear();
+        maximumInventory.clear();
+        totalMaximumInventory.clear();
 
         return _solution;
     };

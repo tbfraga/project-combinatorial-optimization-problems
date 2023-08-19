@@ -125,7 +125,7 @@ namespace cop
 
         void analyticalMethod()
         {
-            _solution.analyticalMethod(0);
+            _solution.analyticalMethod();
         }
 
         void clear()

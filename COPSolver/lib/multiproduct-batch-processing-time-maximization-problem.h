@@ -67,6 +67,10 @@ namespace mbptm
         void maximumInventory(vector<unsigned int> maximumInventory) {_maximumInventory = maximumInventory;};
         void maximumInventory(unsigned int maximumInventory, unsigned int p) {_maximumInventory[p] = maximumInventory;};
         void maximumInventory_resize(unsigned int NProducts){_maximumInventory.resize(NProducts,0);};
+        void totalMaximumInventory(unsigned int totalMaximumInventory) {_totalMaximumInventory = totalMaximumInventory;};
+        void maximumOutletInventory(vector<unsigned int> maximumOutletInventory) {_maximumOutletInventory = maximumOutletInventory;};
+        void totalMaximumOutletInventory(unsigned int totalMaximumOutletInventory) {_totalMaximumOutletInventory = totalMaximumOutletInventory;};
+        void maxBatchProcessingTime(unsigned int maxBatchProcessingTime) {_maxBatchProcessingTime = maxBatchProcessingTime;};
     };
 
     // class for creating instances of max multiproduct batch time problem

@@ -135,12 +135,12 @@ namespace cop
                 {
                     problem<mmbptm::problem> _problem;
                     _problem.set_PDM(_problemDefinitionMethod);
+
                     _problem.get();
                     _problem.print();
                     _problem.generateLingoData();
 
                     solution<mmbptm::problem, mmbptm::solution> _solution;
-
                     _solution.start(_problem);
                     _solution.analyticalMethod();
 

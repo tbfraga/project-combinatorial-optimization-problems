@@ -1,3 +1,43 @@
 Analytical solution:
 
-starting time (s): 08/19/23 09:52:32.38700162 UTC
+starting time (s): 08/19/23 18:39:03.91044868 UTC
+
+T': 0	 T'': 33	 max batch processing time: 100
+
+batch processing time: 33
+
+Production:
+
+P0 = 1980
+P1 = 1320
+
+Delivered:
+
+D0 = 0
+D1 = 500
+
+Delivered to outlets:
+
+O0 = 600
+O1 = 600
+
+Leftover inventory in outlets: -200
+
+Stocked at factory:
+
+I0 = 1380
+I1 = 220
+
+Leftover inventory in factory: 200
+
+
+Adjusting production distribution:
+
+O0 = 400
+I0 = 1580
+O1 = 400
+I1 = 420
+
+finishing time (s): 08/19/23 18:39:03.91216626 UTC
+
+execution time (s): 0.000171758
