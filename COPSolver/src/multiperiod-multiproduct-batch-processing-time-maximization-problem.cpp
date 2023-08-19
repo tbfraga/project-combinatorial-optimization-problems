@@ -493,7 +493,7 @@ namespace mmbptm
                 {
                     delivered[p].resize(_problem._NDays);
                     maximumInventory[p].resize(_problem._NDays);
-                    deliverToOutlet[p].resize(_problem._NDays);
+                    deliverToOutlet[p].resize(_problem._NDays,0);
 
                     maximumOutletInventory[p] = 0;
                     for(unsigned int o=0; o<_problem._NOutlets; o++)
@@ -533,7 +533,7 @@ namespace mmbptm
             }
         }
 
-        // algorithm 2 - adjustment for atteining feasiability
+        // algorithm 2 - adjusting planned production distribution for atteining feasiability
 
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
@@ -541,12 +541,25 @@ namespace mmbptm
             {
                 for(unsigned int p=0; p<_problem._NProducts; p++)
                 {
-                    if(maximumOutletInventory[p] > abs(totalMaximumInventory[d]))
+                    unmet = abs(totalMaximumInventory[d]);
+                    deliverToOutlet[p][d] += min(maximumOutletInventory[p], unmet);
+                    maximumOutletInventory[p] -= min(maximumOutletInventory[p], abs(totalMaximumInventory[d]));
+                    totalMaximumOutletInventory -= min(maximumOutletInventory[p], abs(totalMaximumInventory[d]));
+
+                    for(unsigned int k=d; k<_problem._NDays; k++)
                     {
+                        maximumInventory[p][d] += min(maximumOutletInventory[p], abs(totalMaximumInventory[d]);
+                        totalMaximumInventory[d] += min(maximumOutletInventory[p], abs(totalMaximumInventory[d]);
                     }
+
+                    if(totalMaximumInventory[d] == 0) break;
                 }
             }
         }
+
+        // algorithm 3 - creating a MBPTM problem
+
+
 
         // calculate mbptm problem
 
