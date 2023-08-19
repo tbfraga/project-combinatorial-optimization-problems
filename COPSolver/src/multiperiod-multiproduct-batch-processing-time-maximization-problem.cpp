@@ -433,26 +433,141 @@ namespace mmbptm
         mbptmp::problem mbptmp;
         mbptmp::solution mbptms;
 
-        vector<unsigned int> demand = {};
+        unsigned int totalMaximumOutletInventory;
+        vector<int> totalMaximumInventory = {};
+        vector<vector<unsigned int>> delivered = {{}};
+        vector<vector<unsigned int>> maximumInventory = {{}};
+        vector<vector<unsigned int>> deliverToOutlet = {{}};
+
         vector<unsigned int> maximumOutletInventory = {};
-        unsigned int totalMaximumOutletInventory = 0;
-        vector<unsigned int> maximumInventory = {};
-        unsigned int totalMaximumInventory = 0;
+
         unsigned int maxBatchProcessingTime = 0;
+
+        // algorithm 1 - distributing planned production
+
+        totalMaximumInventory.resize(_problem._NDays,0);
+        totalMaximumInventory[0] = _problem._totalMaximumInventory;
+
+        totalMaximumOutletInventory = 0;
+
+        for(unsigned int o=0; o<_problem._NOutlets; o++)
+        {
+            totalMaximumOutletInventory += _problem._totalMaximumOutletInventory[o];
+        }
+
+        delivered.resize(_problem._NProducts);
+        maximumInventory.resize(_problem._NProducts);
+        deliverToOutlet.resize(_problem._NProducts);
+
+        maximumOutletInventory.resize(_problem._NProducts,0);
+
+        unsigned int available, unmet;
+
+        for(unsigned int d=0; d<_problem._NDays; d++)
+        {
+            if(d==0)
+            {
+                totalMaximumInventory[d] = _problem._totalMaximumInventory;
+            } else
+            {
+                totalMaximumInventory[d] = totalMaximumInventory[d-1];
+            }
+
+            for(unsigned int p=0; p<_problem._NProducts; p++)
+            {
+                available =  _problem._planned[p][d];
+
+                for(unsigned int k=0; k<d; k++)
+                {
+                    available += _problem._planned[p][k] - delivered[p][k] - deliverToOutlet[p][k];
+                }
+
+                unmet = _problem._demand[p][d];
+
+                for(unsigned int k=0; k<d; k++)
+                {
+                    unmet += _problem._demand[p][d] - delivered[p][k];
+                }
+
+                if(d==0)
+                {
+                    delivered[p].resize(_problem._NDays);
+                    maximumInventory[p].resize(_problem._NDays);
+                    deliverToOutlet[p].resize(_problem._NDays);
+
+                    maximumOutletInventory[p] = 0;
+                    for(unsigned int o=0; o<_problem._NOutlets; o++)
+                    {
+                        maximumOutletInventory[p] += _problem._maximumOutletInventory[p][o];
+                    }
+                }
+
+                delivered[p][d] = min(available,unmet);
+
+                if(d==0)
+                {
+                    maximumInventory[p][d] = _problem._maximumInventory[p];
+                } else
+                {
+                    maximumInventory[p][d] = maximumInventory[p][d-1];
+                }
+
+                maximumInventory[p][d] += delivered[p][d] - _problem._planned[p][d];
+                totalMaximumInventory[d] += delivered[p][d] - _problem._planned[p][d];
+
+                if(maximumInventory[p][d] < 0)
+                {
+                    deliverToOutlet[p][d] = -maximumInventory[p][d];
+                    maximumOutletInventory[p] -= deliverToOutlet[p][d];
+                    totalMaximumOutletInventory -= deliverToOutlet[p][d];
+                    totalMaximumInventory[d] += deliverToOutlet[p][d];
+                    maximumInventory[p][d] = 0;
+
+                    if(maximumOutletInventory[p] < 0 || totalMaximumOutletInventory < 0)
+                    {
+                        cout << endl << "error: planned production is not feasible !!!" << endl;
+                        getchar();
+                        return {{}};
+                    }
+                }
+            }
+        }
+
+        // algorithm 2 - adjustment for atteining feasiability
+
+        for(unsigned int d=0; d<_problem._NDays; d++)
+        {
+            if(totalMaximumInventory[d] < 0)
+            {
+                for(unsigned int p=0; p<_problem._NProducts; p++)
+                {
+                    if(maximumOutletInventory[p] > abs(totalMaximumInventory[d]))
+                    {
+                    }
+                }
+            }
+        }
 
         // calculate mbptm problem
 
-        mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
+//        mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
 
         // solve mbptm problem
 
         mbptms.start(mbptmp);
         _solution = mbptms.analyticalMethod(0);
 
+        totalMaximumInventory.clear();
 
-        demand.clear();
-        maximumOutletInventory.clear();
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            delivered[p].clear();
+            maximumInventory[p].clear();
+        }
+        delivered.clear();
         maximumInventory.clear();
+
+        maximumOutletInventory.clear();
 
         return _solution;
     };

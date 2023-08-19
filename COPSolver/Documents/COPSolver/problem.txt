@@ -1,25 +1,32 @@
-Multi-product batch processing time maximization problem 
+Multi-period and multi-product batch processing time maximization problem 
 
 products: 2
 
 production rate:
 
- 60	  40	 
+ 60	  40
+
+maximum factory inventory:
+
+3000	 2000
+
+total maximum factory inventory: 3000
+
+days: 2
 
 demand:
 
-1000	  500	 
+1000	  500
+ 500	  300
 
-total outlets maximum inventory: 1000
+outlets: 1
 
-outlets maximum inventory:
+maximum outlets inventory
 
- 600	  600	 
+ 600	  600
 
-total fatctory maximum inventory: 3000
+total maximum outlets inventory:
 
-fatctory maximum inventory:
-
-3000	 2000	 
+1000
 
 maximum batch processing time: 100
