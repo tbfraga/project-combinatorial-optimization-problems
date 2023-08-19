@@ -543,13 +543,13 @@ namespace mmbptm
                 {
                     unmet = abs(totalMaximumInventory[d]);
                     deliverToOutlet[p][d] += min(maximumOutletInventory[p], unmet);
-                    maximumOutletInventory[p] -= min(maximumOutletInventory[p], abs(totalMaximumInventory[d]));
-                    totalMaximumOutletInventory -= min(maximumOutletInventory[p], abs(totalMaximumInventory[d]));
+                    maximumOutletInventory[p] -= min(maximumOutletInventory[p], unmet);
+                    totalMaximumOutletInventory -= min(maximumOutletInventory[p], unmet);
 
                     for(unsigned int k=d; k<_problem._NDays; k++)
                     {
-                        maximumInventory[p][d] += min(maximumOutletInventory[p], abs(totalMaximumInventory[d]);
-                        totalMaximumInventory[d] += min(maximumOutletInventory[p], abs(totalMaximumInventory[d]);
+                        maximumInventory[p][d] += min(maximumOutletInventory[p], unmet);
+                        totalMaximumInventory[d] += min(maximumOutletInventory[p], unmet);
                     }
 
                     if(totalMaximumInventory[d] == 0) break;
