@@ -19,7 +19,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 #include "../lib/multiproduct-batch-processing-time-maximization-problem.h"
 
-namespace mbptmp
+namespace mbptm
 {
     void multiproductBatchProcessingTimeMaximizationProblem::clear()
     {

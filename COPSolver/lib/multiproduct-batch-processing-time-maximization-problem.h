@@ -15,7 +15,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 // version: V01_20230809
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/08/09
+// last modification: 2023/08/19
 
 #ifndef MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
 #define MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
@@ -30,7 +30,7 @@ using namespace std;
 
 #include<math.h>
 
-namespace mbptmp
+namespace mbptm
 {
     class multiproductBatchProcessingTimeMaximizationProblem
     {
@@ -60,6 +60,13 @@ namespace mbptmp
         bool get();
         void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
                  vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);
+
+        void NProducts(unsigned int NProducts) {_NProducts = NProducts;};
+        void productionRate(vector<float> productionRate) {_productionRate = productionRate;};
+        void demand(vector<unsigned int> demand) {_demand = demand;};
+        void maximumInventory(vector<unsigned int> maximumInventory) {_maximumInventory = maximumInventory;};
+        void maximumInventory(unsigned int maximumInventory, unsigned int p) {_maximumInventory[p] = maximumInventory;};
+        void maximumInventory_resize(unsigned int NProducts){_maximumInventory.resize(NProducts,0);};
     };
 
     // class for creating instances of max multiproduct batch time problem

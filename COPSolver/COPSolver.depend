@@ -27,7 +27,7 @@
 	<sys/stat.h>
 	<sys/types.h>
 
-1692187623 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
+1692451849 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
 	<unistd.h>
 	<bits/stdc++.h>
 	<iostream>
@@ -36,13 +36,13 @@
 	<vector>
 	<math.h>
 
-1692184559 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiproduct-batch-processing-time-maximization-problem.cpp
+1692447464 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiproduct-batch-processing-time-maximization-problem.cpp
 	"../lib/multiproduct-batch-processing-time-maximization-problem.h"
 
-1692351615 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h
+1692446892 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h
 	"multiproduct-batch-processing-time-maximization-problem.h"
 
-1692446477 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp
+1692451902 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp
 	"../lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
 
 1692205073 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/combinatorial-optimization-problem.h
@@ -50,6 +50,6 @@
 
 1692185006 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/combinatorial_optimization_problem.h
 
-1692438525 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/combinatorial-optimization-problem.cpp
+1692447433 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/combinatorial-optimization-problem.cpp
 	"../lib/combinatorial-optimization-problem.h"
 

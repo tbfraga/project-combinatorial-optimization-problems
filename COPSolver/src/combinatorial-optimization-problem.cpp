@@ -116,13 +116,13 @@ namespace cop
             {
                 case 1:
                 {
-                    problem<mbptmp::problem> _problem;
+                    problem<mbptm::problem> _problem;
                     _problem.set_PDM(_problemDefinitionMethod);
                     _problem.get();
                     _problem.print();
                     _problem.generateLingoData();
 
-                    solution<mbptmp::problem, mbptmp::solution> _solution;
+                    solution<mbptm::problem, mbptm::solution> _solution;
 
                     _solution.start(_problem);
                     _solution.analyticalMethod();

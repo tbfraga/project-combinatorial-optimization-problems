@@ -430,11 +430,13 @@ namespace mmbptm
 
     vector<vector<unsigned int>> solution::analyticalMethod(unsigned int T1)
     {
-        mbptmp::problem mbptmp;
-        mbptmp::solution mbptms;
+        mbptm::problem mbptmp;
+        mbptm::solution mbptms;
 
         unsigned int totalMaximumOutletInventory;
         vector<int> totalMaximumInventory = {};
+
+        vector<unsigned int> demand = {};
         vector<vector<unsigned int>> delivered = {{}};
         vector<vector<unsigned int>> maximumInventory = {{}};
         vector<vector<unsigned int>> deliverToOutlet = {{}};
@@ -455,13 +457,14 @@ namespace mmbptm
             totalMaximumOutletInventory += _problem._totalMaximumOutletInventory[o];
         }
 
+        demand.resize(_problem._NProducts, 0);
         delivered.resize(_problem._NProducts);
         maximumInventory.resize(_problem._NProducts);
         deliverToOutlet.resize(_problem._NProducts);
 
         maximumOutletInventory.resize(_problem._NProducts,0);
 
-        unsigned int available, unmet;
+        unsigned int available, unmet, aux;
 
         for(unsigned int d=0; d<_problem._NDays; d++)
         {
@@ -484,7 +487,7 @@ namespace mmbptm
 
                 unmet = _problem._demand[p][d];
 
-                for(unsigned int k=0; k<d; k++)
+                for(unsigned int k=1; k<d; k++)
                 {
                     unmet += _problem._demand[p][d] - delivered[p][k];
                 }
@@ -517,18 +520,38 @@ namespace mmbptm
 
                 if(maximumInventory[p][d] < 0)
                 {
-                    deliverToOutlet[p][d] = -maximumInventory[p][d];
+                    aux = - maximumInventory[p][d];
+                    deliverToOutlet[p][d] = min(min(aux, maximumOutletInventory[p]), totalMaximumOutletInventory);
                     maximumOutletInventory[p] -= deliverToOutlet[p][d];
                     totalMaximumOutletInventory -= deliverToOutlet[p][d];
                     totalMaximumInventory[d] += deliverToOutlet[p][d];
                     maximumInventory[p][d] = 0;
+                }
 
-                    if(maximumOutletInventory[p] < 0 || totalMaximumOutletInventory < 0)
-                    {
-                        cout << endl << "error: planned production is not feasible !!!" << endl;
-                        getchar();
-                        return {{}};
-                    }
+                if(d == 0)
+                {
+                    demand[p] = _problem._demand[p][d] - delivered[p][d];
+                }
+
+                if(maximumInventory[p][d] < 0)
+                {
+                    available -= delivered[p][d];
+                    unmet -= delivered[p][d] + demand[p];
+
+                    aux = min(available, unmet);
+
+                    delivered[p][d] += aux;
+                    totalMaximumInventory[d] += aux;
+                    maximumInventory[p][d] += aux;
+
+                    demand[p] -= aux;
+                }
+
+                if(maximumInventory[p][d] < 0)
+                {
+                    cout << endl << "error: planned production is not feasible !!!" << endl;
+                    getchar();
+                    return {{}};
                 }
             }
         }
@@ -559,11 +582,16 @@ namespace mmbptm
 
         // algorithm 3 - creating a MBPTM problem
 
+        _mbptmp.NProducts(_problem._NProducts);
+        _mbptmp.productionRate(_problem._productionRate);
+        _mbptmp.demand(demand);
 
+        _mbptmp.maximumInventory_resize(_problem._NProducts);
 
-        // calculate mbptm problem
-
-//        mbptmp.set(_problem._NProducts, _problem._productionRate, demand, maximumInventory, totalMaximumInventory, maximumOutletInventory, totalMaximumOutletInventory, maxBatchProcessingTime);
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+           // _mbptmp.maximumInventory();
+        }
 
         // solve mbptm problem
 

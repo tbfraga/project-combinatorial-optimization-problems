@@ -76,7 +76,9 @@ namespace mmbptm
     {
         protected:
 
-        problem _problem; // MPMPBPTMP linked to the solution
+        problem _problem; // MMPBPTM problem linked to the solution
+        mbptm::problem _mbptmp; // MBPTM problem linked to the solution
+        mbptm::solution _mbptms; // MBPTM solution linked to the solution
         vector<vector<unsigned int>> _freeInventory; // free inventory per product per day (g)
         vector<unsigned int> _totalFreeInventory; // total free inventory per day (g)
         vector<unsigned int> _freeOutletInventory; // free outlet inventory per product (g)
