@@ -45,7 +45,7 @@ namespace mmbptm
         unsigned int maxBatchProcessingTime; // maximum batch processing time (min)
     };
 
-    struct sl
+    struct solution
     {
         unsigned int batchProcessingTime; // batch processing time (min)
         //vector<unsigned int> _production = {0}; // production for each product
@@ -61,7 +61,7 @@ namespace mmbptm
         protected:
 
         pb input;
-        sl output;
+        solution output;
 
         mbptm::problem _mbptmp; // MBPTM problem linked to the solution
         mbptm::solution _mbptms; // MBPTM solution linked to the solution
@@ -102,12 +102,12 @@ namespace mmbptm
 
         void start();
 
-        sl exactMethod();
+        solution exactMethod();
     };
 
     // class for solving a max multiproduct batch time problem
 
-    class solution
+    /*class solution
     {
         protected:
 
@@ -133,7 +133,7 @@ namespace mmbptm
         void start(problem _problem); // this function initializes solution variables
         vector<vector<unsigned int>> analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
         void clear();
-    };
+    };*/
 }
 
 #endif // MULTIPERIOD_MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED

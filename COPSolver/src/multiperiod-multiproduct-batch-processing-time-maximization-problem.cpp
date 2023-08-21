@@ -473,7 +473,7 @@ namespace mmbptm
 
     };
 
-    sl problem::exactMethod()
+    solution problem::exactMethod()
     {
         unsigned int totalMaximumOutletInventory;
         vector<int> totalMaximumInventory = {};
@@ -675,7 +675,7 @@ namespace mmbptm
         maximumInventory.clear();
         totalMaximumInventory.clear();
 
-        sl out;
+        solution out;
 
         return out;
     };

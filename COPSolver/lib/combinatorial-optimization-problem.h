@@ -108,9 +108,9 @@ namespace cop
             _problem.start();
         };
 
-        mmbptm::sl exactMethod()
+        mmbptm::solution exactMethod()
         {
-            mmbptm::sl _solution = _problem.exactMethod();
+            mmbptm::solution _solution = _problem.exactMethod();
             return _solution;
         };
     };
