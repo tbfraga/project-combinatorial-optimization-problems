@@ -15,7 +15,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 // version: V02_2023_08_04
 // developed by Tatiana Balbi Fraga
 // start date: 2023/07/31
-// last modification: 2023/08/04
+// last modification: 2023/08/21
 
 #include "../lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
 
@@ -434,11 +434,13 @@ namespace mmbptm
         vector<int> totalMaximumInventory = {};
 
         vector<unsigned int> demand = {};
-        vector<vector<unsigned int>> delivered = {{}};
         vector<vector<int>> maximumInventory = {{}};
         vector<vector<unsigned int>> deliverToOutlet = {{}};
 
         vector<unsigned int> maximumOutletInventory = {};
+
+        clear();
+        start(_problem);
 
         // algorithm 1 - distributing planned production
 
@@ -453,7 +455,6 @@ namespace mmbptm
         }
 
         demand.resize(_problem._NProducts, 0);
-        delivered.resize(_problem._NProducts);
         maximumInventory.resize(_problem._NProducts);
         deliverToOutlet.resize(_problem._NProducts);
 
@@ -478,19 +479,18 @@ namespace mmbptm
 
                 for(unsigned int k=0; k<d; k++)
                 {
-                    available += _problem._planned[p][k] - delivered[p][k] - deliverToOutlet[p][k];
+                    available += _problem._planned[p][k] - _delivered[p][k] - deliverToOutlet[p][k];
                 }
 
                 unmet = _problem._demand[p][d];
 
                 for(unsigned int k=1; k<d; k++)
                 {
-                    unmet += _problem._demand[p][d] - delivered[p][k];
+                    unmet += _problem._demand[p][d] - _delivered[p][k];
                 }
 
                 if(d==0)
                 {
-                    delivered[p].resize(_problem._NDays);
                     maximumInventory[p].resize(_problem._NDays);
                     deliverToOutlet[p].resize(_problem._NDays,0);
 
@@ -501,7 +501,7 @@ namespace mmbptm
                     }
                 }
 
-                delivered[p][d] = min(available,unmet);
+                _delivered[p][d] = min(available,unmet);
 
                 if(d==0)
                 {
@@ -511,8 +511,8 @@ namespace mmbptm
                     maximumInventory[p][d] = maximumInventory[p][d-1];
                 }
 
-                maximumInventory[p][d] += delivered[p][d] - _problem._planned[p][d];
-                totalMaximumInventory[d] += delivered[p][d] - _problem._planned[p][d];
+                maximumInventory[p][d] += _delivered[p][d] - _problem._planned[p][d];
+                totalMaximumInventory[d] += _delivered[p][d] - _problem._planned[p][d];
 
                 if(maximumInventory[p][d] < 0)
                 {
@@ -526,17 +526,17 @@ namespace mmbptm
 
                 if(d == 0)
                 {
-                    demand[p] = _problem._demand[p][d] - delivered[p][d];
+                    demand[p] = _problem._demand[p][d] - _delivered[p][d];
                 }
 
                 if(maximumInventory[p][d] < 0)
                 {
-                    available -= delivered[p][d];
-                    unmet -= delivered[p][d] + demand[p];
+                    available -= _delivered[p][d];
+                    unmet -= _delivered[p][d] + demand[p];
 
                     aux = min(available, unmet);
 
-                    delivered[p][d] += aux;
+                    _delivered[p][d] += aux;
                     totalMaximumInventory[d] += aux;
                     maximumInventory[p][d] += aux;
 
@@ -618,7 +618,7 @@ namespace mmbptm
 
         for(unsigned int p=0; p<_problem._NProducts; p++)
         {
-            delivered[p][0] += _mbptms.delivered(p);
+            _delivered[p][0] += _mbptms.delivered(p);
             deliverToOutlet[p][0] += _mbptms.deliveredToOutlets(p);
         }
 
@@ -626,12 +626,10 @@ namespace mmbptm
 
         for(unsigned int p=0; p<_problem._NProducts; p++)
         {
-            delivered[p].clear();
             deliverToOutlet[p].clear();
             maximumInventory[p].clear();
         }
         demand.clear();
-        delivered.clear();
         deliverToOutlet.clear();
         maximumOutletInventory.clear();
         maximumInventory.clear();
@@ -644,11 +642,23 @@ namespace mmbptm
     {
         _problem.clear();
         _problem = mmbptmp; // linking solution to the problem
+
+        _delivered.resize(_problem._NProducts);
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            _delivered[p].resize(_problem._NDays);
+        }
     };
 
     void solution::clear()
     {
         _problem.clear();
+
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            _delivered[p].clear();
+        }
+        _delivered.clear();
 
         for(unsigned int p=0; p<_freeInventory.size(); p++)
         {

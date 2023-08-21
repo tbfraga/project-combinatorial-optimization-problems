@@ -85,9 +85,13 @@ namespace mmbptm
         unsigned int _totalFreeOutletInventory; // total free outlets inventory (g)
         vector<vector<unsigned int>> _unmetDemand; // unmet demand per product per day (g)
 
-        vector<vector<unsigned int>> _solution;
-
         unsigned int _batchProcessingTime = 0; // batch processing time (min)
+        vector<unsigned int> _production = {0}; // production for each product
+        vector<vector<unsigned int>> _delivered = {{}}; // production delivered
+        vector<unsigned int> _deliveredToOutlets = {0}; // production delivered to outlets
+        vector<unsigned int> _stocked = {0}; // production stocked at the factory
+
+        vector<vector<unsigned int>> _solution;
 
         public:
 

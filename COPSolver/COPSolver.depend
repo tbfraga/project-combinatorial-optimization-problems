@@ -27,7 +27,7 @@
 	<sys/stat.h>
 	<sys/types.h>
 
-1692626156 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
+1692626379 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
 	<unistd.h>
 	<bits/stdc++.h>
 	<iostream>
@@ -39,10 +39,10 @@
 1692447464 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiproduct-batch-processing-time-maximization-problem.cpp
 	"../lib/multiproduct-batch-processing-time-maximization-problem.h"
 
-1692469314 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h
+1692633668 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h
 	"multiproduct-batch-processing-time-maximization-problem.h"
 
-1692626156 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp
+1692633806 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp
 	"../lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
 
 1692469248 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/combinatorial-optimization-problem.h
