@@ -15,7 +15,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 // version: V02_2023_08_16
 // developed by Tatiana Balbi Fraga
 // start date: 2023/08/16
-// last modification: 2023/08/16
+// last modification: 2023/08/21
 
 #ifndef COMBINATORIAL_OPTIMIZATION_PROBLEM_H_INCLUDED
 #define COMBINATORIAL_OPTIMIZATION_PROBLEM_H_INCLUDED
@@ -26,16 +26,16 @@ namespace cop
 {
     bool solver();
 
-    template <class problem>
-    class combinatorial_optimization_problem
+    template <class P>
+    class problem
     {
         //mbptmp::problem problem; // MPBPTMP linked to the solution
 
-        template <class P, class S> friend class solution;
+        template <class PR, class S> friend class solution;
 
         private:
 
-        problem _problem;
+        P _problem;
 
 
         unsigned int _problemType, _problemDefinitionMethod;
@@ -102,11 +102,17 @@ namespace cop
         {
             _problem.clear();
         };
-    };
 
-    template <class P>
-    class problem : public combinatorial_optimization_problem<P>
-    {
+        void start()
+        {
+            _problem.start();
+        };
+
+        mmbptm::sl exactMethod()
+        {
+            mmbptm::sl _solution = _problem.exactMethod();
+            return _solution;
+        };
     };
 
     template <class P, class S>

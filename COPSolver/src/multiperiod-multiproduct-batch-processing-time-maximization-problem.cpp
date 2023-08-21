@@ -21,47 +21,65 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 namespace mmbptm
 {
-    void multiperiodMultiproductBatchProcessingTimeMaximizationProblem::clear()
+    void problem::clear()
     {
-        _productionRate.clear();
+        input.productionRate.clear();
 
-        for(unsigned int p=0; p<_demand.size(); p++)
+        for(unsigned int p=0; p<input.demand.size(); p++)
         {
-            _demand[p].clear();
+            input.demand[p].clear();
         }
-        _demand.clear();
+        input.demand.clear();
 
-        for(unsigned int p=0; p<_planned.size(); p++)
+        for(unsigned int p=0; p<input.planned.size(); p++)
         {
-            _planned[p].clear();
+            input.planned[p].clear();
         }
-        _planned.clear();
+        input.planned.clear();
 
-        for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
+        for(unsigned int p=0; p<input.maximumOutletInventory.size(); p++)
         {
-            _maximumOutletInventory[p].clear();
+            input.maximumOutletInventory[p].clear();
         }
-        _maximumOutletInventory.clear();
+        input.maximumOutletInventory.clear();
 
-        _totalMaximumOutletInventory.clear();
+        input.totalMaximumOutletInventory.clear();
 
-        _maximumInventory.clear();
+        input.maximumInventory.clear();
+
+        for(unsigned int p=0; p<output.deliver.size(); p++)
+        {
+            output.deliver[p].clear();
+        }
+        output.deliver.clear();
+
+        for(unsigned int p=0; p<output.deliverToOutlets.size(); p++)
+        {
+            output.deliverToOutlets[p].clear();
+        }
+        output.deliverToOutlets.clear();
+
+        for(unsigned int p=0; p<output.stock.size(); p++)
+        {
+            output.stock[p].clear();
+        }
+        output.stock.clear();
     };
 
-    bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::print()
+    bool problem::print()
     {
         cout << endl << "head: printing problem..." << endl;
 
         char cwd[PATH_MAX];
         if (getcwd(cwd, sizeof(cwd)) != NULL) {
-            printf("\nCurrent working dir: %s\n", cwd);
+            // printf("\nCurrent working dir: %s\n", cwd);
         } else {
             perror("getcwd() error");
             return 1;
         }
 
         string site = cwd;
-        site += "/Documents/COPSolver/mmbptmp.txt";
+        site += "/COPSolver/problem.txt";
 
         ofstream file;
 
@@ -69,65 +87,65 @@ namespace mmbptm
 
         file << "Multi-period and multi-product batch processing time maximization problem " << endl;
 
-        file << endl << "products: " << _NProducts << endl;
+        file << endl << "products: " << input.NProducts << endl;
 
         file << endl << "production rate:" << endl << endl;
 
-        for(unsigned int p=0; p<_productionRate.size(); p++)
+        for(unsigned int p=0; p<input.productionRate.size(); p++)
         {
-            file << setw(3) << _productionRate[p];
-            if(p<_productionRate.size()-1) file << "\t ";
+            file << setw(3) << input.productionRate[p];
+            if(p<input.productionRate.size()-1) file << "\t ";
         }
         file << endl;
 
         file << endl << "maximum factory inventory:" << endl << endl;
 
-        for(unsigned int p=0; p<_maximumInventory.size(); p++)
+        for(unsigned int p=0; p<input.maximumInventory.size(); p++)
         {
-            file << setw(3) << _maximumInventory[p];
-            if(p<_maximumInventory.size()-1) file << "\t ";
+            file << setw(3) << input.maximumInventory[p];
+            if(p<input.maximumInventory.size()-1) file << "\t ";
         }
         file << endl;
 
-        file << endl << "total maximum factory inventory: " << _totalMaximumInventory << endl;
+        file << endl << "total maximum factory inventory: " << input.totalMaximumInventory << endl;
 
-        file << endl << "days: " << _NDays << endl;
+        file << endl << "days: " << input.NDays << endl;
 
         file << endl << "demand:" << endl;
 
-        for(unsigned int p=0; p<_demand.size(); p++)
+        for(unsigned int p=0; p<input.demand.size(); p++)
         {
             file << "\n";
-            for(unsigned int d=0; d<_demand[p].size(); d++)
+            for(unsigned int d=0; d<input.demand[p].size(); d++)
             {
-                file << setw(4) <<  _demand[p][d];
-                if(d<_demand[p].size()-1) file << "\t ";
+                file << setw(4) <<  input.demand[p][d];
+                if(d<input.demand[p].size()-1) file << "\t ";
             }
         }
 
-        file << endl << endl << "outlets: " << _NOutlets << endl;
+        file << endl << endl << "outlets: " << input.NOutlets << endl;
 
         file << endl << "maximum outlets inventory" << endl;
 
-        for(unsigned int p=0; p<_maximumOutletInventory.size(); p++)
+        for(unsigned int p=0; p<input.maximumOutletInventory.size(); p++)
         {
             file << "\n";
-            for(unsigned int o=0; o<_maximumOutletInventory[p].size(); o++)
+            for(unsigned int o=0; o<input.maximumOutletInventory[p].size(); o++)
             {
-                file << setw(4) <<  _maximumOutletInventory[p][o];
-                if(o<_maximumOutletInventory[p].size()-1) file << "\t ";
+                file << setw(4) <<  input.maximumOutletInventory[p][o];
+                if(o<input.maximumOutletInventory[p].size()-1) file << "\t ";
             }
         }
 
         file << endl << endl << "total maximum outlets inventory:" << endl << endl;
 
-        for(unsigned int o=0; o<_totalMaximumOutletInventory.size(); o++)
+        for(unsigned int o=0; o<input.totalMaximumOutletInventory.size(); o++)
         {
-            file << setw(3) << _totalMaximumOutletInventory[o];
-            if(o<_totalMaximumOutletInventory.size()-1) file << "\t ";
+            file << setw(3) << input.totalMaximumOutletInventory[o];
+            if(o<input.totalMaximumOutletInventory.size()-1) file << "\t ";
         }
 
-        file << endl << endl << "maximum batch processing time: " << _maxBatchProcessingTime << endl;
+        file << endl << endl << "maximum batch processing time: " << input.maxBatchProcessingTime << endl;
 
         cout << endl << "info: problem is available on file " << site << endl;
 
@@ -136,7 +154,7 @@ namespace mmbptm
         return 0;
     };
 
-    bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::generateLingoData()
+    bool problem::generateLingoData()
     {/*
         cout << endl << "head: generating LINGO data..." << endl;
         ofstream file;
@@ -247,20 +265,20 @@ namespace mmbptm
         return 0;
     };
 
-    bool multiperiodMultiproductBatchProcessingTimeMaximizationProblem::get()
+    bool problem::get()
     {
-        clear();
+        /*clear();
 
         char cwd[PATH_MAX];
         if (getcwd(cwd, sizeof(cwd)) != NULL) {
-            printf("\nCurrent working dir: %s\n", cwd);
+            // printf("\nCurrent working dir: %s\n", cwd);
         } else {
             perror("getcwd() error");
             return 1;
         }
 
         string site = cwd;
-        site += "/COPSolver/data.txt";
+        site += "/COPSolver/problem.txt";
 
         cout << endl << "Data file dir: " << site << endl;
 
@@ -323,13 +341,13 @@ namespace mmbptm
 
         file >> _maxBatchProcessingTime;
 
-        file.close();
+        file.close();*/
 
         return 0;
     };
-    void multiperiodMultiproductBatchProcessingTimeMaximizationProblem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
-                                                                 unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory,
-                                                                 unsigned int maxBatchProcessingTime)
+
+    void problem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
+                      unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime)
     {/*
         clear();
 
@@ -348,19 +366,21 @@ namespace mmbptm
         /**************************************************************************************************************************
         Small problem developed to test the solver.
         **************************************************************************************************************************/
-         clear();
+        clear();
 
-        _NProducts = 2;
-        _NDays = 2;
-        _NOutlets = 1;
-        _productionRate = {60,40};
-        _demand = {{1000,500},{500,300}};
-        _planned = {{1000,0},{0,1500}};
-        _maximumOutletInventory = {{600},{600}};
-        _totalMaximumOutletInventory = {1000};
-        _maximumInventory = {3000,2000};
-        _totalMaximumInventory = 3000;
-        _maxBatchProcessingTime = 100;
+        cout << endl << "creating problem... " << endl;
+
+        input.NProducts = 2;
+        input.NDays = 2;
+        input.NOutlets = 1;
+        input.productionRate = {60,40};
+        input.demand = {{1000,500},{500,300}};
+        input.planned = {{1000,0},{0,1500}};
+        input.maximumOutletInventory = {{600},{600}};
+        input.totalMaximumOutletInventory = {1000};
+        input.maximumInventory = {3000,2000};
+        input.totalMaximumInventory = 3000;
+        input.maxBatchProcessingTime = 100;
     };
 
     bool problem::choose()
@@ -428,7 +448,32 @@ namespace mmbptm
         _maxBatchProcessingTime = 100;*/
     };
 
-    vector<vector<unsigned int>> solution::analyticalMethod()
+    void problem::start()
+    {
+        output.deliver.resize(input.NProducts);
+
+        for(unsigned int p=0; p<input.NProducts; p++)
+        {
+            output.deliver[p].resize(input.NDays,0);
+        }
+
+        output.deliverToOutlets.resize(input.NProducts);
+
+        for(unsigned int p=0; p<output.deliverToOutlets.size(); p++)
+        {
+            output.deliverToOutlets[p].resize(input.NDays,0);
+        }
+
+        output.stock.resize(input.NProducts);
+
+        for(unsigned int p=0; p<output.stock.size(); p++)
+        {
+            output.stock[p].resize(input.NDays,0);
+        }
+
+    };
+
+    sl problem::exactMethod()
     {
         unsigned int totalMaximumOutletInventory;
         vector<int> totalMaximumInventory = {};
@@ -439,104 +484,101 @@ namespace mmbptm
 
         vector<unsigned int> maximumOutletInventory = {};
 
-        clear();
-        start(_problem);
+        start();
 
         // algorithm 1 - distributing planned production
 
-        totalMaximumInventory.resize(_problem._NDays,0);
-        totalMaximumInventory[0] = _problem._totalMaximumInventory;
+        totalMaximumInventory.resize(input.NDays,0);
+        totalMaximumInventory[0] = input.totalMaximumInventory;
 
         totalMaximumOutletInventory = 0;
 
-        for(unsigned int o=0; o<_problem._NOutlets; o++)
+        for(unsigned int o=0; o<input.NOutlets; o++)
         {
-            totalMaximumOutletInventory += _problem._totalMaximumOutletInventory[o];
+            totalMaximumOutletInventory += input.totalMaximumOutletInventory[o];
         }
 
-        demand.resize(_problem._NProducts, 0);
-        maximumInventory.resize(_problem._NProducts);
-        deliverToOutlet.resize(_problem._NProducts);
+        demand.resize(input.NProducts, 0);
+        maximumInventory.resize(input.NProducts);
 
-        maximumOutletInventory.resize(_problem._NProducts,0);
+        maximumOutletInventory.resize(input.NProducts,0);
 
         unsigned int available, unmet;
         unsigned int aux, aux2;
 
-        for(unsigned int d=0; d<_problem._NDays; d++)
+        for(unsigned int d=0; d<input.NDays; d++)
         {
             if(d==0)
             {
-                totalMaximumInventory[d] = _problem._totalMaximumInventory;
+                totalMaximumInventory[d] = input.totalMaximumInventory;
             } else
             {
                 totalMaximumInventory[d] = totalMaximumInventory[d-1];
             }
 
-            for(unsigned int p=0; p<_problem._NProducts; p++)
+            for(unsigned int p=0; p<input.NProducts; p++)
             {
-                available =  _problem._planned[p][d];
+                available =  input.planned[p][d];
 
                 for(unsigned int k=0; k<d; k++)
                 {
-                    available += _problem._planned[p][k] - _delivered[p][k] - deliverToOutlet[p][k];
+                    available += input.planned[p][k] - output.deliver[p][k] - output.deliverToOutlets[p][k];
                 }
 
-                unmet = _problem._demand[p][d];
+                unmet = input.demand[p][d];
 
                 for(unsigned int k=1; k<d; k++)
                 {
-                    unmet += _problem._demand[p][d] - _delivered[p][k];
+                    unmet += input.demand[p][d] - output.deliver[p][k];
                 }
 
                 if(d==0)
                 {
-                    maximumInventory[p].resize(_problem._NDays);
-                    deliverToOutlet[p].resize(_problem._NDays,0);
+                    maximumInventory[p].resize(input.NDays);
 
                     maximumOutletInventory[p] = 0;
-                    for(unsigned int o=0; o<_problem._NOutlets; o++)
+                    for(unsigned int o=0; o<input.NOutlets; o++)
                     {
-                        maximumOutletInventory[p] += _problem._maximumOutletInventory[p][o];
+                        maximumOutletInventory[p] += input.maximumOutletInventory[p][o];
                     }
                 }
 
-                _delivered[p][d] = min(available,unmet);
+                output.deliver[p][d] = min(available,unmet);
 
                 if(d==0)
                 {
-                    maximumInventory[p][d] = _problem._maximumInventory[p];
+                    maximumInventory[p][d] = input.maximumInventory[p];
                 } else
                 {
                     maximumInventory[p][d] = maximumInventory[p][d-1];
                 }
 
-                maximumInventory[p][d] += _delivered[p][d] - _problem._planned[p][d];
-                totalMaximumInventory[d] += _delivered[p][d] - _problem._planned[p][d];
+                maximumInventory[p][d] += output.deliver[p][d] - input.planned[p][d];
+                totalMaximumInventory[d] += output.deliver[p][d] - input.planned[p][d];
 
                 if(maximumInventory[p][d] < 0)
                 {
                     aux = - maximumInventory[p][d];
                     deliverToOutlet[p][d] = min(min(aux, maximumOutletInventory[p]), totalMaximumOutletInventory);
-                    maximumOutletInventory[p] -= deliverToOutlet[p][d];
-                    totalMaximumOutletInventory -= deliverToOutlet[p][d];
-                    totalMaximumInventory[d] += deliverToOutlet[p][d];
+                    maximumOutletInventory[p] -= output.deliverToOutlets[p][d];
+                    totalMaximumOutletInventory -= output.deliverToOutlets[p][d];
+                    totalMaximumInventory[d] += output.deliverToOutlets[p][d];
                     maximumInventory[p][d] = 0;
                 }
 
                 if(d == 0)
                 {
-                    demand[p] = _problem._demand[p][d] - _delivered[p][d];
+                    demand[p] = input.demand[p][d] - output.deliver[p][d];
                 }
 
                 if(maximumInventory[p][d] < 0)
                 {
-                    available -= _delivered[p][d];
-                    unmet -= _delivered[p][d] + demand[p];
+                    available -= output.deliver[p][d];
+                    unmet -= output.deliver[p][d] + demand[p];
 
                     aux = min(available, unmet);
 
-                    _delivered[p][d] += aux;
+                    output.deliver[p][d] += aux;
                     totalMaximumInventory[d] += aux;
                     maximumInventory[p][d] += aux;
 
@@ -554,18 +596,18 @@ namespace mmbptm
 
         // algorithm 2 - adjusting planned production distribution for atteining feasiability
 
-        for(unsigned int d=0; d<_problem._NDays; d++)
+        for(unsigned int d=0; d<input.NDays; d++)
         {
             if(totalMaximumInventory[d] < 0)
             {
-                for(unsigned int p=0; p<_problem._NProducts; p++)
+                for(unsigned int p=0; p<input.NProducts; p++)
                 {
                     unmet = abs(totalMaximumInventory[d]);
-                    deliverToOutlet[p][d] += min(maximumOutletInventory[p], unmet);
+                    output.deliverToOutlets[p][d] += min(maximumOutletInventory[p], unmet);
                     maximumOutletInventory[p] -= min(maximumOutletInventory[p], unmet);
                     totalMaximumOutletInventory -= min(maximumOutletInventory[p], unmet);
 
-                    for(unsigned int k=d; k<_problem._NDays; k++)
+                    for(unsigned int k=d; k<input.NDays; k++)
                     {
                         maximumInventory[p][d] += min(maximumOutletInventory[p], unmet);
                         totalMaximumInventory[d] += min(maximumOutletInventory[p], unmet);
@@ -578,16 +620,16 @@ namespace mmbptm
 
         // algorithm 3 - creating a MBPTM problem
 
-        _mbptmp.NProducts(_problem._NProducts);
-        _mbptmp.productionRate(_problem._productionRate);
+        _mbptmp.NProducts(input.NProducts);
+        _mbptmp.productionRate(input.productionRate);
         _mbptmp.demand(demand);
 
-        _mbptmp.maximumInventory_resize(_problem._NProducts);
+        _mbptmp.maximumInventory_resize(input.NProducts);
 
-        for(unsigned int p=0; p<_problem._NProducts; p++)
+        for(unsigned int p=0; p<input.NProducts; p++)
         {
            aux = maximumInventory[p][0];
-           for(unsigned int d=1; d<_problem._NDays; d++)
+           for(unsigned int d=1; d<input.NDays; d++)
            {
                 aux2 = maximumInventory[p][d];
                 aux = min(aux, aux2);
@@ -597,7 +639,7 @@ namespace mmbptm
         }
 
         aux = totalMaximumInventory[0];
-        for(unsigned int d=1; d<_problem._NDays; d++)
+        for(unsigned int d=1; d<input.NDays; d++)
         {
             aux2 = totalMaximumInventory[d];
             aux = min(aux, aux2);
@@ -607,7 +649,7 @@ namespace mmbptm
 
         _mbptmp.maximumOutletInventory(maximumOutletInventory);
         _mbptmp.totalMaximumOutletInventory(totalMaximumOutletInventory);
-        _mbptmp.maxBatchProcessingTime(_problem._maxBatchProcessingTime);
+        _mbptmp.maxBatchProcessingTime(input.maxBatchProcessingTime);
 
         // solving mbptm problem
 
@@ -616,63 +658,25 @@ namespace mmbptm
 
         // calculating final distribution
 
-        for(unsigned int p=0; p<_problem._NProducts; p++)
+        for(unsigned int p=0; p<input.NProducts; p++)
         {
-            _delivered[p][0] += _mbptms.delivered(p);
-            deliverToOutlet[p][0] += _mbptms.deliveredToOutlets(p);
+            output.deliver[p][0] += _mbptms.delivered(p);
+            output.deliverToOutlets[p][0] += _mbptms.deliveredToOutlets(p);
         }
 
         // clearing vectors
 
-        for(unsigned int p=0; p<_problem._NProducts; p++)
+        for(unsigned int p=0; p<input.NProducts; p++)
         {
-            deliverToOutlet[p].clear();
             maximumInventory[p].clear();
         }
         demand.clear();
-        deliverToOutlet.clear();
         maximumOutletInventory.clear();
         maximumInventory.clear();
         totalMaximumInventory.clear();
 
-        return _solution;
-    };
+        sl out;
 
-    void solution::start(problem mmbptmp)
-    {
-        _problem.clear();
-        _problem = mmbptmp; // linking solution to the problem
-
-        _delivered.resize(_problem._NProducts);
-        for(unsigned int p=0; p<_problem._NProducts; p++)
-        {
-            _delivered[p].resize(_problem._NDays);
-        }
-    };
-
-    void solution::clear()
-    {
-        _problem.clear();
-
-        for(unsigned int p=0; p<_problem._NProducts; p++)
-        {
-            _delivered[p].clear();
-        }
-        _delivered.clear();
-
-        for(unsigned int p=0; p<_freeInventory.size(); p++)
-        {
-            _freeInventory[p].clear();
-        }
-         _freeInventory.clear();
-
-        _totalFreeInventory.clear();
-        _freeOutletInventory.clear();
-
-        for(unsigned int p=0; p<_unmetDemand.size(); p++)
-        {
-            _unmetDemand[p].clear();
-        }
-        _unmetDemand.clear();
+        return out;
     };
 }

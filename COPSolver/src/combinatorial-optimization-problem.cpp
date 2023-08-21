@@ -140,13 +140,10 @@ namespace cop
                     _problem.print();
                     _problem.generateLingoData();
 
-                    solution<mmbptm::problem, mmbptm::solution> _solution;
-                    _solution.start(_problem);
-                    _solution.analyticalMethod();
+                    _problem.start();
+                    _problem.exactMethod();
 
                     _problem.clear();
-                    _solution.clear();
-
                 }
                 break;
                 default:

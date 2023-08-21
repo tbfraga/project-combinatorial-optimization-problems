@@ -24,13 +24,49 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 namespace mmbptm
 {
-    class multiperiodMultiproductBatchProcessingTimeMaximizationProblem
+    struct pb
+    {
+        unsigned int NProducts; // number of products
+        unsigned int NDays; // number of days
+        unsigned int NOutlets; // number of outlets
+
+        vector<float> productionRate; // weight ratio per product (g/m^2)
+
+        vector<vector<unsigned int>> demand; // demand per product per day (g)
+
+        vector<vector<unsigned int>> planned; // planned production per product per day (g)
+
+        vector<vector<unsigned int>> maximumOutletInventory; // maximum outlet inventory per product per outlet (g)
+        vector<unsigned int> totalMaximumOutletInventory; // total maximum outlet inventory per outlet (g)
+
+        vector<unsigned int> maximumInventory; // maximum inventory at factory per product (g)
+        unsigned int totalMaximumInventory; // total maximum inventory at factory (g)
+
+        unsigned int maxBatchProcessingTime; // maximum batch processing time (min)
+    };
+
+    struct sl
+    {
+        unsigned int batchProcessingTime; // batch processing time (min)
+        //vector<unsigned int> _production = {0}; // production for each product
+        vector<vector<unsigned int>> deliver; // production delivered
+        vector<vector<unsigned int>> deliverToOutlets; // production delivered to outlets
+        vector<vector<unsigned int>> stock; // production stocked at the factory
+    };
+
+    class problem
     {
         friend class solution;
 
         protected:
 
-        unsigned int _NProducts = 0; // number of products
+        pb input;
+        sl output;
+
+        mbptm::problem _mbptmp; // MBPTM problem linked to the solution
+        mbptm::solution _mbptms; // MBPTM solution linked to the solution
+
+        /*unsigned int _NProducts = 0; // number of products
         unsigned int _NDays = 0; // number of days
         unsigned int _NOutlets = 0; // number of outlets
 
@@ -47,7 +83,7 @@ namespace mmbptm
         unsigned int _totalMaximumInventory = 0; // total maximum inventory at factory (g)
 
         unsigned int _maxBatchProcessingTime = 0; // maximum batch processing time (min)
-
+*/
         public:
 
         void clear();
@@ -57,17 +93,16 @@ namespace mmbptm
         bool get();
         void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
                 vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);
-    };
-
-    // class for creating instances of max multiproduct batch time problem
-
-    class problem: public multiperiodMultiproductBatchProcessingTimeMaximizationProblem
-    {
-        public:
 
         void MMBPTM_02();
         void random(unsigned int problemSize);
         bool choose();
+
+        // solving problem
+
+        void start();
+
+        sl exactMethod();
     };
 
     // class for solving a max multiproduct batch time problem
