@@ -612,7 +612,15 @@ namespace mmbptm
         // solving mbptm problem
 
         _mbptms.start(_mbptmp);
-        _solution = _mbptms.analyticalMethod(0);
+        _mbptms.analyticalMethod(0);
+
+        // calculating final distribution
+
+        for(unsigned int p=0; p<_problem._NProducts; p++)
+        {
+            delivered[p][0] += _mbptms.delivered(p);
+            deliverToOutlet[p][0] += _mbptms.deliveredToOutlets(p);
+        }
 
         // clearing vectors
 

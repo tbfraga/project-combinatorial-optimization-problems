@@ -15,7 +15,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 // version: V01_20230809
 // developed by Tatiana Balbi Fraga
 // start date: 2023/04/26
-// last modification: 2023/08/19
+// last modification: 2023/08/21
 
 #ifndef MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
 #define MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
@@ -61,6 +61,7 @@ namespace mbptm
         void set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory, unsigned int totalMaximumInventory,
                  vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime);
 
+
         void NProducts(unsigned int NProducts) {_NProducts = NProducts;};
         void productionRate(vector<float> productionRate) {_productionRate = productionRate;};
         void demand(vector<unsigned int> demand) {_demand = demand;};
@@ -71,6 +72,15 @@ namespace mbptm
         void maximumOutletInventory(vector<unsigned int> maximumOutletInventory) {_maximumOutletInventory = maximumOutletInventory;};
         void totalMaximumOutletInventory(unsigned int totalMaximumOutletInventory) {_totalMaximumOutletInventory = totalMaximumOutletInventory;};
         void maxBatchProcessingTime(unsigned int maxBatchProcessingTime) {_maxBatchProcessingTime = maxBatchProcessingTime;};
+
+        unsigned int NProducts() {return _NProducts;};
+        vector<float> productionRate() {return _productionRate;};
+        vector<unsigned int> demand() {return _demand;};
+        vector<unsigned int> maximumInventory() {return _maximumInventory;};
+        unsigned int totalMaximumInventory() {return _totalMaximumInventory;};
+        vector<unsigned int> maximumOutletInventory() {return _maximumOutletInventory;};
+        unsigned int totalMaximumOutletInventory() {return _totalMaximumOutletInventory;};
+        unsigned int maxBatchProcessingTime() {return _maxBatchProcessingTime;};
     };
 
     // class for creating instances of max multiproduct batch time problem
@@ -109,6 +119,12 @@ namespace mbptm
         void start(problem mpbptmp_problem); // this function initializes solution variables
         unsigned int analyticalMethod(); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
         vector<vector<unsigned int>> analyticalMethod(unsigned int T1); // this function solves the reported problem through the analytical method proposed by T. B. Fraga (2023)
+
+        unsigned int delivered(unsigned int p) {return _delivered[p];};
+        vector<unsigned int> delivered() {return _delivered;};
+
+        unsigned int deliveredToOutlets(unsigned int p) {return _deliveredToOutlets[p];};
+        vector<unsigned int> deliveredToOutlets() {return _deliveredToOutlets;};
 
         void clear();
     };

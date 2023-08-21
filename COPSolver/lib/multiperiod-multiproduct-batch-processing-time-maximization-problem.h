@@ -15,7 +15,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 // version: V02_2023_07_31
 // developed by Tatiana Balbi Fraga
 // start date: 2023/07/31
-// last modification: 2023/08/04
+// last modification: 2023/08/21
 
 #ifndef MULTIPERIOD_MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
 #define MULTIPERIOD_MULTIPRODUCT_BATCH_PROCESSING_TIME_MAXIMIZATION_PROBLEM_H_INCLUDED
