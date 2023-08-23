@@ -1,9 +1,10 @@
-starting a working day 21/08/2023 - tasks of day
+starting a working day 23/08/2023 - tasks of day
 
-- paper multi-product batch processing time maximization - improve paper and send for another journal;
-- course CMIP - tests correction
+
+->> paper multi-product batch processing time maximization - improve paper and send for another journal (not finished yet);
+->> course CMIP - tests correction (not finished yet)
 - continue developing COPSolver V02 - multi-períod and multi-product batch processing time maximization problem;
-        * need to make the final distribution;
+        * need to make the final distribution (not finish yet);
 - make benchmarks and perform some tests;
 - continue developing the corresponding paper;
 - adv pf.

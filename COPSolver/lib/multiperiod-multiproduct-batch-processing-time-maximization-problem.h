@@ -24,7 +24,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 namespace mmbptm
 {
-    struct pb
+    struct problem
     {
         unsigned int NProducts; // number of products
         unsigned int NDays; // number of days
@@ -54,13 +54,13 @@ namespace mmbptm
         vector<vector<unsigned int>> stock; // production stocked at the factory
     };
 
-    class problem
+    class cop
     {
         friend class solution;
 
         protected:
 
-        pb input;
+        problem input;
         solution output;
 
         mbptm::problem _mbptmp; // MBPTM problem linked to the solution

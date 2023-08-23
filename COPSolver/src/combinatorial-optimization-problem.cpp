@@ -133,7 +133,7 @@ namespace cop
                 break;
                 case 2:
                 {
-                    problem<mmbptm::problem> _problem;
+                    problem<mmbptm::cop> _problem;
                     _problem.set_PDM(_problemDefinitionMethod);
 
                     _problem.get();

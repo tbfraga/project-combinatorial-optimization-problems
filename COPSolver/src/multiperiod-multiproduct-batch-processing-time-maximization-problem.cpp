@@ -21,7 +21,7 @@ This project with its files can be consulted at https://github.com/tbfraga/COPSo
 
 namespace mmbptm
 {
-    void problem::clear()
+    void cop::clear()
     {
         input.productionRate.clear();
 
@@ -66,7 +66,7 @@ namespace mmbptm
         output.stock.clear();
     };
 
-    bool problem::print()
+    bool cop::print()
     {
         cout << endl << "head: printing problem..." << endl;
 
@@ -154,7 +154,7 @@ namespace mmbptm
         return 0;
     };
 
-    bool problem::generateLingoData()
+    bool cop::generateLingoData()
     {/*
         cout << endl << "head: generating LINGO data..." << endl;
         ofstream file;
@@ -265,7 +265,7 @@ namespace mmbptm
         return 0;
     };
 
-    bool problem::get()
+    bool cop::get()
     {
         /*clear();
 
@@ -346,7 +346,7 @@ namespace mmbptm
         return 0;
     };
 
-    void problem::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
+    void cop::set(unsigned int NProducts, vector<float> productionRate, vector<unsigned int> demand, vector<unsigned int> maximumInventory,
                       unsigned int totalMaximumInventory, vector<unsigned int> maximumOutletInventory, unsigned int totalMaximumOutletInventory, unsigned int maxBatchProcessingTime)
     {/*
         clear();
@@ -361,7 +361,7 @@ namespace mmbptm
         _maxBatchProcessingTime = maxBatchProcessingTime;*/
     };
 
-    void problem::MMBPTM_02()
+    void cop::MMBPTM_02()
     {
         /**************************************************************************************************************************
         Small problem developed to test the solver.
@@ -383,7 +383,7 @@ namespace mmbptm
         input.maxBatchProcessingTime = 100;
     };
 
-    bool problem::choose()
+    bool cop::choose()
     {
         unsigned int preDefProblem;
 
@@ -420,7 +420,7 @@ namespace mmbptm
     };
 
 
-    void problem::random(unsigned int problemSize)
+    void cop::random(unsigned int problemSize)
     {/*
         clear();
 
@@ -448,7 +448,7 @@ namespace mmbptm
         _maxBatchProcessingTime = 100;*/
     };
 
-    void problem::start()
+    void cop::start()
     {
         output.deliver.resize(input.NProducts);
 
@@ -473,7 +473,7 @@ namespace mmbptm
 
     };
 
-    solution problem::exactMethod()
+    solution cop::exactMethod()
     {
         unsigned int totalMaximumOutletInventory;
         vector<int> totalMaximumInventory = {};
