@@ -1,0 +1,55 @@
+# depslib dependency file v1.0
+1692019635 source:/home/work/Documents/GitHub/COPSolver/main.cpp
+	"lib/multiproduct-batch-processing-time-maximization-problem.h"
+	<unistd.h>
+	<bits/stdc++.h>
+	<iostream>
+	<sys/stat.h>
+	<sys/types.h>
+
+1691598463 /home/work/Documents/GitHub/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
+	<unistd.h>
+	<bits/stdc++.h>
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<math.h>
+
+1692019535 source:/home/work/Documents/GitHub/COPSolver/src/multiproduct-batch-processing-time-maximization-problem.cpp
+	"../lib/multiproduct-batch-processing-time-maximization-problem.h"
+
+1692204630 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/main.cpp
+	"lib/combinatorial-optimization-problem.h"
+	<unistd.h>
+	<bits/stdc++.h>
+	<iostream>
+	<sys/stat.h>
+	<sys/types.h>
+
+1692639571 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiproduct-batch-processing-time-maximization-problem.h
+	<unistd.h>
+	<bits/stdc++.h>
+	<iostream>
+	<fstream>
+	<iomanip>
+	<vector>
+	<math.h>
+
+1692447464 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiproduct-batch-processing-time-maximization-problem.cpp
+	"../lib/multiproduct-batch-processing-time-maximization-problem.h"
+
+1692723029 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h
+	"multiproduct-batch-processing-time-maximization-problem.h"
+
+1692722734 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/multiperiod-multiproduct-batch-processing-time-maximization-problem.cpp
+	"../lib/multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
+
+1692647397 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/combinatorial-optimization-problem.h
+	"multiperiod-multiproduct-batch-processing-time-maximization-problem.h"
+
+1692185006 /home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/lib/combinatorial_optimization_problem.h
+
+1692722950 source:/home/work/Documents/GitHub/project-combinatorial-optimization-problems/COPSolver/src/combinatorial-optimization-problem.cpp
+	"../lib/combinatorial-optimization-problem.h"
+
