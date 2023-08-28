@@ -1,5 +1,11 @@
 starting a working day 23/08/2023 - tasks of day
 
+--> main
+
+->> correct student exams
+->> learn to use codeocean
+
+--> other
 ->> paper COPSolver finish paper and submit to journal;
 ->> paper multi-product batch processing time maximization - improve paper and send for another journal (not finished yet);
 ->> course CMIP - tests correction (not finished yet)
