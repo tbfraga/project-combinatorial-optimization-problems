@@ -1,12 +1,13 @@
-starting a working day 23/08/2023 - tasks of day
+starting a working day 01/08/2023 - tasks of day
 
 --> main
 
-->> correct student exams
-->> learn to use codeocean
+->> paper COPSolver finish paper and submit to journal (in progress);
+->> correct student exams (in progress);
+->> test COPSolver installation from github.
 
 --> other
-->> paper COPSolver finish paper and submit to journal;
+
 ->> paper multi-product batch processing time maximization - improve paper and send for another journal (not finished yet);
 ->> course CMIP - tests correction (not finished yet)
 - continue developing COPSolver V02 - multi-períod and multi-product batch processing time maximization problem;
@@ -14,3 +15,6 @@ starting a working day 23/08/2023 - tasks of day
 - make benchmarks and perform some tests;
 - continue developing the corresponding paper;
 - adv pf.
+
+->> learn to use codeocean - ok finished (30/08/2023)
+->> adapt, correct and commit code - ok finished (30/08/2023) aproved
