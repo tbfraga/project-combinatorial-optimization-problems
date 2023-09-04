@@ -2,10 +2,10 @@ starting a working day 04/08/2023 - tasks of day
 
 --> main
 
-->> paper COPSolver finish paper and submit to journal (in progress);
+->> paper COPSolver finish paper and submit to journal (finished);
+->> test COPSolver installation from github (finished).
 
 ->> correct student exams (in progress);
-->> test COPSolver installation from github.
 ->> pay acc.
 
 --> other
