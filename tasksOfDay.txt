@@ -1,12 +1,15 @@
-starting a working day 04/08/2023 - tasks of day
+starting a working day 06/08/2023 - tasks of day
 
 --> main
 
-->> paper COPSolver finish paper and submit to journal (finished);
-->> test COPSolver installation from github (finished).
+->> paper MBPTM - understain better other papers contribuction.
+->> paper MBPTM - rewrite intruduction.
 
 ->> correct student exams (in progress);
-->> pay acc.
+->> pay acc (in progress);.
+
+->> paper COPSolver finish paper and submit to journal (finished);
+->> test COPSolver installation from github (finished).
 
 --> other
 
