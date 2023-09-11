@@ -1,11 +1,12 @@
-starting a working day 06/08/2023 - tasks of day
+starting a working day 11/08/2023 - tasks of day
 
 --> main
 
-->> paper MBPTM - understain better other papers contribuction.
-->> paper MBPTM - rewrite intruduction.
+->> correct student exams (in progress) --> 13:00h - 14:00h;
 
-->> correct student exams (in progress);
+->> paper MBPTM - understain better other papers contribuction (in progress).
+->> paper MBPTM - rewrite intruduction (in progress).
+
 ->> pay acc (in progress);.
 
 ->> paper COPSolver finish paper and submit to journal (finished);
