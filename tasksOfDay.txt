@@ -1,11 +1,16 @@
-starting a working day 13/08/2023 - tasks of day
+starting a working day 18/08/2023 - tasks of day
 
 --> main
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
+ * try to finish the introduction and do not lengthen much;
+->> improve the presentation of the exact solution method.
+
+--> check congresses and dates.
 
 ->> correct student exams (in progress) --> 13:00h - 14:00h;
+ * correct at least 5 more tests of the students of the Work Organization course.
 
 ->> pay acc (in progress);.
 
