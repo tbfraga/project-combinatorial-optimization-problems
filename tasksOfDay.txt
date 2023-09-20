@@ -1,6 +1,9 @@
-starting a working day 18/08/2023 - tasks of day
+starting a working day 20/09/2023 - tasks of day
 
 --> main
+
+->> final corrections PIBIC Bia (in progress);
+->> correct all student exams (in progress);
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
@@ -9,7 +12,7 @@ starting a working day 18/08/2023 - tasks of day
 
 --> check congresses and dates.
 
-->> correct student exams (in progress) --> 13:00h - 14:00h;
+ --> 13:00h - 14:00h;
  * correct at least 5 more tests of the students of the Work Organization course.
 
 ->> pay acc (in progress);.
