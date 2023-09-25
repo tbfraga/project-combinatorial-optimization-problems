@@ -1,9 +1,10 @@
-starting a working day 20/09/2023 - tasks of day
+starting a working day 25/09/2023 - tasks of day
 
 --> main
 
-->> final corrections PIBIC Bia (in progress);
-->> correct all student exams (in progress);
+->> correct all student exams (in progress); <<<<<------- urgent
+
+****************************************************************************
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
@@ -19,6 +20,7 @@ starting a working day 20/09/2023 - tasks of day
 
 ->> paper COPSolver finish paper and submit to journal (finished);
 ->> test COPSolver installation from github (finished).
+->> final corrections PIBIC Bia (finished);
 
 --> other
 
