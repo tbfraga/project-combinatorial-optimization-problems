@@ -10,6 +10,10 @@ starting a working day 27/09/2023 - tasks of day
     *** Work Organization - P1 (to do);
     *** Work Organization - P2 (in progress).
     <--> Deadline: Friday.
+    
+->> PAAD, RAAD <<<<<------- urgent.
+
+->> IR declaration <<<<<------- urgent.
 
 ****************************************************************************
 
