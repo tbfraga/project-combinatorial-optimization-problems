@@ -1,8 +1,15 @@
-starting a working day 25/09/2023 - tasks of day
+starting a working day 27/09/2023 - tasks of day
 
 --> main
 
+->> Paper COPSolver - make the corrections suggested by the journal <<<<<------- urgent
+<--> Deadline: 2023/10/01.
+
 ->> correct all student exams (in progress); <<<<<------- urgent
+    *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
+    *** Work Organization - P1 (to do);
+    *** Work Organization - P2 (in progress).
+    <--> Deadline: Friday.
 
 ****************************************************************************
 
