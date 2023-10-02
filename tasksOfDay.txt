@@ -3,15 +3,15 @@ starting a working day 02/10/2023 - tasks of day
 --> main
 
 ->> pay acc;
+    <--> Deadline: Thursday.
 
 ->> correct all student exams (in progress); <<<<<------- urgent
     *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
     *** Instrumental Portuguese and Scientific Methodology - P2 (to do);
     *** Work Organization - P1 (finished);
     *** Work Organization - P2 (finished).
-    
-    
-    <--> Deadline: Friday.
+    *** Assign extra score for the works (to do);
+    <--> Deadline: Tuesday.
     
 ->> PAAD, RAAD <<<<<------- urgent.
 
