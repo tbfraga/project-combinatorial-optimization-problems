@@ -1,20 +1,21 @@
-starting a working day 28/09/2023 - tasks of day
+starting a working day 02/10/2023 - tasks of day
 
 --> main
 
-->> understand and wirte in the book about comparisons matrix consistence (finished);
-    *** needed for student orientation;
+->> pay acc;
 
 ->> correct all student exams (in progress); <<<<<------- urgent
     *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
     *** Instrumental Portuguese and Scientific Methodology - P2 (to do);
-    *** Work Organization - P1 (to do);
-    *** Work Organization - P2 (in progress).
+    *** Work Organization - P1 (finished);
+    *** Work Organization - P2 (finished).
+    
+    
     <--> Deadline: Friday.
     
 ->> PAAD, RAAD <<<<<------- urgent.
 
-->> IR declaration <<<<<------- urgent.
+->> IR declaration (finished)
 
 ****************************************************************************
 
@@ -25,25 +26,22 @@ starting a working day 28/09/2023 - tasks of day
 
 --> check congresses and dates.
 
- --> 13:00h - 14:00h;
- * correct at least 5 more tests of the students of the Work Organization course.
-
 ->> pay acc (in progress);.
 
 ->> paper COPSolver finish paper and submit to journal (finished);
 ->> test COPSolver installation from github (finished).
 ->> final corrections PIBIC Bia (finished);
 ->> Paper COPSolver - make the corrections suggested by the journal (finished);
+->> learn to use codeocean - ok finished (30/08/2023)
+->> adapt, correct and commit code - ok finished (30/08/2023) aproved
+->> understand and wirte in the book about comparisons matrix consistence (finished);
+    *** needed for student orientation;
 
 --> other
 
 ->> paper multi-product batch processing time maximization - improve paper and send for another journal (not finished yet);
-->> course CMIP - tests correction (not finished yet)
-- continue developing COPSolver V02 - multi-períod and multi-product batch processing time maximization problem;
+- continue developing COPSolver V02 - multi-períod and multi-product p-batch processing time maximization problem;
         * need to make the final distribution (not finish yet);
 - make benchmarks and perform some tests;
 - continue developing the corresponding paper;
 - adv pf.
-
-->> learn to use codeocean - ok finished (30/08/2023)
-->> adapt, correct and commit code - ok finished (30/08/2023) aproved
