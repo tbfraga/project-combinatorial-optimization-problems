@@ -7,7 +7,11 @@ starting a working day 02/10/2023 - tasks of day
 
 ->> correct all student exams (in progress); <<<<<------- urgent
     *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
-    *** Instrumental Portuguese and Scientific Methodology - P2 (in progress);
+    *** Instrumental Portuguese and Scientific Methodology - P2 (finished);
+    *** Some students have not yet delivered the evaluations. Wait for positioning (in progress);
+    *** Assign extra score for the works (to do);
+    
+    
     *** Work Organization - P1 (finished);
     *** Work Organization - P2 (finished).
     *** Assign extra score for the works (finished);
