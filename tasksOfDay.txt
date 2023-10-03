@@ -4,6 +4,7 @@ starting a working day 03/10/2023 - tasks of day
 
 ->> PAAD 2023 RAAD 2022
    *** check date of participation in banking (Osmar) (to do);
+   *** print old files;
    
 ->> functional progression (to do);
 
