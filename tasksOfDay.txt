@@ -2,6 +2,16 @@ starting a working day 03/10/2023 - tasks of day
 
 --> main
 
+->> PAAD 2023 RAAD 2022
+   *** check date of participation in banking (Osmar) (to do);
+   
+->> functional progression (to do);
+
+->> paper MBPTM - understain better other papers contribuction (in progress).
+->> paper MBPTM - rewrite intruduction (in progress).
+ * try to finish the introduction and do not lengthen much;
+->> improve the presentation of the exact solution method.
+
 ->> pay acc;
     <--> Deadline: Thursday.
 
@@ -19,18 +29,12 @@ starting a working day 03/10/2023 - tasks of day
     
     
     *** Finish assigning and consolidating the notes (in progress); <<<-----
-    <--> Deadline: Tuesday.
-    
-->> PAAD, RAAD <<<<<------- urgent. <<<-----
+    <--> Deadline: Wed.
 
 ->> IR declaration (finished)
 
 ****************************************************************************
 
-->> paper MBPTM - understain better other papers contribuction (in progress).
-->> paper MBPTM - rewrite intruduction (in progress).
- * try to finish the introduction and do not lengthen much;
-->> improve the presentation of the exact solution method.
 
 --> check congresses and dates.
 
@@ -44,6 +48,7 @@ starting a working day 03/10/2023 - tasks of day
 ->> adapt, correct and commit code - ok finished (30/08/2023) aproved
 ->> understand and wirte in the book about comparisons matrix consistence (finished);
     *** needed for student orientation;
+->> PAAD, RAAD (finished 2023/10/03)
 
 --> other
 
