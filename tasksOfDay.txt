@@ -1,17 +1,19 @@
-starting a working day 03/10/2023 - tasks of day
+starting a working day 05/10/2023 - tasks of day
 
 --> main
+
+->> paper MBPTM - understain better other papers contribuction (in progress).
+->> paper MBPTM - rewrite intruduction (in progress).
+ * try to finish the introduction and do not lengthen much;
+->> improve the presentation of the exact solution method.
+
+
 
 ->> PAAD 2023 RAAD 2022
    *** check date of participation in banking (Osmar) (to do);
    *** print old files;
    
 ->> functional progression (to do);
-
-->> paper MBPTM - understain better other papers contribuction (in progress).
-->> paper MBPTM - rewrite intruduction (in progress).
- * try to finish the introduction and do not lengthen much;
-->> improve the presentation of the exact solution method.
 
 ->> pay acc;
     <--> Deadline: Thursday.
