@@ -7,8 +7,15 @@ starting a working day 06/10/2023 - tasks of day
    *** document survey;
    *** prepare documentation for request process;
    *** create SIPAC process.
-   
+
 ->> pay acc;
+
+--> paper Exact method for the multi-product p-batch processing time maximization problem
+
+   *** improve the text;
+   *** include figures about the types of layout;
+   *** include more references;
+   *** present a taxonomy.
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
