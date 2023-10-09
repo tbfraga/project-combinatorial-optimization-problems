@@ -1,6 +1,14 @@
-starting a working day 05/10/2023 - tasks of day
+starting a working day 06/10/2023 - tasks of day
 
 --> main
+
+->> functional progression:
+
+   *** document survey;
+   *** prepare documentation for request process;
+   *** create SIPAC process.
+   
+->> pay acc;
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
@@ -13,17 +21,16 @@ starting a working day 05/10/2023 - tasks of day
    *** check date of participation in banking (Osmar) (to do);
    *** print old files;
    
-->> functional progression (to do);
 
-->> pay acc;
+
     <--> Deadline: Thursday.
 
-->> correct all student exams (in progress); <<<<<------- urgent
+->> correct all student exams (finished); <<<<<------- urgent
     *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
     *** Instrumental Portuguese and Scientific Methodology - P2 (finished);
     
-    *** Some students have not yet delivered the evaluations. Wait for positioning (in progress); <<<-----
-    *** Assign extra score for the works (in progress); <<<-----
+    *** Some students have not yet delivered the evaluations. Wait for positioning (finished); <<<-----
+    *** Assign extra score for the works (finished); <<<-----
     
     
     *** Work Organization - P1 (finished);
@@ -31,7 +38,7 @@ starting a working day 05/10/2023 - tasks of day
     *** Assign extra score for the works (finished);
     
     
-    *** Finish assigning and consolidating the notes (in progress); <<<-----
+    *** Finish assigning and consolidating the notes (finished); <<<-----
     <--> Deadline: Wed.
 
 ->> IR declaration (finished)
