@@ -15,38 +15,13 @@ starting a working day 06/10/2023 - tasks of day
    *** improve the text;
    *** include figures about the types of layout;
    *** include more references;
+   *** contribution must be clear;
    *** present a taxonomy.
 
 ->> paper MBPTM - understain better other papers contribuction (in progress).
 ->> paper MBPTM - rewrite intruduction (in progress).
  * try to finish the introduction and do not lengthen much;
 ->> improve the presentation of the exact solution method.
-
-
-
-->> PAAD 2023 RAAD 2022
-   *** check date of participation in banking (Osmar) (to do);
-   *** print old files;
-   
-
-
-    <--> Deadline: Thursday.
-
-->> correct all student exams (finished); <<<<<------- urgent
-    *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
-    *** Instrumental Portuguese and Scientific Methodology - P2 (finished);
-    
-    *** Some students have not yet delivered the evaluations. Wait for positioning (finished); <<<-----
-    *** Assign extra score for the works (finished); <<<-----
-    
-    
-    *** Work Organization - P1 (finished);
-    *** Work Organization - P2 (finished).
-    *** Assign extra score for the works (finished);
-    
-    
-    *** Finish assigning and consolidating the notes (finished); <<<-----
-    <--> Deadline: Wed.
 
 ->> IR declaration (finished)
 
@@ -71,7 +46,27 @@ starting a working day 06/10/2023 - tasks of day
 
 ->> paper multi-product batch processing time maximization - improve paper and send for another journal (not finished yet);
 - continue developing COPSolver V02 - multi-períod and multi-product p-batch processing time maximization problem;
-        * need to make the final distribution (not finish yet);
+        * need to make the final distribution (ot finished yet);
 - make benchmarks and perform some tests;
 - continue developing the corresponding paper;
 - adv pf.
+
+->> correct all student exams (finished); <<<<<------- urgent
+    *** Instrumental Portuguese and Scientific Methodology - P1 (finished);
+    *** Instrumental Portuguese and Scientific Methodology - P2 (finished);
+    
+    *** Some students have not yet delivered the evaluations. Wait for positioning (finished); <<<-----
+    *** Assign extra score for the works (finished); <<<-----
+    
+    
+    *** Work Organization - P1 (finished);
+    *** Work Organization - P2 (finished).
+    *** Assign extra score for the works (finished);
+    
+    
+    *** Finish assigning and consolidating the notes (finished); <<<-----
+    <--> Deadline: Wed.
+    
+    ->> PAAD 2023 RAAD 2022
+   *** check date of participation in banking (Osmar) (finished);
+   *** print old files;
