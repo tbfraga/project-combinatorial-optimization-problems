@@ -1,8 +1,10 @@
-starting a working day 06/10/2023 - tasks of day
+starting a working day 16/10/2023 - tasks of day
 
 --> main
 
-->> functional progression:
+->> prepare course plan on SIGAA (see deadline).
+
+->> functional progression (to do).
 
    *** document survey;
    *** prepare documentation for request process;
@@ -10,7 +12,7 @@ starting a working day 06/10/2023 - tasks of day
 
 ->> pay acc;
 
---> paper Exact method for the multi-product p-batch processing time maximization problem
+--> paper An exact method for the multi-product p-batch processing time maximization problem <<--- (prepare paper for publication until the 30th)
 
    *** improve the text;
    *** include figures about the types of layout;
