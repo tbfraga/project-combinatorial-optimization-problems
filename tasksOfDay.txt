@@ -1,6 +1,8 @@
-starting a working day 16/10/2023 - tasks of day
+starting a working day 18/10/2023 - tasks of day
 
 --> main
+
+--> see e-mails
 
 ->> prepare course plan on SIGAA (see deadline).
 
@@ -11,6 +13,8 @@ starting a working day 16/10/2023 - tasks of day
    *** create SIPAC process.
 
 ->> pay acc;
+
+--> Project about forecasting - develop a code
 
 --> paper An exact method for the multi-product p-batch processing time maximization problem <<--- (prepare paper for publication until the 30th)
 
