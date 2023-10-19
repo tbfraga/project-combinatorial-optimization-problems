@@ -1,8 +1,22 @@
-starting a working day 18/10/2023 - tasks of day
+starting a working day 19/10/2023 - tasks of day
 
 --> main
 
---> see e-mails
+--> see e-mails.
+
+--> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
+    *** approved by PROPESQI  on: 2021/02/11;
+    *** expected end: 2021/02/11;
+    To do:
+    --> inventory items classification:
+        *-> create a new class for the problem; (in progress)
+        *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
+            --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
+                *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
+                *-> check the consistency of the matrix; (finished on 2023/10/18)
+                *-> create an iterative method and algorithm to force consistency; (to do on 2023/10/19)
+                *-> create an iterative method and algorithm to construct a consistent matrix; (to do on 2023/10/19)
+
 
 ->> prepare course plan on SIGAA (see deadline).
 
@@ -14,7 +28,7 @@ starting a working day 18/10/2023 - tasks of day
 
 ->> pay acc;
 
---> Project about forecasting - develop a code
+
 
 --> paper An exact method for the multi-product p-batch processing time maximization problem <<--- (prepare paper for publication until the 30th)
 
