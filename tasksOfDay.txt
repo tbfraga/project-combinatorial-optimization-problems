@@ -1,4 +1,4 @@
-starting a working day 19/10/2023 - tasks of day
+starting a working day 20/10/2023 - tasks of day
 
 --> main
 
@@ -14,8 +14,8 @@ starting a working day 19/10/2023 - tasks of day
             --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
                 *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
                 *-> check the consistency of the matrix; (finished on 2023/10/18)
-                *-> create an iterative method and algorithm to force consistency; (to do on 2023/10/19)
-                *-> create an iterative method and algorithm to construct a consistent matrix; (to do on 2023/10/19)
+                *-> create an iterative method and algorithm to force consistency; (to continue on 2023/10/20 morning)
+                *-> create an iterative method and algorithm to construct a consistent matrix; (to do on ?)
 
 
 ->> prepare course plan on SIGAA (see deadline).
