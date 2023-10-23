@@ -1,12 +1,20 @@
-starting a working day 20/10/2023 - tasks of day
+starting a working day 23/10/2023 - tasks of day
 
 --> main
 
 --> see e-mails.
 
+--> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
+    *** approved by PROPESQI  on: 2021/12/09;
+    *** expected end: 2024/11/09;
+     To do:
+    --> paper: An exact method for the multi-product p-batch processing time maximization problem
+        *-> perform last revisions and submit to journal; (in progress) <<-- to do today
+        *-> decide on the need to create a section on dynamic environment. (in progress) <<-- to do today
+
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
-    *** expected end: 2021/02/11;
+    *** expected end: 2024/02/11;
     To do:
     --> inventory items classification:
         *-> create a new class for the problem; (in progress)
@@ -14,8 +22,8 @@ starting a working day 20/10/2023 - tasks of day
             --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
                 *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
                 *-> check the consistency of the matrix; (finished on 2023/10/18)
-                *-> create an iterative method and algorithm to force consistency; (to continue on 2023/10/20 morning)
-                *-> create an iterative method and algorithm to construct a consistent matrix; (to do on ?)
+                *-> create an iterative method and algorithm to force consistency; (in progress)
+                *-> create an iterative method and algorithm to construct a consistent matrix; (in progress)
 
 
 ->> prepare course plan on SIGAA (see deadline).
