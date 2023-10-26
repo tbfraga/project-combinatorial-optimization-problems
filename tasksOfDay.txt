@@ -1,4 +1,4 @@
-starting a working day 25/10/2023 - tasks of day
+starting a working day 26/10/2023 - tasks of day
 
 --> main
 
@@ -15,8 +15,13 @@ starting a working day 25/10/2023 - tasks of day
                 *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
                 *-> check the consistency of the matrix; (finished on 2023/10/18)
                 *-> create an constructive method and algorithm to force consistency; (finished on 2023/10/23)
-                *-> create a code for the constructive method; (try to do today morning) <--
-                *-> create an iterative method and algorithm to force consistency. (to do. necessary ?)
+                *-> create a code for the constructive method; (finished on 2023/10/26) <--
+                *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
+            --> create a code for the apply ABC classification method;
+            --> create a code for multicriteria classification.
+        *** apply the solver using the data collected by the girls.
+        *** write a paper.
+    --> set up a meeting with the girls to monitor the development of the work.
 
 --> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
     *** approved by PROPESQI  on: 2021/12/09;
