@@ -1,4 +1,4 @@
-starting a working day 27/10/2023 - tasks of day
+starting a working day 30/10/2023 - tasks of day
 
 --> main
 
@@ -18,7 +18,7 @@ starting a working day 27/10/2023 - tasks of day
                 *-> create a code for the constructive method; (finished on 2023/10/26) <--
                 *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
             --> create a code for the apply ABC classification method; (in progress)
-                *-> still lack classification between A, B and C according to pre-established criteria (To do).
+                *-> still lack classification between A, B and C according to pre-established criteria (To do on 2023/10/30).
             --> create a code for multicriteria classification. (in progress)
                 *-> still need to make classification between A, B and C according to pre-established criteria (To do).
         *** apply the solver using the data collected by the girls.
