@@ -19,11 +19,11 @@ starting a working day 30/10/2023 - tasks of day
                 *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
             --> create a code for the apply ABC classification method; (in progress)
                 *-> still lack classification between A, B and C according to pre-established criteria (To do on 2023/10/30).
-            --> create a code for multicriteria classification. (in progress)
-                *-> still need to make classification between A, B and C according to pre-established criteria (To do).
-        *** apply the solver using the data collected by the girls.
-        *** write a paper.
-    --> set up a meeting with the girls to monitor the development of the work.
+            --> create a code for multicriteria classification. (finished on 2023/10/30)
+                *-> still need to make classification between A, B and C according to pre-established criteria (finished on 2023/10/30).
+        *** apply the solver using the data collected by the girls (To do)
+        *** write a paper (To do).
+    --> set up a meeting with the girls to monitor the development of the work (ok).
 
 --> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
     *** approved by PROPESQI  on: 2021/12/09;
