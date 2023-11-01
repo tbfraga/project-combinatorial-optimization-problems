@@ -1,8 +1,16 @@
-starting a working day 30/10/2023 - tasks of day
+starting a working day 01/11/2023 - tasks of day
 
 --> main
 
 --> see e-mails.
+
+--> Internship guidelines:
+    *** Maria Eugênia
+    To do:
+    --> sign documentation for the internship;
+    --> send signed documentation to the student;
+    --> accompany the progress of the internship;
+    --> evaluate final report.
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
