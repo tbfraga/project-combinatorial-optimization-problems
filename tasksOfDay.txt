@@ -4,14 +4,6 @@ starting a working day 01/11/2023 - tasks of day
 
 --> see e-mails.
 
---> Internship guidelines:
-    *** Maria Eugênia
-    To do:
-    --> sign documentation for the internship;
-    --> send signed documentation to the student;
-    --> accompany the progress of the internship;
-    --> evaluate final report.
-
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
@@ -29,6 +21,9 @@ starting a working day 01/11/2023 - tasks of day
                 *-> still lack classification between A, B and C according to pre-established criteria (To do on 2023/10/30).
             --> create a code for multicriteria classification. (finished on 2023/10/30)
                 *-> still need to make classification between A, B and C according to pre-established criteria (finished on 2023/10/30).
+            --> improve library; (to do on 2023/11/01)
+            --> publish new version on codeocean; (to do on 2023/11/01)
+            --> publish new version on github. (to do on 2023/11/01)
         *** apply the solver using the data collected by the girls (To do)
         *** write a paper (To do).
     --> set up a meeting with the girls to monitor the development of the work (ok).
@@ -41,13 +36,20 @@ starting a working day 01/11/2023 - tasks of day
         *-> perform last revisions and submit to journal; (finished on 2023/10/23) 
         *-> decide on the need to create a section on dynamic environment. (try to do today afternoon) <--
 
-
 --> Course: Work Organization
     To do:
     --> classes 01 to 04;
         *** classroom lesson; (finished on 2023/10/24)
         *** launch faults in sigaa; (finished on 2023/10/24)
         *** include tasks in sigaa. (finished on 2023/10/24)
+        
+--> Internship guidelines:
+    *** Maria Eugênia
+    To do:
+    --> sign documentation for the internship (finished on 2023/11/01);
+    --> send signed documentation to the student (finished on 2023/11/01);
+    --> accompany the progress of the internship;
+    --> evaluate final report.
         
 --> Personel
     To do:
