@@ -1,15 +1,20 @@
-starting a working day 01/11/2023 - tasks of day
+starting a working day 08/11/2023 - tasks of day
 
 --> main
 
 --> see e-mails.
+
+--> COPSolver: 
+    *** improuve libraries; (to do today)
+    *** publish updated version on codeocean;
+        --> whaiting make some tests on library for classification problems.
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
     To do:
     --> inventory items classification:
-        *-> create a new class for the problem; (in progress)
+        *-> create a new class for the classification problems; (in progress)
         *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
             --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
                 *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
@@ -17,13 +22,13 @@ starting a working day 01/11/2023 - tasks of day
                 *-> create an constructive method and algorithm to force consistency; (finished on 2023/10/23)
                 *-> create a code for the constructive method; (finished on 2023/10/26) <--
                 *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
-            --> create a code for the apply ABC classification method; (in progress)
-                *-> still lack classification between A, B and C according to pre-established criteria (To do on 2023/10/30).
+            --> create a code for the apply ABC classification method; (finished)
+                *-> still lack classification between A, B and C according to pre-established criteria (finished).
             --> create a code for multicriteria classification. (finished on 2023/10/30)
                 *-> still need to make classification between A, B and C according to pre-established criteria (finished on 2023/10/30).
-            --> improve library; (to do on 2023/11/01)
-            --> publish new version on codeocean; (to do on 2023/11/01)
-            --> publish new version on github. (to do on 2023/11/01)
+            --> improve library; (finished on 2023/11/01)
+            --> publish new version on codeocean; (to do)
+            --> publish new version on github. (finished on 2023/11/01)
         *** apply the solver using the data collected by the girls (To do)
         *** write a paper (To do).
     --> set up a meeting with the girls to monitor the development of the work (ok).

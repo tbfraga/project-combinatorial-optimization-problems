@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=2.0-1
+Type=Application
+Name=copsolver
+GenericName=copsolver
+Comment=Combinatorial Optimization Problems Solver
+Exec=io.elementary.terminal -e copsolver%F
+Icon=utilities-terminal
+Terminal=false
+Categories=Application;ComputerScience;Math;Engineering;
+StartupNotify=true
