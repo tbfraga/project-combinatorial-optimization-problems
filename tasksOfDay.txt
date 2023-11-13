@@ -1,4 +1,4 @@
-starting a working day 08/11/2023 - tasks of day
+starting a working day 13/11/2023 - tasks of day
 
 --> main
 
@@ -7,8 +7,9 @@ starting a working day 08/11/2023 - tasks of day
 --> COPSolver: 
     *** improuve libraries; (ok)
         --> use operators overloading for defined structures. (will be done in the future, according to the needs).
-    *** publish updated version on codeocean;
+    *** publish updated version on codeocean; 
         --> whaiting make some tests on library for classification problems.
+        
     
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
@@ -35,7 +36,7 @@ starting a working day 08/11/2023 - tasks of day
         *** write a paper (To do).
     --> set up a meeting with the girls to monitor the development of the work (ok).
     --> demand patterns identification:
-        *-> create a new class for the demand patterns identification. (to do today)
+        *-> create a new class for the demand patterns identification. (to do today) <<<---
 
 --> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
     *** approved by PROPESQI  on: 2021/12/09;
