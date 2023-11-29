@@ -1,4 +1,4 @@
-starting a working day 13/11/2023 - tasks of day
+starting a working day 29/11/2023 - tasks of day
 
 --> main
 
@@ -9,42 +9,37 @@ starting a working day 13/11/2023 - tasks of day
         --> use operators overloading for defined structures. (will be done in the future, according to the needs).
     *** publish updated version on codeocean; 
         --> whaiting make some tests on library for classification problems.
-        
-    
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
     To do:
-    --> inventory items classification:
+    --> inventory items classification (in progress): <------
+        *-> apply the solver using the data collected by the girls (in progress);
+            --> format and publish on github the collected data;
+            --> test library using data collect;
+            --> publish all results on github.
+
         *-> create a new class for the classification problems; (in progress)
         *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
-            --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
-                *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
-                *-> check the consistency of the matrix; (finished on 2023/10/18)
-                *-> create an constructive method and algorithm to force consistency; (finished on 2023/10/23)
-                *-> create a code for the constructive method; (finished on 2023/10/26) <--
+            --> matrix of pairwise comparisons of the criteria with respect to the overall focus (finished for the moment):
                 *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
-            --> create a code for the apply ABC classification method; (finished)
-                *-> still lack classification between A, B and C according to pre-established criteria (finished).
-            --> create a code for multicriteria classification. (finished on 2023/10/30)
-                *-> still need to make classification between A, B and C according to pre-established criteria (finished on 2023/10/30).
-            --> improve library; (finished on 2023/11/01)
             --> publish new version on codeocean; (to do)
-            --> publish new version on github. (finished on 2023/11/01)
-        *** apply the solver using the data collected by the girls (To do)
+            --> publish modifications of new version on github. (to do)
         *** write a paper (To do).
     --> set up a meeting with the girls to monitor the development of the work (ok).
     --> demand patterns identification:
-        *-> create a new class for the demand patterns identification. (to do today) <<<---
+        *-> create a new class for the demand patterns identification. (finished)
+            *** library is working;
+            *** it remains to consider the lead time variance (to do).
 
 --> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
     *** approved by PROPESQI  on: 2021/12/09;
     *** expected end: 2024/11/09;
      To do:
     --> paper: An exact method for the multi-product p-batch processing time maximization problem
-        *-> perform last revisions and submit to journal; (finished on 2023/10/23) 
-        *-> decide on the need to create a section on dynamic environment. (try to do today afternoon) <--
+        *-> wait for journal revisions; 
+        *-> decide on the need to create a section on dynamic environment. (to do).
 
 --> Course: Work Organization
     To do:
@@ -67,8 +62,6 @@ starting a working day 13/11/2023 - tasks of day
     --> clothing;
     --> kitchen.
 
-->> prepare course plan on SIGAA (see deadline).
-
 ->> functional progression (to do).
 
    *** document survey;
@@ -77,24 +70,61 @@ starting a working day 13/11/2023 - tasks of day
 
 ->> pay acc;
 
+****************************************************************************
 
+--> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
+    *** approved by PROPESQI  on: 2021/02/11;
+    *** expected end: 2024/02/11;
+    To do:
+    --> inventory items classification:
+        *-> create a new class for the classification problems; (in progress)
+        *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
+            --> matrix of pairwise comparisons of the criteria with respect to the overall focus:
+                *-> calculate eigenvalue, eigenvector and normalized eigenvector; (finished on 2023/10/18)
+                *-> check the consistency of the matrix; (finished on 2023/10/18)
+                *-> create an constructive method and algorithm to force consistency; (finished on 2023/10/23)
+                *-> create a code for the constructive method; (finished on 2023/10/26) <--
+                *-> create an iterative method and algorithm to force consistency. (to do. necessary ? I belive it is not necessary.)
+            --> create a code for the apply ABC classification method; (finished)
+                *-> still lack classification between A, B and C according to pre-established criteria (finished).
+            --> create a code for multicriteria classification. (finished on 2023/10/30)
+                *-> still need to make classification between A, B and C according to pre-established criteria (finished on 2023/10/30).
+            --> improve library; (finished on 2023/11/01)
+            --> publish new version on codeocean; (to do)
+            --> publish new version on github. (finished on 2023/11/01)
+            --> publish modifications of new version on github. (to do)
+        *** apply the solver using the data collected by the girls (in progresso)
+        *** write a paper (To do).
+    --> set up a meeting with the girls to monitor the development of the work (ok).
+    --> demand patterns identification:
+        *-> create a new class for the demand patterns identification. (finished)
+            *** library is working;
+            *** it remains to consider the lead time variance (to do).
 
---> paper An exact method for the multi-product p-batch processing time maximization problem <<--- (prepare paper for publication until the 30th)
+--> Project: Análise e Modelagem de Problemas de Otimização Contı́nua e Combinatória
+    *** approved by PROPESQI  on: 2021/12/09;
+    *** expected end: 2024/11/09;
+     To do:
+    --> paper: An exact method for the multi-product p-batch processing time maximization problem
+        *-> perform last revisions and submit to journal; (finished on 2023/10/23) 
+        *-> decide on the need to create a section on dynamic environment. (to do).
+
+->> prepare course plan on SIGAA (finished).
+
+--> paper An exact method for the multi-product p-batch processing time maximization problem <<--- (preprint published - waiting journal decision)
 
    *** improve the text;
    *** include figures about the types of layout;
    *** include more references;
    *** contribution must be clear;
-   *** present a taxonomy.
+   *** present a taxonomy (all finished)
 
-->> paper MBPTM - understain better other papers contribuction (in progress).
-->> paper MBPTM - rewrite intruduction (in progress).
+->> paper MBPTM - understain better other papers contribuction (finished).
+->> paper MBPTM - rewrite intruduction (finished).
  * try to finish the introduction and do not lengthen much;
-->> improve the presentation of the exact solution method.
+->> improve the presentation of the exact solution method (all finished)
 
 ->> IR declaration (finished)
-
-****************************************************************************
 
 
 --> check congresses and dates.
