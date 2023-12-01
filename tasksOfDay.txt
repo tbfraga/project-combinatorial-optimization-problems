@@ -4,6 +4,10 @@ starting a working day 29/11/2023 - tasks of day
 
 --> see e-mails.
 
+--> Personel:
+    *** finish writing and register an explanatory statement; <<---
+        --> condominium half - psychological aggression.
+
 --> COPSolver: 
     *** improuve libraries; (ok)
         --> use operators overloading for defined structures. (will be done in the future, according to the needs).
