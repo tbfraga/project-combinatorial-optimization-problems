@@ -1,11 +1,11 @@
-starting a working day 29/11/2023 - tasks of day
+starting a working day 2023/12/01 - tasks of day
 
 --> main
 
 --> see e-mails.
 
 --> Personel:
-    *** finish writing and register an explanatory statement; <<---
+    *** finish writing and register an explanatory statement; <<--- (urgent)
         --> condominium half - psychological aggression.
 
 --> COPSolver: 
@@ -18,7 +18,7 @@ starting a working day 29/11/2023 - tasks of day
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
     To do:
-    --> inventory items classification (in progress): <------
+    --> inventory items classification (in progress): <------ (priority)
         *-> apply the solver using the data collected by the girls (in progress);
             --> format and publish on github the collected data;
             --> test library using data collect;
