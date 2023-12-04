@@ -1,12 +1,8 @@
-starting a working day 2023/12/01 - tasks of day
+starting a working day 2023/12/04 - tasks of day
 
 --> main
 
 --> see e-mails.
-
---> Personel:
-    *** finish writing and register an explanatory statement; <<--- (urgent)
-        --> condominium half - psychological aggression.
 
 --> COPSolver: 
     *** improuve libraries; (ok)
@@ -18,7 +14,7 @@ starting a working day 2023/12/01 - tasks of day
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
     To do:
-    --> inventory items classification (in progress): <------ (priority)
+    --> inventory items classification (in progress): <------ (priority) try to finish today
         *-> apply the solver using the data collected by the girls (in progress);
             --> format and publish on github the collected data;
             --> test library using data collect;
@@ -75,6 +71,10 @@ starting a working day 2023/12/01 - tasks of day
 ->> pay acc;
 
 ****************************************************************************
+
+--> Personel:
+    *** finish writing and register an explanatory statement; <<--- (done)
+        --> condominium half - psychological aggression.
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
