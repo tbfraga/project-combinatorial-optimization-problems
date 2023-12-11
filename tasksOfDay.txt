@@ -1,4 +1,4 @@
-starting a working day 2023/12/04 - tasks of day
+starting a working day 2023/12/11 - tasks of day
 
 --> main
 
@@ -8,17 +8,19 @@ starting a working day 2023/12/04 - tasks of day
     *** improuve libraries; (ok)
         --> use operators overloading for defined structures. (will be done in the future, according to the needs).
     *** publish updated version on codeocean; 
-        --> whaiting make some tests on library for classification problems.
+        --> whaiting make some tests on library for classification problems (finished on 2023/12/11);
+        --> I'll do this when publication is accepted.
+    *** publish COPSolver2.0-2 on GitHub (finished on 2023/12/11).
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
     *** expected end: 2024/02/11;
     To do:
     --> inventory items classification (in progress): <------ (priority) try to finish today
-        *-> apply the solver using the data collected by the girls (in progress);
-            --> format and publish on github the collected data;
-            --> test library using data collect;
-            --> publish all results on github.
+        *-> apply the solver using the data collected by the girls (finished on 2023/12/11);
+            --> format and publish on github the collected data (finished on 2023/12/11);
+            --> test library using data collect (finished on 2023/12/11);
+            --> publish all results on github (finished on 2023/12/11).
 
         *-> create a new class for the classification problems; (in progress)
         *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
