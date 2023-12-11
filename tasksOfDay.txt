@@ -7,10 +7,11 @@ starting a working day 2023/12/11 - tasks of day
 --> COPSolver: 
     *** improuve libraries; (ok)
         --> use operators overloading for defined structures. (will be done in the future, according to the needs).
+    *** publish COPSolver2.0-2 on GitHub (finished on 2023/12/11).
+    *** fix bug and pubhish COPSolver2.0-3 version on GitHub.
     *** publish updated version on codeocean; 
         --> whaiting make some tests on library for classification problems (finished on 2023/12/11);
         --> I'll do this when publication is accepted.
-    *** publish COPSolver2.0-2 on GitHub (finished on 2023/12/11).
 
 --> Project: Estudo de Métodos de Previsão de Demanda e Proposição de Metodologia Combinada no Contexto das Micro e Pequenas Empresas do Agreste Pernambucano
     *** approved by PROPESQI  on: 2021/02/11;
@@ -21,6 +22,8 @@ starting a working day 2023/12/11 - tasks of day
             --> format and publish on github the collected data (finished on 2023/12/11);
             --> test library using data collect (finished on 2023/12/11);
             --> publish all results on github (finished on 2023/12/11).
+        *-> fix bug
+            --> inform ABC multicriteria classification criteria in config.txt or data.txt file (to do today).
 
         *-> create a new class for the classification problems; (in progress)
         *** create a function for applying Saaty Analytic Hierarchy Process (Saaty, 1987, 1990);
