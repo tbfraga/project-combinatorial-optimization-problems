@@ -1,0 +1,146 @@
+\documentclass{book}
+%\usepackage[brazilian]{babel}
+%\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+%\usepackage{multirow}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{graphicx}
+%\graphicspath{ {Figures/} }
+%\usepackage{float}
+%\usepackage[dvipsnames]{xcolor}
+%\usepackage{tcolorbox}
+
+%\usepackage{natbib,stfloats}
+
+%\tcbuselibrary{skins,breakable}
+%\usetikzlibrary{shadings,shadows}
+%\usepackage{rotating}
+
+%\usepackage{tikz}
+%\usetikzlibrary{snakes}
+%\usetikzlibrary{patterns}
+
+%\usepackage{colortbl}
+%\newcolumntype{a}{>{\columncolor{yellow}}l}
+%\newcolumntype{b}{>{\columncolor{blue}}l}
+%\newcolumntype{d}{>{\columncolor{green}}l}
+
+%\usepackage{fancyhdr}
+%\pagestyle{fancy}
+
+%\fancyhead{}
+%\fancyhead[RO]{\textsl{\rightmark}} 
+%\fancyhead[LE]{\textsl{\leftmark}} 
+
+%\fancyfoot{} 
+%\fancyfoot[L]{T.B. Fraga (2023). Combinatorial Optimization Problems.}
+%\fancyfoot[R]{\thepage}
+
+%\definecolor{cambridgeblue}{rgb}{0.64, 0.76, 0.68}
+%\definecolor{camel}{rgb}{0.76, 0.6, 0.42}
+%\definecolor{camouflagegreen}{rgb}{0.47, 0.53, 0.42}
+%\definecolor{desertsand}{rgb}{0.93, 0.79, 0.69}
+
+\newenvironment{exerciseblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=camouflagegreen,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{exempleblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=Brown!70,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{algorithmblock}[1]{%
+    \tcolorbox[beamer,%
+    noparskip,breakable,
+    colback=camel!20,colframe=Brown!40,%
+    colbacklower=camouflagegreen!75!camel!20,%
+    title=#1]}%
+    {\endtcolorbox}
+
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top 
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+% para construção de diagramas
+
+%\tikzstyle{place}=[circle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+%\tikzstyle{Ret}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick]
+%\tikzstyle{RoundRet}=[rectangle,draw=camouflagegreen!80,fill=desertsand!20,thick, rounded corners]
+
+\begin{document}
+
+Livro em processo de elaboração. \\
+
+Título: Combinatorial Optimization Problems \\
+
+Autora: Tatiana Balbi Fraga. \\
+
+Profa. do Núcleo de Tecnologia da UFPE. \\
+
+Caso tenha interesse em participar da elaboração deste livro, enviar e-mail para: tatiana.balbi@ufpe.br.\\
+
+O mesmo endereço de e-mail poderá ser utilizado para críticas e sugestões. Desde já agradeço por qualquer contribuição. \\
+
+A ideia de elaborar este livro surgiu em 2010, quando eu estava realizando um estágio de doutorado no INSA de Rouen, na Normandia. Este livro começou e ser escrito mentalmente e seu conteúdo se materializou em várias tentativas que foram interrompidas ao longo do tempo em função do excesso de outras prioridades. Contudo, com o uso do GitHub surgiu a oportunidade de registro do esforço realizado para elaboração deste livro. \\
+
+O conteúdo apresentado neste livro estará sendo modificado ao longo de sua elaboração, caso o mesmo seja consultado para elaboração de algum trabalho, favor citar como referência o título, a autora, a data da consulta e o endereço da versão consultada no github. \\
+
+\chapter{Problemas de Otimização Combinatória}
+
+Quando não é possível desenvolver um método de solução para um determinado problema de otimização combinatória, recorremos a algoritmos baseados em heurísticas. Neste contexto, há três pontos chaves que devem ser observados que são: representação da solução; criação de solução inicial / nova solução dentro do espaço viável; e mecanismo de conversão. \\
+
+Neste livro pretendo apresentar uma revisão da literatura (ou definição própria) focada nestes três tópicos, iniciando a abordagem sobre problemas de designação, depois passando pelos problemas de balanceamento, roteamento, e escalonamento até finalmente chegar aos complexos problemas mistos. Também serão apresentados outros problemas com os quais tenho trabalhado. \\
+
+Com vista a este propósito, o livro será dividido em seis capítulos, sendo os dois primeiros capítulos voltados à apresentação de importantes classes de problemas de otimização combinatória (problemas de otimização combinatória e modelagem matemática), os três capítulos seguintes voltados aos três pontos chaves anteriormente discutidos (representação de soluções, construção de soluções viáveis e mecanismos de busca), e o último capítulo será utilizado para a apresentação de algoritmos conhecidos aplicados aos diferentes problemas e uma comparação entre tais algoritmos. \\
+
+Esse livro partiu da ideia da criação de um solver capaz de solucionar problemas de otimização combinatória de diferentes classes. \\
+
+Este solver terá como princípio a identificação da natureza do problema, possivelmente através de um algoritmo de rede neural, e posterior solução focando em métodos matemáticos conhecidos ou nos três pontos chaves anteriormente discutidos. \\
+
+Assim sendo, este livro será construído em conjunto com o solver (em C++), o qual poderá ser encontrado no site github.com/tbfraga/COPSolver e sua ultima versão poderá ser baixada no site github.com/tbfraga/COPSolver/releases. \\
+
+Este projeto estará sendo desenvolvido em conjunto com outros projetos, de forma que não será possível desenvolvê-lo muito rapidamente... \\
+
+Espero que essa ideia resulte em um material muito útil, relevante e interessante.
+
+\section{Problema de dimensionamento do tempo de processamento de lotes de produção}
+
+\emph{PS: Esbarrei neste problema recentemente, quando eu estava desenvolvendo um solver para planejamento da produção em extrusoras. Segue a modelagem matemática e solução analítica desenvolvidos por mim para o problema com um pequeno exemplo de aplicação. Em breve estarei desenvolvendo um solver para este problema com aplicação deste método analítico, para solução de problemas maiores. Também estaremos criando benchmarks. É possível que façamos uma comparação com o método do plano de corte (nesse caso será necessário programar também este ultimo método - parece perda de tempo). Mas certamente poderemos fazer uma comparação com outras formas de solução (solvers) desenvolvidas para problemas de programação linear inteira.} \\
+
+Esta parte do livro está em análise para publicação em um journal da Elsevier. \\
+
+No futuro estarei dando continuidade e elaboração deste livro. No momento estou focada nas publicações dos artigos. \\
+
+
+%\bibliographystyle{acm}
+%\bibliography{Bibliography/BibFile}
+
+%\begin{thebibliography}{12}
+
+%\bibitem[\protect\citeauthoryear{Ballou}{2001}]{Ballou2001}
+%Ballou, R.H. (2001).{\it Gerenciamento da Cadeia de Suprimentos: Planejamento, Organização e Logística Empresarial}, 4. ed., Porto Alegre: Bookman.
+
+%\bibitem[\protect\citeauthoryear{Boylan et al.}{2008}]{BoylanEtAl2008}
+%Boylan, J.E., Syntetos, A.A., e Karakostas, G.C. (2008). 'Classification for forecasting and stock control:a case %study'. {\it Journal of the Operational Research Society}, Vol. 59, pp. 473--481.
+
+%\end{thebibliography}
+
+\end{document}
